@@ -1,9 +1,14 @@
 import { createGlobalStyle } from 'styled-components'
 
+
 export const GlobalStyle = createGlobalStyle`
+  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
   body {
     margin: 0;
     padding: 0;
+    font-family: 'Pretendard', sans-serif;
+    background-color: #ccc
   }
 
   h1 {
@@ -26,11 +31,18 @@ export const GlobalStyle = createGlobalStyle`
     font-weight: 600;
   }
 
+  a{
+    text-decoration: none;
+  }
+
   .btn1 {
     background: #FFF;
     color: #6EA1FF;
     border-radius: 10px;
     border: solid 1px #6EA1FF;
+    padding: 15px 20px;
+    line-height: 1;
+    text-align: center;
   }
 
   .btn2 {
@@ -38,6 +50,9 @@ export const GlobalStyle = createGlobalStyle`
     color: #FFF;
     border-radius: 10px;
     border: solid 1px #FFF;
+    padding: 15px 20px;
+    text-align: center;
+    line-height: 1;
   }
 
   .box {
@@ -48,5 +63,7 @@ export const GlobalStyle = createGlobalStyle`
 
   * {
     color: #333;
+    margin: 0;
+    padding: 0;
   }
 `
