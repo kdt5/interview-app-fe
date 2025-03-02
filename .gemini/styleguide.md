@@ -207,7 +207,6 @@ TypeScript는 타입에 대한 정보를 제공하므로 이름에 타입 정보
 타입을 명시하면 올바르게 객체를 정의하지 않은 경우 컴파일 에러를 발생시켜 문제를 찾는데 도움이 됩니다.
 
 ``` TypeScript
-  // Good
   interface Animal {
     sound: string;
     name: string;
@@ -219,7 +218,7 @@ TypeScript는 타입에 대한 정보를 제공하므로 이름에 타입 정보
   }
 
   // 모든 필드가 정의되지 않으면 컴파일 오류를 발생시킵니다.
-  const cat: Animal {
+  const cat: Animal = {
     sound: "meow",
     name: "kat"
   }
