@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import ButtonWhite from "../components/common/ButtonWhite";
 
-function MyPage() {
+function Mypage() {
   return (
     <>
-      <MyPageStyle>
+      <MyPageBox>
         <div className="profile-wrap">
           <div className="profile-icon"></div>
           <div>
@@ -12,28 +12,28 @@ function MyPage() {
             <span>Ranking</span>
           </div>
         </div>
-      </MyPageStyle>
+      </MyPageBox>
 
-      <MyPageStyle>
+      <MyPageBox>
         <p className="menu-title">모아보기</p>
         <ButtonWhite>내 답변 모아보기</ButtonWhite>
         <ButtonWhite>즐겨찾기 질문 모아보기</ButtonWhite>
-      </MyPageStyle>
+      </MyPageBox>
 
-      <MyPageStyle>
+      <MyPageBox>
         <p className="menu-title">랭킹</p>
         <ButtonWhite>내 랭킹 보러가기</ButtonWhite>
-      </MyPageStyle>
+      </MyPageBox>
 
-      <MyPageStyle>
-        <button>회원 정보 수정</button>
-        <button>로그아웃</button>
-      </MyPageStyle>
+      <MyPageBox>
+        <div className="btn2">회원 정보 수정</div>
+        <div className="btn1">로그아웃</div>
+      </MyPageBox>
     </>
   );
 }
 
-const MyPageStyle = styled.div`
+const MyPageBox = styled.div`
   width: 100%;
   border-bottom: 5px solid #fafafa;
   padding: 25px 30px;
@@ -70,4 +70,4 @@ const MyPageStyle = styled.div`
   }
 `;
 
-export default MyPage;
+export default Mypage;
