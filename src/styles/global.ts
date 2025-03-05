@@ -1,5 +1,4 @@
-import { createGlobalStyle } from 'styled-components'
-
+import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
   @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
@@ -56,7 +55,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   .box {
-    background: #FBFBFB;
+    background: #FBFBFB; 
     border: solid 1px #EFF2F8;
     border-radius: 10px;
   }
@@ -66,4 +65,4 @@ export const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
   }
-`
+`;
