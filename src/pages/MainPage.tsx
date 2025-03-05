@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import HomeImg from "../assets/home-img.png";
+import HomeImg from "../assets/MainPageIcon.png";
 import { SlArrowRight } from "react-icons/sl";
 
 function Home() {
@@ -13,10 +13,10 @@ function Home() {
             면접질문이 도착했어요
           </h1>
           <div>
-            <img src={HomeImg} alt="" />
+            <img src={HomeImg} alt="MainPage Image" />
           </div>
         </div>
-        <div className="weekly-q">
+        <div className="weekly-question">
           <p>
             Javascript에서 var, let, const의 역할과
             <br />
@@ -71,7 +71,7 @@ const HomeStyle = styled.main`
     justify-content: space-between;
   }
 
-  .weekly-q {
+  .weekly-question {
     background-color: #6ea1ff;
     padding: 20px;
     border-radius: 10px;

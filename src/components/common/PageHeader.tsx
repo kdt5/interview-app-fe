@@ -6,7 +6,6 @@ import { HiArrowSmLeft } from "react-icons/hi";
 function Header() {
   const location = useLocation();
   const navigate = useNavigate();
-
   const MainPage = location.pathname === "/";
 
   return (
@@ -38,7 +37,6 @@ const HeaderStyle = styled.header`
   width: 100%;
   max-width: 380px;
   padding: 50px 30px 10px;
-
   position: fixed;
   top: 0;
   background-color: #fff;

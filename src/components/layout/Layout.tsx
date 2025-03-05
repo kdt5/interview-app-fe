@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import Nav from "../common/nav";
+import Nav from "../common/BottomNavigation";
 import { GlobalStyle } from "../../styles/global";
-import Header from "../common/header";
+import Header from "../common/PageHeader";
 
 interface LayoutProps {
   children: React.ReactNode;

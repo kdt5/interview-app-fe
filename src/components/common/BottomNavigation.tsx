@@ -61,14 +61,11 @@ const NavStyle = styled.nav`
   width: 100%;
   height: 80px;
   max-width: 380px;
-
   background-color: #fafafa;
   border-top: solid 1px #ededed;
   color: #6ea1ff;
-
   position: fixed;
   bottom: 0;
-
   text-align: center;
   display: grid;
 
@@ -76,7 +73,6 @@ const NavStyle = styled.nav`
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     padding: 0 20px;
 
     li {
