@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "./components/layout/Layout";
 import Home from "./pages/MainPage";
-import Mypage from "./pages/MyPage";
+import AnswerPage from "./pages/AnswerPage";
 
 const router = createBrowserRouter([
   {
@@ -13,10 +13,10 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/mypage",
+    path: "/answers/mine",
     element: (
       <Layout>
-        <Mypage />
+        <AnswerPage />
       </Layout>
     ),
   },

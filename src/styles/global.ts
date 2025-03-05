@@ -4,10 +4,17 @@ export const GlobalStyle = createGlobalStyle`
   @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 
   body {
+    -ms-overflow-style: none;
+    ::-webkit-scrollbar { display: none; }
     margin: 0;
     padding: 0;
     font-family: 'Pretendard', sans-serif;
     background-color: #ccc
+  }
+
+  textarea {
+    font-family: 'Pretendard', sans-serif;
+    font-size: 16px;
   }
 
   h1 {
@@ -42,6 +49,7 @@ export const GlobalStyle = createGlobalStyle`
     padding: 15px 20px;
     line-height: 1;
     text-align: center;
+    cursor: pointer;
   }
 
   .btn2 {
@@ -52,6 +60,14 @@ export const GlobalStyle = createGlobalStyle`
     padding: 15px 20px;
     text-align: center;
     line-height: 1;
+    cursor: pointer;
+  }
+
+  input::placeholder, textarea::placeholder {
+    font-family: 'Pretendard', sans-serif;
+    color: #E2E2E2;
+    font-size: 16px;
+    font-weight: 300;
   }
 
   .box {
