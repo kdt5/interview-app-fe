@@ -1,6 +1,7 @@
 import { setupWorker } from "msw/browser";
-import { categories, questions } from "./Questions";
+import { questions } from "./Questions";
+import { categories, categoryImage } from "./Categories";
 
-export const handlers = [categories, questions];
+export const handlers = [categories, categoryImage, questions];
 
 export const worker = setupWorker(...handlers);

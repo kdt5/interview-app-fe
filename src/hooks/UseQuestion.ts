@@ -15,9 +15,7 @@ export function useQuestion() {
       });
       setCategories(categories);
     });
-  }, []);
 
-  useEffect(() => {
     fetchQuestions(ALL_CATEGORIES).then((questions) => {
       setQuestions(questions);
     });

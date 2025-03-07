@@ -4,15 +4,17 @@ import QuestionBox from "./QuestionBox";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { SwiperOptions } from "swiper/types";
 import { FreeMode, Mousewheel } from "swiper/modules";
-import { useQuestion } from "../../hooks/UseQuestion";
+import { Question } from "../../models/Question.model";
 import "swiper/css";
 import "swiper/css/free-mode";
 
 export default Questions;
 
-function Questions(): JSX.Element {
-  const { questions } = useQuestion();
+interface Props {
+  questions: Question[];
+}
 
+function Questions({ questions }: Props): JSX.Element {
   const options: SwiperOptions = {
     slidesPerView: "auto",
     spaceBetween: 8,

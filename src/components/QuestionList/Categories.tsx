@@ -1,20 +1,25 @@
-import { JSX, useState } from "react";
+import { JSX } from "react";
 import styled from "styled-components";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { SwiperOptions } from "swiper/types";
 import { FreeMode, Mousewheel } from "swiper/modules";
 import { moveToFront } from "../../utils/Array";
-import { useQuestion } from "../../hooks/UseQuestion";
-import { ALL_CATEGORIES } from "../../constants/Question";
+import { Category } from "../../models/Question.model";
 import "swiper/css";
 
 export default Categories;
 
-function Categories(): JSX.Element {
-  const { categories, getQuestions } = useQuestion();
-  const [currentCategoryId, setCurrentCategoryId] =
-    useState<number>(ALL_CATEGORIES);
+interface Props {
+  activeCategoryId: number;
+  categories: Category[];
+  onClickCategoryButton: (id: number) => void;
+}
 
+function Categories({
+  activeCategoryId,
+  categories,
+  onClickCategoryButton,
+}: Props): JSX.Element {
   const options: SwiperOptions = {
     slidesPerView: "auto",
     spaceBetween: 5,
@@ -23,13 +28,8 @@ function Categories(): JSX.Element {
     modules: [FreeMode, Mousewheel],
   };
 
-  function onClickCategoryButton(id: number) {
-    setCurrentCategoryId(id);
-    getQuestions(id);
-  }
-
   const currentCategoryIndex = categories.findIndex(
-    (category) => category.id === currentCategoryId
+    (category) => category.id === activeCategoryId
   );
   const categoriesView = moveToFront([...categories], currentCategoryIndex);
 
@@ -39,7 +39,7 @@ function Categories(): JSX.Element {
         {categoriesView.map((category) => (
           <SwiperSlide key={category.id}>
             <button
-              className={category.id === currentCategoryId ? "active" : ""}
+              className={category.id === activeCategoryId ? "active" : ""}
               onClick={() => onClickCategoryButton(category.id)}
             >
               {category.name}

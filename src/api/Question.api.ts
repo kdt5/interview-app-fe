@@ -1,3 +1,4 @@
+import { ALL_CATEGORIES } from "../constants/Question";
 import { Category, Question } from "../models/Question.model";
 import { axiosInstance } from "./HttpClient.api";
 
@@ -17,7 +18,7 @@ export async function fetchQuestions(categoryId: number) {
   const response = await axiosInstance
     .get<Question[]>(`/questions`, {
       params: {
-        categoryId: categoryId,
+        categoryId: categoryId === ALL_CATEGORIES ? "" : categoryId,
       },
     })
     .then((response) => response.data)
