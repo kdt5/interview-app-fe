@@ -70,13 +70,17 @@ const CategoriesStyle = styled.div`
     border-radius: 15px;
     padding: 5px 10px;
 
-    color: "#D1D1D1";
-    background-color: "#FBFBFB";
+    color: #d1d1d1;
+    background-color: #fbfbfb;
     border: solid 1px #d1d1d1;
 
+    &:hover {
+      border-color: #6ea1ff;
+    }
+
     &.active {
-      color: "#FFFFFF";
-      background-color: "#6EA1FF";
+      color: #ffffff;
+      background-color: #6ea1ff;
       border-color: #6ea1ff;
     }
   }
