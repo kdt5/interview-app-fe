@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { SlArrowRight } from "react-icons/sl";
 import { Question } from "../../models/Question.model";
+import { Link } from "react-router-dom";
 
 export default QuestionBox;
 
@@ -11,13 +12,13 @@ interface Props {
 function QuestionBox({ question }: Props) {
   return (
     <ContentBoxStyle className="question">
-      <a className="question-link" href={`/question/${question.id}`}>
+      <Link className="question-link" to={`/question/${question.id}`}>
         <div className="content">
           <img src={`/assets/categories/${question.categoryId}.img`} />
           <span>{question.title}</span>
         </div>
         <SlArrowRight className="icon-goto" />
-      </a>
+      </Link>
     </ContentBoxStyle>
   );
 }
