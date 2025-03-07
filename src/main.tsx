@@ -1,7 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { worker } from "./mocks/Worker.ts";
 import App from "./App.tsx";
-import { worker } from "./mocks/Browser.ts";
 import "sanitize.css";
 
 switch (import.meta.env.MODE) {
