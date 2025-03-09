@@ -38,11 +38,13 @@ function Questions({ questions }: Props): JSX.Element {
 }
 
 const QuestionStyle = styled.div`
-  padding-top: 1rem;
+  padding-top: 54px;
+  height: 100%;
 
   .swiper {
     width: min(100%, 393px);
-    height: 600px;
+    height: 100%;
+    padding: 0 30px;
   }
 
   .swiper-slide {

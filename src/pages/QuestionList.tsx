@@ -2,7 +2,6 @@ import { JSX, useState } from "react";
 import styled from "styled-components";
 import Categories from "../components/QuestionList/Categories.tsx";
 import Questions from "../components/QuestionList/Questions.tsx";
-import Header from "../components/common/Header.tsx";
 import { useQuestion } from "../hooks/UseQuestion.ts";
 import { ALL_CATEGORIES } from "../constants/Question.ts";
 
@@ -20,19 +19,23 @@ function QuestionList(): JSX.Element {
 
   return (
     <QuestionListStyle>
-      <Header title="면접 필수 질문">
-        <Categories
-          activeCategoryId={activeCategoryId}
-          categories={categories}
-          onClickCategoryButton={onClickCategoryButton}
-        />
-      </Header>
+      <Categories
+        activeCategoryId={activeCategoryId}
+        categories={categories}
+        onClickCategoryButton={onClickCategoryButton}
+      />
       <Questions questions={questions} />
     </QuestionListStyle>
   );
 }
 
 const QuestionListStyle = styled.div`
+  position: fixed;
+  width: 100%;
+  max-width: 380px;
+  height: 100vh;
+  box-sizing: border-box;
+
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -53,12 +53,14 @@ function Categories({
 
 const CategoriesStyle = styled.div`
   position: absolute;
-  top: 75%;
-  left: 0%;
+  top: 0;
+  left: 0;
 
   .swiper {
-    width: min(100%, 353px);
+    width: 100%;
+    max-width: 340px;
     margin: 0 20px;
+    box-sizing: border-box;
   }
 
   .swiper-slide {
