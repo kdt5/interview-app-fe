@@ -1,9 +1,9 @@
 import { ALL_CATEGORIES } from "../constants/Question";
 import { Category, Question } from "../models/Question.model";
-import { axiosInstance } from "./HttpClient.api";
+import { backendHttpClient } from "./BackendHttpClient.api";
 
 export async function fetchCategories() {
-  const response = await axiosInstance
+  const response = await backendHttpClient
     .get<Category[]>(`/categories`)
     .then((response) => response.data)
     .catch((error) => {
@@ -15,7 +15,7 @@ export async function fetchCategories() {
 }
 
 export async function fetchQuestions(categoryId: number) {
-  const response = await axiosInstance
+  const response = await backendHttpClient
     .get<Question[]>(`/questions`, {
       params: {
         categoryId: categoryId === ALL_CATEGORIES ? "" : categoryId,
