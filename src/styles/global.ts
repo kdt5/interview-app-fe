@@ -1,9 +1,25 @@
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
   body {
+    -ms-overflow-style: none;
+    ::-webkit-scrollbar { display: none; }
     margin: 0;
     padding: 0;
+    font-family: 'Pretendard', sans-serif;
+    background-color: #ccc
+  }
+
+  * {
+    color: #333;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  textarea {
+    font-family: 'Pretendard', sans-serif;
+    font-size: 16px;
   }
 
   h1 {
@@ -16,7 +32,7 @@ export const GlobalStyle = createGlobalStyle`
     font-weight: 400;
   }
 
-  p {
+  p { 
     font-size: 16px;
     font-weight: 600;
   }
@@ -26,27 +42,25 @@ export const GlobalStyle = createGlobalStyle`
     font-weight: 600;
   }
 
-  .btn1 {
-    background: #FFF;
-    color: #6EA1FF;
-    border-radius: 10px;
-    border: solid 1px #6EA1FF;
+  a{
+    text-decoration: none;
   }
 
-  .btn2 {
+  button {
     background: #6EA1FF;
     color: #FFF;
     border-radius: 10px;
     border: solid 1px #FFF;
+    padding: 15px 20px;
+    text-align: center;
+    line-height: 1;
+    cursor: pointer;
   }
 
-  .box {
-    background: #FBFBFB;
-    border: solid 1px #EFF2F8;
-    border-radius: 10px;
+  input::placeholder, textarea::placeholder {
+    font-family: 'Pretendard', sans-serif;
+    color: #E2E2E2;
+    font-size: 16px;
+    font-weight: 300;
   }
-
-  * {
-    color: #333;
-  }
-`
+`;
