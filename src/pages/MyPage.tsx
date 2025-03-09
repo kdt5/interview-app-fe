@@ -4,7 +4,7 @@ import ButtonWhite from "../components/common/ButtonWhite";
 function Mypage() {
   return (
     <>
-      <MyPageBox>
+      <MyPage>
         <div className="profile-wrap">
           <div className="profile-icon"></div>
           <div>
@@ -12,28 +12,28 @@ function Mypage() {
             <span>Ranking</span>
           </div>
         </div>
-      </MyPageBox>
+      </MyPage>
 
-      <MyPageBox>
+      <MyPage>
         <p className="menu-title">모아보기</p>
         <ButtonWhite>내 답변 모아보기</ButtonWhite>
         <ButtonWhite>즐겨찾기 질문 모아보기</ButtonWhite>
-      </MyPageBox>
+      </MyPage>
 
-      <MyPageBox>
+      <MyPage>
         <p className="menu-title">랭킹</p>
         <ButtonWhite>내 랭킹 보러가기</ButtonWhite>
-      </MyPageBox>
+      </MyPage>
 
-      <MyPageBox>
-        <div className="btn2">회원 정보 수정</div>
-        <div className="btn1">로그아웃</div>
-      </MyPageBox>
+      <MyPage>
+        <button>회원 정보 수정</button>
+        <button>로그아웃</button>
+      </MyPage>
     </>
   );
 }
 
-const MyPageBox = styled.div`
+const MyPage = styled.div`
   width: 100%;
   border-bottom: 5px solid #fafafa;
   padding: 25px 30px;
