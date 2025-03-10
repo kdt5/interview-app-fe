@@ -12,10 +12,10 @@ function QuestionList(): JSX.Element {
   const [activeCategoryId, setActiveCategoryId] =
     useState<number>(ALL_CATEGORIES);
 
-  function onClickCategoryButton(id: number) {
+  const onClickCategoryButton = (id: number) => {
     setActiveCategoryId(id);
     getQuestions(id);
-  }
+  };
 
   return (
     <QuestionListStyle>

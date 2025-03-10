@@ -21,11 +21,11 @@ export function useQuestion() {
     });
   }, []);
 
-  function getQuestions(categoryId: number) {
+  const getQuestions = (categoryId: number) => {
     fetchQuestions(categoryId).then((questions) => {
       setQuestions(questions);
     });
-  }
+  };
 
   return { categories, questions, getQuestions };
 }
