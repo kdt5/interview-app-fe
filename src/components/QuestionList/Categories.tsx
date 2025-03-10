@@ -52,9 +52,11 @@ function Categories({
 }
 
 const CategoriesStyle = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: fixed;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
 
   .swiper {
     width: 100%;

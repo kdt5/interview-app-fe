@@ -34,7 +34,6 @@ const ContentBoxStyle = styled.div`
 
   .question-link {
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
 
     padding: 1.225rem 1.5rem;
@@ -47,7 +46,6 @@ const ContentBoxStyle = styled.div`
 
   .content {
     display: flex;
-    flex-direction: row;
 
     padding-right: 1rem;
 

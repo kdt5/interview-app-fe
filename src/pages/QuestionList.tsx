@@ -30,13 +30,12 @@ function QuestionList(): JSX.Element {
 }
 
 const QuestionListStyle = styled.div`
-  position: fixed;
   width: 100%;
+  height: 100%;
   max-width: 380px;
-  height: 100vh;
-  box-sizing: border-box;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
+  overflow: hidden;
 `;
