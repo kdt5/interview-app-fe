@@ -6,16 +6,24 @@ import { Link } from "react-router-dom";
 export default QuestionBox;
 
 interface Props {
-  question: Question;
+  questionId: number;
+  title: string;
+  categoryImagePath: string;
+  categoryName?: string;
 }
 
-function QuestionBox({ question }: Props) {
+function QuestionBox({
+  questionId,
+  title,
+  categoryImagePath,
+  categoryName,
+}: Props) {
   return (
     <ContentBoxStyle className="question">
-      <Link className="question-link" to={`/question/${question.id}`}>
+      <Link className="question-link" to={`/question/${questionId}`}>
         <div className="content">
-          <img src={`/assets/categories/${question.categoryId}.img`} />
-          <span>{question.title}</span>
+          <img src={categoryImagePath} alt={categoryName} />
+          <span>{title}</span>
         </div>
         <SlArrowRight className="icon-goto" />
       </Link>
@@ -50,6 +58,11 @@ const ContentBoxStyle = styled.div`
     padding-right: 1rem;
 
     gap: 1rem;
+
+    img {
+      width: 20px;
+      height: 20px;
+    }
   }
 
   .icon-goto {

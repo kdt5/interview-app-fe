@@ -17,6 +17,10 @@ function QuestionList(): JSX.Element {
     getQuestions(id);
   };
 
+  const getCategoryName = (categoryId: number) => {
+    return categories.find((category) => category.id === categoryId)?.name;
+  };
+
   return (
     <QuestionListStyle>
       <Categories
@@ -24,7 +28,7 @@ function QuestionList(): JSX.Element {
         categories={categories}
         onClickCategoryButton={onClickCategoryButton}
       />
-      <Questions questions={questions} />
+      <Questions questions={questions} getCategoryName={getCategoryName} />
     </QuestionListStyle>
   );
 }

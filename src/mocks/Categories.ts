@@ -17,9 +17,20 @@ export const categories = http.get(
 
 export const categoryImage = http.get(
   `/assets/categories/:imageFileName`,
-  () => {
-    return HttpResponse.text("an image", {
-      status: 200,
-    });
+  async () => {
+    try {
+      const buffer = await fetch(`https://picsum.photos/20`).then((response) =>
+        response.arrayBuffer()
+      );
+      return HttpResponse.arrayBuffer(buffer, {
+        status: 200,
+        headers: {
+          "Content-Type": "image/jpeg",
+        },
+      });
+    } catch (error: unknown) {
+      console.error(error);
+      return HttpResponse.text("Not Found", { status: 404 });
+    }
   }
 );

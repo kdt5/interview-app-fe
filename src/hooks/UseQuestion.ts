@@ -27,5 +27,9 @@ export function useQuestion() {
     });
   };
 
-  return { categories, questions, getQuestions };
+  return {
+    categories,
+    questions,
+    getQuestions,
+  };
 }

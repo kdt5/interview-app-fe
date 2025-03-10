@@ -1,4 +1,3 @@
-import { JSX } from "react";
 import styled from "styled-components";
 import QuestionBox from "./QuestionBox";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -12,9 +11,10 @@ export default Questions;
 
 interface Props {
   questions: Question[];
+  getCategoryName: (categoryId: number) => string | undefined;
 }
 
-function Questions({ questions }: Props): JSX.Element {
+function Questions({ questions, getCategoryName }: Props) {
   const options: SwiperOptions = {
     slidesPerView: "auto",
     spaceBetween: 8,
@@ -29,7 +29,12 @@ function Questions({ questions }: Props): JSX.Element {
       <Swiper {...options}>
         {questions.map((question) => (
           <SwiperSlide key={question.id}>
-            <QuestionBox question={question} />
+            <QuestionBox
+              questionId={question.id}
+              title={question.title}
+              categoryImagePath={`../assets/categories/${question.categoryId}.png`}
+              categoryName={getCategoryName(question.categoryId)}
+            />
           </SwiperSlide>
         ))}
       </Swiper>
