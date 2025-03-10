@@ -5,54 +5,83 @@ import { useState } from "react";
 import AlertModal from "../components/common/AlertModal";
 
 function AnswerPage() {
-  const [openConfirmModal, setOpenConfirmModal] = useState(false);
-  const [openAlertModal, setOpenAlertModal] = useState(false);
+  const [modalState, setModalState] = useState({
+    confirm: false,
+    alert: false,
+  });
 
-  const handleOpenConfirmModal = () => {
-    setOpenConfirmModal(true);
+  const [answer, setAnswer] = useState("");
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  const toggleModal = (type: "confirm" | "alert", state: boolean) => {
+    setModalState((prev) => ({ ...prev, [type]: state }));
   };
 
-  const handleCloseConfirmModal = () => {
-    setOpenConfirmModal(false);
+  const handleSubmit = () => {
+    toggleModal("confirm", true);
   };
 
-  const handleOpenAlertModal = () => {
-    setOpenAlertModal(true);
+  const handleAnswerChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setAnswer(e.target.value);
   };
 
-  const handlCloseAlertModal = () => {
-    setOpenAlertModal(false);
+  const handleFavoriteCheck = () => {
+    setIsFavorite(!isFavorite);
   };
+
+  const isSubmitDisabled = answer.trim() === "" || answer.length <= 20;
 
   return (
     <AnswerPageStyle>
       <div className="QuestionBox">
         <div className="QuestionNumbering">
-          <p>01 |</p>
-          <FaStar />
+          <p className="NumberingTitle">01 |</p>
+          <FavoriteIcon onClick={handleFavoriteCheck} isFavorite={isFavorite} />
         </div>
         <h2>JSX에 대해 설명해주세요.</h2>
-        <span>Javascript</span>
+        <span className="CategoryName">Javascript</span>
       </div>
-      <form action="/">
-        <textarea placeholder="답변을 작성해주세요."></textarea>
+      <form action="/" className="AnswerBox">
+        <textarea
+          placeholder="답변을 작성해주세요."
+          className="AnswerText"
+          value={answer}
+          onChange={handleAnswerChange}
+        ></textarea>
       </form>
-      <button className="btn2" type="submit" onClick={handleOpenConfirmModal}>
+      <button
+        className="SubmitButton"
+        type="submit"
+        onClick={handleSubmit}
+        disabled={isSubmitDisabled}
+        style={{
+          opacity: isSubmitDisabled ? 0.5 : 1,
+          cursor: isSubmitDisabled ? "not-allowed" : "pointer",
+        }}
+      >
         제출
       </button>
-      {openConfirmModal && (
+      {modalState.confirm && (
         <ConfirmModal
-          onClose={handleCloseConfirmModal}
+          onClose={() => toggleModal("confirm", false)}
           onConfirm={() => {
-            handleCloseConfirmModal();
-            handleOpenAlertModal();
+            toggleModal("confirm", false);
+            toggleModal("alert", true);
           }}
         />
       )}
-      {openAlertModal && <AlertModal onClose={handlCloseAlertModal} />}
+      {modalState.alert && (
+        <AlertModal onClose={() => toggleModal("alert", false)} />
+      )}
     </AnswerPageStyle>
   );
 }
+
+const FavoriteIcon = styled(FaStar)<{ isFavorite: boolean }>`
+  fill: ${({ isFavorite }) => (isFavorite ? "#FFD600" : "#DFDFDF")};
+  cursor: pointer;
+  font-size: 24px;
+`;
 
 const AnswerPageStyle = styled.div`
   width: 100%;
@@ -68,7 +97,8 @@ const AnswerPageStyle = styled.div`
     border: 1px solid #eff2f8;
     border-radius: 10px;
     background: #fbfbfb;
-    span {
+
+    .CategoryName {
       margin-top: 40px;
       background-color: #bbd3ff;
       color: #fff;
@@ -84,43 +114,45 @@ const AnswerPageStyle = styled.div`
     margin-bottom: 10px;
     display: flex;
     justify-content: space-between;
-    p {
+
+    .NumberingTitle {
       color: #888888;
     }
+
     svg {
       font-size: 24px;
-      fill: #dfdfdf;
-      /* fill: #FFD600; */
       cursor: pointer;
     }
   }
 
-  form {
+  .AnswerBox {
     border: 1px solid #eff2f8;
     border-radius: 10px;
     width: 330px;
     height: 315px;
     margin: 10px 0;
+
+    .AnswerText {
+      -ms-overflow-style: none;
+      width: 100%;
+      height: 100%;
+      padding: 15px;
+      border-radius: 10px;
+      border: none;
+      background: none;
+      resize: none;
+    }
+
+    .AnswerText:focus {
+      outline: none;
+    }
+
+    .AnswerText::-webkit-scrollbar {
+      display: none;
+    }
   }
 
-  textarea {
-    -ms-overflow-style: none;
-    width: 100%;
-    height: 100%;
-    padding: 15px;
-    border-radius: 10px;
-    border: none;
-    background: none;
-    resize: none;
-  }
-  textarea:focus {
-    outline: none;
-  }
-  textarea::-webkit-scrollbar {
-    display: none;
-  }
-
-  .btn2 {
+  .SubmitButton {
     width: 330px;
     height: 60px;
     font-size: 20px;
