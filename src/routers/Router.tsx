@@ -3,6 +3,8 @@ import Layout from "../components/layout/Layout";
 import Home from "../pages/MainPage";
 import React from "react";
 import AnswerPage from "../pages/AnswerPage";
+import LoginPage from "../pages/LoginPage";
+import JoinPage from "../pages/JoinPage";
 
 const routers: RouteObject[] = [
   {
@@ -20,6 +22,14 @@ const routers: RouteObject[] = [
         <AnswerPage />
       </Layout>
     ),
+  },
+  {
+    path: "/login",
+    element: <LoginPage />,
+  },
+  {
+    path: "/join",
+    element: <JoinPage />,
   },
 ];
 
