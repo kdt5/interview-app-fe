@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { SlArrowRight } from "react-icons/sl";
-import { Question } from "../../models/Question.model";
 import { Link } from "react-router-dom";
 
 export default QuestionBox;
