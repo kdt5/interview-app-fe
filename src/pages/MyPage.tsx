@@ -1,14 +1,28 @@
 import styled from "styled-components";
 import ButtonWhite from "../components/common/ButtonWhite";
+import { useEffect, useState } from "react";
+import { fetchUserProfile } from "../api/MyPageMemberInfo.api";
 
 function MyPage() {
+  const [nickname, setNickname] = useState<string | null>(null); // 상태 선언
+
+  useEffect(() => {
+    fetchUserProfile()
+      .then((user) => {
+        setNickname(user.nickname);
+      })
+      .catch((error) => {
+        console.error("Error fetching user profile:", error);
+      });
+  }, []);
+
   return (
     <>
       <MyPageStyle>
         <div className="profile-wrap">
           <div className="profile-icon"></div>
           <div>
-            <h1>NickName_Wrap</h1>
+            <h1>{nickname ? nickname : "닉네임을 등록하세용"}</h1>
             <span>Ranking</span>
           </div>
         </div>
