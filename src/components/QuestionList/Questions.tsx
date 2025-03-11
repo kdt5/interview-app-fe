@@ -50,6 +50,7 @@ const QuestionStyle = styled.div`
     width: min(100%, 393px);
     height: 100%;
     padding: 0 30px;
+    z-index: 0;
   }
 
   .swiper-slide {
