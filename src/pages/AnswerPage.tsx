@@ -14,7 +14,10 @@ function AnswerPage() {
   const [isFavorite, setIsFavorite] = useState(false);
 
   const toggleModal = (type: "confirm" | "alert", state: boolean) => {
-    setModalState((prev) => ({ ...prev, [type]: state }));
+    setModalState((prev) => ({
+      ...prev,
+      [type]: state,
+    }));
   };
 
   const handleSubmit = () => {
@@ -22,7 +25,11 @@ function AnswerPage() {
   };
 
   const handleAnswerChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setAnswer(e.target.value);
+    const answerCount = e.target.value;
+
+    if (answerCount.length <= 500) {
+      setAnswer(answerCount);
+    }
   };
 
   const handleFavoriteCheck = () => {
@@ -31,6 +38,8 @@ function AnswerPage() {
 
   const isSubmitDisabled = answer.trim() === "" || answer.length <= 20;
 
+  const isOverLimit = answer.length >= 500;
+
   return (
     <AnswerPageStyle>
       <div className="QuestionBox">
@@ -38,7 +47,7 @@ function AnswerPage() {
           <p className="NumberingTitle">01 |</p>
           <FavoriteIcon onClick={handleFavoriteCheck} isFavorite={isFavorite} />
         </div>
-        <h2>JSX에 대해 설명해주세요.</h2>
+        <h2 className="QuestionTitle">JSX에 대해 설명해주세요.</h2>
         <span className="CategoryName">Javascript</span>
       </div>
       <form action="/" className="AnswerBox">
@@ -48,6 +57,9 @@ function AnswerPage() {
           value={answer}
           onChange={handleAnswerChange}
         ></textarea>
+        <p className={`CharacterCount ${isOverLimit ? "overLimit" : ""}`}>
+          {answer.length}/500
+        </p>
       </form>
       <button
         className="SubmitButton"
@@ -150,12 +162,42 @@ const AnswerPageStyle = styled.div`
     .AnswerText::-webkit-scrollbar {
       display: none;
     }
+
+    .CharacterCount {
+      font-size: 14px;
+      color: #888;
+      text-align: right;
+    }
+
+    .CharacterCount.overLimit {
+      color: red;
+      animation: shake 0.5s ease-in-out;
+    }
+
+    @keyframes shake {
+      0% {
+        transform: translateX(0);
+      }
+      25% {
+        transform: translateX(-3px);
+      }
+      50% {
+        transform: translateX(3px);
+      }
+      75% {
+        transform: translateX(-3px);
+      }
+      100% {
+        transform: translateX(0);
+      }
+    }
   }
 
   .SubmitButton {
     width: 330px;
     height: 60px;
     font-size: 20px;
+    margin-top: 30px;
   }
 `;
 
