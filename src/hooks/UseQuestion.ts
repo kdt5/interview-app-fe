@@ -8,23 +8,35 @@ export function useQuestion() {
   const [questions, setQuestions] = useState<Question[]>([]);
 
   useEffect(() => {
-    fetchCategories().then((categories) => {
-      categories.unshift({
-        id: ALL_CATEGORIES,
-        name: "전체",
-      });
-      setCategories(categories);
-    });
+    try {
+      fetchCategories().then((categories) => {
+        if (categories === undefined) {
+          return;
+        }
 
-    fetchQuestions(ALL_CATEGORIES).then((questions) => {
-      setQuestions(questions);
-    });
+        categories.unshift({
+          id: ALL_CATEGORIES,
+          name: "전체",
+        });
+        setCategories(categories);
+      });
+
+      fetchQuestions(ALL_CATEGORIES).then((questions) => {
+        setQuestions(questions);
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }, []);
 
   const getQuestions = (categoryId: number) => {
-    fetchQuestions(categoryId).then((questions) => {
-      setQuestions(questions);
-    });
+    try {
+      fetchQuestions(categoryId).then((questions) => {
+        setQuestions(questions);
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return {

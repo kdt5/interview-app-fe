@@ -7,8 +7,7 @@ export async function fetchCategories() {
     .get<Category[]>(`/categories`)
     .then((response) => response.data)
     .catch((error) => {
-      console.error(error);
-      return [] as Category[];
+      throw Error(error);
     });
 
   return response;
@@ -23,8 +22,7 @@ export async function fetchQuestions(categoryId: number) {
     })
     .then((response) => response.data)
     .catch((error) => {
-      console.error(error);
-      return [] as Question[];
+      throw Error(error);
     });
 
   return response;
