@@ -1,8 +1,9 @@
 import { createBrowserRouter, RouteObject } from "react-router-dom";
 import Layout from "../components/layout/Layout";
 import Home from "../pages/MainPage";
-import React from "react";
 import AnswerPage from "../pages/AnswerPage";
+import QuestionList from "../pages/QuestionList";
+import React from "react";
 
 const routers: RouteObject[] = [
   {
@@ -18,6 +19,22 @@ const routers: RouteObject[] = [
     element: (
       <Layout>
         <AnswerPage />
+      </Layout>
+    ),
+  },
+  {
+    path: "/question-list/frontend",
+    element: (
+      <Layout>
+        <QuestionList />
+      </Layout>
+    ),
+  },
+  {
+    path: "/question-list/backend",
+    element: (
+      <Layout>
+        <QuestionList />
       </Layout>
     ),
   },
