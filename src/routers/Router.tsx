@@ -3,7 +3,6 @@ import Layout from "../components/layout/Layout";
 import Home from "../pages/MainPage";
 import AnswerPage from "../pages/AnswerPage";
 import QuestionList from "../pages/QuestionList";
-import React from "react";
 
 const routers: RouteObject[] = [
   {
@@ -11,14 +10,6 @@ const routers: RouteObject[] = [
     element: (
       <Layout>
         <Home />
-      </Layout>
-    ),
-  },
-  {
-    path: "/answer",
-    element: (
-      <Layout>
-        <AnswerPage />
       </Layout>
     ),
   },
@@ -35,6 +26,22 @@ const routers: RouteObject[] = [
     element: (
       <Layout>
         <QuestionList />
+      </Layout>
+    ),
+  },
+  {
+    path: "/question-list/frontend/:questionId",
+    element: (
+      <Layout>
+        <AnswerPage />
+      </Layout>
+    ),
+  },
+  {
+    path: "/question-list/frontend/:questionId",
+    element: (
+      <Layout>
+        <AnswerPage />
       </Layout>
     ),
   },

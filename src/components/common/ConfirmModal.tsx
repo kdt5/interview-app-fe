@@ -1,34 +1,34 @@
 import styled from "styled-components";
 import Modal from "./Modal";
 
-export interface ModalCommonProps {
+interface ConfirmModalProps {
   onClose: () => void;
   onConfirm?: () => void;
 }
 
-function ConfirmModal({ onClose, onConfirm }: ModalCommonProps) {
+function ConfirmModal({ onClose, onConfirm }: ConfirmModalProps) {
   return (
     <Modal width="300px" height="150px">
       <ConfirmModalStyle>
         <form
-          className="ConfirmModal"
+          className="confirm-modal"
           onSubmit={(e) => {
             e.preventDefault();
           }}
         >
-          <div className="ConfirmTitle">
-            <p className="ConfirmMessage">
+          <div className="confirm-title">
+            <p className="confirm-message">
               제출 하시겠습니까?
               <br />
               제출 후, 수정 및 삭제는 불가능합니다.
             </p>
           </div>
-          <div className="ConfirmButtons">
-            <button className="OkButton" type="button" onClick={onConfirm}>
+          <div className="confirm-buttons">
+            <button className="ok-button" type="button" onClick={onConfirm}>
               확인
             </button>
-            <span className="MiddleLine"></span>
-            <button className="CancelButton" type="button" onClick={onClose}>
+            <span className="middle-line"></span>
+            <button className="cancel-button" type="button" onClick={onClose}>
               취소
             </button>
           </div>
@@ -39,31 +39,31 @@ function ConfirmModal({ onClose, onConfirm }: ModalCommonProps) {
 }
 
 const ConfirmModalStyle = styled.div`
-  .ConfirmModal {
+  .confirm-modal {
     width: 100%;
     height: 100%;
     border-radius: 10px;
-    background: #fff;
+    background: #ffffff;
     position: relative;
 
-    .ConfirmTitle {
+    .confirm-title {
       height: 100px;
       border-bottom: 1px solid #d9d9d9;
       box-sizing: border-box;
 
-      .ConfirmMessage {
+      .confirm-message {
         padding-top: 29px;
         text-align: center;
       }
     }
 
-    .ConfirmButtons {
+    .confirm-buttons {
       display: flex;
       justify-content: center;
       align-items: center;
 
-      .OkButton,
-      .CancelButton {
+      .ok-button,
+      .cancel-button {
         flex-grow: 1;
         background: none;
         border: none;
@@ -73,7 +73,7 @@ const ConfirmModalStyle = styled.div`
         font-size: 16px;
       }
 
-      .MiddleLine {
+      .middle-line {
         width: 1px;
         height: 50px;
         background: #d9d9d9;

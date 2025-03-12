@@ -8,11 +8,13 @@ interface ModalProps {
   height: string;
 }
 
+export type ModalType = "confirm" | "alert";
+
 function Modal({ children, width, height }: ModalProps) {
   return createPortal(
     <ModalStyle>
-      <div className="ModalBackground">
-        <div className="ModalContent" style={{ width, height }}>
+      <div className="modal-background">
+        <div className="modal-content" style={{ width, height }}>
           {children}
         </div>
       </div>
@@ -22,7 +24,7 @@ function Modal({ children, width, height }: ModalProps) {
 }
 
 const ModalStyle = styled.div`
-  .ModalBackground {
+  .modal-background {
     width: 100%;
     max-width: 380px;
     height: 100dvh;

@@ -3,9 +3,10 @@ import { FaStar } from "react-icons/fa6";
 import ConfirmModal from "../components/common/ConfirmModal";
 import { useState } from "react";
 import AlertModal from "../components/common/AlertModal";
+import { ModalType } from "../components/common/Modal";
 
 function AnswerPage() {
-  const [modalState, setModalState] = useState({
+  const [isModalsVisible, setIsModalsVisible] = useState({
     confirm: false,
     alert: false,
   });
@@ -13,8 +14,8 @@ function AnswerPage() {
   const [answer, setAnswer] = useState("");
   const [isFavorite, setIsFavorite] = useState(false);
 
-  const toggleModal = (type: "confirm" | "alert", state: boolean) => {
-    setModalState((prev) => ({
+  const toggleModal = (type: ModalType, state: boolean) => {
+    setIsModalsVisible((prev) => ({
       ...prev,
       [type]: state,
     }));
@@ -41,39 +42,35 @@ function AnswerPage() {
   const isOverLimit = answer.length >= 500;
 
   return (
-    <AnswerPageStyle>
-      <div className="QuestionBox">
-        <div className="QuestionNumbering">
-          <p className="NumberingTitle">01 |</p>
+    <AnswerPageStyle isSubmitDisabled={isSubmitDisabled}>
+      <div className="question-box">
+        <div className="question-numbering">
+          <p className="numbering-title">01 |</p>
           <FavoriteIcon onClick={handleFavoriteCheck} isFavorite={isFavorite} />
         </div>
-        <h2 className="QuestionTitle">JSX에 대해 설명해주세요.</h2>
-        <span className="CategoryName">Javascript</span>
+        <h2 className="question-title">JSX에 대해 설명해주세요.</h2>
+        <span className="category-name">Javascript</span>
       </div>
-      <form action="/" className="AnswerBox">
+      <form action="/" className="answer-box">
         <textarea
           placeholder="답변을 작성해주세요."
-          className="AnswerText"
+          className="answer-text"
           value={answer}
           onChange={handleAnswerChange}
         ></textarea>
-        <p className={`CharacterCount ${isOverLimit ? "overLimit" : ""}`}>
+        <p className={`character-count ${isOverLimit ? "over-limit" : ""}`}>
           {answer.length}/500
         </p>
       </form>
       <button
-        className="SubmitButton"
+        className="submit-button"
         type="submit"
         onClick={handleSubmit}
         disabled={isSubmitDisabled}
-        style={{
-          opacity: isSubmitDisabled ? 0.5 : 1,
-          cursor: isSubmitDisabled ? "not-allowed" : "pointer",
-        }}
       >
         제출
       </button>
-      {modalState.confirm && (
+      {isModalsVisible.confirm && (
         <ConfirmModal
           onClose={() => toggleModal("confirm", false)}
           onConfirm={() => {
@@ -82,7 +79,7 @@ function AnswerPage() {
           }}
         />
       )}
-      {modalState.alert && (
+      {isModalsVisible.alert && (
         <AlertModal onClose={() => toggleModal("alert", false)} />
       )}
     </AnswerPageStyle>
@@ -95,13 +92,13 @@ const FavoriteIcon = styled(FaStar)<{ isFavorite: boolean }>`
   font-size: 24px;
 `;
 
-const AnswerPageStyle = styled.div`
+const AnswerPageStyle = styled.div<{ isSubmitDisabled: boolean }>`
   width: 100%;
   max-width: 380px;
   box-sizing: border-box;
   padding: 25px 30px;
 
-  .QuestionBox {
+  .question-box {
     padding: 10px 15px;
     box-sizing: border-box;
     width: 330px;
@@ -110,7 +107,7 @@ const AnswerPageStyle = styled.div`
     border-radius: 10px;
     background: #fbfbfb;
 
-    .CategoryName {
+    .category-name {
       margin-top: 40px;
       background-color: #bbd3ff;
       color: #fff;
@@ -122,12 +119,12 @@ const AnswerPageStyle = styled.div`
     }
   }
 
-  .QuestionNumbering {
+  .question-numbering {
     margin-bottom: 10px;
     display: flex;
     justify-content: space-between;
 
-    .NumberingTitle {
+    .numbering-title {
       color: #888888;
     }
 
@@ -137,14 +134,14 @@ const AnswerPageStyle = styled.div`
     }
   }
 
-  .AnswerBox {
+  .answer-box {
     border: 1px solid #eff2f8;
     border-radius: 10px;
     width: 330px;
     height: 315px;
     margin: 10px 0;
 
-    .AnswerText {
+    .answer-text {
       -ms-overflow-style: none;
       width: 100%;
       height: 100%;
@@ -155,21 +152,21 @@ const AnswerPageStyle = styled.div`
       resize: none;
     }
 
-    .AnswerText:focus {
+    .answer-text:focus {
       outline: none;
     }
 
-    .AnswerText::-webkit-scrollbar {
+    .answer-text::-webkit-scrollbar {
       display: none;
     }
 
-    .CharacterCount {
+    .character-count {
       font-size: 14px;
       color: #888;
       text-align: right;
     }
 
-    .CharacterCount.overLimit {
+    .character-count.over-limit {
       color: red;
       animation: shake 0.5s ease-in-out;
     }
@@ -193,11 +190,13 @@ const AnswerPageStyle = styled.div`
     }
   }
 
-  .SubmitButton {
+  .submit-button {
     width: 330px;
     height: 60px;
     font-size: 20px;
     margin-top: 30px;
+    opacity: ${(props) => (props.isSubmitDisabled ? 0.5 : 1)};
+    cursor: ${(props) => (props.isSubmitDisabled ? "not-allowed" : "pointer")};
   }
 `;
 

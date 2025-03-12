@@ -1,9 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Modal from "./Modal";
-import { ModalCommonProps } from "./ConfirmModal";
 
-function AlertModal({ onClose }: ModalCommonProps) {
+interface AlertProps {
+  onClose: () => void;
+}
+
+function AlertModal({ onClose }: AlertProps) {
   const navigate = useNavigate();
 
   const handleGoBack = () => {
@@ -14,9 +17,9 @@ function AlertModal({ onClose }: ModalCommonProps) {
   return (
     <Modal width="300px" height="150px">
       <AlertModalStyle>
-        <div className="AlertModal">
-          <p className="AlertMessage">제출되었습니다.</p>
-          <button className="OkButton" type="button" onClick={handleGoBack}>
+        <div className="alert-modal">
+          <p className="alert-message">제출되었습니다.</p>
+          <button className="ok-button" type="button" onClick={handleGoBack}>
             확인
           </button>
         </div>
@@ -26,7 +29,7 @@ function AlertModal({ onClose }: ModalCommonProps) {
 }
 
 const AlertModalStyle = styled.div`
-  .AlertModal {
+  .alert-modal {
     width: 300px;
     height: 150px;
     background: #ffffff;
@@ -34,12 +37,12 @@ const AlertModalStyle = styled.div`
     text-align: center;
     position: relative;
 
-    .AlertMessage {
+    .alert-message {
       padding: 37px 0;
       border-bottom: 1px solid #d9d9d9;
     }
 
-    .OkButton {
+    .ok-button {
       width: 100%;
       height: 50px;
       border: none;
