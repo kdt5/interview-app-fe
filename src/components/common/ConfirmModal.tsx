@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import Modal from "./Modal";
 
-interface ConfirmModalProps {
+interface Props {
   onClose: () => void;
-  onConfirm?: () => void;
+  onConfirm: () => void;
 }
 
-function ConfirmModal({ onClose, onConfirm }: ConfirmModalProps) {
+function ConfirmModal({ onClose, onConfirm }: Props) {
   return (
     <Modal width="300px" height="150px">
       <ConfirmModalStyle>

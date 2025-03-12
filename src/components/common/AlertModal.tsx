@@ -2,11 +2,11 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Modal from "./Modal";
 
-interface AlertProps {
+interface Props {
   onClose: () => void;
 }
 
-function AlertModal({ onClose }: AlertProps) {
+function AlertModal({ onClose }: Props) {
   const navigate = useNavigate();
 
   const handleGoBack = () => {

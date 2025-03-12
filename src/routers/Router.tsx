@@ -16,14 +16,6 @@ const routers: RouteObject[] = [
     ),
   },
   {
-    path: "/answer",
-    element: (
-      <Layout>
-        <AnswerPage />
-      </Layout>
-    ),
-  },
-  {
     path: "/login",
     element: <LoginPage />,
   },
@@ -48,15 +40,7 @@ const routers: RouteObject[] = [
     ),
   },
   {
-    path: "/question-list/frontend/:questionId",
-    element: (
-      <Layout>
-        <AnswerPage />
-      </Layout>
-    ),
-  },
-  {
-    path: "/question-list/frontend/:questionId",
+    path: "/answer",
     element: (
       <Layout>
         <AnswerPage />
