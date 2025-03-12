@@ -2,6 +2,8 @@ import { createBrowserRouter, RouteObject } from "react-router-dom";
 import Layout from "../components/layout/Layout";
 import Home from "../pages/MainPage";
 import AnswerPage from "../pages/AnswerPage";
+import LoginPage from "../pages/LoginPage";
+import JoinPage from "../pages/JoinPage";
 import QuestionList from "../pages/QuestionList";
 
 const routers: RouteObject[] = [
@@ -12,6 +14,22 @@ const routers: RouteObject[] = [
         <Home />
       </Layout>
     ),
+  },
+  {
+    path: "/answer",
+    element: (
+      <Layout>
+        <AnswerPage />
+      </Layout>
+    ),
+  },
+  {
+    path: "/login",
+    element: <LoginPage />,
+  },
+  {
+    path: "/join",
+    element: <JoinPage />,
   },
   {
     path: "/question-list/frontend",
