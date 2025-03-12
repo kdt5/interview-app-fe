@@ -10,11 +10,12 @@ import "swiper/css/free-mode";
 export default Questions;
 
 interface Props {
+  className?: string;
   questions: Question[];
   getCategoryName: (categoryId: number) => string | undefined;
 }
 
-function Questions({ questions, getCategoryName }: Props) {
+function Questions({ className, questions, getCategoryName }: Props) {
   const options: SwiperOptions = {
     slidesPerView: "auto",
     spaceBetween: 8,
@@ -25,7 +26,7 @@ function Questions({ questions, getCategoryName }: Props) {
   };
 
   return (
-    <QuestionStyle>
+    <QuestionStyle className={className}>
       <Swiper {...options}>
         {questions.map((question) => (
           <SwiperSlide key={question.id}>
@@ -34,6 +35,7 @@ function Questions({ questions, getCategoryName }: Props) {
               title={question.title}
               categoryImagePath={`../assets/categories/${question.categoryId}.png`}
               categoryName={getCategoryName(question.categoryId)}
+              isAnswered={question.isAnswered}
             />
           </SwiperSlide>
         ))}
@@ -49,7 +51,7 @@ const QuestionStyle = styled.div`
   .swiper {
     width: min(100%, 393px);
     height: 100%;
-    padding: 0 30px;
+    padding: 0 25px;
     z-index: 0;
   }
 

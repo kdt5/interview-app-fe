@@ -39,9 +39,14 @@ export function useQuestion() {
     }
   };
 
+  const getCategoryName = (categoryId: number) => {
+    return categories.find((category) => category.id === categoryId)?.name;
+  };
+
   return {
     categories,
     questions,
     getQuestions,
+    getCategoryName,
   };
 }

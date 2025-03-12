@@ -10,6 +10,7 @@ export const questions = http.get(
         id: index,
         categoryId: faker.helpers.rangeToNumber({ min: 0, max: 5 }),
         title: faker.lorem.sentence(),
+        isAnswered: faker.datatype.boolean(),
       })
     );
 
