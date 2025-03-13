@@ -27,7 +27,7 @@ function QuestionBox({
       >
         <div className="content">
           <img src={categoryImagePath} alt={categoryName} />
-          <a>{title}</a>
+          <p>{title}</p>
         </div>
         {isAnswered ? (
           <div className="answered-text">답변완료</div>
@@ -52,7 +52,7 @@ const ContentBoxStyle = styled.div`
     display: flex;
     justify-content: space-between;
 
-    padding: 1rem 1rem;
+    padding: 20px 15px;
 
     color: inherit;
     text-decoration: none;
@@ -63,14 +63,15 @@ const ContentBoxStyle = styled.div`
   .content {
     display: flex;
 
-    gap: 0.7rem;
+    padding-right: 10px;
+    gap: 10px;
 
     img {
       width: 20px;
       height: 20px;
     }
 
-    a {
+    p {
       width: 210px;
       font-weight: 400;
     }

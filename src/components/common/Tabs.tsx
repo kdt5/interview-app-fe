@@ -17,7 +17,7 @@ function Tabs({ titles, onClickTab, currentTab }: Props): JSX.Element {
 
         return (
           <div className={`tab ${active}`} onClick={() => onClickTab(title)}>
-            <h1>{title}</h1>
+            <p>{title}</p>
           </div>
         );
       })}
@@ -46,9 +46,7 @@ const TabsStyle = styled.div`
     flex-grow: 1;
     cursor: pointer;
 
-    border-width: 2px;
-    border-color: #e2e2e2;
-    border-style: none none solid none;
+    border-bottom: 2px solid #e2e2e2;
 
     color: #e2e2e2;
     text-align: center;
@@ -58,8 +56,9 @@ const TabsStyle = styled.div`
       border-color: #6ea1ff;
     }
 
-    h1 {
+    p {
       color: inherit;
+      font-size: 20px;
     }
   }
 `;
