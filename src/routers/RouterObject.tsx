@@ -65,10 +65,17 @@ export const routerObjects: RouteObject[] = [
     // element: <EditAnswerPage />,
   },
 ].map((routerObject) => {
-  return {
-    ...routerObject,
-    element: <Layout>{routerObject.element}</Layout>,
-  };
+  if (routerObject.path == "/join" || routerObject.path == "/login") {
+    return {
+      ...routerObject,
+      element: routerObject.element,
+    };
+  } else {
+    return {
+      ...routerObject,
+      element: <Layout>{routerObject.element}</Layout>,
+    };
+  }
 });
 
 const routerPaths = routerObjects.map((route) => route.path);
