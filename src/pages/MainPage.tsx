@@ -1,8 +1,11 @@
 import styled from "styled-components";
 import HomeImg from "../assets/MainPageIcon.png";
 import { SlArrowRight } from "react-icons/sl";
+import { useQuestion } from "../hooks/UseQuestion";
 
 function Home() {
+  const { randomQuestion, getCategoryName } = useQuestion();
+
   return (
     <>
       <HomeStyle>
@@ -17,15 +20,17 @@ function Home() {
           </div>
         </div>
         <div className="weekly-question">
-          <p>
-            Javascript에서 var, let, const의 역할과
-            <br />
-            각각의 차이점은 무엇일까요?
-          </p>
-          <div>
-            <span>Front-end</span>
-            <span>Javascript</span>
-          </div>
+          {randomQuestion ? (
+            <>
+              <p>{randomQuestion.title}</p>
+              <div>
+                <span>{getCategoryName(randomQuestion.categoryId)}</span>{" "}
+                {/* 카테고리 이름 출력 */}
+              </div>
+            </>
+          ) : (
+            <p>질문을 불러오는 중...</p>
+          )}
         </div>
 
         <div className="interview-essential-wrap">
