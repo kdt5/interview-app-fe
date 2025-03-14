@@ -2,9 +2,10 @@ import styled from "styled-components";
 import ButtonWhite from "../components/common/ButtonWhite";
 import { useEffect, useState } from "react";
 import { fetchUserProfile } from "../api/MyPageMemberInfo.api";
+import { Link } from "react-router-dom";
 
 function MyPage() {
-  const [nickname, setNickname] = useState<string | null>(null); // 상태 선언
+  const [nickname, setNickname] = useState<string | null>(null);
 
   useEffect(() => {
     fetchUserProfile()
@@ -39,13 +40,45 @@ function MyPage() {
         <ButtonWhite>내 랭킹 보러가기</ButtonWhite>
       </MyPageStyle>
 
-      <MyPageStyle>
-        <button>회원 정보 수정</button>
+      <UserMenuStyle>
+        <Link to="">회원 정보 수정</Link>
         <button>로그아웃</button>
-      </MyPageStyle>
+      </UserMenuStyle>
     </>
   );
 }
+
+const UserMenuStyle = styled.div`
+  padding: 25px 30px;
+  a,
+  button {
+    width: 100%;
+    text-align: center;
+  }
+
+  a {
+    display: block;
+    background: #6ea1ff;
+    color: #fff;
+    border-radius: 10px;
+    border: solid 1px #fff;
+    padding: 15px 20px;
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+
+  button {
+    background: #fff;
+    color: #6ea1ff;
+    border-radius: 10px;
+    border: solid 1px #6ea1ff;
+    cursor: pointer;
+    width: 100%;
+    padding: 15px 20px;
+    line-height: 1;
+    font-size: 16px;
+  }
+`;
 
 const MyPageStyle = styled.div`
   width: 100%;
@@ -76,10 +109,6 @@ const MyPageStyle = styled.div`
   }
 
   .menu-title {
-    margin-bottom: 10px;
-  }
-
-  .btn2 {
     margin-bottom: 10px;
   }
 `;

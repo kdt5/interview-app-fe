@@ -6,7 +6,7 @@ export async function fetchUserProfile() {
     .get<UserProfile>(`/me`)
     .then((response) => response.data)
     .catch((error) => {
-      throw Error(error);
+      throw error;
     });
 
   return response;
