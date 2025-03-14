@@ -1,6 +1,22 @@
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { login } from "../api/Signup.api";
+export interface LoginProps {
+  email: string;
+  password: string;
+}
 
 function LoginPage() {
+  const navigate = useNavigate();
+  const { register, handleSubmit } = useForm<LoginProps>();
+
+  const onSubmit = (data: LoginProps) => {
+    login(data).then(() => {
+      navigate("/");
+    });
+  };
+
   return (
     <LayoutStyle>
       <p className="main-title">
@@ -10,24 +26,31 @@ function LoginPage() {
       <span className="sub-title">
         인터뷰잇 서비스 이용을 위해 로그인 해주세요.
       </span>
-      <div className="login-form">
-        <input
-          placeholder="아이디 입력"
-          type="text"
-          className="login-form__input"
-        ></input>
-        <input
-          placeholder="비밀번호 입력"
-          type="password"
-          className="login-form__input"
-        ></input>
-        <div className="login-form__column">
-          <span>아이디 찾기</span>
-          <span>비밀번호 찾기</span>
-          <span>회원가입</span>
+
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="login-form">
+          <input
+            placeholder="아이디 입력"
+            type="text"
+            className="login-form__input"
+            {...register("email", { required: true })}
+          ></input>
+          <input
+            placeholder="비밀번호 입력"
+            type="password"
+            className="login-form__input"
+            {...register("password", { required: true })}
+          ></input>
+          <div className="login-form__column">
+            <span>아이디 찾기</span>
+            <span>비밀번호 찾기</span>
+            <span>회원가입</span>
+          </div>
         </div>
-      </div>
-      <button className="login-form__btn">로그인</button>
+        <button type="submit" className="login-form__btn">
+          로그인
+        </button>
+      </form>
     </LayoutStyle>
   );
 }
