@@ -3,7 +3,8 @@ import { FaStar } from "react-icons/fa6";
 import ConfirmModal from "../components/common/ConfirmModal";
 import { useState } from "react";
 import AlertModal from "../components/common/AlertModal";
-import { ModalType } from "../components/common/Modal";
+
+type ModalType = "confirm" | "alert";
 
 function AnswerPage() {
   const [isModalsVisible, setIsModalsVisible] = useState({

@@ -8,8 +8,6 @@ interface ModalProps {
   height: string;
 }
 
-export type ModalType = "confirm" | "alert";
-
 function Modal({ children, width, height }: ModalProps) {
   return createPortal(
     <ModalStyle>
