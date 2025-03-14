@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { signup } from "../api/User.api";
 
 export interface JoinProps {
   email: string;
@@ -13,9 +14,9 @@ function SignUpPage() {
   const { register, handleSubmit } = useForm<JoinProps>();
 
   const onSubmit = (data: JoinProps) => {
-    // signup(data).then(() => {
-    //   navigate("/login");
-    // });
+    signup(data).then(() => {
+      navigate("/login");
+    });
   };
 
   return (
