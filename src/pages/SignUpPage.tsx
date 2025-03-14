@@ -1,20 +1,40 @@
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
+export interface JoinProps {
+  email: string;
+  password: string;
+  nickName: string;
+}
+
 function SignUpPage() {
+  const navigate = useNavigate();
+  const { register, handleSubmit } = useForm<JoinProps>();
+
+  const onSubmit = (data: JoinProps) => {
+    // signup(data).then(() => {
+    //   navigate("/login");
+    // });
+  };
+
   return (
     <LayoutStyle>
       <p className="main-title">
         함께하는 면접, <br />
         합격까지 한걸음 더!
       </p>
+
       <span className="sub-title">인터뷰잇 회원이 아니시라면?</span>
-      <div className="join-form">
+      <form className="join-form" onSubmit={handleSubmit(onSubmit)}>
         <div className="join-form__container">
           <input
             placeholder="이메일 입력"
-            type="text"
+            type="email"
             className="join-form__input"
+            {...register("email", { required: true })}
           ></input>
+
           <div className="join-form__container-btn">
             <button className="join-form__btn-chk">중복 확인</button>
           </div>
@@ -24,6 +44,7 @@ function SignUpPage() {
           placeholder="비밀번호 입력"
           type="password"
           className="join-form__input"
+          {...register("password", { required: true })}
         ></input>
 
         <div className="join-form__container">
@@ -31,13 +52,16 @@ function SignUpPage() {
             placeholder="닉네임 입력"
             type="text"
             className="join-form__input"
+            {...register("nickName", { required: true })}
           ></input>
           <div className="join-form__container-btn">
             <button className="join-form__btn-chk">중복 확인</button>
           </div>
         </div>
-      </div>
-      <button className="join-form__btn">회원가입</button>
+        <button type="submit" className="join-form__btn">
+          회원가입
+        </button>
+      </form>
     </LayoutStyle>
   );
 }
@@ -73,7 +97,7 @@ const LayoutStyle = styled.div`
     margin-bottom: 15px;
     background-color: #6ea1ff;
     color: #ffffff;
-    opcity: 0.6;
+    opacity: 0.6;
     width: 100%;
     height: 60px;
   }
