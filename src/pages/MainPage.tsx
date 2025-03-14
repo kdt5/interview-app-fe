@@ -1,11 +1,8 @@
 import styled from "styled-components";
 import HomeImg from "../assets/MainPageIcon.png";
 import { SlArrowRight } from "react-icons/sl";
-import { useQuestion } from "../hooks/UseQuestion";
 
 function Home() {
-  const { randomQuestion, getCategoryName } = useQuestion();
-
   return (
     <>
       <HomeStyle>
@@ -20,17 +17,10 @@ function Home() {
           </div>
         </div>
         <div className="weekly-question">
-          {randomQuestion ? (
-            <>
-              <p>{randomQuestion.title}</p>
-              <div>
-                <span>{getCategoryName(randomQuestion.categoryId)}</span>{" "}
-                {/* 카테고리 이름 출력 */}
-              </div>
-            </>
-          ) : (
-            <p>질문을 불러오는 중...</p>
-          )}
+          <p>질문</p>
+          <div>
+            <span>질문카테고라</span>
+          </div>
         </div>
 
         <div className="interview-essential-wrap">
