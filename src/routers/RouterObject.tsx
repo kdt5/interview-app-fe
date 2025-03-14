@@ -65,7 +65,8 @@ export const routerObjects: RouteObject[] = [
     // element: <EditAnswerPage />,
   },
 ].map((routerObject) => {
-  if (routerObject.path == "/join" || routerObject.path == "/login") {
+  const excludedPaths = [FRONTEND_URLS.SIGNUP, FRONTEND_URLS.LOGIN];
+  if (excludedPaths.includes(routerObject.path)) {
     return {
       ...routerObject,
       element: routerObject.element,

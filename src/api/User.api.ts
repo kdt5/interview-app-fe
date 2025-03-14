@@ -1,5 +1,6 @@
 import { BACKEND_URLS } from "../constants/Urls";
 import { UserBasicInfo } from "../models/User.model";
+import { LoginProps } from "../pages/LoginPage";
 import { backendHttpClient } from "./BackendHttpClient.api";
 
 export async function fetchMyUserData(): Promise<UserBasicInfo> {
@@ -11,4 +12,9 @@ export async function fetchMyUserData(): Promise<UserBasicInfo> {
     });
 
   return response;
+}
+
+export async function login(userData: LoginProps) {
+  const response = await backendHttpClient.post("/api/auth/login", userData);
+  return response.data;
 }

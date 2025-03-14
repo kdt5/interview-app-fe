@@ -1,7 +1,8 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { login } from "../api/Signup.api";
+import { login } from "../api/User.api";
+
 export interface LoginProps {
   email: string;
   password: string;
