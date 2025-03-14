@@ -9,11 +9,6 @@ function JoinPage() {
       </p>
       <span className="sub-title">인터뷰잇 회원이 아니시라면?</span>
       <div className="join-form">
-        {/* TODO
-        1. Validation check
-        2. 글자수 제한
-        3. 기능
-        */}
         <div className="join-form__container">
           <input
             placeholder="이메일 입력"
