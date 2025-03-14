@@ -1,8 +1,37 @@
 import styled from "styled-components";
 import HomeImg from "../assets/MainPageIcon.png";
 import { SlArrowRight } from "react-icons/sl";
+import { JSX, useEffect, useState } from "react";
+import { WeeklyQuestion } from "../models/WeeklyQuestion.model";
+import { fetchWeeklyQuestion } from "../api/WeeklyQuestion.api";
 
-function Home() {
+function Home(): JSX.Element {
+  const [weeklyQuestion, setWeeklyQuestion] = useState<WeeklyQuestion | null>(
+    null
+  );
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const getWeeklyQuestion = async () => {
+      setLoading(true);
+      try {
+        const question = await fetchWeeklyQuestion();
+        setWeeklyQuestion(question);
+      } catch (err) {
+        setError("이번 주의 질문을 불러오는 중 오류가 발생했습니다.");
+        console.error("에러 발생:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getWeeklyQuestion();
+  }, []);
+
+  if (loading) return <p>로딩 중...</p>;
+  if (error) return <p>{error}</p>;
+
   return (
     <>
       <HomeStyle>
@@ -16,12 +45,19 @@ function Home() {
             <img src={HomeImg} alt="MainPage Image" />
           </div>
         </div>
-        <div className="weekly-question">
-          <p>질문</p>
-          <div>
-            <span>질문카테고라</span>
+
+        {weeklyQuestion ? (
+          <div className="weekly-question">
+            <p>{weeklyQuestion.title}</p>
+            <div>
+              <span>{weeklyQuestion.categories.join(",")}</span>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="weekly-question">
+            <p>이번 주 질문이 없습니다.</p>
+          </div>
+        )}
 
         <div className="interview-essential-wrap">
           <div className="contents-title">
