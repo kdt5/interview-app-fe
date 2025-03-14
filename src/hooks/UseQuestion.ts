@@ -39,9 +39,16 @@ export function useQuestion() {
     }
   };
 
+  const getCategoryName = (categoryId: number) => {
+    const category = categories.find((category) => category.id === categoryId);
+
+    return category !== undefined ? category.name : "";
+  };
+
   return {
     categories,
     questions,
     getQuestions,
+    getCategoryName,
   };
 }

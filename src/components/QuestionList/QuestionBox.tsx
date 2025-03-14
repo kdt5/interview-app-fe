@@ -9,6 +9,7 @@ interface Props {
   title: string;
   categoryImagePath: string;
   categoryName?: string;
+  isAnswered: boolean;
 }
 
 function QuestionBox({
@@ -16,15 +17,23 @@ function QuestionBox({
   title,
   categoryImagePath,
   categoryName,
+  isAnswered,
 }: Props) {
   return (
     <ContentBoxStyle className="question">
-      <Link className="question-link" to={`/question/${questionId}`}>
+      <Link
+        className={`question-link ${isAnswered ? "answered" : ""}`}
+        to={`/question/${questionId}`}
+      >
         <div className="content">
           <img src={categoryImagePath} alt={categoryName} />
-          <span>{title}</span>
+          <p>{title}</p>
         </div>
-        <SlArrowRight className="icon-goto" />
+        {isAnswered ? (
+          <div className="answered-text">답변완료</div>
+        ) : (
+          <SlArrowRight className="icon-goto" />
+        )}
       </Link>
     </ContentBoxStyle>
   );
@@ -43,7 +52,7 @@ const ContentBoxStyle = styled.div`
     display: flex;
     justify-content: space-between;
 
-    padding: 1.225rem 1.5rem;
+    padding: 20px 15px;
 
     color: inherit;
     text-decoration: none;
@@ -54,14 +63,23 @@ const ContentBoxStyle = styled.div`
   .content {
     display: flex;
 
-    padding-right: 1rem;
-
-    gap: 1rem;
+    padding-right: 10px;
+    gap: 10px;
 
     img {
       width: 20px;
       height: 20px;
     }
+
+    p {
+      width: 210px;
+      font-weight: 400;
+    }
+  }
+
+  .answered {
+    pointer-events: none;
+    opacity: 0.5;
   }
 
   .icon-goto {
@@ -69,5 +87,9 @@ const ContentBoxStyle = styled.div`
     height: 15px;
     min-width: 15px;
     min-height: 15px;
+  }
+
+  .answered-text {
+    font-size: 12px;
   }
 `;

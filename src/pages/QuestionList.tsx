@@ -8,17 +8,14 @@ import { ALL_CATEGORIES } from "../constants/Question.ts";
 export default QuestionList;
 
 function QuestionList(): JSX.Element {
-  const { categories, questions, getQuestions } = useQuestion();
+  const { categories, questions, getQuestions, getCategoryName } =
+    useQuestion();
   const [activeCategoryId, setActiveCategoryId] =
     useState<number>(ALL_CATEGORIES);
 
   const onClickCategoryButton = (id: number) => {
     setActiveCategoryId(id);
     getQuestions(id);
-  };
-
-  const getCategoryName = (categoryId: number) => {
-    return categories.find((category) => category.id === categoryId)?.name;
   };
 
   return (
@@ -28,7 +25,11 @@ function QuestionList(): JSX.Element {
         categories={categories}
         onClickCategoryButton={onClickCategoryButton}
       />
-      <Questions questions={questions} getCategoryName={getCategoryName} />
+      <Questions
+        questions={questions}
+        questionsType="Complex"
+        getCategoryName={getCategoryName}
+      />
     </QuestionListStyle>
   );
 }

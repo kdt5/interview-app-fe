@@ -5,6 +5,7 @@ import AnswerPage from "../pages/AnswerPage";
 import LoginPage from "../pages/LoginPage";
 import JoinPage from "../pages/JoinPage";
 import QuestionList from "../pages/QuestionList";
+import AnswersHistory from "../pages/AnswersHistory";
 
 export const routerObjects: RouteObject[] = [
   {
@@ -30,6 +31,10 @@ export const routerObjects: RouteObject[] = [
   {
     path: "/question-list/backend",
     element: <QuestionList />,
+  },
+  {
+    path: "/mypage/answers",
+    element: <AnswersHistory />,
   },
 ].map((routerObject) => {
   return {

@@ -31,6 +31,7 @@ const getPageTitle = (pathname: string) => {
     "/mypage": "마이페이지",
     "/question-list/frontend": "프론트엔드 면접 질문",
     "/question-list/backend": "백엔드 면접 질문",
+    "/mypage/answers": "내 답변 모아보기",
   };
 
   return titles[pathname] || "페이지";

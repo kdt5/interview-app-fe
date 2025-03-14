@@ -9,12 +9,21 @@ import "swiper/css/free-mode";
 
 export default Questions;
 
+export type QuestionsType = "Answered" | "Complex";
+
 interface Props {
+  className?: string;
   questions: Question[];
-  getCategoryName: (categoryId: number) => string | undefined;
+  questionsType: QuestionsType;
+  getCategoryName: (categoryId: number) => string;
 }
 
-function Questions({ questions, getCategoryName }: Props) {
+function Questions({
+  className,
+  questions,
+  questionsType,
+  getCategoryName,
+}: Props) {
   const options: SwiperOptions = {
     slidesPerView: "auto",
     spaceBetween: 8,
@@ -25,18 +34,25 @@ function Questions({ questions, getCategoryName }: Props) {
   };
 
   return (
-    <QuestionStyle>
+    <QuestionStyle className={className}>
       <Swiper {...options}>
-        {questions.map((question) => (
-          <SwiperSlide key={question.id}>
-            <QuestionBox
-              questionId={question.id}
-              title={question.title}
-              categoryImagePath={`../assets/categories/${question.categoryId}.png`}
-              categoryName={getCategoryName(question.categoryId)}
-            />
-          </SwiperSlide>
-        ))}
+        {questions.map((question) => {
+          const categoryName = getCategoryName(question.categoryId);
+
+          return (
+            <SwiperSlide key={question.id}>
+              <QuestionBox
+                questionId={question.id}
+                title={question.title}
+                categoryImagePath={`../assets/categories/${question.categoryId}.png`}
+                categoryName={categoryName}
+                isAnswered={
+                  questionsType === "Answered" ? false : question.isAnswered
+                }
+              />
+            </SwiperSlide>
+          );
+        })}
       </Swiper>
     </QuestionStyle>
   );
@@ -49,7 +65,7 @@ const QuestionStyle = styled.div`
   .swiper {
     width: min(100%, 393px);
     height: 100%;
-    padding: 0 30px;
+    padding: 0 25px;
     z-index: 0;
   }
 
