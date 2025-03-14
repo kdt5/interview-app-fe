@@ -9,7 +9,7 @@ interface Props {
   title: string;
   categoryImagePath: string;
   categoryName?: string;
-  isAnswered?: boolean;
+  isAnswered: boolean;
 }
 
 function QuestionBox({

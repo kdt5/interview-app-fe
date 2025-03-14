@@ -40,7 +40,9 @@ export function useQuestion() {
   };
 
   const getCategoryName = (categoryId: number) => {
-    return categories.find((category) => category.id === categoryId)?.name;
+    const category = categories.find((category) => category.id === categoryId);
+
+    return category !== undefined ? category.name : "";
   };
 
   return {

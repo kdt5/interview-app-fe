@@ -22,51 +22,61 @@ function AnswersHistory() {
       id: 1,
       categoryId: 1,
       title: "title1",
+      isAnswered: false,
     },
     {
       id: 2,
       categoryId: 2,
       title: "title2",
+      isAnswered: false,
     },
     {
       id: 3,
       categoryId: 3,
       title: "title3",
+      isAnswered: false,
     },
     {
       id: 4,
       categoryId: 4,
       title: "title4",
+      isAnswered: false,
     },
     {
       id: 5,
       categoryId: 5,
       title: "title5",
+      isAnswered: false,
     },
     {
       id: 6,
       categoryId: 1,
       title: "title6",
+      isAnswered: false,
     },
     {
       id: 7,
       categoryId: 2,
       title: "title7",
+      isAnswered: false,
     },
     {
       id: 8,
       categoryId: 3,
       title: "title8",
+      isAnswered: false,
     },
     {
       id: 9,
       categoryId: 4,
       title: "title9",
+      isAnswered: false,
     },
     {
       id: 10,
       categoryId: 5,
       title: "title10",
+      isAnswered: false,
     },
   ];
 
@@ -80,6 +90,7 @@ function AnswersHistory() {
       <Questions
         className="questions"
         questions={questions}
+        questionsType="Answered"
         getCategoryName={getCategoryName}
       />
     </AnswersHistoryStyle>

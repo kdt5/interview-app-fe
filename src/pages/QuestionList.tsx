@@ -25,7 +25,11 @@ function QuestionList(): JSX.Element {
         categories={categories}
         onClickCategoryButton={onClickCategoryButton}
       />
-      <Questions questions={questions} getCategoryName={getCategoryName} />
+      <Questions
+        questions={questions}
+        questionsType="Complex"
+        getCategoryName={getCategoryName}
+      />
     </QuestionListStyle>
   );
 }

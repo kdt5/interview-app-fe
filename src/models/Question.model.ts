@@ -8,5 +8,5 @@ export interface Question {
   categoryId: number;
   title: string;
   content?: string;
-  isAnswered?: boolean;
+  isAnswered: boolean;
 }
