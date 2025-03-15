@@ -4,10 +4,10 @@ import { backendHttpClient } from "./BackendHttpClient.api";
 
 export async function fetchCategories() {
   const response = await backendHttpClient
-    .get<Category[]>(`/categories`)
+    .get<Category[]>(`api/categories`)
     .then((response) => response.data)
     .catch((error) => {
-      throw Error(error);
+      throw error;
     });
 
   return response;
@@ -15,14 +15,14 @@ export async function fetchCategories() {
 
 export async function fetchQuestions(categoryId: number) {
   const response = await backendHttpClient
-    .get<Question[]>(`/questions`, {
+    .get<Question[]>(`api/questions`, {
       params: {
         categoryId: categoryId === ALL_CATEGORIES ? "" : categoryId,
       },
     })
     .then((response) => response.data)
     .catch((error) => {
-      throw Error(error);
+      throw error;
     });
 
   return response;
