@@ -3,7 +3,7 @@ import { Question } from "../models/Question.model";
 
 export async function fetchFavoritesQuestions() {
   const response = await backendHttpClient
-    .get<Question[]>(`/favorites`)
+    .get<Question[]>(`/api/favorites/mine`)
     .then((response) => response.data)
     .catch((error) => {
       throw error;
