@@ -3,7 +3,7 @@ import { Question } from "../models/Question.model";
 import { http, HttpResponse } from "msw";
 
 export const questions = http.get(
-  `${import.meta.env.VITE_BACKEND_BASE_URL}/questions`,
+  `${import.meta.env.VITE_BACKEND_BASE_URL}/api/questions`,
   () => {
     const questionsData: Question[] = Array.from({ length: 20 }).map(
       (value, index) => ({
