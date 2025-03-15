@@ -3,7 +3,7 @@ import { Category } from "../models/Question.model";
 import { http, HttpResponse } from "msw";
 
 export const categories = http.get(
-  `${import.meta.env.VITE_BACKEND_BASE_URL}/categories`,
+  `${import.meta.env.VITE_BACKEND_BASE_URL}/api/categories`,
   () => {
     const categoriesData: Category[] = Array.from({ length: 20 }).map(
       (value, index) => ({
