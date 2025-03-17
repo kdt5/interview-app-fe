@@ -1,9 +1,10 @@
 import { fakerKO as faker } from "@faker-js/faker";
 import { Category } from "../models/Question.model";
 import { http, HttpResponse } from "msw";
+import { BACKEND_URLS } from "../constants/Urls";
 
 export const categories = http.get(
-  `${import.meta.env.VITE_BACKEND_BASE_URL}/categories`,
+  `${import.meta.env.VITE_BACKEND_BASE_URL}${BACKEND_URLS.CATEGORIES.ALL}`,
   () => {
     const categoriesData: Category[] = Array.from({ length: 20 }).map(
       (value, index) => ({

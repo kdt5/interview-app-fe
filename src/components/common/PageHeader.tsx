@@ -2,6 +2,7 @@ import styled from "styled-components";
 import logo from "../../assets/logo.png";
 import { useLocation, useNavigate } from "react-router-dom";
 import { HiArrowSmLeft } from "react-icons/hi";
+import { FRONTEND_URLS } from "../../constants/Urls";
 
 function Header() {
   const location = useLocation();
@@ -28,9 +29,11 @@ function Header() {
 
 const getPageTitle = (pathname: string) => {
   const titles: Record<string, string> = {
-    "/mypage": "마이페이지",
-    "/question-list/frontend": "프론트엔드 면접 질문",
-    "/question-list/backend": "백엔드 면접 질문",
+    [FRONTEND_URLS.MY_PAGE.HOME]: "마이페이지",
+    [FRONTEND_URLS.QUESTION_LIST.FRONTEND]: "프론트엔드 면접 질문",
+    [FRONTEND_URLS.QUESTION_LIST.BACKEND]: "백엔드 면접 질문",
+    [FRONTEND_URLS.MY_PAGE.ANSWERS]: "내 답변 모아보기",
+    [FRONTEND_URLS.MY_PAGE.FAVORITES.QUESTIONS]: "즐겨찾기 질문 모아보기",
   };
 
   return titles[pathname] || "페이지";
