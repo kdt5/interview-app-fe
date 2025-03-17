@@ -5,9 +5,9 @@ import Questions from "../components/QuestionList/Questions.tsx";
 import { useQuestion } from "../hooks/UseQuestion.ts";
 import { ALL_CATEGORIES } from "../constants/Question.ts";
 
-export default QuestionList;
+export default QuestionListPage;
 
-function QuestionList(): JSX.Element {
+function QuestionListPage(): JSX.Element {
   const { categories, questions, getQuestions, getCategoryName } =
     useQuestion();
   const [activeCategoryId, setActiveCategoryId] =

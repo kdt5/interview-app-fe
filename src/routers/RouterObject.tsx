@@ -3,9 +3,9 @@ import Layout from "../components/layout/Layout";
 import Home from "../pages/MainPage";
 import AnswerPage from "../pages/AnswerPage";
 import LoginPage from "../pages/LoginPage";
-import SignUp from "../pages/SignUp";
-import QuestionList from "../pages/QuestionList";
-import AnswersHistory from "../pages/AnswersHistory";
+import SignUpPage from "../pages/SignUpPage";
+import QuestionListPage from "../pages/QuestionListPage";
+import AnswersHistoryPage from "../pages/AnswersHistoryPage";
 import { FRONTEND_URLS } from "../constants/Urls";
 import MyPage from "../pages/MyPage";
 
@@ -32,15 +32,15 @@ export const routerObjects: RouteObject[] = [
   },
   {
     path: FRONTEND_URLS.SIGNUP,
-    element: <SignUp />,
+    element: <SignUpPage />,
   },
   {
     path: FRONTEND_URLS.QUESTION_LIST.FRONTEND,
-    element: <QuestionList />,
+    element: <QuestionListPage />,
   },
   {
     path: FRONTEND_URLS.QUESTION_LIST.BACKEND,
-    element: <QuestionList />,
+    element: <QuestionListPage />,
   },
   {
     path: FRONTEND_URLS.MY_PAGE.HOME,
@@ -48,7 +48,7 @@ export const routerObjects: RouteObject[] = [
   },
   {
     path: FRONTEND_URLS.MY_PAGE.ANSWERS,
-    element: <AnswersHistory />,
+    element: <AnswersHistoryPage />,
   },
   {
     path: FRONTEND_URLS.MY_PAGE.FAVORITES.QUESTIONS,
