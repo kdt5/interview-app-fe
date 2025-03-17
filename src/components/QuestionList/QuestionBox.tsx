@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { SlArrowRight } from "react-icons/sl";
 import { Link } from "react-router-dom";
+import { FRONTEND_URLS } from "../../constants/Urls";
+import { replaceUrlParams } from "../../utils/Url";
 
 export default QuestionBox;
 
@@ -23,7 +25,9 @@ function QuestionBox({
     <ContentBoxStyle className="question">
       <Link
         className={`question-link ${isAnswered ? "answered" : ""}`}
-        to={`/question/${questionId}`}
+        to={replaceUrlParams(FRONTEND_URLS.ANSWER, {
+          questionId: questionId.toString(),
+        })}
       >
         <div className="content">
           <img src={categoryImagePath} alt={categoryName} />
