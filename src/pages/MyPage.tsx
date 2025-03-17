@@ -2,6 +2,7 @@ import styled from "styled-components";
 import ButtonWhite from "../components/common/ButtonWhite";
 import { Link } from "react-router-dom";
 import { useUser } from "../hooks/UseUser";
+import { FRONTEND_URLS } from "../constants/Urls";
 
 function MyPage() {
   const { me } = useUser();
@@ -21,12 +22,12 @@ function MyPage() {
       <MyPageStyle>
         <p className="menu-title">모아보기</p>
         <ButtonWhite>
-          <Link className="link" to={"/mypage/answers"}>
+          <Link className="link" to={FRONTEND_URLS.MY_PAGE.ANSWERS}>
             내 답변 모아보기
           </Link>
         </ButtonWhite>
         <ButtonWhite>
-          <Link className="link" to={"/mypage/favorite-questions"}>
+          <Link className="link" to={FRONTEND_URLS.MY_PAGE.FAVORITES.QUESTIONS}>
             즐겨찾기 질문 모아보기
           </Link>
         </ButtonWhite>
@@ -38,7 +39,7 @@ function MyPage() {
       </MyPageStyle>
 
       <UserMenuStyle>
-        <Link to="">회원 정보 수정</Link>
+        <Link to={FRONTEND_URLS.SETTINGS.PROFILE}>회원 정보 수정</Link>
         <button>로그아웃</button>
       </UserMenuStyle>
     </>
