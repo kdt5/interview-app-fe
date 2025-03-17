@@ -4,6 +4,7 @@ import { SlArrowRight } from "react-icons/sl";
 import { JSX, useEffect, useState } from "react";
 import { WeeklyQuestion } from "../models/WeeklyQuestion.model";
 import { fetchWeeklyQuestion } from "../api/WeeklyQuestion.api";
+import { Link } from "react-router-dom";
 
 function Home(): JSX.Element {
   const [weeklyQuestion, setWeeklyQuestion] = useState<WeeklyQuestion | null>(
@@ -72,7 +73,9 @@ function Home(): JSX.Element {
                 필수 질문 리스트
               </p>
               <span>
-                지금 답변하기 <SlArrowRight />
+                <LinkStyle to="/question-list/frontend">
+                  지금 답변하기 <SlArrowRight />
+                </LinkStyle>
               </span>
             </div>
             <div className="essential-question-box">
@@ -82,7 +85,9 @@ function Home(): JSX.Element {
                 필수 질문 리스트
               </p>
               <span>
-                지금 답변하기 <SlArrowRight />
+                <LinkStyle to="/question-list/backend">
+                  지금 답변하기 <SlArrowRight />
+                </LinkStyle>
               </span>
             </div>
           </div>
@@ -133,11 +138,6 @@ const HomeStyle = styled.main`
 
     .contents-title {
       margin-bottom: 10px;
-
-      span {
-        color: #6ea1ff;
-        font-weight: 400;
-      }
     }
 
     .interview-essential {
@@ -174,6 +174,11 @@ const HomeStyle = styled.main`
       }
     }
   }
+`;
+
+const LinkStyle = styled(Link)`
+  color: #6ea1ff;
+  font-weight: 400;
 `;
 
 export default Home;
