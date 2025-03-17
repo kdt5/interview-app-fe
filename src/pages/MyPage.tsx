@@ -1,21 +1,10 @@
 import styled from "styled-components";
 import ButtonWhite from "../components/common/ButtonWhite";
-import { useEffect, useState } from "react";
-import { fetchUserProfile } from "../api/MyPageMemberInfo.api";
 import { Link } from "react-router-dom";
+import { useUser } from "../hooks/UseUser";
 
 function MyPage() {
-  const [nickname, setNickname] = useState<string | null>(null);
-
-  useEffect(() => {
-    fetchUserProfile()
-      .then((user) => {
-        setNickname(user.nickname);
-      })
-      .catch((error) => {
-        console.error("Error fetching user profile:", error);
-      });
-  }, []);
+  const { me } = useUser();
 
   return (
     <>
@@ -23,7 +12,7 @@ function MyPage() {
         <div className="profile-wrap">
           <div className="profile-icon"></div>
           <div>
-            <h1>{nickname ? nickname : "닉네임을 등록하세용"}</h1>
+            <h1>{me?.nickname}</h1>
             <span>Ranking</span>
           </div>
         </div>
@@ -31,8 +20,16 @@ function MyPage() {
 
       <MyPageStyle>
         <p className="menu-title">모아보기</p>
-        <ButtonWhite>내 답변 모아보기</ButtonWhite>
-        <ButtonWhite>즐겨찾기 질문 모아보기</ButtonWhite>
+        <ButtonWhite>
+          <Link className="link" to={"/mypage/answers"}>
+            내 답변 모아보기
+          </Link>
+        </ButtonWhite>
+        <ButtonWhite>
+          <Link className="link" to={"/mypage/favorite-questions"}>
+            즐겨찾기 질문 모아보기
+          </Link>
+        </ButtonWhite>
       </MyPageStyle>
 
       <MyPageStyle>
@@ -110,6 +107,10 @@ const MyPageStyle = styled.div`
 
   .menu-title {
     margin-bottom: 10px;
+  }
+
+  .link {
+    color: inherit;
   }
 `;
 
