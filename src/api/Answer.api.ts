@@ -11,3 +11,20 @@ export async function fetchAnsweredQuestions() {
 
   return response;
 }
+
+export async function recordAnswer(data: {
+  answer: string;
+  questionId: number;
+}) {
+  const response = await backendHttpClient
+    .post(`/api/answers/record`, {
+      id: data.questionId,
+      content: data.answer,
+    })
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+
+  return response;
+}

@@ -28,3 +28,14 @@ export async function fetchQuestions(categoryId: number) {
 
   return response;
 }
+
+export async function fetchQuestion(questionId: number) {
+  const response = await backendHttpClient
+    .get<Question>(`/api/questions/${questionId}`)
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+
+  return response;
+}

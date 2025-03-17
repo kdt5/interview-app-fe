@@ -1,29 +1,52 @@
 import styled from "styled-components";
 import { FaStar } from "react-icons/fa6";
 import ConfirmModal from "../components/common/ConfirmModal";
-import { useState } from "react";
 import AlertModal from "../components/common/AlertModal";
+import { useQuestion } from "../hooks/UseQuestion";
+import { useState } from "react";
+import { addFavorite, removeFavorite } from "../api/Favorite.api";
+import { useAnswer } from "../hooks/UseAnswer";
+import { recordAnswer } from "../api/Answer.api";
 
 type ModalType = "confirm" | "alert";
 
 function AnswerPage() {
+  const { categories } = useQuestion();
+  const { question } = useAnswer();
+
+  const [answer, setAnswer] = useState("");
+  const [isFavorite, setIsFavorite] = useState(false);
   const [isModalsVisible, setIsModalsVisible] = useState({
     confirm: false,
     alert: false,
   });
 
-  const [answer, setAnswer] = useState("");
-  const [isFavorite, setIsFavorite] = useState(false);
-
-  const toggleModal = (type: ModalType, state: boolean) => {
-    setIsModalsVisible((prev) => ({
-      ...prev,
-      [type]: state,
-    }));
+  const getCategoryName = (categoryId: number) => {
+    return categories.find((category) => category.id === categoryId)?.name;
   };
 
   const handleSubmit = () => {
     toggleModal("confirm", true);
+  };
+
+  const handleConfirmSubmit = async () => {
+    if (typeof question?.id === "undefined") {
+      console.error("question 가 유효하지 않습니다.");
+      return;
+    }
+
+    const data = {
+      answer: answer,
+      questionId: question.id,
+    };
+
+    try {
+      await recordAnswer(data);
+      toggleModal("confirm", false);
+      toggleModal("alert", true);
+    } catch (error) {
+      console.log("제출에 실패하였습니다.", error);
+    }
   };
 
   const handleAnswerChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -34,23 +57,44 @@ function AnswerPage() {
     }
   };
 
-  const handleFavoriteCheck = () => {
-    setIsFavorite(!isFavorite);
+  const toggleModal = (type: ModalType, state: boolean) => {
+    setIsModalsVisible((prev) => ({
+      ...prev,
+      [type]: state,
+    }));
+  };
+
+  const toggleFavorite = async () => {
+    try {
+      if (isFavorite) {
+        setIsFavorite(false);
+        removeFavorite(question!.id);
+      } else {
+        setIsFavorite(true);
+        addFavorite(question!.id);
+      }
+      setIsFavorite(!isFavorite);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const isSubmitDisabled = answer.trim() === "" || answer.length <= 20;
-
   const isOverLimit = answer.length >= 500;
 
   return (
     <AnswerPageStyle isSubmitDisabled={isSubmitDisabled}>
       <div className="question-box">
         <div className="question-numbering">
-          <p className="numbering-title">01 |</p>
-          <FavoriteIcon onClick={handleFavoriteCheck} isFavorite={isFavorite} />
+          <p className="numbering-title">
+            {question && String(question.id).padStart(2, "0")} |
+          </p>
+          <FavoriteIcon onClick={toggleFavorite} isFavorite={isFavorite} />
         </div>
-        <h2 className="question-title">JSX에 대해 설명해주세요.</h2>
-        <span className="category-name">Javascript</span>
+        <h2 className="question-title">{question && question.title}</h2>
+        <span className="category-name">
+          {question && getCategoryName(question.categoryId)}
+        </span>
       </div>
       <form action="/" className="answer-box">
         <textarea
@@ -74,10 +118,7 @@ function AnswerPage() {
       {isModalsVisible.confirm && (
         <ConfirmModal
           onClose={() => toggleModal("confirm", false)}
-          onConfirm={() => {
-            toggleModal("confirm", false);
-            toggleModal("alert", true);
-          }}
+          onConfirm={handleConfirmSubmit}
         />
       )}
       {isModalsVisible.alert && (
@@ -103,7 +144,7 @@ const AnswerPageStyle = styled.div<{ isSubmitDisabled: boolean }>`
     padding: 10px 15px;
     box-sizing: border-box;
     width: 330px;
-    height: 155px;
+    height: fit-content;
     border: 1px solid #eff2f8;
     border-radius: 10px;
     background: #fbfbfb;
@@ -198,6 +239,7 @@ const AnswerPageStyle = styled.div<{ isSubmitDisabled: boolean }>`
     margin-top: 30px;
     opacity: ${(props) => (props.isSubmitDisabled ? 0.5 : 1)};
     cursor: ${(props) => (props.isSubmitDisabled ? "not-allowed" : "pointer")};
+    margin-bottom: 100px;
   }
 `;
 
