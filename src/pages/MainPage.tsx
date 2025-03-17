@@ -65,7 +65,7 @@ function Home(): JSX.Element {
             <p>면접 필수 질문</p>
           </div>
           <div className="interview-essential">
-            <div className="box">
+            <div className="essential-question-box">
               <p>
                 프론트엔드 개발자
                 <br />
@@ -75,7 +75,7 @@ function Home(): JSX.Element {
                 지금 답변하기 <SlArrowRight />
               </span>
             </div>
-            <div className="box">
+            <div className="essential-question-box">
               <p>
                 백엔드 개발자
                 <br />
@@ -146,9 +146,12 @@ const HomeStyle = styled.main`
       justify-content: space-between;
       gap: 10px;
 
-      div {
+      .essential-question-box {
         width: 50%;
         padding: 15px;
+        background-color: #fbfbfb;
+        border: solid 1px #eff2f8;
+        border-radius: 10px;
 
         p {
           margin-bottom: 30px;
