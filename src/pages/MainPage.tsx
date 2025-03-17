@@ -3,7 +3,7 @@ import HomeImg from "../assets/MainPageIcon.png";
 import { SlArrowRight } from "react-icons/sl";
 import { JSX, useEffect, useState } from "react";
 import { WeeklyQuestion } from "../models/WeeklyQuestion.model";
-import { fetchWeeklyQuestion } from "../api/WeeklyQuestion.api";
+import { fetchWeeklyQuestion } from "../api/Question.api";
 import { Link } from "react-router-dom";
 
 function Home(): JSX.Element {
