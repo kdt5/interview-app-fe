@@ -1,4 +1,4 @@
-import { BACKEND_URLS } from "../constants/BackendUrls";
+import { BACKEND_URLS } from "../constants/Urls";
 import { UserBasicInfo } from "../models/User.model";
 import { backendHttpClient } from "./BackendHttpClient.api";
 
