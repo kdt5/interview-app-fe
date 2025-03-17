@@ -5,9 +5,9 @@ import Questions from "../components/QuestionList/Questions";
 import { useQuestion } from "../hooks/UseQuestion";
 import { useAnswer } from "../hooks/UseAnswer";
 
-export default AnswersHistory;
+export default AnswersHistoryPage;
 
-function AnswersHistory() {
+function AnswersHistoryPage() {
   const { getCategoryName } = useQuestion();
   const { answeredQuestions } = useAnswer();
   const [currentTab, setCurrentTab] = useState("위클리");

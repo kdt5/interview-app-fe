@@ -2,6 +2,9 @@ export const FRONTEND_URLS = {
   HOME: "/",
   LOGIN: "/login",
   SIGNUP: "/signup",
+  SETTINGS: {
+    PROFILE: "settings/profile",
+  },
   QUESTION_LIST: {
     FRONTEND: "/question-list/frontend",
     BACKEND: "/question-list/backend",

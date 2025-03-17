@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-function SignUp() {
+function SignUpPage() {
   return (
     <LayoutStyle>
       <p className="main-title">
@@ -42,7 +42,7 @@ function SignUp() {
   );
 }
 
-export default SignUp;
+export default SignUpPage;
 const LayoutStyle = styled.div`
   width: 100%;
   max-width: 380px;
