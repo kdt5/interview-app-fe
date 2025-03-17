@@ -21,16 +21,12 @@ function MyPage() {
 
       <MyPageStyle>
         <p className="menu-title">모아보기</p>
-        <ButtonWhite>
-          <Link className="link" to={FRONTEND_URLS.MY_PAGE.ANSWERS}>
-            내 답변 모아보기
-          </Link>
-        </ButtonWhite>
-        <ButtonWhite>
-          <Link className="link" to={FRONTEND_URLS.MY_PAGE.FAVORITES.QUESTIONS}>
-            즐겨찾기 질문 모아보기
-          </Link>
-        </ButtonWhite>
+        <Link className="link" to={FRONTEND_URLS.MY_PAGE.ANSWERS}>
+          <ButtonWhite>내 답변 모아보기</ButtonWhite>
+        </Link>
+        <Link className="link" to={FRONTEND_URLS.MY_PAGE.FAVORITES.QUESTIONS}>
+          <ButtonWhite>즐겨찾기 질문 모아보기</ButtonWhite>
+        </Link>
       </MyPageStyle>
 
       <MyPageStyle>
@@ -108,10 +104,6 @@ const MyPageStyle = styled.div`
 
   .menu-title {
     margin-bottom: 10px;
-  }
-
-  .link {
-    color: inherit;
   }
 `;
 
