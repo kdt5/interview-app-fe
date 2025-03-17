@@ -5,6 +5,7 @@ import { FaMicroblog } from "react-icons/fa6";
 import { IoMicSharp } from "react-icons/io5";
 import { IoIosSettings } from "react-icons/io";
 import { MdStars } from "react-icons/md";
+import { FRONTEND_URLS } from "../../constants/Urls";
 
 function Nav() {
   return (
@@ -12,7 +13,7 @@ function Nav() {
       <NavStyle>
         <ul className="category">
           <li>
-            <Link to="/">
+            <Link to={FRONTEND_URLS.HOME}>
               <span>
                 <MdHomeFilled />
                 <span>홈</span>
@@ -28,7 +29,7 @@ function Nav() {
             </Link>
           </li>
           <li>
-            <Link to="">
+            <Link to={FRONTEND_URLS.MY_PAGE.ANSWERS}>
               <span>
                 <MdStars />
                 <span>내 인터뷰</span>
@@ -44,7 +45,7 @@ function Nav() {
             </Link>
           </li>
           <li>
-            <Link to="/mypage">
+            <Link to={FRONTEND_URLS.MY_PAGE.HOME}>
               <span>
                 <IoIosSettings />
                 <span>마이뷰잇</span>

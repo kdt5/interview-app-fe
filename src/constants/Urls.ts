@@ -1,3 +1,21 @@
+export const FRONTEND_URLS = {
+  HOME: "/",
+  LOGIN: "/login",
+  SIGNUP: "/signup",
+  QUESTION_LIST: {
+    FRONTEND: "/question-list/frontend",
+    BACKEND: "/question-list/backend",
+  },
+  MY_PAGE: {
+    HOME: "/my-page",
+    ANSWERS: "/my-page/answers",
+    FAVORITES: {
+      QUESTIONS: "/my-page/favorite-questions",
+    },
+  },
+  ANSWER: "/questions/:questionId/answer",
+};
+
 export const BACKEND_URLS = {
   AUTH: {
     LOGIN: "/api/auth/login",

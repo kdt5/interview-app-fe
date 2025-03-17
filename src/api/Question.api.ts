@@ -1,4 +1,4 @@
-import { BACKEND_URLS } from "../constants/BackendUrls";
+import { BACKEND_URLS } from "../constants/Urls";
 import { ALL_CATEGORIES } from "../constants/Question";
 import { Category, Question } from "../models/Question.model";
 import { backendHttpClient } from "./BackendHttpClient.api";

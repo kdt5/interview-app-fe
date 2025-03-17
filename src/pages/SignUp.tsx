@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-function JoinPage() {
+function SignUp() {
   return (
     <LayoutStyle>
       <p className="main-title">
@@ -42,7 +42,7 @@ function JoinPage() {
   );
 }
 
-export default JoinPage;
+export default SignUp;
 const LayoutStyle = styled.div`
   width: 100%;
   max-width: 380px;
