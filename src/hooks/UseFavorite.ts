@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { Question } from "../models/Question.model";
-import { fetchFavoritesQuestions } from "../api/Favorite.api";
+import { fetchFavoriteQuestions } from "../api/Favorite.api";
 
 export function useFavorite() {
   const [favoriteQuestions, setFavoriteQuestions] = useState<Question[]>([]);
 
   useEffect(() => {
     try {
-      fetchFavoritesQuestions().then((questions) => {
+      fetchFavoriteQuestions().then((questions) => {
         setFavoriteQuestions(questions);
       });
     } catch (error) {
