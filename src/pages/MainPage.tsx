@@ -1,11 +1,15 @@
 import styled from "styled-components";
 import HomeImg from "../assets/MainPageIcon.png";
 import { SlArrowRight } from "react-icons/sl";
+import { Link } from "react-router-dom";
+import { useQuestion } from "../hooks/UseQuestion";
 
-function Home() {
+function MainPage() {
+  const { weeklyQuestion } = useQuestion();
+
   return (
     <>
-      <HomeStyle>
+      <MainPageStyle>
         <div className="main-title">
           <h1>
             이번주 새로운
@@ -16,17 +20,19 @@ function Home() {
             <img src={HomeImg} alt="MainPage Image" />
           </div>
         </div>
-        <div className="weekly-question">
-          <p>
-            Javascript에서 var, let, const의 역할과
-            <br />
-            각각의 차이점은 무엇일까요?
-          </p>
-          <div>
-            <span>Front-end</span>
-            <span>Javascript</span>
+
+        {weeklyQuestion ? (
+          <div className="weekly-question">
+            <p>{weeklyQuestion.title}</p>
+            <div>
+              <span>{weeklyQuestion.categories.join(",")}</span>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="weekly-question">
+            <p>이번 주 질문을 불러올 수 없습니다.</p>
+          </div>
+        )}
 
         <div className="interview-essential-wrap">
           <div className="contents-title">
@@ -34,34 +40,38 @@ function Home() {
             <p>면접 필수 질문</p>
           </div>
           <div className="interview-essential">
-            <div className="box">
+            <div className="essential-question-box">
               <p>
                 프론트엔드 개발자
                 <br />
                 필수 질문 리스트
               </p>
               <span>
-                지금 답변하기 <SlArrowRight />
+                <LinkStyle to="/question-list/frontend">
+                  지금 답변하기 <SlArrowRight />
+                </LinkStyle>
               </span>
             </div>
-            <div className="box">
+            <div className="essential-question-box">
               <p>
                 백엔드 개발자
                 <br />
                 필수 질문 리스트
               </p>
               <span>
-                지금 답변하기 <SlArrowRight />
+                <LinkStyle to="/question-list/backend">
+                  지금 답변하기 <SlArrowRight />
+                </LinkStyle>
               </span>
             </div>
           </div>
         </div>
-      </HomeStyle>
+      </MainPageStyle>
     </>
   );
 }
 
-const HomeStyle = styled.main`
+const MainPageStyle = styled.main`
   width: 100%;
   padding: 0 30px;
 
@@ -73,6 +83,7 @@ const HomeStyle = styled.main`
 
   .weekly-question {
     background-color: #6ea1ff;
+    margin-top: 10px;
     padding: 20px;
     border-radius: 10px;
 
@@ -105,7 +116,6 @@ const HomeStyle = styled.main`
 
       span {
         color: #6ea1ff;
-        font-weight: 400;
       }
     }
 
@@ -115,12 +125,17 @@ const HomeStyle = styled.main`
       justify-content: space-between;
       gap: 10px;
 
-      div {
-        width: 50%;
+      .essential-question-box {
+        min-width: 160px;
+        height: 130px;
         padding: 15px;
+        background-color: #fbfbfb;
+        border: solid 1px #eff2f8;
+        border-radius: 10px;
 
         p {
           margin-bottom: 30px;
+          font-size: 14px;
         }
 
         span {
@@ -142,4 +157,9 @@ const HomeStyle = styled.main`
   }
 `;
 
-export default Home;
+const LinkStyle = styled(Link)`
+  color: #6ea1ff;
+  font-weight: 400;
+`;
+
+export default MainPage;

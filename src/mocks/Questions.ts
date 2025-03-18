@@ -9,7 +9,7 @@ export const questions = http.get(
     const questionsData: Question[] = Array.from({ length: 20 }).map(
       (_, index) => ({
         id: index,
-        categoryId: faker.helpers.rangeToNumber({ min: 0, max: 5 }),
+        categories: [faker.helpers.rangeToNumber({ min: 0, max: 5 })],
         title: faker.lorem.sentence(),
         isAnswered: faker.datatype.boolean(),
       })

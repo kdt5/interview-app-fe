@@ -37,14 +37,14 @@ function Questions({
     <QuestionStyle className={className}>
       <Swiper {...options}>
         {questions.map((question) => {
-          const categoryName = getCategoryName(question.categoryId);
+          const categoryName = getCategoryName(question.categories[0]);
 
           return (
             <SwiperSlide key={question.id}>
               <QuestionBox
                 questionId={question.id}
                 title={question.title}
-                categoryImagePath={`../assets/categories/${question.categoryId}.png`}
+                categoryImagePath={`../assets/categories/${question.categories[0]}.png`}
                 categoryName={categoryName}
                 isAnswered={
                   questionsType === "Answered" ? false : question.isAnswered
