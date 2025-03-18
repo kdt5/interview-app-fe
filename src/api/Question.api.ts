@@ -28,3 +28,14 @@ export async function fetchQuestions(categoryId: number) {
 
   return response;
 }
+
+export async function fetchWeeklyQuestion() {
+  const response = await backendHttpClient
+    .get<Question>("/questions/weekly")
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+
+  return response;
+}
