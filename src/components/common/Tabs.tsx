@@ -16,7 +16,11 @@ function Tabs({ titles, onClickTab, currentTab }: Props): JSX.Element {
         const active = title === currentTab ? "active" : "";
 
         return (
-          <div className={`tab ${active}`} onClick={() => onClickTab(title)}>
+          <div
+            key={title}
+            className={`tab ${active}`}
+            onClick={() => onClickTab(title)}
+          >
             <p>{title}</p>
           </div>
         );

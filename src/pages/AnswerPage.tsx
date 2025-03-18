@@ -3,17 +3,20 @@ import { FaStar } from "react-icons/fa6";
 import ConfirmModal from "../components/common/ConfirmModal";
 import AlertModal from "../components/common/AlertModal";
 import { useQuestion } from "../hooks/UseQuestion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { addFavorite, removeFavorite } from "../api/Favorite.api";
-import { useAnswer } from "../hooks/UseAnswer";
+import { useParams } from "react-router-dom";
 import { recordAnswer } from "../api/Answer.api";
+import { fetchQuestion } from "../api/Question.api";
+import { Question } from "../models/Question.model";
 
 type ModalType = "confirm" | "alert";
 
 function AnswerPage() {
-  const { categories } = useQuestion();
-  const { question } = useAnswer();
+  const questionId = Number(useParams<{ questionId: string }>().questionId);
+  const { getCategoryName } = useQuestion();
 
+  const [question, setQuestion] = useState<Question | undefined>(undefined);
   const [answer, setAnswer] = useState("");
   const [isFavorite, setIsFavorite] = useState(false);
   const [isModalsVisible, setIsModalsVisible] = useState({
@@ -21,22 +24,19 @@ function AnswerPage() {
     alert: false,
   });
 
-  const getCategoryName = (categoryId: number) => {
-    return categories.find((category) => category.id === categoryId)?.name;
-  };
+  useEffect(() => {
+    fetchQuestion(questionId).then((question) => {
+      setQuestion(question);
+    });
+  }, [questionId]);
 
   const handleSubmit = () => {
     toggleModal("confirm", true);
   };
 
   const handleConfirmSubmit = async () => {
-    if (typeof question?.id === "undefined") {
-      console.error("question 가 유효하지 않습니다.");
-      return;
-    }
-
     try {
-      await recordAnswer(answer, question.id);
+      recordAnswer(answer, questionId);
       toggleModal("confirm", false);
       toggleModal("alert", true);
     } catch (error) {
@@ -65,10 +65,10 @@ function AnswerPage() {
     try {
       if (isFavorite) {
         setIsFavorite(false);
-        removeFavorite(question?.id);
+        removeFavorite(questionId);
       } else {
         setIsFavorite(true);
-        addFavorite(question?.id);
+        addFavorite(questionId);
       }
     } catch (error) {
       console.log(error);
@@ -83,13 +83,13 @@ function AnswerPage() {
       <div className="question-box">
         <div className="question-numbering">
           <p className="numbering-title">
-            {question && String(question.id).padStart(2, "0")} |
+            {String(questionId).padStart(2, "0")} |
           </p>
           <FavoriteIcon onClick={toggleFavorite} isFavorite={isFavorite} />
         </div>
-        <h2 className="question-title">{question && question.title}</h2>
+        <h2 className="question-title">{question?.title}</h2>
         <span className="category-name">
-          {question && getCategoryName(question.categories[0])}
+          {question && getCategoryName(question?.categories[0])}
         </span>
       </div>
       <form action="/" className="answer-box">

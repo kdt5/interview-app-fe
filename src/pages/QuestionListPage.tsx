@@ -8,14 +8,14 @@ import { ALL_CATEGORIES } from "../constants/Question.ts";
 export default QuestionListPage;
 
 function QuestionListPage(): JSX.Element {
-  const { categories, questions, getQuestions, getCategoryName } =
+  const { categories, questions, updateQuestions, getCategoryName } =
     useQuestion();
   const [activeCategoryId, setActiveCategoryId] =
     useState<number>(ALL_CATEGORIES);
 
   const onClickCategoryButton = (id: number) => {
     setActiveCategoryId(id);
-    getQuestions(id);
+    updateQuestions(id);
   };
 
   return (

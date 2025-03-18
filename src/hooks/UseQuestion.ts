@@ -38,7 +38,7 @@ export function useQuestion() {
     }
   }, []);
 
-  const getQuestions = (categoryId: number) => {
+  const updateQuestions = (categoryId: number) => {
     try {
       fetchQuestions(categoryId).then((questions) => {
         setQuestions(questions);
@@ -58,7 +58,7 @@ export function useQuestion() {
     categories,
     questions,
     weeklyQuestion,
-    getQuestions,
+    updateQuestions,
     getCategoryName,
   };
 }

@@ -49,6 +49,7 @@ function Questions({
                 isAnswered={
                   questionsType === "Answered" ? false : question.isAnswered
                 }
+                isEditable={questionsType === "Complex"}
               />
             </SwiperSlide>
           );

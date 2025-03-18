@@ -12,6 +12,7 @@ interface Props {
   categoryImagePath: string;
   categoryName?: string;
   isAnswered: boolean;
+  isEditable: boolean;
 }
 
 function QuestionBox({
@@ -20,24 +21,33 @@ function QuestionBox({
   categoryImagePath,
   categoryName,
   isAnswered,
+  isEditable,
 }: Props) {
+  const answeredClassName = !isEditable && isAnswered ? "answered" : "";
+  const link = isEditable
+    ? replaceUrlParams(FRONTEND_URLS.ANSWER, {
+        questionId: questionId.toString(),
+      })
+    : replaceUrlParams(FRONTEND_URLS.ANSWER_EDIT, {
+        questionId: questionId.toString(),
+      });
+
+  const answeredStateElement = () => {
+    if (!isEditable && isAnswered) {
+      return <div className="answered-text">답변완료</div>;
+    }
+
+    return <SlArrowRight className="icon-goto" />;
+  };
+
   return (
     <ContentBoxStyle className="question">
-      <Link
-        className={`question-link ${isAnswered ? "answered" : ""}`}
-        to={replaceUrlParams(FRONTEND_URLS.ANSWER, {
-          questionId: questionId.toString(),
-        })}
-      >
+      <Link className={`question-link ${answeredClassName}`} to={link}>
         <div className="content">
           <img src={categoryImagePath} alt={categoryName} />
           <p>{title}</p>
         </div>
-        {isAnswered ? (
-          <div className="answered-text">답변완료</div>
-        ) : (
-          <SlArrowRight className="icon-goto" />
-        )}
+        {answeredStateElement()}
       </Link>
     </ContentBoxStyle>
   );
