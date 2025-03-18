@@ -8,6 +8,7 @@ import QuestionListPage from "../pages/QuestionListPage";
 import AnswersHistoryPage from "../pages/AnswersHistoryPage";
 import { FRONTEND_URLS } from "../constants/Urls";
 import MyPage from "../pages/MyPage";
+import FavoriteQuestionListPage from "../pages/FavoriteQuestionListPage";
 
 const requiredUrls = [
   FRONTEND_URLS.HOME,
@@ -52,7 +53,7 @@ export const routerObjects: RouteObject[] = [
   },
   {
     path: FRONTEND_URLS.MY_PAGE.FAVORITES.QUESTIONS,
-    // element: <FavoriteQuestions />,
+    element: <FavoriteQuestionListPage />,
   },
   {
     path: FRONTEND_URLS.ANSWER,
