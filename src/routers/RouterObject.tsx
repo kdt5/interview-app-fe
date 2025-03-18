@@ -20,6 +20,7 @@ const requiredUrls = [
   FRONTEND_URLS.MY_PAGE.ANSWERS,
   FRONTEND_URLS.MY_PAGE.FAVORITES.QUESTIONS,
   FRONTEND_URLS.ANSWER,
+  FRONTEND_URLS.ANSWER_EDIT,
 ];
 
 export const routerObjects: RouteObject[] = [
@@ -58,6 +59,10 @@ export const routerObjects: RouteObject[] = [
   {
     path: FRONTEND_URLS.ANSWER,
     element: <AnswerPage />,
+  },
+  {
+    path: FRONTEND_URLS.ANSWER_EDIT,
+    // element: <EditAnswerPage />,
   },
 ].map((routerObject) => {
   return {

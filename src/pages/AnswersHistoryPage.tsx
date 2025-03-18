@@ -7,15 +7,17 @@ import { useAnswer } from "../hooks/UseAnswer";
 
 export default AnswersHistoryPage;
 
+type TabType = "위클리" | "기본";
+
 function AnswersHistoryPage() {
   const { getCategoryName } = useQuestion();
-  const { answeredQuestions } = useAnswer();
-  const [currentTab, setCurrentTab] = useState("위클리");
+  const { basicAnsweredQuestions, weeklyAnsweredQuestions } = useAnswer();
+  const [currentTab, setCurrentTab] = useState<TabType>("위클리");
 
-  const titles: string[] = ["위클리", "기본"];
+  const titles: TabType[] = ["위클리", "기본"];
 
   const handleClickTab = (title: string) => {
-    setCurrentTab(title);
+    setCurrentTab(title as TabType);
   };
 
   return (
@@ -27,7 +29,11 @@ function AnswersHistoryPage() {
       />
       <Questions
         className="questions"
-        questions={answeredQuestions}
+        questions={
+          currentTab === "위클리"
+            ? weeklyAnsweredQuestions
+            : basicAnsweredQuestions
+        }
         questionsType="Answered"
         getCategoryName={getCategoryName}
       />
