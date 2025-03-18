@@ -1,7 +1,6 @@
 import { BACKEND_URLS } from "../constants/Urls";
 import { ALL_CATEGORIES } from "../constants/Question";
 import { Category, Question } from "../models/Question.model";
-import { WeeklyQuestion } from "../models/WeeklyQuestion.model";
 import { backendHttpClient } from "./BackendHttpClient.api";
 
 export async function fetchCategories() {
@@ -32,7 +31,7 @@ export async function fetchQuestions(categoryId: number) {
 
 export async function fetchWeeklyQuestion() {
   const response = await backendHttpClient
-    .get<WeeklyQuestion>("/questions/weekly")
+    .get<Question>("/questions/weekly")
     .then((response) => response.data)
     .catch((error) => {
       throw error;

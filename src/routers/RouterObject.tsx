@@ -1,6 +1,6 @@
 import { RouteObject } from "react-router-dom";
 import Layout from "../components/layout/Layout";
-import Home from "../pages/MainPage";
+import MainPage from "../pages/MainPage";
 import AnswerPage from "../pages/AnswerPage";
 import LoginPage from "../pages/LoginPage";
 import SignUpPage from "../pages/SignUpPage";
@@ -24,7 +24,7 @@ const requiredUrls = [
 export const routerObjects: RouteObject[] = [
   {
     path: FRONTEND_URLS.HOME,
-    element: <Home />,
+    element: <MainPage />,
   },
   {
     path: FRONTEND_URLS.LOGIN,

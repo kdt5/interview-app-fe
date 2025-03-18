@@ -1,41 +1,15 @@
 import styled from "styled-components";
 import HomeImg from "../assets/MainPageIcon.png";
 import { SlArrowRight } from "react-icons/sl";
-import { JSX, useEffect, useState } from "react";
-import { WeeklyQuestion } from "../models/WeeklyQuestion.model";
-import { fetchWeeklyQuestion } from "../api/Question.api";
 import { Link } from "react-router-dom";
+import { useQuestion } from "../hooks/UseQuestion";
 
-function Home(): JSX.Element {
-  const [weeklyQuestion, setWeeklyQuestion] = useState<WeeklyQuestion | null>(
-    null
-  );
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const getWeeklyQuestion = async () => {
-      setLoading(true);
-      try {
-        const question = await fetchWeeklyQuestion();
-        setWeeklyQuestion(question);
-      } catch (err) {
-        setError("이번 주의 질문을 불러오는 중 오류가 발생했습니다.");
-        console.error("에러 발생:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    getWeeklyQuestion();
-  }, []);
-
-  if (loading) return <p>로딩 중...</p>;
-  if (error) return <p>{error}</p>;
+function MainPage() {
+  const { weeklyQuestion } = useQuestion();
 
   return (
     <>
-      <HomeStyle>
+      <MainPageStyle>
         <div className="main-title">
           <h1>
             이번주 새로운
@@ -56,7 +30,7 @@ function Home(): JSX.Element {
           </div>
         ) : (
           <div className="weekly-question">
-            <p>이번 주 질문이 없습니다.</p>
+            <p>이번 주 질문을 불러올 수 없습니다.</p>
           </div>
         )}
 
@@ -92,12 +66,12 @@ function Home(): JSX.Element {
             </div>
           </div>
         </div>
-      </HomeStyle>
+      </MainPageStyle>
     </>
   );
 }
 
-const HomeStyle = styled.main`
+const MainPageStyle = styled.main`
   width: 100%;
   padding: 0 30px;
 
@@ -109,6 +83,7 @@ const HomeStyle = styled.main`
 
   .weekly-question {
     background-color: #6ea1ff;
+    margin-top: 10px;
     padding: 20px;
     border-radius: 10px;
 
@@ -138,6 +113,10 @@ const HomeStyle = styled.main`
 
     .contents-title {
       margin-bottom: 10px;
+
+      span {
+        color: #6ea1ff;
+      }
     }
 
     .interview-essential {
@@ -147,7 +126,8 @@ const HomeStyle = styled.main`
       gap: 10px;
 
       .essential-question-box {
-        width: 50%;
+        min-width: 160px;
+        height: 130px;
         padding: 15px;
         background-color: #fbfbfb;
         border: solid 1px #eff2f8;
@@ -155,6 +135,7 @@ const HomeStyle = styled.main`
 
         p {
           margin-bottom: 30px;
+          font-size: 14px;
         }
 
         span {
@@ -181,4 +162,4 @@ const LinkStyle = styled(Link)`
   font-weight: 400;
 `;
 
-export default Home;
+export default MainPage;
