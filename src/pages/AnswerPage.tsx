@@ -60,15 +60,16 @@ function AnswerPage() {
   };
 
   const toggleFavorite = async () => {
+    if (question === undefined) return;
+
     try {
       if (isFavorite) {
         setIsFavorite(false);
-        removeFavorite(question!.id);
+        removeFavorite(question?.id);
       } else {
         setIsFavorite(true);
-        addFavorite(question!.id);
+        addFavorite(question?.id);
       }
-      setIsFavorite(!isFavorite);
     } catch (error) {
       console.log(error);
     }

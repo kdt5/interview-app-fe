@@ -9,5 +9,4 @@ export interface Question {
   title: string;
   content?: string;
   isAnswered: boolean;
-  isFavorite?: boolean;
 }
