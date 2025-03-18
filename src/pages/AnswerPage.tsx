@@ -28,7 +28,7 @@ function AnswerPage() {
     fetchQuestion(questionId).then((question) => {
       setQuestion(question);
     });
-  }, []);
+  }, [questionId]);
 
   const handleSubmit = () => {
     toggleModal("confirm", true);
