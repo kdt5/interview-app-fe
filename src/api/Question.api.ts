@@ -2,6 +2,7 @@ import { BACKEND_URLS } from "../constants/Urls";
 import { ALL_CATEGORIES } from "../constants/Question";
 import { Category, Question } from "../models/Question.model";
 import { backendHttpClient } from "./BackendHttpClient.api";
+import { replaceUrlParams } from "../utils/Url";
 
 export async function fetchCategories() {
   const response = await backendHttpClient
@@ -31,7 +32,11 @@ export async function fetchQuestions(categoryId: number) {
 
 export async function fetchQuestion(questionId: number) {
   const response = await backendHttpClient
-    .get<Question>(`/api/questions/${questionId}`)
+    .get<Question>(
+      replaceUrlParams(BACKEND_URLS.QUESTIONS.QUESTION, {
+        questionId: questionId.toString(),
+      })
+    )
     .then((response) => response.data)
     .catch((error) => {
       throw error;

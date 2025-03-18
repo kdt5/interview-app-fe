@@ -41,7 +41,7 @@ export const BACKEND_URLS = {
   },
   ANSWERS: {
     MINE: "/api/answers/mine",
-    ANSWER_RECORD: "/api/answers/record",
+    ANSWER_RECORD: "/api/answers/:questionId",
   },
   FAVORITES: {
     MINE: "/api/favorites/mine",

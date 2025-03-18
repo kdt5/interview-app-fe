@@ -35,13 +35,8 @@ function AnswerPage() {
       return;
     }
 
-    const data = {
-      answer: answer,
-      questionId: question.id,
-    };
-
     try {
-      await recordAnswer(data);
+      await recordAnswer(answer, question.id);
       toggleModal("confirm", false);
       toggleModal("alert", true);
     } catch (error) {
@@ -93,7 +88,7 @@ function AnswerPage() {
         </div>
         <h2 className="question-title">{question && question.title}</h2>
         <span className="category-name">
-          {question && getCategoryName(question.categoryId)}
+          {question && getCategoryName(question.categories[0])}
         </span>
       </div>
       <form action="/" className="answer-box">

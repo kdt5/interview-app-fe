@@ -1,9 +1,11 @@
+import { BACKEND_URLS } from "../constants/Urls";
 import { Question } from "../models/Question.model";
+import { replaceUrlParams } from "../utils/Url";
 import { backendHttpClient } from "./BackendHttpClient.api";
 
 export async function fetchAnsweredQuestions() {
   const response = await backendHttpClient
-    .get<Question[]>(`/api/answers/mine`)
+    .get<Question[]>(BACKEND_URLS.ANSWERS.MINE)
     .then((response) => response.data)
     .catch((error) => {
       throw error;
@@ -12,15 +14,17 @@ export async function fetchAnsweredQuestions() {
   return response;
 }
 
-export async function recordAnswer(data: {
-  answer: string;
-  questionId: number;
-}) {
+export async function recordAnswer(answer: string, questionId: number) {
   const response = await backendHttpClient
-    .post(`/api/answers/record`, {
-      id: data.questionId,
-      content: data.answer,
-    })
+    .post(
+      replaceUrlParams(BACKEND_URLS.ANSWERS.ANSWER_RECORD, {
+        questionId: questionId.toString(),
+      }),
+      {
+        id: questionId,
+        content: answer,
+      }
+    )
     .then((response) => response.data)
     .catch((error) => {
       throw error;

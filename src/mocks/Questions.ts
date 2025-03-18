@@ -20,7 +20,7 @@ export const questions = http.get(
 );
 
 export const question = http.get(
-  `${import.meta.env.VITE_BACKEND_BASE_URL}/api/questions/:questionId`,
+  `${import.meta.env.VITE_BACKEND_BASE_URL}${BACKEND_URLS.QUESTIONS.QUESTION}`,
   ({ params }) => {
     const { questionId } = params;
 
@@ -32,7 +32,7 @@ export const question = http.get(
     const questionsData: Question[] = Array.from({ length: 20 }).map(
       (_, index) => ({
         id: index,
-        categoryId: faker.helpers.rangeToNumber({ min: 0, max: 5 }),
+        categories: [faker.helpers.rangeToNumber({ min: 0, max: 5 })],
         title: faker.lorem.sentence(),
         content: faker.lorem.paragraph(),
         isAnswered: faker.datatype.boolean(),
