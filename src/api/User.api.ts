@@ -1,7 +1,5 @@
 import { BACKEND_URLS } from "../constants/Urls";
 import { UserBasicInfo } from "../models/User.model";
-import { LoginProps } from "../pages/LoginPage";
-import { JoinProps } from "../pages/SignUpPage";
 import { backendHttpClient } from "./BackendHttpClient.api";
 
 export async function fetchMyUserData(): Promise<UserBasicInfo> {
@@ -13,14 +11,4 @@ export async function fetchMyUserData(): Promise<UserBasicInfo> {
     });
 
   return response;
-}
-
-export async function signup(userData: JoinProps) {
-  const response = await backendHttpClient.post("/api/auth/signup", userData);
-  return response.data;
-}
-
-export async function login(userData: LoginProps) {
-  const response = await backendHttpClient.post("/api/auth/login", userData);
-  return response.data;
 }
