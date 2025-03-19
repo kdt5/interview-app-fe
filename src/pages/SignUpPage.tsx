@@ -1,22 +1,73 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { signUp } from "../api/Auth.api";
+import { checkEmailExists, checkNicknameExists, signUp } from "../api/Auth.api";
 import { GlobalStyle } from "../styles/global";
+import { ErrorMessage } from "@hookform/error-message";
+import {
+  EMAIL_MAX_LENGTH,
+  PASSWORD_MIN_LENGTH,
+  NICKNAME_MAX_LENGTH,
+  NICKNAME_MIN_LENGTH,
+} from "../constants/Auth";
+import { useState } from "react";
 
 export default SignUpPage;
 
-export interface JoinProps {
+export interface SignUpInputs {
   email: string;
   password: string;
-  nickName: string;
+  nickname: string;
 }
 
 function SignUpPage() {
   const navigate = useNavigate();
-  const { register, handleSubmit } = useForm<JoinProps>();
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    formState: { isValid, errors },
+  } = useForm<SignUpInputs>();
+  const [isEmailAvailable, setIsEmailAvailable] = useState(false);
+  const [isNicknameAvailable, setIsNicknameAvailable] = useState(false);
 
-  const onSubmit = (data: JoinProps) => {
+  console.log(errors);
+  const onClickEmailCheck = (email: string) => {
+    if (!isValid) {
+      return;
+    }
+    checkEmailExists(email).then((exists) => {
+      if (exists) {
+        setIsEmailAvailable(true);
+      }
+    });
+  };
+
+  const onClickNicknameCheck = (nickname: string) => {
+    if (!isValid) {
+      return;
+    }
+
+    checkNicknameExists(nickname).then((exists) => {
+      if (exists) {
+        setIsNicknameAvailable(true);
+      }
+    });
+  };
+
+  const onChangeEmail = () => {
+    if (isEmailAvailable) {
+      setIsEmailAvailable(false);
+    }
+  };
+
+  const onChangeNickname = () => {
+    if (isNicknameAvailable) {
+      setIsNicknameAvailable(false);
+    }
+  };
+
+  const onSubmit = (data: SignUpInputs) => {
     signUp(data).then(() => {
       navigate("/login");
     });
@@ -32,36 +83,118 @@ function SignUpPage() {
         </p>
 
         <span className="sub-title">인터뷰잇 회원이 아니시라면?</span>
-        <form className="join-form" onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} noValidate>
           <div className="join-form__container">
             <input
               placeholder="이메일 입력"
               type="email"
-              className="join-form__input"
-              {...register("email", { required: true })}
-            ></input>
-
+              className={
+                errors.email === undefined
+                  ? "join-form__input"
+                  : "join-form__error-input"
+              }
+              {...register("email", {
+                required: { value: true, message: "이메일을 입력해주세요." },
+                pattern: {
+                  value: /^\S+@\S+$/i,
+                  message: "유효한 이메일 형식이 아닙니다.",
+                },
+                maxLength: {
+                  value: EMAIL_MAX_LENGTH,
+                  message: `이메일은 ${EMAIL_MAX_LENGTH}자 이하로 입력해주세요.`,
+                },
+                onChange: onChangeEmail,
+              })}
+            />
+            <ErrorMessage
+              errors={errors}
+              name="email"
+              render={({ message }) => (
+                <span className="error-message">{message}</span>
+              )}
+            />
+            {isEmailAvailable && (
+              <span className="valid-message">사용 가능한 이메일입니다.</span>
+            )}
             <div className="join-form__container-btn">
-              <button className="join-form__btn-chk">중복 확인</button>
+              <button
+                className="join-form__btn-chk"
+                onClick={() => onClickEmailCheck(getValues("email"))}
+              >
+                중복 확인
+              </button>
             </div>
           </div>
-
-          <input
-            placeholder="비밀번호 입력"
-            type="password"
-            className="join-form__input"
-            {...register("password", { required: true })}
-          ></input>
-
+          <div className="join-form__container">
+            <input
+              placeholder="비밀번호 입력"
+              type="password"
+              className={
+                errors.password === undefined
+                  ? "join-form__input"
+                  : "join-form__error-input"
+              }
+              {...register("password", {
+                required: {
+                  value: true,
+                  message: "비밀번호를 입력해주세요.",
+                },
+                minLength: {
+                  value: PASSWORD_MIN_LENGTH,
+                  message: `비밀번호는 최소 ${PASSWORD_MIN_LENGTH}자 이상입니다.`,
+                },
+              })}
+            />
+            <ErrorMessage
+              errors={errors}
+              name="password"
+              render={({ message }) => (
+                <span className="error-message">{message}</span>
+              )}
+            />
+          </div>
           <div className="join-form__container">
             <input
               placeholder="닉네임 입력"
               type="text"
-              className="join-form__input"
-              {...register("nickName", { required: true })}
-            ></input>
+              className={
+                errors.nickname === undefined
+                  ? "join-form__input"
+                  : "join-form__error-input"
+              }
+              {...register("nickname", {
+                required: {
+                  value: true,
+                  message: "닉네임을 입력해주세요.",
+                },
+                minLength: {
+                  value: NICKNAME_MIN_LENGTH,
+                  message: `닉네임은 ${NICKNAME_MIN_LENGTH}자 이상 ${NICKNAME_MAX_LENGTH}자 이하입니다`,
+                },
+                maxLength: {
+                  value: NICKNAME_MAX_LENGTH,
+                  message: `닉네임은 ${NICKNAME_MIN_LENGTH}자 이상 ${NICKNAME_MAX_LENGTH}자 이하입니다`,
+                },
+                onChange: onChangeNickname,
+              })}
+            />
+            <ErrorMessage
+              errors={errors}
+              name="nickname"
+              render={({ message }) => (
+                <span className="error-message">{message}</span>
+              )}
+            />
+            {isNicknameAvailable && (
+              <span className="valid-message">사용 가능한 닉네임입니다.</span>
+            )}
             <div className="join-form__container-btn">
-              <button className="join-form__btn-chk">중복 확인</button>
+              <button
+                className="join-form__btn-chk"
+                onClick={() => onClickNicknameCheck(getValues("nickname"))}
+              >
+                중복 확인
+              </button>
             </div>
           </div>
           <button type="submit" className="join-form__btn">
@@ -96,12 +229,33 @@ const SignUpPageStyle = styled.div`
     margin-top: 100px;
   }
 
+  .join-form__container {
+    display: flex;
+    position: relative;
+
+    .error-message {
+      color: red;
+      font-size: 12px;
+      position: absolute;
+      bottom: 0px;
+      left: 10px;
+    }
+
+    .valid-message {
+      color: green;
+      font-size: 12px;
+      position: absolute;
+      bottom: 0px;
+      left: 10px;
+    }
+  }
+
   .join-form__input {
     border: none;
     padding: 15px;
-    font-size: 20px;
+    font-size: 16px;
     border-bottom: 1px solid #ffffff;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     background-color: #6ea1ff;
     color: #ffffff;
     width: 100%;
@@ -111,6 +265,22 @@ const SignUpPageStyle = styled.div`
   .join-form__input:focus {
     outline: none;
     border-bottom: 2px solid #ffffff;
+  }
+
+  .join-form__error-input {
+    border: none;
+    padding: 15px;
+    font-size: 16px;
+    border-bottom: 1px solid red;
+    margin-bottom: 20px;
+    background-color: #6ea1ff;
+    color: #ffffff;
+    width: 100%;
+  }
+
+  .join-form__error-input:focus {
+    outline: none;
+    border-bottom: 2px solid red;
   }
 
   .join-form__btn {
@@ -127,11 +297,6 @@ const SignUpPageStyle = styled.div`
     line-height: 1;
     cursor: pointer;
     font-weight: 600;
-  }
-
-  .join-form__container {
-    display: flex;
-    position: relative;
   }
 
   .join-form__container-btn {
