@@ -26,48 +26,104 @@ function SignUpPage() {
     register,
     handleSubmit,
     getValues,
-    formState: { isValid, errors },
-  } = useForm<SignUpInputs>();
-  const [isEmailAvailable, setIsEmailAvailable] = useState(false);
-  const [isNicknameAvailable, setIsNicknameAvailable] = useState(false);
+    trigger,
+    setError,
+    clearErrors,
+    formState: { errors, isValid },
+  } = useForm<SignUpInputs>({ mode: "onChange" });
+  const [isEmailUnique, setIsEmailUnique] = useState(false);
+  const [isNicknameUnique, setIsNicknameUnique] = useState(false);
+  const canSubmit = isValid && isEmailUnique && isNicknameUnique;
 
   const onClickEmailCheck = (email: string) => {
-    if (!isValid) {
+    trigger("email");
+    if (errors.email !== undefined) {
       return;
     }
 
-    checkEmailExists(email).then((exists) => {
-      if (exists) {
-        setIsEmailAvailable(true);
-      }
-    });
+    checkEmailExists(email)
+      .then((exists) => {
+        if (!exists) {
+          setIsEmailUnique(true);
+        } else {
+          setError("email", {
+            type: "manual",
+            message: "중복된 이메일입니다.",
+          });
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        setError("email", {
+          type: "manual",
+          message: "오류가 발생했습니다.",
+        });
+      });
   };
 
   const onClickNicknameCheck = (nickname: string) => {
-    if (!isValid) {
+    trigger("nickname");
+    if (errors.nickname !== undefined) {
       return;
     }
 
-    checkNicknameExists(nickname).then((exists) => {
-      if (exists) {
-        setIsNicknameAvailable(true);
-      }
-    });
+    checkNicknameExists(nickname)
+      .then((exists) => {
+        if (!exists) {
+          setIsNicknameUnique(true);
+        } else {
+          setError("email", {
+            type: "manual",
+            message: "중복된 닉네임입니다.",
+          });
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        setError("email", {
+          type: "manual",
+          message: "오류가 발생했습니다.",
+        });
+      });
   };
 
   const onChangeEmail = () => {
-    if (isEmailAvailable) {
-      setIsEmailAvailable(false);
+    if (isEmailUnique) {
+      setIsEmailUnique(false);
+      clearErrors("email");
+    } else {
+      setTimeout(() => {
+        if (errors.email !== undefined) return;
+
+        setError("email", {
+          type: "manual",
+          message: "이메일 중복 검사를 해주세요.",
+        });
+      }, 1);
     }
   };
 
   const onChangeNickname = () => {
-    if (isNicknameAvailable) {
-      setIsNicknameAvailable(false);
+    if (isNicknameUnique) {
+      setIsNicknameUnique(false);
+      clearErrors("nickname");
+    } else {
+      setTimeout(() => {
+        if (errors.nickname !== undefined) return;
+
+        setError("nickname", {
+          type: "manual",
+          message: "닉네임 중복 검사를 해주세요.",
+        });
+      }, 1);
     }
   };
 
   const onSubmit = (data: SignUpInputs) => {
+    if (!canSubmit) {
+      return;
+    }
+
     signUp(data).then(() => {
       navigate("/login");
     });
@@ -76,7 +132,7 @@ function SignUpPage() {
   return (
     <>
       <GlobalStyle />
-      <SignUpPageStyle>
+      <SignUpPageStyle $canSubmit={canSubmit}>
         <p className="main-title">
           함께하는 면접, <br />
           합격까지 한걸음 더!
@@ -113,12 +169,15 @@ function SignUpPage() {
                 <span className="error-message">{message}</span>
               )}
             />
-            {isEmailAvailable && (
-              <span className="valid-message">사용 가능한 이메일입니다.</span>
+            {isEmailUnique && (
+              <span className="duplication-message">
+                사용 가능한 이메일입니다.
+              </span>
             )}
             <div className="join-form__container-btn">
               <button
                 className="join-form__btn-chk"
+                type="button"
                 onClick={() => onClickEmailCheck(getValues("email"))}
               >
                 중복 확인
@@ -163,6 +222,7 @@ function SignUpPage() {
                   : "join-form__error-input"
               }
               {...register("nickname", {
+                onChange: onChangeNickname,
                 required: {
                   value: true,
                   message: "닉네임을 입력해주세요.",
@@ -175,7 +235,6 @@ function SignUpPage() {
                   value: NICKNAME_MAX_LENGTH,
                   message: `닉네임은 ${NICKNAME_MIN_LENGTH}자 이상 ${NICKNAME_MAX_LENGTH}자 이하입니다`,
                 },
-                onChange: onChangeNickname,
               })}
             />
             <ErrorMessage
@@ -185,19 +244,26 @@ function SignUpPage() {
                 <span className="error-message">{message}</span>
               )}
             />
-            {isNicknameAvailable && (
-              <span className="valid-message">사용 가능한 닉네임입니다.</span>
+            {isNicknameUnique && (
+              <span className="duplication-message">
+                사용 가능한 닉네임입니다.
+              </span>
             )}
             <div className="join-form__container-btn">
               <button
                 className="join-form__btn-chk"
+                type="button"
                 onClick={() => onClickNicknameCheck(getValues("nickname"))}
               >
                 중복 확인
               </button>
             </div>
           </div>
-          <button type="submit" className="join-form__btn">
+          <button
+            type="submit"
+            className="join-form__btn"
+            disabled={!canSubmit}
+          >
             회원가입
           </button>
         </form>
@@ -206,7 +272,11 @@ function SignUpPage() {
   );
 }
 
-const SignUpPageStyle = styled.div`
+interface SignUpPageStyleProps {
+  $canSubmit: boolean;
+}
+
+const SignUpPageStyle = styled.div<SignUpPageStyleProps>`
   width: 100%;
   max-width: 380px;
   height: 100dvh;
@@ -241,7 +311,7 @@ const SignUpPageStyle = styled.div`
       left: 10px;
     }
 
-    .valid-message {
+    .duplication-message {
       color: green;
       font-size: 12px;
       position: absolute;
@@ -295,7 +365,8 @@ const SignUpPageStyle = styled.div`
     padding: 15px 20px;
     text-align: center;
     line-height: 1;
-    cursor: pointer;
+    opacity: ${(props) => (props.$canSubmit ? 1 : 0.5)};
+    cursor: ${(props) => (props.$canSubmit ? "pointer" : "not-allowed")};
     font-weight: 600;
   }
 
