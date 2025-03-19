@@ -31,11 +31,11 @@ function SignUpPage() {
   const [isEmailAvailable, setIsEmailAvailable] = useState(false);
   const [isNicknameAvailable, setIsNicknameAvailable] = useState(false);
 
-  console.log(errors);
   const onClickEmailCheck = (email: string) => {
     if (!isValid) {
       return;
     }
+
     checkEmailExists(email).then((exists) => {
       if (exists) {
         setIsEmailAvailable(true);
