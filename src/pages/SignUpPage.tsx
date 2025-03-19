@@ -71,7 +71,7 @@ function SignUpPage() {
         if (!exists) {
           setIsNicknameUnique(true);
         } else {
-          setError("email", {
+          setError("nickname", {
             type: "manual",
             message: "중복된 닉네임입니다.",
           });
@@ -79,7 +79,7 @@ function SignUpPage() {
       })
       .catch((error) => {
         console.error(error);
-        setError("email", {
+        setError("nickname", {
           type: "manual",
           message: "오류가 발생했습니다.",
         });
