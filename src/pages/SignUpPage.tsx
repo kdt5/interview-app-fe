@@ -10,7 +10,9 @@ import {
   NICKNAME_MAX_LENGTH,
   NICKNAME_MIN_LENGTH,
 } from "../constants/Auth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import ConfirmModal from "../components/common/ConfirmModal";
+import AlertModal from "../components/common/AlertModal";
 export default SignUpPage;
 
 export interface SignUpInputs {
@@ -32,32 +34,45 @@ function SignUpPage() {
   } = useForm<SignUpInputs>({ mode: "onChange" });
   const [isEmailUnique, setIsEmailUnique] = useState(false);
   const [isNicknameUnique, setIsNicknameUnique] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState({
+    confirm: false,
+    alert: false,
+  });
   const canSubmit = isValid && isEmailUnique && isNicknameUnique;
+
+  // useEffect(() => {
+  //   if (errors.email !== undefined) {
+  //     setIsEmailUnique(false);
+  //   }
+  // }, [errors.email]);
 
   const onClickEmailCheck = (email: string) => {
     trigger("email");
+    console.log(errors.email);
+
     if (errors.email !== undefined) {
       return;
     }
+    setIsEmailUnique(true);
 
-    checkEmailExists(email)
-      .then((exists) => {
-        if (!exists) {
-          setIsEmailUnique(true);
-        } else {
-          setError("email", {
-            type: "manual",
-            message: "중복된 이메일입니다.",
-          });
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-        setError("email", {
-          type: "manual",
-          message: "오류가 발생했습니다.",
-        });
-      });
+    // checkEmailExists(email)
+    //   .then((exists) => {
+    //     if (!exists) {
+    //       setIsEmailUnique(true);
+    //     } else {
+    //       setError("email", {
+    //         type: "manual",
+    //         message: "중복된 이메일입니다.",
+    //       });
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //     setError("email", {
+    //       type: "manual",
+    //       message: "오류가 발생했습니다.",
+    //     });
+    //   });
   };
 
   const onClickNicknameCheck = (nickname: string) => {
@@ -65,25 +80,26 @@ function SignUpPage() {
     if (errors.nickname !== undefined) {
       return;
     }
+    setIsNicknameUnique(true);
 
-    checkNicknameExists(nickname)
-      .then((exists) => {
-        if (!exists) {
-          setIsNicknameUnique(true);
-        } else {
-          setError("nickname", {
-            type: "manual",
-            message: "중복된 닉네임입니다.",
-          });
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-        setError("nickname", {
-          type: "manual",
-          message: "오류가 발생했습니다.",
-        });
-      });
+    // checkNicknameExists(nickname)
+    //   .then((exists) => {
+    //     if (!exists) {
+    //       setIsNicknameUnique(true);
+    //     } else {
+    //       setError("nickname", {
+    //         type: "manual",
+    //         message: "중복된 닉네임입니다.",
+    //       });
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //     setError("nickname", {
+    //       type: "manual",
+    //       message: "오류가 발생했습니다.",
+    //     });
+    //   });
   };
 
   const onChangeEmail = () => {
@@ -123,9 +139,13 @@ function SignUpPage() {
       return;
     }
 
-    signUp(data).then(() => {
-      navigate("/login");
-    });
+    signUp(data)
+      .then(() => {
+        navigate("/login");
+      })
+      .then(() => {
+        setIsModalVisible({ confirm: false, alert: true });
+      });
   };
 
   return (
@@ -256,12 +276,33 @@ function SignUpPage() {
             )}
           </div>
           <button
-            type="submit"
+            type="button"
             className="join-form__btn"
             disabled={!canSubmit}
+            onClick={() =>
+              setIsModalVisible((prev) => ({ ...prev, confirm: true }))
+            }
           >
             회원가입
           </button>
+          {isModalVisible.confirm && (
+            <ConfirmModal
+              onClose={() => {
+                setIsModalVisible((prev) => ({ ...prev, alert: false }));
+              }}
+              onConfirm={handleSubmit(onSubmit)}
+              message="회원가입 하시겠습니까?"
+            />
+          )}
+          {isModalVisible.alert && (
+            <AlertModal
+              onClose={() => {
+                setIsModalVisible({ confirm: false, alert: false });
+                navigate("/login");
+              }}
+              message="회원가입이 완료되었습니다."
+            />
+          )}
         </form>
       </SignUpPageStyle>
     </>
