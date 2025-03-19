@@ -2,6 +2,11 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { login } from "../api/Auth.api";
+import { Link } from "react-router-dom";
+import { FRONTEND_URLS } from "../constants/Urls";
+import { GlobalStyle } from "../styles/global";
+
+export default LoginPage;
 
 export interface LoginProps {
   email: string;
@@ -19,46 +24,49 @@ function LoginPage() {
   };
 
   return (
-    <LayoutStyle>
-      <p className="main-title">
-        함께하는 면접, <br />
-        합격까지 한걸음 더!
-      </p>
-      <span className="sub-title">
-        인터뷰잇 서비스 이용을 위해 로그인 해주세요.
-      </span>
+    <>
+      <GlobalStyle />
+      <LoginPageStyle>
+        <p className="main-title">
+          함께하는 면접, <br />
+          합격까지 한걸음 더!
+        </p>
+        <span className="sub-title">
+          인터뷰잇 서비스 이용을 위해 로그인 해주세요.
+        </span>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="login-form">
-          <input
-            placeholder="아이디 입력"
-            type="text"
-            className="login-form__input"
-            {...register("email", { required: true })}
-          ></input>
-          <input
-            placeholder="비밀번호 입력"
-            type="password"
-            className="login-form__input"
-            {...register("password", { required: true })}
-          ></input>
-          <div className="login-form__column">
-            <span>아이디 찾기</span>
-            <span>비밀번호 찾기</span>
-            <span>회원가입</span>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="login-form">
+            <input
+              placeholder="이메일 입력"
+              type="text"
+              className="login-form__input"
+              {...register("email", { required: true })}
+            ></input>
+            <input
+              placeholder="비밀번호 입력"
+              type="password"
+              className="login-form__input"
+              {...register("password", { required: true })}
+            ></input>
+            <div className="login-form__column">
+              <span>아이디 찾기</span>
+              <span>비밀번호 찾기</span>
+              <Link to={FRONTEND_URLS.SIGNUP}>
+                <span>회원가입</span>
+              </Link>
+            </div>
           </div>
-        </div>
-        <button type="submit" className="login-form__btn">
-          로그인
-        </button>
-      </form>
-    </LayoutStyle>
+          <button type="submit" className="login-form__btn">
+            로그인
+          </button>
+        </form>
+      </LoginPageStyle>
+    </>
   );
 }
 
-export default LoginPage;
-
-const LayoutStyle = styled.div`
+const LoginPageStyle = styled.div`
   width: 100%;
   max-width: 380px;
   height: 100dvh;
@@ -69,13 +77,14 @@ const LayoutStyle = styled.div`
   .main-title {
     color: #ffffff;
     font-weight: 600;
-    font-size: 25px;
+    font-size: 30px;
   }
 
   .sub-title {
     color: #ffffff;
-    font-size: 15px;
+    font-size: 16px;
   }
+
   .login-form {
     margin-top: 100px;
   }
@@ -88,10 +97,7 @@ const LayoutStyle = styled.div`
     margin-bottom: 15px;
     background-color: #6ea1ff;
     color: #ffffff;
-    opcity: 0.6;
     width: 100%;
-    fouce {
-    }
   }
 
   .login-form__input:focus {
@@ -103,12 +109,12 @@ const LayoutStyle = styled.div`
     display: flex;
     font-size: 10px;
     color: #ffffff;
-    opcity: 0.6;
     justify-content: flex-end;
   }
 
   .login-form__column span {
     border-right: 1px solid #ffffff;
+    color: #ffffff;
 
     padding: 0 10px;
   }

@@ -2,6 +2,9 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { signUp } from "../api/Auth.api";
+import { GlobalStyle } from "../styles/global";
+
+export default SignUpPage;
 
 export interface JoinProps {
   email: string;
@@ -20,55 +23,57 @@ function SignUpPage() {
   };
 
   return (
-    <LayoutStyle>
-      <p className="main-title">
-        함께하는 면접, <br />
-        합격까지 한걸음 더!
-      </p>
+    <>
+      <GlobalStyle />
+      <SignUpPageStyle>
+        <p className="main-title">
+          함께하는 면접, <br />
+          합격까지 한걸음 더!
+        </p>
 
-      <span className="sub-title">인터뷰잇 회원이 아니시라면?</span>
-      <form className="join-form" onSubmit={handleSubmit(onSubmit)}>
-        <div className="join-form__container">
+        <span className="sub-title">인터뷰잇 회원이 아니시라면?</span>
+        <form className="join-form" onSubmit={handleSubmit(onSubmit)}>
+          <div className="join-form__container">
+            <input
+              placeholder="이메일 입력"
+              type="email"
+              className="join-form__input"
+              {...register("email", { required: true })}
+            ></input>
+
+            <div className="join-form__container-btn">
+              <button className="join-form__btn-chk">중복 확인</button>
+            </div>
+          </div>
+
           <input
-            placeholder="이메일 입력"
-            type="email"
+            placeholder="비밀번호 입력"
+            type="password"
             className="join-form__input"
-            {...register("email", { required: true })}
+            {...register("password", { required: true })}
           ></input>
 
-          <div className="join-form__container-btn">
-            <button className="join-form__btn-chk">중복 확인</button>
+          <div className="join-form__container">
+            <input
+              placeholder="닉네임 입력"
+              type="text"
+              className="join-form__input"
+              {...register("nickName", { required: true })}
+            ></input>
+            <div className="join-form__container-btn">
+              <button className="join-form__btn-chk">중복 확인</button>
+            </div>
           </div>
-        </div>
-
-        <input
-          placeholder="비밀번호 입력"
-          type="password"
-          className="join-form__input"
-          {...register("password", { required: true })}
-        ></input>
-
-        <div className="join-form__container">
-          <input
-            placeholder="닉네임 입력"
-            type="text"
-            className="join-form__input"
-            {...register("nickName", { required: true })}
-          ></input>
-          <div className="join-form__container-btn">
-            <button className="join-form__btn-chk">중복 확인</button>
-          </div>
-        </div>
-        <button type="submit" className="join-form__btn">
-          회원가입
-        </button>
-      </form>
-    </LayoutStyle>
+          <button type="submit" className="join-form__btn">
+            회원가입
+          </button>
+        </form>
+      </SignUpPageStyle>
+    </>
   );
 }
 
-export default SignUpPage;
-const LayoutStyle = styled.div`
+const SignUpPageStyle = styled.div`
   width: 100%;
   max-width: 380px;
   height: 100dvh;
@@ -79,13 +84,14 @@ const LayoutStyle = styled.div`
   .main-title {
     color: #ffffff;
     font-weight: 600;
-    font-size: 25px;
+    font-size: 30px;
   }
 
   .sub-title {
     color: #ffffff;
-    font-size: 15px;
+    font-size: 16px;
   }
+
   .join-form {
     margin-top: 100px;
   }
@@ -98,7 +104,6 @@ const LayoutStyle = styled.div`
     margin-bottom: 15px;
     background-color: #6ea1ff;
     color: #ffffff;
-    opacity: 0.6;
     width: 100%;
     height: 60px;
   }
@@ -139,13 +144,14 @@ const LayoutStyle = styled.div`
   .join-form__btn-chk {
     width: 100px;
     height: 45px;
-    border-radius: 15px;
+    border-radius: 10px;
     flex-direction: column;
     align-items: center;
     border: 1px solid #ffffff;
     background: #ffffff;
     color: #6ea1ff;
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 16px;
+    font-weight: 400;
+    padding: 15px 10px;
   }
 `;
