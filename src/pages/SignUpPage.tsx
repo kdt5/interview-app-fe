@@ -11,7 +11,6 @@ import {
   NICKNAME_MIN_LENGTH,
 } from "../constants/Auth";
 import { useState } from "react";
-
 export default SignUpPage;
 
 export interface SignUpInputs {
@@ -137,31 +136,41 @@ function SignUpPage() {
           함께하는 면접, <br />
           합격까지 한걸음 더!
         </p>
-
         <span className="sub-title">인터뷰잇 회원이 아니시라면?</span>
-        <form onSubmit={handleSubmit(onSubmit)} noValidate>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          noValidate
+          className="join-form"
+        >
           <div className="join-form__container">
-            <input
-              placeholder="이메일 입력"
-              type="email"
-              className={
-                errors.email === undefined
-                  ? "join-form__input"
-                  : "join-form__error-input"
-              }
-              {...register("email", {
-                required: { value: true, message: "이메일을 입력해주세요." },
-                pattern: {
-                  value: /^\S+@\S+$/i,
-                  message: "유효한 이메일 형식이 아닙니다.",
-                },
-                maxLength: {
-                  value: EMAIL_MAX_LENGTH,
-                  message: `이메일은 ${EMAIL_MAX_LENGTH}자 이하로 입력해주세요.`,
-                },
-                onChange: onChangeEmail,
-              })}
-            />
+            <div className="join-form__input-container">
+              <input
+                placeholder="이메일 입력"
+                type="email"
+                className="join-form__input"
+                {...register("email", {
+                  required: { value: true, message: "이메일을 입력해주세요." },
+                  pattern: {
+                    value: /^\S+@\S+$/i,
+                    message: "유효한 이메일 형식이 아닙니다.",
+                  },
+                  maxLength: {
+                    value: EMAIL_MAX_LENGTH,
+                    message: `이메일은 ${EMAIL_MAX_LENGTH}자 이하로 입력해주세요.`,
+                  },
+                  onChange: onChangeEmail,
+                })}
+              />
+              <div className="join-form__container-btn">
+                <button
+                  className="join-form__btn-chk"
+                  onClick={() => onClickEmailCheck(getValues("email"))}
+                  type="button"
+                >
+                  중복 확인
+                </button>
+              </div>
+            </div>
             <ErrorMessage
               errors={errors}
               name="email"
@@ -174,36 +183,25 @@ function SignUpPage() {
                 사용 가능한 이메일입니다.
               </span>
             )}
-            <div className="join-form__container-btn">
-              <button
-                className="join-form__btn-chk"
-                type="button"
-                onClick={() => onClickEmailCheck(getValues("email"))}
-              >
-                중복 확인
-              </button>
-            </div>
           </div>
           <div className="join-form__container">
-            <input
-              placeholder="비밀번호 입력"
-              type="password"
-              className={
-                errors.password === undefined
-                  ? "join-form__input"
-                  : "join-form__error-input"
-              }
-              {...register("password", {
-                required: {
-                  value: true,
-                  message: "비밀번호를 입력해주세요.",
-                },
-                minLength: {
-                  value: PASSWORD_MIN_LENGTH,
-                  message: `비밀번호는 최소 ${PASSWORD_MIN_LENGTH}자 이상입니다.`,
-                },
-              })}
-            />
+            <div className="join-form__input-container">
+              <input
+                placeholder="비밀번호 입력"
+                type="password"
+                className="join-form__input"
+                {...register("password", {
+                  required: {
+                    value: true,
+                    message: "비밀번호를 입력해주세요.",
+                  },
+                  minLength: {
+                    value: PASSWORD_MIN_LENGTH,
+                    message: `비밀번호는 최소 ${PASSWORD_MIN_LENGTH}자 이상입니다.`,
+                  },
+                })}
+              />
+            </div>
             <ErrorMessage
               errors={errors}
               name="password"
@@ -213,30 +211,37 @@ function SignUpPage() {
             />
           </div>
           <div className="join-form__container">
-            <input
-              placeholder="닉네임 입력"
-              type="text"
-              className={
-                errors.nickname === undefined
-                  ? "join-form__input"
-                  : "join-form__error-input"
-              }
-              {...register("nickname", {
-                onChange: onChangeNickname,
-                required: {
-                  value: true,
-                  message: "닉네임을 입력해주세요.",
-                },
-                minLength: {
-                  value: NICKNAME_MIN_LENGTH,
-                  message: `닉네임은 ${NICKNAME_MIN_LENGTH}자 이상 ${NICKNAME_MAX_LENGTH}자 이하입니다`,
-                },
-                maxLength: {
-                  value: NICKNAME_MAX_LENGTH,
-                  message: `닉네임은 ${NICKNAME_MIN_LENGTH}자 이상 ${NICKNAME_MAX_LENGTH}자 이하입니다`,
-                },
-              })}
-            />
+            <div className="join-form__input-container">
+              <input
+                placeholder="닉네임 입력"
+                type="text"
+                className="join-form__input"
+                {...register("nickname", {
+                  onChange: onChangeNickname,
+                  required: {
+                    value: true,
+                    message: "닉네임을 입력해주세요.",
+                  },
+                  minLength: {
+                    value: NICKNAME_MIN_LENGTH,
+                    message: `닉네임은 ${NICKNAME_MIN_LENGTH}자 이상 ${NICKNAME_MAX_LENGTH}자 이하입니다`,
+                  },
+                  maxLength: {
+                    value: NICKNAME_MAX_LENGTH,
+                    message: `닉네임은 ${NICKNAME_MIN_LENGTH}자 이상 ${NICKNAME_MAX_LENGTH}자 이하입니다`,
+                  },
+                })}
+              />
+              <div className="join-form__container-btn">
+                <button
+                  className="join-form__btn-chk"
+                  type="button"
+                  onClick={() => onClickNicknameCheck(getValues("nickname"))}
+                >
+                  중복 확인
+                </button>
+              </div>
+            </div>
             <ErrorMessage
               errors={errors}
               name="nickname"
@@ -249,15 +254,6 @@ function SignUpPage() {
                 사용 가능한 닉네임입니다.
               </span>
             )}
-            <div className="join-form__container-btn">
-              <button
-                className="join-form__btn-chk"
-                type="button"
-                onClick={() => onClickNicknameCheck(getValues("nickname"))}
-              >
-                중복 확인
-              </button>
-            </div>
           </div>
           <button
             type="submit"
@@ -281,52 +277,60 @@ const SignUpPageStyle = styled.div<SignUpPageStyleProps>`
   max-width: 380px;
   height: 100dvh;
   margin: 0 auto;
-  padding: 200px 30px;
+  padding: 180px 30px 120px 30px;
   background-color: #6ea1ff;
 
   .main-title {
     color: #ffffff;
     font-weight: 600;
     font-size: 30px;
+    line-height: 1.3;
+    margin-bottom: 5px;
   }
 
   .sub-title {
     color: #ffffff;
     font-size: 16px;
+    font-weight: 400;
   }
 
   .join-form {
-    margin-top: 100px;
+    margin-top: 60px;
   }
 
   .join-form__container {
     display: flex;
-    position: relative;
+    flex-direction: column;
+    height: 85px;
+
+    .join-form__input-container {
+      display: flex;
+      border-bottom: 1px solid #ffffff;
+    }
+
+    .join-form__input-container.error-email,
+    .join-form__input-container.error-nickname {
+      border-bottom: 1px solid red;
+    }
 
     .error-message {
       color: red;
       font-size: 12px;
-      position: absolute;
-      bottom: 0px;
-      left: 10px;
+      margin: 5px 0 0 5px;
     }
 
     .duplication-message {
       color: green;
       font-size: 12px;
-      position: absolute;
-      bottom: 0px;
-      left: 10px;
+      margin-top: 5px;
     }
   }
 
   .join-form__input {
     border: none;
+    background: none;
     padding: 15px;
     font-size: 16px;
-    border-bottom: 1px solid #ffffff;
-    margin-bottom: 20px;
-    background-color: #6ea1ff;
     color: #ffffff;
     width: 100%;
     height: 60px;
@@ -334,27 +338,10 @@ const SignUpPageStyle = styled.div<SignUpPageStyleProps>`
 
   .join-form__input:focus {
     outline: none;
-    border-bottom: 2px solid #ffffff;
-  }
-
-  .join-form__error-input {
-    border: none;
-    padding: 15px;
-    font-size: 16px;
-    border-bottom: 1px solid red;
-    margin-bottom: 20px;
-    background-color: #6ea1ff;
-    color: #ffffff;
-    width: 100%;
-  }
-
-  .join-form__error-input:focus {
-    outline: none;
-    border-bottom: 2px solid red;
   }
 
   .join-form__btn {
-    margin-top: 120px;
+    margin-top: 80px;
     width: 330px;
     height: 60px;
     font-size: 20px;
@@ -368,13 +355,6 @@ const SignUpPageStyle = styled.div<SignUpPageStyleProps>`
     opacity: ${(props) => (props.$canSubmit ? 1 : 0.5)};
     cursor: ${(props) => (props.$canSubmit ? "pointer" : "not-allowed")};
     font-weight: 600;
-  }
-
-  .join-form__container-btn {
-    position: absolute;
-    top: 5px;
-    bottom: 5px;
-    right: 5px;
   }
 
   .join-form__btn-chk {
