@@ -43,3 +43,52 @@ export async function recordAnswer(answer: string, questionId: number) {
 
   return response;
 }
+
+export async function editAnswer(newAnswer: string, answerId: number) {
+  const response = await backendHttpClient
+    .patch(
+      replaceUrlParams(BACKEND_URLS.ANSWERS.ANSWER_EDIT, {
+        answerId: answerId.toString(),
+      }),
+      {
+        id: answerId,
+        content: newAnswer,
+      }
+    )
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+
+  return response;
+}
+
+export async function deleteAnswer(answerId: number) {
+  const response = await backendHttpClient
+    .delete(
+      replaceUrlParams(BACKEND_URLS.ANSWERS.ANSWER_EDIT, {
+        answerId: answerId.toString(),
+      })
+    )
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+
+  return response;
+}
+
+export async function fetchAnswer(answerId: number) {
+  const response = await backendHttpClient
+    .get<Answer>(
+      replaceUrlParams(BACKEND_URLS.ANSWERS.ANSWER_EDIT, {
+        answerId: answerId.toString(),
+      })
+    )
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+
+  return response;
+}

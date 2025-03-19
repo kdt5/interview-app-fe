@@ -44,12 +44,14 @@ const ConfirmModalStyle = styled.div`
     position: relative;
 
     .confirm-title {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       height: 100px;
       border-bottom: 1px solid #d9d9d9;
       box-sizing: border-box;
 
       .confirm-message {
-        padding-top: 29px;
         text-align: center;
         white-space: pre-wrap;
       }
