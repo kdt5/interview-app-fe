@@ -157,6 +157,7 @@ function SignUpPage() {
           <div className="join-form__container">
             <div className="join-form__input-container">
               <input
+                autoComplete="off"
                 placeholder="이메일 입력"
                 type="email"
                 className="join-form__input"
@@ -199,6 +200,7 @@ function SignUpPage() {
           <div className="join-form__container">
             <div className="join-form__input-container">
               <input
+                autoComplete="off"
                 placeholder="비밀번호 입력"
                 type="password"
                 className="join-form__input"
@@ -225,6 +227,7 @@ function SignUpPage() {
           <div className="join-form__container">
             <div className="join-form__input-container">
               <input
+                autoComplete="off"
                 placeholder="닉네임 입력"
                 type="text"
                 className="join-form__input"
@@ -318,13 +321,13 @@ const SignUpPageStyle = styled.div<SignUpPageStyleProps>`
     font-weight: 600;
     font-size: 30px;
     line-height: 1.3;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
   }
 
   .sub-title {
     color: #ffffff;
     font-size: 16px;
-    font-weight: 400;
+    font-weight: 200;
   }
 
   .join-form {
@@ -335,6 +338,10 @@ const SignUpPageStyle = styled.div<SignUpPageStyleProps>`
     display: flex;
     flex-direction: column;
     height: 85px;
+
+    .join-form__input::placeholder {
+      color: #fff;
+    }
 
     .join-form__input-container {
       display: flex;
@@ -401,6 +408,6 @@ const SignUpPageStyle = styled.div<SignUpPageStyleProps>`
     color: #6ea1ff;
     font-size: 16px;
     font-weight: 400;
-    padding: 15px 10px;
+    padding: 10px;
   }
 `;
