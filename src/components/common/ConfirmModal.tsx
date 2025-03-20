@@ -4,9 +4,10 @@ import Modal from "./Modal";
 interface Props {
   onClose: () => void;
   onConfirm: () => void;
+  message: string;
 }
 
-function ConfirmModal({ onClose, onConfirm }: Props) {
+function ConfirmModal({ onClose, onConfirm, message }: Props) {
   return (
     <Modal width="300px" height="150px">
       <ConfirmModalStyle>
@@ -17,11 +18,7 @@ function ConfirmModal({ onClose, onConfirm }: Props) {
           }}
         >
           <div className="confirm-title">
-            <p className="confirm-message">
-              제출 하시겠습니까?
-              <br />
-              제출 후, 수정 및 삭제는 불가능합니다.
-            </p>
+            <p className="confirm-message">{message}</p>
           </div>
           <div className="confirm-buttons">
             <button className="ok-button" type="button" onClick={onConfirm}>
@@ -54,6 +51,7 @@ const ConfirmModalStyle = styled.div`
       .confirm-message {
         padding-top: 29px;
         text-align: center;
+        white-space: pre-wrap;
       }
     }
 

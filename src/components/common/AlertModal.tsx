@@ -4,21 +4,19 @@ import Modal from "./Modal";
 
 interface Props {
   onClose: () => void;
+  message: string;
 }
 
-function AlertModal({ onClose }: Props) {
-  const navigate = useNavigate();
-
+function AlertModal({ onClose, message }: Props) {
   const handleGoBack = () => {
     onClose();
-    navigate(-1);
   };
 
   return (
     <Modal width="300px" height="150px">
       <AlertModalStyle>
         <div className="alert-modal">
-          <p className="alert-message">제출되었습니다.</p>
+          <p className="alert-message">{message}</p>
           <button className="ok-button" type="button" onClick={handleGoBack}>
             확인
           </button>

@@ -5,7 +5,7 @@ import AlertModal from "../components/common/AlertModal";
 import { useQuestion } from "../hooks/UseQuestion";
 import { useEffect, useState } from "react";
 import { addFavorite, removeFavorite } from "../api/Favorite.api";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { recordAnswer } from "../api/Answer.api";
 import { fetchQuestion } from "../api/Question.api";
 import { Question } from "../models/Question.model";
@@ -15,6 +15,7 @@ type ModalType = "confirm" | "alert";
 function AnswerPage() {
   const questionId = Number(useParams<{ questionId: string }>().questionId);
   const { getCategoryName } = useQuestion();
+  const navigate = useNavigate();
 
   const [question, setQuestion] = useState<Question | undefined>(undefined);
   const [answer, setAnswer] = useState("");
@@ -115,10 +116,17 @@ function AnswerPage() {
         <ConfirmModal
           onClose={() => toggleModal("confirm", false)}
           onConfirm={handleConfirmSubmit}
+          message="제출 하시겠습니까?\n제출 후, 수정 및 삭제는 불가능합니다."
         />
       )}
       {isModalsVisible.alert && (
-        <AlertModal onClose={() => toggleModal("alert", false)} />
+        <AlertModal
+          onClose={() => {
+            toggleModal("alert", false);
+            navigate(-1);
+          }}
+          message="제출되었습니다."
+        />
       )}
     </AnswerPageStyle>
   );
