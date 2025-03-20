@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { FaStar } from "react-icons/fa6";
 import { useEffect, useState } from "react";
-import { useQuestion } from "../hooks/UseQuestion";
 import { useAnswer } from "../hooks/UseAnswer";
 import { ModalType } from "./AnswerPage";
 import ConfirmModal from "../components/common/ConfirmModal";
@@ -10,7 +9,6 @@ import { deleteAnswer, editAnswer } from "../api/Answer.api";
 import { addFavorite, removeFavorite } from "../api/Favorite.api";
 
 function EditAnswerPage() {
-  const { categories } = useQuestion();
   const { question, myAnswer, answerIdNumber, isFavorite } = useAnswer();
 
   const [answer, setAnswer] = useState(myAnswer);
@@ -20,10 +18,6 @@ function EditAnswerPage() {
     confirm: false,
     alert: false,
   });
-
-  const getCategoryName = (categoryId: number) => {
-    return categories.find((category) => category.id === categoryId)?.name;
-  };
 
   const handleEditClick = () => {
     setConfirmMessage("답변을 수정하시겠습니까?");
@@ -112,7 +106,7 @@ function EditAnswerPage() {
         </div>
         <h2 className="question-title">{question && question.title}</h2>
         <span className="category-name">
-          {question && getCategoryName(question.categories[0])}
+          {question && question.categories[0]}
         </span>
       </div>
       <form action="/" className="answer-box">

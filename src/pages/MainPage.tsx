@@ -9,11 +9,6 @@ import { useCategory } from "../hooks/UseCategory";
 
 function MainPage() {
   const { weeklyQuestion } = useQuestion();
-  const { categories } = useCategory();
-
-  const getCategoryName = (categoryId: number) => {
-    return categories.find((category) => category.id === categoryId)?.name;
-  };
 
   return (
     <>
@@ -38,7 +33,7 @@ function MainPage() {
           >
             <p>{weeklyQuestion.title}</p>
             <div>
-              <span>{getCategoryName(weeklyQuestion.categories[0])}</span>
+              <span>{weeklyQuestion.categories[0]}</span>
             </div>
           </Link>
         ) : (

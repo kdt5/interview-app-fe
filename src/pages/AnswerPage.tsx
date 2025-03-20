@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { FaStar } from "react-icons/fa6";
 import ConfirmModal from "../components/common/ConfirmModal";
 import AlertModal from "../components/common/AlertModal";
-import { useCategory } from "../hooks/UseCategory";
 import { useState } from "react";
 import { addFavorite, removeFavorite } from "../api/Favorite.api";
 import { useNavigate } from "react-router-dom";
@@ -13,7 +12,6 @@ export type ModalType = "confirm" | "alert";
 
 function AnswerPage() {
   const navigate = useNavigate();
-  const { categories } = useCategory();
   const { question, isFavorite } = useAnswer();
 
   const [answer, setAnswer] = useState("");
@@ -21,10 +19,6 @@ function AnswerPage() {
     confirm: false,
     alert: false,
   });
-
-  const getCategoryName = (categoryId: number) => {
-    return categories.find((category) => category.id === categoryId)?.name;
-  };
 
   const handleSubmit = () => {
     toggleModal("confirm", true);
@@ -88,7 +82,7 @@ function AnswerPage() {
         </div>
         <h2 className="question-title">{question && question.title}</h2>
         <span className="category-name">
-          {question && getCategoryName(question.categories[0])}
+          {question && question.categories[0]}
         </span>
       </div>
       <form action="/" className="answer-box">

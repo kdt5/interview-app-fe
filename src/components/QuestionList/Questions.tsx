@@ -18,12 +18,7 @@ interface Props {
   getCategoryName: (categoryId: number) => string;
 }
 
-function Questions({
-  className,
-  questions,
-  questionsType,
-  getCategoryName,
-}: Props) {
+function Questions({ className, questions, questionsType }: Props) {
   const options: SwiperOptions = {
     slidesPerView: "auto",
     spaceBetween: 8,
@@ -37,7 +32,7 @@ function Questions({
     <QuestionStyle className={className}>
       <Swiper {...options}>
         {questions.map((question) => {
-          const categoryName = getCategoryName(question.categories[0]);
+          const categoryName = question.categories[0];
 
           return (
             <SwiperSlide key={question.id}>
