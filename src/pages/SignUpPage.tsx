@@ -10,7 +10,7 @@ import {
   NICKNAME_MAX_LENGTH,
   NICKNAME_MIN_LENGTH,
 } from "../constants/Auth";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ConfirmModal from "../components/common/ConfirmModal";
 import AlertModal from "../components/common/AlertModal";
 export default SignUpPage;
@@ -40,97 +40,89 @@ function SignUpPage() {
   });
   const canSubmit = isValid && isEmailUnique && isNicknameUnique;
 
-  // useEffect(() => {
-  //   if (errors.email !== undefined) {
-  //     setIsEmailUnique(false);
-  //   }
-  // }, [errors.email]);
-
-  const onClickEmailCheck = (email: string) => {
-    trigger("email");
-    console.log(errors.email);
+  const onClickEmailCheck = async (email: string) => {
+    await trigger("email");
 
     if (errors.email !== undefined) {
       return;
     }
-    setIsEmailUnique(true);
 
-    // checkEmailExists(email)
-    //   .then((exists) => {
-    //     if (!exists) {
-    //       setIsEmailUnique(true);
-    //     } else {
-    //       setError("email", {
-    //         type: "manual",
-    //         message: "중복된 이메일입니다.",
-    //       });
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //     setError("email", {
-    //       type: "manual",
-    //       message: "오류가 발생했습니다.",
-    //     });
-    //   });
+    checkEmailExists(email)
+      .then((exists) => {
+        if (!exists) {
+          setIsEmailUnique(true);
+        } else {
+          setError("email", {
+            type: "manual",
+            message: "중복된 이메일입니다.",
+          });
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        setError("email", {
+          type: "manual",
+          message: "오류가 발생했습니다.",
+        });
+      });
   };
 
-  const onClickNicknameCheck = (nickname: string) => {
-    trigger("nickname");
+  const onClickNicknameCheck = async (nickname: string) => {
+    await trigger("nickname");
+
     if (errors.nickname !== undefined) {
       return;
     }
-    setIsNicknameUnique(true);
 
-    // checkNicknameExists(nickname)
-    //   .then((exists) => {
-    //     if (!exists) {
-    //       setIsNicknameUnique(true);
-    //     } else {
-    //       setError("nickname", {
-    //         type: "manual",
-    //         message: "중복된 닉네임입니다.",
-    //       });
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //     setError("nickname", {
-    //       type: "manual",
-    //       message: "오류가 발생했습니다.",
-    //     });
-    //   });
+    checkNicknameExists(nickname)
+      .then((exists) => {
+        if (!exists) {
+          setIsNicknameUnique(true);
+        } else {
+          setError("nickname", {
+            type: "manual",
+            message: "중복된 닉네임입니다.",
+          });
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        setError("nickname", {
+          type: "manual",
+          message: "오류가 발생했습니다.",
+        });
+      });
   };
 
-  const onChangeEmail = () => {
+  const onChangeEmail = async () => {
     if (isEmailUnique) {
       setIsEmailUnique(false);
       clearErrors("email");
     } else {
-      setTimeout(() => {
-        if (errors.email !== undefined) return;
+      await trigger("email");
 
-        setError("email", {
-          type: "manual",
-          message: "이메일 중복 검사를 해주세요.",
-        });
-      }, 1);
+      if (errors.email !== undefined) return;
+
+      setError("email", {
+        type: "manual",
+        message: "이메일 중복 검사를 해주세요.",
+      });
     }
   };
 
-  const onChangeNickname = () => {
+  const onChangeNickname = async () => {
     if (isNicknameUnique) {
       setIsNicknameUnique(false);
       clearErrors("nickname");
     } else {
-      setTimeout(() => {
-        if (errors.nickname !== undefined) return;
+      await trigger("email");
 
-        setError("nickname", {
-          type: "manual",
-          message: "닉네임 중복 검사를 해주세요.",
-        });
-      }, 1);
+      if (errors.nickname !== undefined) return;
+
+      setError("nickname", {
+        type: "manual",
+        message: "닉네임 중복 검사를 해주세요.",
+      });
     }
   };
 
@@ -237,7 +229,6 @@ function SignUpPage() {
                 type="text"
                 className="join-form__input"
                 {...register("nickname", {
-                  onChange: onChangeNickname,
                   required: {
                     value: true,
                     message: "닉네임을 입력해주세요.",
@@ -250,6 +241,7 @@ function SignUpPage() {
                     value: NICKNAME_MAX_LENGTH,
                     message: `닉네임은 ${NICKNAME_MIN_LENGTH}자 이상 ${NICKNAME_MAX_LENGTH}자 이하입니다`,
                   },
+                  onChange: onChangeNickname,
                 })}
               />
               <div className="join-form__container-btn">
