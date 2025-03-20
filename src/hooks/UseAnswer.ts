@@ -45,9 +45,9 @@ export function useAnswer() {
   useEffect(() => {
     if (questionId && questionIdNumber) {
       try {
-        fetchQuestion(questionIdNumber).then((question) => {
-          setQuestion(question);
-          setIsFavorite(question.isFavorite ?? false);
+        fetchQuestion(questionIdNumber).then((response) => {
+          setQuestion(response.questionDetail);
+          setIsFavorite(response.questionDetail.isFavorite ?? false);
         });
       } catch (error) {
         console.log(error);

@@ -31,8 +31,8 @@ export function useQuestion() {
         setQuestions(questions);
       });
 
-      fetchWeeklyQuestion().then((question) => {
-        setWeeklyQuestion(question);
+      fetchWeeklyQuestion().then((response) => {
+        setWeeklyQuestion(response.questionDetail);
       });
     } catch (error) {
       console.error(error);

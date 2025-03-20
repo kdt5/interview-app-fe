@@ -4,6 +4,10 @@ import { Category, Question } from "../models/Question.model";
 import { backendHttpClient } from "./BackendHttpClient.api";
 import { replaceUrlParams } from "../utils/Url";
 
+interface WeeklyQuestionResponse {
+  questionDetail: Question;
+}
+
 export async function fetchCategories() {
   const response = await backendHttpClient
     .get<Category[]>(BACKEND_URLS.CATEGORIES.ALL)
@@ -32,7 +36,7 @@ export async function fetchQuestions(categoryId: number) {
 
 export async function fetchQuestion(questionId: number) {
   const response = await backendHttpClient
-    .get<Question>(
+    .get<WeeklyQuestionResponse>(
       replaceUrlParams(BACKEND_URLS.QUESTIONS.QUESTION, {
         questionId: questionId.toString(),
       })
@@ -47,7 +51,7 @@ export async function fetchQuestion(questionId: number) {
 
 export async function fetchWeeklyQuestion() {
   const response = await backendHttpClient
-    .get<Question>(BACKEND_URLS.QUESTIONS.WEEKLY)
+    .get<WeeklyQuestionResponse>(BACKEND_URLS.QUESTIONS.WEEKLY)
     .then((response) => response.data)
     .catch((error) => {
       throw error;
