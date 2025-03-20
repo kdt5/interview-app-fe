@@ -6,7 +6,7 @@ import "sanitize.css";
 
 switch (import.meta.env.MODE) {
   case "development":
-    if (import.meta.env.VITE_DEVELOPMENT_MSW_MODE === "true") {
+    if (JSON.parse(import.meta.env.VITE_DEVELOPMENT_MSW_MODE) === true) {
       worker.start().then(() => {
         createReactApp();
       });
