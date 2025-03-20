@@ -6,8 +6,11 @@ import { IoMicSharp } from "react-icons/io5";
 import { IoIosSettings } from "react-icons/io";
 import { MdStars } from "react-icons/md";
 import { FRONTEND_URLS } from "../../constants/Urls";
+import { replaceUrlParams } from "../../utils/Url";
+import { useQuestion } from "../../hooks/UseQuestion";
 
 function Nav() {
+  const { weeklyQuestion } = useQuestion();
   return (
     <>
       <NavStyle>
@@ -21,7 +24,15 @@ function Nav() {
             </Link>
           </li>
           <li>
-            <Link to="">
+            <Link
+              to={
+                weeklyQuestion
+                  ? replaceUrlParams(FRONTEND_URLS.ANSWER, {
+                      questionId: weeklyQuestion.id.toString(),
+                    })
+                  : ""
+              }
+            >
               <span>
                 <IoMicSharp />
                 <span>위클리</span>
