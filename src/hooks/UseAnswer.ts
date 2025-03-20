@@ -3,23 +3,23 @@ import {
   fetchBasicAnsweredQuestions,
   fetchWeeklyAnsweredQuestions,
 } from "../api/Answer.api";
-import { Question } from "../models/Question.model";
+import { Answer } from "../models/Answer.model";
 
 export function useAnswer() {
   const [weeklyAnsweredQuestions, setWeeklyAnsweredQuestions] = useState<
-    Question[]
+    Answer[]
   >([]);
   const [basicAnsweredQuestions, setBasicAnsweredQuestions] = useState<
-    Question[]
+    Answer[]
   >([]);
 
   useEffect(() => {
     try {
-      fetchBasicAnsweredQuestions().then((questions) => {
-        setBasicAnsweredQuestions(questions);
+      fetchBasicAnsweredQuestions().then((answers) => {
+        setBasicAnsweredQuestions(answers);
       });
-      fetchWeeklyAnsweredQuestions().then((questions) => {
-        setWeeklyAnsweredQuestions(questions);
+      fetchWeeklyAnsweredQuestions().then((answers) => {
+        setWeeklyAnsweredQuestions(answers);
       });
     } catch (error) {
       console.error(error);

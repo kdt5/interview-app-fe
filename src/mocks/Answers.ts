@@ -1,17 +1,19 @@
 import { http, HttpResponse } from "msw";
 import { BACKEND_URLS } from "../constants/Urls";
-import { Question } from "../models/Question.model";
+import { Answer } from "../models/Answer.model";
 import { fakerKO as faker } from "@faker-js/faker";
 
 export const basicAnsweredQuestions = http.get(
   `${import.meta.env.VITE_BACKEND_BASE_URL}${BACKEND_URLS.ANSWERS.MINE}`,
   () => {
-    const questionsData: Question[] = Array.from({ length: 20 }).map(
+    const questionsData: Answer[] = Array.from({ length: 20 }).map(
       (_, index) => ({
         id: index,
-        categories: [faker.helpers.rangeToNumber({ min: 0, max: 5 })],
-        title: faker.lorem.sentence(),
-        isAnswered: true,
+        question: {
+          id: faker.helpers.rangeToNumber({ min: 0, max: 1000 }),
+          title: faker.lorem.sentence(),
+          categories: [faker.helpers.rangeToNumber({ min: 0, max: 5 })],
+        },
       })
     );
 
@@ -22,12 +24,14 @@ export const basicAnsweredQuestions = http.get(
 export const weeklyAnsweredQuestions = http.get(
   `${import.meta.env.VITE_BACKEND_BASE_URL}${BACKEND_URLS.ANSWERS.WEEKLY}`,
   () => {
-    const questionsData: Question[] = Array.from({ length: 20 }).map(
+    const questionsData: Answer[] = Array.from({ length: 20 }).map(
       (_, index) => ({
         id: index,
-        categories: [faker.helpers.rangeToNumber({ min: 0, max: 5 })],
-        title: faker.lorem.sentence(),
-        isAnswered: true,
+        question: {
+          id: faker.helpers.rangeToNumber({ min: 0, max: 1000 }),
+          title: faker.lorem.sentence(),
+          categories: [faker.helpers.rangeToNumber({ min: 0, max: 5 })],
+        },
       })
     );
 

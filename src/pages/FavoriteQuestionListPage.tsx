@@ -2,13 +2,13 @@ import styled from "styled-components";
 import Tabs from "../components/common/Tabs";
 import { useState } from "react";
 import Questions from "../components/QuestionList/Questions";
-import { useQuestion } from "../hooks/UseQuestion";
+import { useCategory } from "../hooks/UseCategory";
 import { useFavorite } from "../hooks/UseFavorite";
 
 export default FavoriteQuestionListPage;
 
 function FavoriteQuestionListPage() {
-  const { getCategoryName } = useQuestion();
+  const { getCategoryName } = useCategory();
   const { favoriteQuestions } = useFavorite();
   const [currentTab, setCurrentTab] = useState("위클리");
 

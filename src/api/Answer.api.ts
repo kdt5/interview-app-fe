@@ -1,11 +1,11 @@
 import { BACKEND_URLS } from "../constants/Urls";
-import { Question } from "../models/Question.model";
+import { Answer } from "../models/Answer.model";
 import { replaceUrlParams } from "../utils/Url";
 import { backendHttpClient } from "./BackendHttpClient.api";
 
 export async function fetchBasicAnsweredQuestions() {
   const response = await backendHttpClient
-    .get<Question[]>(BACKEND_URLS.ANSWERS.MINE)
+    .get<Answer[]>(BACKEND_URLS.ANSWERS.MINE)
     .then((response) => response.data)
     .catch((error) => {
       throw error;
@@ -16,7 +16,7 @@ export async function fetchBasicAnsweredQuestions() {
 
 export async function fetchWeeklyAnsweredQuestions() {
   const response = await backendHttpClient
-    .get<Question[]>(BACKEND_URLS.ANSWERS.WEEKLY)
+    .get<Answer[]>(BACKEND_URLS.ANSWERS.WEEKLY)
     .then((response) => response.data)
     .catch((error) => {
       throw error;

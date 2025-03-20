@@ -3,13 +3,14 @@ import styled from "styled-components";
 import Categories from "../components/QuestionList/Categories.tsx";
 import Questions from "../components/QuestionList/Questions.tsx";
 import { useQuestion } from "../hooks/UseQuestion.ts";
+import { useCategory } from "../hooks/UseCategory.ts";
 import { ALL_CATEGORIES } from "../constants/Question.ts";
 
 export default QuestionListPage;
 
 function QuestionListPage(): JSX.Element {
-  const { categories, questions, updateQuestions, getCategoryName } =
-    useQuestion();
+  const { categories, questions, updateQuestions } = useQuestion();
+  const { getCategoryName } = useCategory();
   const [activeCategoryId, setActiveCategoryId] =
     useState<number>(ALL_CATEGORIES);
 
