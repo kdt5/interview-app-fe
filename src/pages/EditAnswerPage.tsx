@@ -98,7 +98,7 @@ function EditAnswerPage() {
   }, [myAnswer]);
 
   const isSubmitDisabled =
-    answer.trim() === "" || answer.length <= 20 || answer === myAnswer;
+    answer.trim() === "" || answer.length < 0 || answer === myAnswer;
   const isOverLimit = answer.length >= 500;
 
   return (
@@ -173,7 +173,7 @@ const EditAnswerPageStyle = styled.div<{ isSubmitDisabled: boolean }>`
   padding: 25px 30px;
 
   .question-box {
-    padding: 10px 15px;
+    padding: 15px;
     box-sizing: border-box;
     width: 330px;
     height: fit-content;
@@ -206,6 +206,10 @@ const EditAnswerPageStyle = styled.div<{ isSubmitDisabled: boolean }>`
       font-size: 24px;
       cursor: pointer;
     }
+  }
+
+  .question-title {
+    font-weight: 600;
   }
 
   .answer-box {
