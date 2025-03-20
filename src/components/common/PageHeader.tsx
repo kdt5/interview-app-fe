@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import logo from "../../assets/logo.png";
-import { useLocation, useNavigate } from "react-router-dom";
+import { matchPath, useLocation, useNavigate } from "react-router-dom";
 import { HiArrowSmLeft } from "react-icons/hi";
 import { FRONTEND_URLS } from "../../constants/Urls";
 
@@ -35,6 +35,17 @@ const getPageTitle = (pathname: string) => {
     [FRONTEND_URLS.MY_PAGE.ANSWERS]: "내 답변 모아보기",
     [FRONTEND_URLS.MY_PAGE.FAVORITES.QUESTIONS]: "즐겨찾기 질문 모아보기",
   };
+
+  const matchAnswer = matchPath(FRONTEND_URLS.ANSWER, pathname);
+  const matchAnswerEdit = matchPath(FRONTEND_URLS.ANSWER_EDIT, pathname);
+
+  if (matchAnswer) {
+    return "질문 답변하기";
+  }
+
+  if (matchAnswerEdit) {
+    return "내 답변 편집하기";
+  }
 
   return titles[pathname] || "페이지";
 };
