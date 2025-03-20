@@ -283,7 +283,7 @@ function SignUpPage() {
           {isModalVisible.confirm && (
             <ConfirmModal
               onClose={() => {
-                setIsModalVisible((prev) => ({ ...prev, alert: false }));
+                setIsModalVisible((prev) => ({ ...prev, confirm: false }));
               }}
               onConfirm={handleSubmit(onSubmit)}
               message="회원가입 하시겠습니까?"

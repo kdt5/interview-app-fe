@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { SwiperOptions } from "swiper/types";
 import { FreeMode, Mousewheel } from "swiper/modules";
-import { moveToFront } from "../../utils/Array";
 import { Category } from "../../models/Question.model";
 import "swiper/css";
 
@@ -28,10 +27,7 @@ function Categories({
     modules: [FreeMode, Mousewheel],
   };
 
-  const currentCategoryIndex = categories.findIndex(
-    (category) => category.id === activeCategoryId
-  );
-  const categoriesView = moveToFront([...categories], currentCategoryIndex);
+  const categoriesView = [...categories];
 
   return (
     <CategoriesStyle>
