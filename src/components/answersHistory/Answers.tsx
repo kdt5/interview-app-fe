@@ -11,11 +11,11 @@ export default Answers;
 
 interface Props {
   className?: string;
-  answers: Answer[];
+  answers?: Answer[];
   getCategoryName: (categoryId: number) => string;
 }
 
-function Answers({ className, answers, getCategoryName }: Props) {
+function Answers({ className, answers }: Props) {
   const options: SwiperOptions = {
     slidesPerView: "auto",
     spaceBetween: 8,
@@ -28,8 +28,10 @@ function Answers({ className, answers, getCategoryName }: Props) {
   return (
     <AnswersStyle className={className}>
       <Swiper {...options}>
-        {answers.map((answer) => {
-          const categoryName = getCategoryName(answer.question.categories[0]);
+        {answers?.map((answer) => {
+          const categoryName = answer.question?.categories
+            ? answer.question.categories[0]
+            : "";
 
           return (
             <SwiperSlide key={answer.id}>
@@ -37,7 +39,7 @@ function Answers({ className, answers, getCategoryName }: Props) {
                 questionId={answer.id}
                 answerId={answer.id}
                 title={answer.question.title}
-                categoryImagePath={`../assets/categories/${answer.question.categories[0]}.png`}
+                categoryImagePath={`../assets/categories/${categoryName}.png`}
                 categoryName={categoryName}
               />
             </SwiperSlide>

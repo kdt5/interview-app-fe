@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import {
   fetchAnswer,
   fetchBasicAnsweredQuestions,
-  fetchWeeklyAnsweredQuestions,
+  // fetchWeeklyAnsweredQuestions,
 } from "../api/Answer.api";
 import { Answer } from "../models/Answer.model";
 import { Question } from "../models/Question.model";
@@ -34,9 +34,9 @@ export function useAnswer() {
       fetchBasicAnsweredQuestions().then((answers) => {
         setBasicAnsweredQuestions(answers);
       });
-      fetchWeeklyAnsweredQuestions().then((answers) => {
-        setWeeklyAnsweredQuestions(answers);
-      });
+      // fetchWeeklyAnsweredQuestions().then((answers) => {
+      //   setWeeklyAnsweredQuestions(answers);
+      // });
     } catch (error) {
       console.error(error);
     }

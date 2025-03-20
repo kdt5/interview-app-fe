@@ -12,9 +12,9 @@ type TabType = "위클리" | "기본";
 function AnswersHistoryPage() {
   const { getCategoryName } = useCategory();
   const { basicAnsweredQuestions, weeklyAnsweredQuestions } = useAnswer();
-  const [currentTab, setCurrentTab] = useState<TabType>("위클리");
+  const [currentTab, setCurrentTab] = useState<TabType>("기본");
 
-  const titles: TabType[] = ["위클리", "기본"];
+  const titles: TabType[] = ["기본", "위클리"];
 
   const handleClickTab = (title: string) => {
     setCurrentTab(title as TabType);

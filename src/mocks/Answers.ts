@@ -13,7 +13,9 @@ export const basicAnsweredQuestions = http.get(
         question: {
           id: faker.helpers.rangeToNumber({ min: 0, max: 1000 }),
           title: faker.lorem.sentence(),
-          categories: [faker.helpers.rangeToNumber({ min: 0, max: 5 })],
+          categories: [
+            faker.helpers.rangeToNumber({ min: 0, max: 5 }).toString(),
+          ],
         },
       })
     );
@@ -32,7 +34,9 @@ export const weeklyAnsweredQuestions = http.get(
         question: {
           id: faker.helpers.rangeToNumber({ min: 0, max: 1000 }),
           title: faker.lorem.sentence(),
-          categories: [faker.helpers.rangeToNumber({ min: 0, max: 5 })],
+          categories: [
+            faker.helpers.rangeToNumber({ min: 0, max: 5 }).toString(),
+          ],
         },
       })
     );
@@ -59,7 +63,9 @@ export const answer = http.get(
         question: {
           id: faker.helpers.rangeToNumber({ min: 0, max: 1000 }),
           title: faker.lorem.sentence(),
-          categories: [faker.helpers.rangeToNumber({ min: 0, max: 5 })],
+          categories: [
+            faker.helpers.rangeToNumber({ min: 0, max: 5 }).toString(),
+          ],
         },
       })
     );
