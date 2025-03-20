@@ -3,6 +3,8 @@ import HomeImg from "../assets/MainPageIcon.png";
 import { SlArrowRight } from "react-icons/sl";
 import { Link } from "react-router-dom";
 import { useQuestion } from "../hooks/UseQuestion";
+import { FRONTEND_URLS } from "../constants/Urls";
+import { replaceUrlParams } from "../utils/Url";
 
 function MainPage() {
   const { weeklyQuestion } = useQuestion();
@@ -22,12 +24,17 @@ function MainPage() {
         </div>
 
         {weeklyQuestion ? (
-          <div className="weekly-question">
+          <Link
+            to={replaceUrlParams(FRONTEND_URLS.ANSWER, {
+              questionId: weeklyQuestion.id.toString(),
+            })}
+            className="weekly-question"
+          >
             <p>{weeklyQuestion.title}</p>
             <div>
               <span>{weeklyQuestion.categories.join(",")}</span>
             </div>
-          </div>
+          </Link>
         ) : (
           <div className="weekly-question">
             <p>이번 주 질문을 불러올 수 없습니다.</p>
@@ -86,6 +93,7 @@ const MainPageStyle = styled.main`
     margin-top: 10px;
     padding: 20px;
     border-radius: 10px;
+    display: block;
 
     p {
       color: #fff;
