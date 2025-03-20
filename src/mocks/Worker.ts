@@ -1,9 +1,8 @@
 import { setupWorker } from "msw/browser";
-import { questions, question } from "./Questions";
+import { questions, question, weeklyQuestion } from "./Questions";
 import { categories, categoryImage } from "./Categories";
 import { RequestHandler, WebSocketHandler } from "msw";
 import { myUserInfo } from "./User";
-import { weeklyQuestion } from "./Weekly";
 import {
   answer,
   basicAnsweredQuestions,
@@ -13,13 +12,13 @@ import {
 const handlers: Array<RequestHandler | WebSocketHandler> = [
   categories,
   categoryImage,
+  weeklyQuestion,
   questions,
   question,
   basicAnsweredQuestions,
   weeklyAnsweredQuestions,
   myUserInfo,
   answer,
-  weeklyQuestion,
 ];
 
 export const worker = setupWorker(...handlers);
