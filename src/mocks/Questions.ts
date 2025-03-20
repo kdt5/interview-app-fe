@@ -3,6 +3,20 @@ import { Question } from "../models/Question.model";
 import { http, HttpResponse } from "msw";
 import { BACKEND_URLS } from "../constants/Urls";
 
+export const weeklyQuestion = http.get(
+  `${import.meta.env.VITE_BACKEND_BASE_URL}${BACKEND_URLS.QUESTIONS.WEEKLY}`,
+  () => {
+    const weeklyQuestionData: Question = {
+      id: 1,
+      categories: [faker.helpers.rangeToNumber({ min: 0, max: 5 })],
+      title: faker.lorem.sentence(),
+      isAnswered: faker.datatype.boolean(),
+    };
+
+    return HttpResponse.json(weeklyQuestionData, { status: 200 });
+  }
+);
+
 export const questions = http.get(
   `${import.meta.env.VITE_BACKEND_BASE_URL}${BACKEND_URLS.QUESTIONS.ALL}`,
   () => {

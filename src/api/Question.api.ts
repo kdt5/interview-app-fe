@@ -47,7 +47,7 @@ export async function fetchQuestion(questionId: number) {
 
 export async function fetchWeeklyQuestion() {
   const response = await backendHttpClient
-    .get<Question>("/questions/weekly")
+    .get<Question>(BACKEND_URLS.QUESTIONS.WEEKLY)
     .then((response) => response.data)
     .catch((error) => {
       throw error;
