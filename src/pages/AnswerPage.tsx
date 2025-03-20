@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { FaStar } from "react-icons/fa6";
 import ConfirmModal from "../components/common/ConfirmModal";
 import AlertModal from "../components/common/AlertModal";
-import { useQuestion } from "../hooks/UseQuestion";
+import { useCategory } from "../hooks/UseCategory";
 import { useEffect, useState } from "react";
 import { addFavorite, removeFavorite } from "../api/Favorite.api";
 import { useNavigate, useParams } from "react-router-dom";
@@ -14,7 +14,7 @@ type ModalType = "confirm" | "alert";
 
 function AnswerPage() {
   const questionId = Number(useParams<{ questionId: string }>().questionId);
-  const { getCategoryName } = useQuestion();
+  const { getCategoryName } = useCategory();
   const navigate = useNavigate();
 
   const [question, setQuestion] = useState<Question | undefined>(undefined);

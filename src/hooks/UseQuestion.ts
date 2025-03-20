@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
-import { Category, Question } from "../models/Question.model";
+import { Question } from "../models/Question.model";
 import {
   fetchCategories,
   fetchQuestions,
   fetchWeeklyQuestion,
 } from "../api/Question.api";
 import { ALL_CATEGORIES } from "../constants/Question";
+import { useCategory } from "./UseCategory";
 
 export function useQuestion() {
-  const [categories, setCategories] = useState<Category[]>([]);
+  const { categories, setCategories } = useCategory();
   const [questions, setQuestions] = useState<Question[]>([]);
   const [weeklyQuestion, setWeeklyQuestion] = useState<Question | null>(null);
 
@@ -48,17 +49,10 @@ export function useQuestion() {
     }
   };
 
-  const getCategoryName = (categoryId: number) => {
-    const category = categories.find((category) => category.id === categoryId);
-
-    return category !== undefined ? category.name : "";
-  };
-
   return {
     categories,
     questions,
     weeklyQuestion,
     updateQuestions,
-    getCategoryName,
   };
 }

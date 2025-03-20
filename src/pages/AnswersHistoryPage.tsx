@@ -1,16 +1,16 @@
 import styled from "styled-components";
 import Tabs from "../components/common/Tabs";
 import { useState } from "react";
-import Questions from "../components/QuestionList/Questions";
-import { useQuestion } from "../hooks/UseQuestion";
 import { useAnswer } from "../hooks/UseAnswer";
+import Answers from "../components/answersHistory/Answers";
+import { useCategory } from "../hooks/UseCategory";
 
 export default AnswersHistoryPage;
 
 type TabType = "위클리" | "기본";
 
 function AnswersHistoryPage() {
-  const { getCategoryName } = useQuestion();
+  const { getCategoryName } = useCategory();
   const { basicAnsweredQuestions, weeklyAnsweredQuestions } = useAnswer();
   const [currentTab, setCurrentTab] = useState<TabType>("위클리");
 
@@ -27,14 +27,13 @@ function AnswersHistoryPage() {
         onClickTab={handleClickTab}
         currentTab={currentTab}
       />
-      <Questions
-        className="questions"
-        questions={
+      <Answers
+        className="answers"
+        answers={
           currentTab === "위클리"
             ? weeklyAnsweredQuestions
             : basicAnsweredQuestions
         }
-        questionsType="Answered"
         getCategoryName={getCategoryName}
       />
     </AnswersHistoryStyle>
@@ -50,7 +49,7 @@ const AnswersHistoryStyle = styled.div`
   flex-direction: column;
   overflow: hidden;
 
-  .questions {
+  .answers {
     padding-top: 68px;
   }
 `;
