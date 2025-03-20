@@ -44,26 +44,28 @@ function LoginPage() {
         <form onSubmit={handleSubmit(onSubmit)} noValidate>
           <div className="login-form">
             <div className="login-form__container">
-              <input
-                placeholder="이메일 입력"
-                type="email"
-                className={
-                  errors.email === undefined
-                    ? "login-form__input"
-                    : "login-form__error-input"
-                }
-                {...register("email", {
-                  required: { value: true, message: "이메일을 입력해주세요." },
-                  pattern: {
-                    value: /^\S+@\S+$/i,
-                    message: "유효한 이메일 형식이 아닙니다.",
-                  },
-                  maxLength: {
-                    value: 50,
-                    message: "이메일은 50자 이하로 입력해주세요.",
-                  },
-                })}
-              />
+              <div className="login-form__input-container">
+                <input
+                  autoComplete="off"
+                  placeholder="이메일 입력"
+                  type="email"
+                  className="login-form__input"
+                  {...register("email", {
+                    required: {
+                      value: true,
+                      message: "이메일을 입력해주세요.",
+                    },
+                    pattern: {
+                      value: /^\S+@\S+$/i,
+                      message: "유효한 이메일 형식이 아닙니다.",
+                    },
+                    maxLength: {
+                      value: 50,
+                      message: "이메일은 50자 이하로 입력해주세요.",
+                    },
+                  })}
+                />
+              </div>
               <ErrorMessage
                 errors={errors}
                 name="email"
@@ -73,25 +75,24 @@ function LoginPage() {
               />
             </div>
             <div className="login-form__container">
-              <input
-                placeholder="비밀번호 입력"
-                type="password"
-                className={
-                  errors.password === undefined
-                    ? "login-form__input"
-                    : "login-form__error-input"
-                }
-                {...register("password", {
-                  required: {
-                    value: true,
-                    message: "비밀번호를 입력해주세요.",
-                  },
-                  minLength: {
-                    value: PASSWORD_MIN_LENGTH,
-                    message: `비밀번호는 최소 ${PASSWORD_MIN_LENGTH}자 이상입니다.`,
-                  },
-                })}
-              />
+              <div className="login-form__input-container">
+                <input
+                  autoComplete="off"
+                  placeholder="비밀번호 입력"
+                  type="password"
+                  className="login-form__input"
+                  {...register("password", {
+                    required: {
+                      value: true,
+                      message: "비밀번호를 입력해주세요.",
+                    },
+                    minLength: {
+                      value: PASSWORD_MIN_LENGTH,
+                      message: `비밀번호는 최소 ${PASSWORD_MIN_LENGTH}자 이상입니다.`,
+                    },
+                  })}
+                />
+              </div>
               <ErrorMessage
                 errors={errors}
                 name="password"
@@ -101,10 +102,12 @@ function LoginPage() {
               />
             </div>
             <div className="login-form__column">
-              <span>아이디 찾기</span>
-              <span>비밀번호 찾기</span>
+              <span className="id-find-btn">아이디 찾기</span>
+              <div className="mid-line"></div>
+              <span className="pass-find-btn">비밀번호 찾기</span>
+              <div className="mid-line"></div>
               <Link to={FRONTEND_URLS.SIGNUP}>
-                <span>회원가입</span>
+                <span className="join-btn">회원가입</span>
               </Link>
             </div>
           </div>
@@ -122,74 +125,61 @@ const LoginPageStyle = styled.div`
   max-width: 380px;
   height: 100dvh;
   margin: 0 auto;
-  padding: 200px 30px;
+  padding: 180px 30px 120px 30px;
   background-color: #6ea1ff;
 
   .main-title {
     color: #ffffff;
     font-weight: 600;
     font-size: 30px;
+    line-height: 1.3;
+    margin-bottom: 15px;
   }
 
   .sub-title {
     color: #ffffff;
     font-size: 16px;
+    font-weight: 200;
   }
 
   .login-form {
-    margin-top: 100px;
+    margin-top: 60px;
   }
 
   .login-form__container {
-    position: relative;
+    height: 85px;
+
+    .login-form__input::placeholder {
+      color: #fff;
+    }
+
+    .login-form__input-container {
+      border-bottom: 1px solid #fff;
+    }
+
+    .login-form__input:focus {
+      outline: none;
+    }
 
     .error-message {
       color: red;
       font-size: 12px;
-      position: absolute;
-      bottom: 0px;
-      left: 10px;
-    }
-
-    .valid-message {
-      color: green;
-      font-size: 12px;
-      position: absolute;
-      bottom: 0px;
-      left: 10px;
+      margin: 5px 0 0 5px;
     }
   }
 
   .login-form__input {
     border: none;
+    background: none;
     padding: 15px;
     font-size: 16px;
-    border-bottom: 1px solid #ffffff;
-    margin-bottom: 20px;
-    background-color: #6ea1ff;
     color: #ffffff;
     width: 100%;
+    height: 60px;
   }
 
   .login-form__input:focus {
     outline: none;
-    border-bottom: 2px solid #ffffff;
-  }
-
-  .login-form__error-input {
-    border: none;
-    padding: 15px;
-    font-size: 16px;
-    border-bottom: 1px solid red;
-    margin-bottom: 20px;
-    background-color: #6ea1ff;
-    color: #ffffff;
-    width: 100%;
-  }
-
-  .login-form__error-input:focus {
-    outline: none;
-    border-bottom: 2px solid red;
   }
 
   .login-form__column {
@@ -197,23 +187,29 @@ const LoginPageStyle = styled.div`
     font-size: 10px;
     color: #ffffff;
     justify-content: flex-end;
-    margin-top: 5px;
-  }
+    margin-top: 15px;
 
-  .login-form__column span {
-    border-right: 1px solid #ffffff;
-    color: #ffffff;
+    .mid-line {
+      width: 1px;
+      height: 16px;
+      background-color: #fff;
+    }
 
-    padding: 0 10px;
-  }
+    .id-find-btn,
+    .pass-find-btn,
+    .join-btn {
+      font-weight: 300;
+      color: #ffffff;
+      padding: 0 10px;
+    }
 
-  .login-form__column span:last-child {
-    border-right: 0px;
-    padding: 0 0 0 10px;
+    .join-btn {
+      padding-right: 0;
+    }
   }
 
   .login-form__btn {
-    margin-top: 120px;
+    margin-top: 130px;
     width: 330px;
     height: 60px;
     font-size: 20px;

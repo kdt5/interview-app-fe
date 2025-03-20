@@ -70,17 +70,15 @@ const CategoriesStyle = styled.div`
   }
 
   button {
-    height: 30px;
-    border-radius: 15px;
-    padding: 5px 10px;
+    height: 32px;
+    width: fit-content;
+    border-radius: 16px;
+    padding: 0 12px;
+    font-size: 12px;
 
     color: #d1d1d1;
     background-color: #fbfbfb;
     border: solid 1px #d1d1d1;
-
-    &:hover {
-      border-color: #6ea1ff;
-    }
 
     &.active {
       color: #ffffff;

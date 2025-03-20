@@ -47,6 +47,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   button {
+    font-family: 'Pretendard', sans-serif;
     background: #6EA1FF;
     color: #FFF;
     border-radius: 10px;
