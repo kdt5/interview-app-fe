@@ -1,22 +1,21 @@
 import styled from "styled-components";
 import { FaStar } from "react-icons/fa6";
+import { useEffect, useState } from "react";
+import { useQuestion } from "../hooks/UseQuestion";
+import { useAnswer } from "../hooks/UseAnswer";
+import { ModalType } from "./AnswerPage";
 import ConfirmModal from "../components/common/ConfirmModal";
 import AlertModal from "../components/common/AlertModal";
-import { useCategory } from "../hooks/UseCategory";
-import { useState } from "react";
+import { deleteAnswer, editAnswer } from "../api/Answer.api";
 import { addFavorite, removeFavorite } from "../api/Favorite.api";
-import { useNavigate } from "react-router-dom";
-import { useAnswer } from "../hooks/UseAnswer";
-import { recordAnswer } from "../api/Answer.api";
 
-export type ModalType = "confirm" | "alert";
+function EditAnswerPage() {
+  const { categories } = useQuestion();
+  const { question, myAnswer, answerIdNumber, isFavorite } = useAnswer();
 
-function AnswerPage() {
-  const navigate = useNavigate();
-  const { categories } = useCategory();
-  const { question, isFavorite } = useAnswer();
-
-  const [answer, setAnswer] = useState("");
+  const [answer, setAnswer] = useState(myAnswer);
+  const [confirmMessage, setConfirmMessage] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
   const [isModalsVisible, setIsModalsVisible] = useState({
     confirm: false,
     alert: false,
@@ -26,7 +25,13 @@ function AnswerPage() {
     return categories.find((category) => category.id === categoryId)?.name;
   };
 
-  const handleSubmit = () => {
+  const handleEditClick = () => {
+    setConfirmMessage("답변을 수정하시겠습니까?");
+    toggleModal("confirm", true);
+  };
+
+  const handleDeleteClick = () => {
+    setConfirmMessage("답변을 삭제하시겠습니까?");
     toggleModal("confirm", true);
   };
 
@@ -36,12 +41,24 @@ function AnswerPage() {
       return;
     }
 
-    try {
-      await recordAnswer(answer, question.id);
-      toggleModal("confirm", false);
-      toggleModal("alert", true);
-    } catch (error) {
-      console.log("제출에 실패하였습니다.", error);
+    if (confirmMessage === "답변을 수정하시겠습니까?") {
+      try {
+        await editAnswer(answer, answerIdNumber);
+        setAlertMessage("수정되었습니다.");
+        toggleModal("confirm", false);
+        toggleModal("alert", true);
+      } catch (error) {
+        console.log("수정에 실패하였습니다.", error);
+      }
+    } else {
+      try {
+        await deleteAnswer(answerIdNumber);
+        setAlertMessage("삭제되었습니다.");
+        toggleModal("confirm", false);
+        toggleModal("alert", true);
+      } catch (error) {
+        console.log("삭제에 실패하였습니다.", error);
+      }
     }
   };
 
@@ -74,11 +91,18 @@ function AnswerPage() {
     }
   };
 
-  const isSubmitDisabled = answer.trim() === "" || answer.length <= 20;
+  useEffect(() => {
+    if (myAnswer) {
+      setAnswer(myAnswer);
+    }
+  }, [myAnswer]);
+
+  const isSubmitDisabled =
+    answer.trim() === "" || answer.length <= 20 || answer === myAnswer;
   const isOverLimit = answer.length >= 500;
 
   return (
-    <AnswerPageStyle isSubmitDisabled={isSubmitDisabled}>
+    <EditAnswerPageStyle isSubmitDisabled={isSubmitDisabled}>
       <div className="question-box">
         <div className="question-numbering">
           <p className="numbering-title">
@@ -102,31 +126,37 @@ function AnswerPage() {
           {answer.length}/500
         </p>
       </form>
-      <button
-        className="submit-button"
-        type="submit"
-        onClick={handleSubmit}
-        disabled={isSubmitDisabled}
-      >
-        제출
-      </button>
+      <div className="buttons">
+        <button
+          className="edit-button"
+          type="submit"
+          disabled={isSubmitDisabled}
+          onClick={handleEditClick}
+        >
+          수정
+        </button>
+        <button
+          className="delete-button"
+          type="submit"
+          onClick={handleDeleteClick}
+        >
+          삭제
+        </button>
+      </div>
       {isModalsVisible.confirm && (
         <ConfirmModal
           onClose={() => toggleModal("confirm", false)}
           onConfirm={handleConfirmSubmit}
-          message="답변을 제출하시겠습니까?"
+          message={confirmMessage}
         />
       )}
       {isModalsVisible.alert && (
         <AlertModal
-          onClose={() => {
-            toggleModal("alert", false);
-            navigate(-1);
-          }}
-          message="제출되었습니다."
+          onClose={() => toggleModal("alert", false)}
+          message={alertMessage}
         />
       )}
-    </AnswerPageStyle>
+    </EditAnswerPageStyle>
   );
 }
 
@@ -136,7 +166,7 @@ const FavoriteIcon = styled(FaStar)<{ isFavorite: boolean }>`
   font-size: 24px;
 `;
 
-const AnswerPageStyle = styled.div<{ isSubmitDisabled: boolean }>`
+const EditAnswerPageStyle = styled.div<{ isSubmitDisabled: boolean }>`
   width: 100%;
   max-width: 380px;
   box-sizing: border-box;
@@ -234,15 +264,28 @@ const AnswerPageStyle = styled.div<{ isSubmitDisabled: boolean }>`
     }
   }
 
-  .submit-button {
-    width: 330px;
+  .buttons {
+    display: flex;
+    justify-content: start;
+    margin-bottom: 100px;
+  }
+
+  .edit-button,
+  .delete-button {
     height: 60px;
     font-size: 20px;
     margin-top: 30px;
+  }
+
+  .edit-button {
+    flex-grow: 1;
     opacity: ${(props) => (props.isSubmitDisabled ? 0.5 : 1)};
     cursor: ${(props) => (props.isSubmitDisabled ? "not-allowed" : "pointer")};
-    margin-bottom: 100px;
+  }
+
+  .delete-button {
+    background: #d32121;
   }
 `;
 
-export default AnswerPage;
+export default EditAnswerPage;

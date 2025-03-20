@@ -36,10 +36,12 @@ export const question = http.get(
         title: faker.lorem.sentence(),
         content: faker.lorem.paragraph(),
         isAnswered: faker.datatype.boolean(),
+        isFavorite: faker.datatype.boolean(),
       })
     );
 
     const questionData = questionsData.find((q) => q.id === parsedId);
+    console.log(questionData);
 
     if (questionData) {
       return HttpResponse.json(questionData, { status: 200 });

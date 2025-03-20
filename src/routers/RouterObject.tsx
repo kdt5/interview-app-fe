@@ -9,6 +9,7 @@ import AnswersHistoryPage from "../pages/AnswersHistoryPage";
 import { FRONTEND_URLS } from "../constants/Urls";
 import MyPage from "../pages/MyPage";
 import FavoriteQuestionListPage from "../pages/FavoriteQuestionListPage";
+import EditAnswerPage from "../pages/EditAnswerPage";
 
 const requiredUrls = [
   FRONTEND_URLS.HOME,
@@ -64,7 +65,7 @@ export const routerObjects: RouteObject[] = [
   },
   {
     path: FRONTEND_URLS.ANSWER_EDIT,
-    // element: <EditAnswerPage />,
+    element: <EditAnswerPage />,
   },
 ].map((routerObject) => {
   if (excludedPaths.includes(routerObject.path)) {
