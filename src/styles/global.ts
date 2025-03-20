@@ -59,7 +59,7 @@ export const GlobalStyle = createGlobalStyle`
 
   input::placeholder, textarea::placeholder {
     font-family: 'Pretendard', sans-serif;
-    color: #E2E2E2;
+    color: #777;
     font-size: 16px;
     font-weight: 300;
   }
