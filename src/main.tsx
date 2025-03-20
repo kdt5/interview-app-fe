@@ -6,9 +6,13 @@ import "sanitize.css";
 
 switch (import.meta.env.MODE) {
   case "development":
-    worker.start().then(() => {
+    if (import.meta.env.VITE_DEVELOPMENT_MSW_MODE) {
+      worker.start().then(() => {
+        createReactApp();
+      });
+    } else {
       createReactApp();
-    });
+    }
     break;
 
   default:
