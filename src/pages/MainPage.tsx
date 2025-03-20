@@ -6,6 +6,7 @@ import { useQuestion } from "../hooks/UseQuestion";
 
 function MainPage() {
   const { weeklyQuestion } = useQuestion();
+  console.log(weeklyQuestion);
 
   return (
     <>

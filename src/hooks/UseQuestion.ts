@@ -11,7 +11,7 @@ import { useCategory } from "./UseCategory";
 export function useQuestion() {
   const { categories, setCategories } = useCategory();
   const [questions, setQuestions] = useState<Question[]>([]);
-  const [weeklyQuestion, setWeeklyQuestion] = useState<Question | null>(null);
+  const [weeklyQuestion, setWeeklyQuestion] = useState<Question>();
 
   useEffect(() => {
     try {
@@ -32,7 +32,7 @@ export function useQuestion() {
       });
 
       fetchWeeklyQuestion().then((question) => {
-        setWeeklyQuestion(question);
+        console.log(question);
       });
     } catch (error) {
       console.error(error);
