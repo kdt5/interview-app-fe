@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import { useQuestion } from "../hooks/UseQuestion";
 import { FRONTEND_URLS } from "../constants/Urls";
 import { replaceUrlParams } from "../utils/Url";
-import { useCategory } from "../hooks/UseCategory";
 
 function MainPage() {
   const { weeklyQuestion } = useQuestion();
