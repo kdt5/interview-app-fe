@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { fetchAnswer } from "../api/Answer.api";
 import { Question } from "../models/Question.model";
 import { fetchQuestion } from "../api/Question.api";
+import { fetchFavorite } from "../api/Favorite.api";
 
-export function useAnswer(questionId: number, answerId: number) {
+export function useAnswer(questionId: number, answerId?: number) {
   const [question, setQuestion] = useState<Question>();
   const [answer, setAnswer] = useState<string>("");
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
@@ -12,12 +13,6 @@ export function useAnswer(questionId: number, answerId: number) {
     try {
       fetchQuestion(questionId).then((question) => {
         setQuestion(question);
-
-        if (question.isFavorite === undefined) {
-          return;
-        }
-
-        setIsFavorite(question.isFavorite);
       });
     } catch (error) {
       console.log(error);
@@ -25,6 +20,16 @@ export function useAnswer(questionId: number, answerId: number) {
   }, [questionId]);
 
   useEffect(() => {
+    fetchFavorite(questionId).then((isFavorite) => {
+      setIsFavorite(isFavorite);
+    });
+  }, [questionId]);
+
+  useEffect(() => {
+    if (answerId === undefined) {
+      return;
+    }
+
     try {
       fetchAnswer(answerId).then((answer) => {
         setAnswer(answer.content);

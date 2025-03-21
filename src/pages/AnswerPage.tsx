@@ -12,22 +12,18 @@ export type ModalType = "confirm" | "alert";
 
 function AnswerPage() {
   const navigate = useNavigate();
-  const { questionId, answerId } = useParams<{
+  const { questionId } = useParams<{
     questionId: string;
-    answerId: string;
   }>();
 
-  if (questionId === undefined || answerId === undefined) {
+  if (questionId === undefined) {
     console.error("questionId 또는 answerId 가 유효하지 않습니다.");
     navigate(-1);
   }
 
   const parsedQuestionId = parseInt(questionId as string);
-  const parsedAnswerId = parseInt(answerId as string);
-  const { question, answer, isFavorite, setAnswer, setIsFavorite } = useAnswer(
-    parsedQuestionId,
-    parsedAnswerId
-  );
+  const { question, answer, isFavorite, setAnswer, setIsFavorite } =
+    useAnswer(parsedQuestionId);
   const [isModalsVisible, setIsModalsVisible] = useState({
     confirm: false,
     alert: false,
@@ -87,13 +83,13 @@ function AnswerPage() {
   const isOverLimit = answer.length >= 500;
 
   return (
-    <AnswerPageStyle isSubmitDisabled={isSubmitDisabled}>
+    <AnswerPageStyle $isSubmitDisabled={isSubmitDisabled}>
       <div className="question-box">
         <div className="question-numbering">
           <p className="numbering-title">
             {question && String(question.id).padStart(2, "0")} |
           </p>
-          <FavoriteIcon onClick={toggleFavorite} isFavorite={isFavorite} />
+          <FavoriteIcon onClick={toggleFavorite} $isFavorite={isFavorite} />
         </div>
         <h2 className="question-title">{question && question.title}</h2>
         <span className="category-name">
@@ -139,13 +135,14 @@ function AnswerPage() {
   );
 }
 
-const FavoriteIcon = styled(FaStar)<{ isFavorite: boolean }>`
-  fill: ${({ isFavorite }) => (isFavorite ? "#FFD600" : "#DFDFDF")};
+const FavoriteIcon = styled(FaStar)<{ $isFavorite: boolean }>`
+  fill: ${({ $isFavorite: isFavorite }) =>
+    isFavorite ? "#FFD600" : "#DFDFDF"};
   cursor: pointer;
   font-size: 24px;
 `;
 
-const AnswerPageStyle = styled.div<{ isSubmitDisabled: boolean }>`
+const AnswerPageStyle = styled.div<{ $isSubmitDisabled: boolean }>`
   width: 100%;
   max-width: 380px;
   box-sizing: border-box;
@@ -252,8 +249,8 @@ const AnswerPageStyle = styled.div<{ isSubmitDisabled: boolean }>`
     height: 60px;
     font-size: 20px;
     margin-top: 30px;
-    opacity: ${(props) => (props.isSubmitDisabled ? 0.5 : 1)};
-    cursor: ${(props) => (props.isSubmitDisabled ? "not-allowed" : "pointer")};
+    opacity: ${(props) => (props.$isSubmitDisabled ? 0.5 : 1)};
+    cursor: ${(props) => (props.$isSubmitDisabled ? "not-allowed" : "pointer")};
     margin-bottom: 100px;
   }
 `;
