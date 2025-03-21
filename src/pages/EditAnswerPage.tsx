@@ -169,7 +169,10 @@ function EditAnswerPage() {
       )}
       {isModalsVisible.alert && (
         <AlertModal
-          onClose={() => toggleModal("alert", false)}
+          onClose={() => {
+            toggleModal("alert", false);
+            navigate(-1);
+          }}
           message={alertMessage}
         />
       )}
