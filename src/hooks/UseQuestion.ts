@@ -32,7 +32,7 @@ export function useQuestion() {
       });
 
       fetchWeeklyQuestion().then((response) => {
-        setWeeklyQuestion(response.questionDetail);
+        setWeeklyQuestion(response);
       });
     } catch (error) {
       console.error(error);

@@ -4,17 +4,30 @@ import ConfirmModal from "../components/common/ConfirmModal";
 import AlertModal from "../components/common/AlertModal";
 import { useState } from "react";
 import { addFavorite, removeFavorite } from "../api/Favorite.api";
-import { useNavigate } from "react-router-dom";
-import { useAnswer } from "../hooks/UseAnswer";
+import { useNavigate, useParams } from "react-router-dom";
 import { recordAnswer } from "../api/Answer.api";
+import { useAnswer } from "../hooks/UseAnswer";
 
 export type ModalType = "confirm" | "alert";
 
 function AnswerPage() {
   const navigate = useNavigate();
-  const { question, isFavorite } = useAnswer();
+  const { questionId, answerId } = useParams<{
+    questionId: string;
+    answerId: string;
+  }>();
 
-  const [answer, setAnswer] = useState("");
+  if (questionId === undefined || answerId === undefined) {
+    console.error("questionId 또는 answerId 가 유효하지 않습니다.");
+    navigate(-1);
+  }
+
+  const parsedQuestionId = parseInt(questionId as string);
+  const parsedAnswerId = parseInt(answerId as string);
+  const { question, answer, isFavorite, setAnswer, setIsFavorite } = useAnswer(
+    parsedQuestionId,
+    parsedAnswerId
+  );
   const [isModalsVisible, setIsModalsVisible] = useState({
     confirm: false,
     alert: false,
@@ -56,6 +69,8 @@ function AnswerPage() {
 
   const toggleFavorite = async () => {
     if (question === undefined) return;
+
+    setIsFavorite(!isFavorite);
 
     try {
       if (isFavorite) {

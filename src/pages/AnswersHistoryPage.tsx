@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import Tabs from "../components/common/Tabs";
 import { useState } from "react";
-import { useAnswer } from "../hooks/UseAnswer";
 import Answers from "../components/answersHistory/Answers";
 import { useCategory } from "../hooks/UseCategory";
+import { useAnsweredHistory } from "../hooks/useAnsweredHistory";
 
 export default AnswersHistoryPage;
 
@@ -11,7 +11,8 @@ type TabType = "위클리" | "기본";
 
 function AnswersHistoryPage() {
   const { getCategoryName } = useCategory();
-  const { basicAnsweredQuestions, weeklyAnsweredQuestions } = useAnswer();
+  const { basicAnsweredQuestions, weeklyAnsweredQuestions } =
+    useAnsweredHistory();
   const [currentTab, setCurrentTab] = useState<TabType>("기본");
 
   const titles: TabType[] = ["기본", "위클리"];

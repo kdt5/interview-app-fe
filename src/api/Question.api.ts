@@ -8,6 +8,10 @@ interface WeeklyQuestionResponse {
   questionDetail: Question;
 }
 
+interface FetchQuestionResponse {
+  questionDetail: Question;
+}
+
 export async function fetchCategories() {
   const response = await backendHttpClient
     .get<Category[]>(BACKEND_URLS.CATEGORIES.ALL)
@@ -36,12 +40,12 @@ export async function fetchQuestions(categoryId: number) {
 
 export async function fetchQuestion(questionId: number) {
   const response = await backendHttpClient
-    .get<WeeklyQuestionResponse>(
+    .get<FetchQuestionResponse>(
       replaceUrlParams(BACKEND_URLS.QUESTIONS.QUESTION, {
         questionId: questionId.toString(),
       })
     )
-    .then((response) => response.data)
+    .then((response) => response.data.questionDetail)
     .catch((error) => {
       throw error;
     });
@@ -52,7 +56,7 @@ export async function fetchQuestion(questionId: number) {
 export async function fetchWeeklyQuestion() {
   const response = await backendHttpClient
     .get<WeeklyQuestionResponse>(BACKEND_URLS.QUESTIONS.WEEKLY)
-    .then((response) => response.data)
+    .then((response) => response.data.questionDetail)
     .catch((error) => {
       throw error;
     });
