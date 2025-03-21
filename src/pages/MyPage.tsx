@@ -1,11 +1,42 @@
 import styled from "styled-components";
 import ButtonWhite from "../components/common/ButtonWhite";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../hooks/UseUser";
 import { FRONTEND_URLS } from "../constants/Urls";
+import { useState } from "react";
+import ConfirmModal from "../components/common/ConfirmModal";
+import AlertModal from "../components/common/AlertModal";
+import { ModalType } from "./AnswerPage";
 
 function MyPage() {
-  const { me } = useUser();
+  const navigate = useNavigate();
+  const { me, logout } = useUser();
+
+  const [isModalsVisible, setIsModalsVisible] = useState({
+    confirm: false,
+    alert: false,
+  });
+
+  const handleSubmit = () => {
+    toggleModal("confirm", true);
+  };
+
+  const toggleModal = (type: ModalType, state: boolean) => {
+    setIsModalsVisible((prev) => ({
+      ...prev,
+      [type]: state,
+    }));
+  };
+
+  const handleConfirmSubmit = async () => {
+    try {
+      await logout();
+      toggleModal("confirm", false);
+      toggleModal("alert", true);
+    } catch (error) {
+      console.log("로그아웃에 실패하였습니다.", error);
+    }
+  };
 
   return (
     <>
@@ -36,7 +67,25 @@ function MyPage() {
 
       <UserMenuStyle>
         <Link to={FRONTEND_URLS.SETTINGS.PROFILE}>회원 정보 수정</Link>
-        <button>로그아웃</button>
+        <button type="submit" className="logout-btn" onClick={handleSubmit}>
+          로그아웃
+        </button>
+        {isModalsVisible.confirm && (
+          <ConfirmModal
+            onClose={() => toggleModal("confirm", false)}
+            onConfirm={handleConfirmSubmit}
+            message="로그아웃 하시겠습니까?"
+          />
+        )}
+        {isModalsVisible.alert && (
+          <AlertModal
+            onClose={() => {
+              toggleModal("alert", false);
+              navigate(FRONTEND_URLS.LOGIN);
+            }}
+            message="로그아웃 되었습니다."
+          />
+        )}
       </UserMenuStyle>
     </>
   );

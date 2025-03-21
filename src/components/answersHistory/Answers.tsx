@@ -36,7 +36,7 @@ function Answers({ className, answers }: Props) {
           return (
             <SwiperSlide key={answer.id}>
               <AnswerBox
-                questionId={answer.id}
+                questionId={answer.question.id}
                 answerId={answer.id}
                 title={answer.question.title}
                 categoryImagePath={`../assets/categories/${categoryName}.png`}

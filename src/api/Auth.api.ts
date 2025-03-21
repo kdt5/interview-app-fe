@@ -20,6 +20,14 @@ export async function login(userData: LoginInputs): Promise<boolean> {
   return response;
 }
 
+export async function logout(): Promise<boolean> {
+  const response = await backendHttpClient
+    .post(BACKEND_URLS.AUTH.LOGOUT)
+    .then((response) => response.status === HttpStatusCode.Ok);
+
+  return response;
+}
+
 export async function checkEmailExists(email: string): Promise<boolean> {
   const response = await backendHttpClient
     .post(BACKEND_URLS.AUTH.CHECK_EMAIL, { email })

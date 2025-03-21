@@ -166,10 +166,7 @@ function EditAnswerPage() {
       )}
       {isModalsVisible.alert && (
         <AlertModal
-          onClose={() => {
-            toggleModal("alert", false);
-            navigate(-1);
-          }}
+          onClose={() => toggleModal("alert", false)}
           message={alertMessage}
         />
       )}
