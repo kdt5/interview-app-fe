@@ -27,6 +27,7 @@ function EditAnswerPage() {
     question,
     answer: previousAnswer,
     isFavorite,
+    setIsFavorite,
   } = useAnswer(parsedQuestionId, parsedAnswerId);
   const [currentAnswer, setCurrentAnswer] = useState(previousAnswer);
   const [confirmMessage, setConfirmMessage] = useState("");
@@ -100,6 +101,8 @@ function EditAnswerPage() {
 
   const toggleFavorite = async () => {
     if (question === undefined) return;
+
+    setIsFavorite(!isFavorite);
 
     try {
       if (isFavorite) {
