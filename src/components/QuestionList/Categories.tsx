@@ -56,7 +56,7 @@ const CategoriesStyle = styled.div`
 
   .swiper {
     width: 100%;
-    max-width: 340px;
+    min-width: 340px;
     margin: 0 20px;
     box-sizing: border-box;
   }

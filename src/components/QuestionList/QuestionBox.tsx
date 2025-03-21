@@ -24,13 +24,9 @@ function QuestionBox({
   isEditable,
 }: Props) {
   const answeredClassName = !isEditable && isAnswered ? "answered" : "";
-  const link = isEditable
-    ? replaceUrlParams(FRONTEND_URLS.ANSWER, {
-        questionId: questionId.toString(),
-      })
-    : replaceUrlParams(FRONTEND_URLS.ANSWER_EDIT, {
-        questionId: questionId.toString(),
-      });
+  const link = replaceUrlParams(FRONTEND_URLS.ANSWER, {
+    questionId: questionId.toString(),
+  });
 
   const answeredStateElement = () => {
     if (!isEditable && isAnswered) {

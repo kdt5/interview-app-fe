@@ -7,10 +7,10 @@ import { IoIosSettings } from "react-icons/io";
 import { MdStars } from "react-icons/md";
 import { FRONTEND_URLS } from "../../constants/Urls";
 import { replaceUrlParams } from "../../utils/Url";
-import { useQuestion } from "../../hooks/UseQuestion";
+import { useWeeklyQuestion } from "../../hooks/UseWeeklyQuestion";
 
 function Nav() {
-  const { weeklyQuestion } = useQuestion();
+  const { weeklyQuestion } = useWeeklyQuestion();
   return (
     <>
       <NavStyle>

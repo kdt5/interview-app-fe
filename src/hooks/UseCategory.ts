@@ -1,13 +1,23 @@
 import { useEffect, useState } from "react";
 import { Category } from "../models/Question.model";
-import { fetchCategories } from "../api/Question.api";
+import { fetchCategories, Position } from "../api/Question.api";
+import { ALL_CATEGORIES } from "../constants/Question";
 
-export function useCategory() {
+export function useCategory(position?: Position) {
   const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
     try {
-      fetchCategories().then((categories) => {
+      fetchCategories(position).then((categories) => {
+        if (categories === undefined) {
+          return;
+        }
+
+        categories.unshift({
+          id: ALL_CATEGORIES,
+          name: "전체",
+        });
+
         setCategories(categories);
       });
     } catch (error) {

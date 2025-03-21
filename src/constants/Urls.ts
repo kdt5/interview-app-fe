@@ -5,10 +5,7 @@ export const FRONTEND_URLS = {
   SETTINGS: {
     PROFILE: "settings/profile",
   },
-  QUESTION_LIST: {
-    FRONTEND: "/question-list/frontend",
-    BACKEND: "/question-list/backend",
-  },
+  QUESTION_LIST: "/question-list/:position",
   MY_PAGE: {
     HOME: "/my-page",
     ANSWERS: "/my-page/answers",

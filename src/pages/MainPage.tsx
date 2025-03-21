@@ -2,12 +2,12 @@ import styled from "styled-components";
 import HomeImg from "../assets/MainPageIcon.png";
 import { SlArrowRight } from "react-icons/sl";
 import { Link } from "react-router-dom";
-import { useQuestion } from "../hooks/UseQuestion";
 import { FRONTEND_URLS } from "../constants/Urls";
 import { replaceUrlParams } from "../utils/Url";
+import { useWeeklyQuestion } from "../hooks/UseWeeklyQuestion";
 
 function MainPage() {
-  const { weeklyQuestion } = useQuestion();
+  const { weeklyQuestion } = useWeeklyQuestion();
 
   return (
     <>

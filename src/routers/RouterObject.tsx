@@ -15,8 +15,6 @@ const requiredUrls = [
   FRONTEND_URLS.HOME,
   FRONTEND_URLS.LOGIN,
   FRONTEND_URLS.SIGNUP,
-  FRONTEND_URLS.QUESTION_LIST.FRONTEND,
-  FRONTEND_URLS.QUESTION_LIST.BACKEND,
   FRONTEND_URLS.MY_PAGE.HOME,
   FRONTEND_URLS.MY_PAGE.ANSWERS,
   FRONTEND_URLS.MY_PAGE.FAVORITES.QUESTIONS,
@@ -40,11 +38,7 @@ export const routerObjects: RouteObject[] = [
     element: <SignUpPage />,
   },
   {
-    path: FRONTEND_URLS.QUESTION_LIST.FRONTEND,
-    element: <QuestionListPage />,
-  },
-  {
-    path: FRONTEND_URLS.QUESTION_LIST.BACKEND,
+    path: FRONTEND_URLS.QUESTION_LIST,
     element: <QuestionListPage />,
   },
   {
