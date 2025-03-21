@@ -3,6 +3,7 @@ import { fetchAnswer } from "../api/Answer.api";
 import { Question } from "../models/Question.model";
 import { fetchQuestion } from "../api/Question.api";
 import { fetchFavorite } from "../api/Favorite.api";
+import { HttpStatusCode } from "axios";
 
 export function useAnswer(questionId: number, answerId?: number) {
   const [question, setQuestion] = useState<Question>();
@@ -20,9 +21,15 @@ export function useAnswer(questionId: number, answerId?: number) {
   }, [questionId]);
 
   useEffect(() => {
-    fetchFavorite(questionId).then((isFavorite) => {
-      setIsFavorite(isFavorite);
-    });
+    fetchFavorite(questionId)
+      .then((isFavorite) => {
+        setIsFavorite(isFavorite);
+      })
+      .catch((error) => {
+        if (error.status === HttpStatusCode.NotFound) {
+          setIsFavorite(false);
+        }
+      });
   }, [questionId]);
 
   useEffect(() => {

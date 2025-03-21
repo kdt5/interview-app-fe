@@ -14,7 +14,7 @@ import {
 import { useState } from "react";
 import ConfirmModal from "../components/common/ConfirmModal";
 import AlertModal from "../components/common/AlertModal";
-import { AxiosError } from "axios";
+import { AxiosError, HttpStatusCode } from "axios";
 export default SignUpPage;
 
 export interface SignUpInputs {
@@ -58,9 +58,8 @@ function SignUpPage() {
         setIsEmailUnique(true);
       })
       .catch((error) => {
-        console.error(error);
         if (error instanceof AxiosError) {
-          if (error.status) {
+          if (error.status === HttpStatusCode.Conflict) {
             setError("email", {
               type: "manual",
               message: "중복된 이메일입니다.",
@@ -69,6 +68,7 @@ function SignUpPage() {
             return;
           }
         }
+        console.error(error);
         setError("email", {
           type: "manual",
           message: "오류가 발생했습니다.",
@@ -92,9 +92,8 @@ function SignUpPage() {
         setIsNicknameUnique(true);
       })
       .catch((error) => {
-        console.error(error);
         if (error instanceof AxiosError) {
-          if (error.status) {
+          if (error.status === HttpStatusCode.Conflict) {
             setError("nickname", {
               type: "manual",
               message: "중복된 닉네임입니다.",
@@ -103,6 +102,7 @@ function SignUpPage() {
             return;
           }
         }
+        console.error(error);
         setError("nickname", {
           type: "manual",
           message: "오류가 발생했습니다.",
