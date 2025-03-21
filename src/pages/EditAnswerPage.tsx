@@ -1,19 +1,35 @@
 import styled from "styled-components";
 import { FaStar } from "react-icons/fa6";
 import { useEffect, useState } from "react";
-import { useQuestion } from "../hooks/UseQuestion";
-import { useAnswer } from "../hooks/UseAnswer";
 import { ModalType } from "./AnswerPage";
 import ConfirmModal from "../components/common/ConfirmModal";
 import AlertModal from "../components/common/AlertModal";
 import { deleteAnswer, editAnswer } from "../api/Answer.api";
 import { addFavorite, removeFavorite } from "../api/Favorite.api";
+import { useNavigate, useParams } from "react-router-dom";
+import { useAnswer } from "../hooks/UseAnswer";
 
 function EditAnswerPage() {
-  const { categories } = useQuestion();
-  const { question, myAnswer, answerIdNumber, isFavorite } = useAnswer();
+  const navigate = useNavigate();
+  const { questionId, answerId } = useParams<{
+    questionId: string;
+    answerId: string;
+  }>();
 
-  const [answer, setAnswer] = useState(myAnswer);
+  if (questionId === undefined || answerId === undefined) {
+    console.error("questionId 또는 answerId 가 유효하지 않습니다.");
+    navigate(-1);
+  }
+
+  const parsedQuestionId = parseInt(questionId as string);
+  const parsedAnswerId = parseInt(answerId as string);
+  const {
+    question,
+    answer: previousAnswer,
+    isFavorite,
+    setIsFavorite,
+  } = useAnswer(parsedQuestionId, parsedAnswerId);
+  const [currentAnswer, setCurrentAnswer] = useState(previousAnswer);
   const [confirmMessage, setConfirmMessage] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
   const [isModalsVisible, setIsModalsVisible] = useState({
@@ -21,9 +37,15 @@ function EditAnswerPage() {
     alert: false,
   });
 
-  const getCategoryName = (categoryId: number) => {
-    return categories.find((category) => category.id === categoryId)?.name;
-  };
+  useEffect(() => {
+    setCurrentAnswer(previousAnswer);
+  }, [previousAnswer]);
+
+  const isSubmitDisabled =
+    currentAnswer.trim() === "" ||
+    currentAnswer.length < 0 ||
+    previousAnswer === currentAnswer;
+  const isOverLimit = currentAnswer.length >= 500;
 
   const handleEditClick = () => {
     setConfirmMessage("답변을 수정하시겠습니까?");
@@ -43,7 +65,7 @@ function EditAnswerPage() {
 
     if (confirmMessage === "답변을 수정하시겠습니까?") {
       try {
-        await editAnswer(answer, answerIdNumber);
+        await editAnswer(parsedAnswerId, currentAnswer);
         setAlertMessage("수정되었습니다.");
         toggleModal("confirm", false);
         toggleModal("alert", true);
@@ -52,7 +74,7 @@ function EditAnswerPage() {
       }
     } else {
       try {
-        await deleteAnswer(answerIdNumber);
+        await deleteAnswer(parsedAnswerId);
         setAlertMessage("삭제되었습니다.");
         toggleModal("confirm", false);
         toggleModal("alert", true);
@@ -63,10 +85,10 @@ function EditAnswerPage() {
   };
 
   const handleAnswerChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const answerCount = e.target.value;
+    const nextAnswer = e.target.value;
 
-    if (answerCount.length <= 500) {
-      setAnswer(answerCount);
+    if (nextAnswer.length <= 500) {
+      setCurrentAnswer(nextAnswer);
     }
   };
 
@@ -80,6 +102,8 @@ function EditAnswerPage() {
   const toggleFavorite = async () => {
     if (question === undefined) return;
 
+    setIsFavorite(!isFavorite);
+
     try {
       if (isFavorite) {
         removeFavorite(question?.id);
@@ -91,39 +115,32 @@ function EditAnswerPage() {
     }
   };
 
-  useEffect(() => {
-    if (myAnswer) {
-      setAnswer(myAnswer);
-    }
-  }, [myAnswer]);
-
-  const isSubmitDisabled =
-    answer.trim() === "" || answer.length < 0 || answer === myAnswer;
-  const isOverLimit = answer.length >= 500;
-
   return (
-    <EditAnswerPageStyle isSubmitDisabled={isSubmitDisabled}>
+    <EditAnswerPageStyle $isSubmitDisabled={isSubmitDisabled}>
       <div className="question-box">
         <div className="question-numbering">
           <p className="numbering-title">
             {question && String(question.id).padStart(2, "0")} |
           </p>
-          <FavoriteIcon onClick={toggleFavorite} isFavorite={isFavorite} />
+          <FavoriteIconStyle
+            onClick={toggleFavorite}
+            $isFavorite={isFavorite}
+          />
         </div>
         <h2 className="question-title">{question && question.title}</h2>
         <span className="category-name">
-          {question && getCategoryName(question.categories[0])}
+          {question && question.categories[0]}
         </span>
       </div>
       <form action="/" className="answer-box">
         <textarea
           placeholder="답변을 작성해주세요."
           className="answer-text"
-          value={answer}
+          value={currentAnswer}
           onChange={handleAnswerChange}
         ></textarea>
         <p className={`character-count ${isOverLimit ? "over-limit" : ""}`}>
-          {answer.length}/500
+          {currentAnswer.length}/500
         </p>
       </form>
       <div className="buttons">
@@ -160,13 +177,14 @@ function EditAnswerPage() {
   );
 }
 
-const FavoriteIcon = styled(FaStar)<{ isFavorite: boolean }>`
-  fill: ${({ isFavorite }) => (isFavorite ? "#FFD600" : "#DFDFDF")};
+const FavoriteIconStyle = styled(FaStar)<{ $isFavorite: boolean }>`
+  fill: ${({ $isFavorite: isFavorite }) =>
+    isFavorite ? "#FFD600" : "#DFDFDF"};
   cursor: pointer;
   font-size: 24px;
 `;
 
-const EditAnswerPageStyle = styled.div<{ isSubmitDisabled: boolean }>`
+const EditAnswerPageStyle = styled.div<{ $isSubmitDisabled: boolean }>`
   width: 100%;
   max-width: 380px;
   box-sizing: border-box;
@@ -283,8 +301,8 @@ const EditAnswerPageStyle = styled.div<{ isSubmitDisabled: boolean }>`
 
   .edit-button {
     flex-grow: 1;
-    opacity: ${(props) => (props.isSubmitDisabled ? 0.5 : 1)};
-    cursor: ${(props) => (props.isSubmitDisabled ? "not-allowed" : "pointer")};
+    opacity: ${(props) => (props.$isSubmitDisabled ? 0.5 : 1)};
+    cursor: ${(props) => (props.$isSubmitDisabled ? "not-allowed" : "pointer")};
   }
 
   .delete-button {

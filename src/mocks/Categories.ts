@@ -7,7 +7,7 @@ export const categories = http.get(
   `${import.meta.env.VITE_BACKEND_BASE_URL}${BACKEND_URLS.CATEGORIES.ALL}`,
   () => {
     const categoriesData: Category[] = Array.from({ length: 20 }).map(
-      (value, index) => ({
+      (_, index) => ({
         id: index,
         name: faker.word.noun(),
       })

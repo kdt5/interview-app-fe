@@ -1,11 +1,18 @@
 import { backendHttpClient } from "./BackendHttpClient.api";
-import { Question } from "../models/Question.model";
 import { BACKEND_URLS } from "../constants/Urls";
 import { replaceUrlParams } from "../utils/Url";
 
+interface FavoriteQuestion {
+  userId: number;
+  question: {
+    id: number;
+    title: string;
+  };
+}
+
 export async function fetchFavoriteQuestions() {
   const response = await backendHttpClient
-    .get<Question[]>(BACKEND_URLS.FAVORITES.MINE)
+    .get<FavoriteQuestion[]>(BACKEND_URLS.FAVORITES.MINE)
     .then((response) => response.data)
     .catch((error) => {
       throw error;

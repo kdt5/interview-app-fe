@@ -1,78 +1,56 @@
 import { useEffect, useState } from "react";
-import {
-  fetchAnswer,
-  fetchBasicAnsweredQuestions,
-  fetchWeeklyAnsweredQuestions,
-} from "../api/Answer.api";
-import { Answer } from "../models/Answer.model";
+import { fetchAnswer } from "../api/Answer.api";
 import { Question } from "../models/Question.model";
 import { fetchQuestion } from "../api/Question.api";
-import { useParams } from "react-router-dom";
+import { fetchFavorite } from "../api/Favorite.api";
+import { HttpStatusCode } from "axios";
 
-export function useAnswer() {
-  const [weeklyAnsweredQuestions, setWeeklyAnsweredQuestions] = useState<
-    Answer[]
-  >([]);
-  const [basicAnsweredQuestions, setBasicAnsweredQuestions] = useState<
-    Answer[]
-  >([]);
-
-  const { questionId, answerId } = useParams<{
-    questionId: string;
-    answerId: string;
-  }>();
-
-  const questionIdNumber = Number(questionId);
-  const answerIdNumber = Number(answerId);
-
+export function useAnswer(questionId: number, answerId?: number) {
   const [question, setQuestion] = useState<Question>();
-  const [myAnswer, setMyAnswer] = useState("");
+  const [answer, setAnswer] = useState<string>("");
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
 
   useEffect(() => {
     try {
-      fetchBasicAnsweredQuestions().then((answers) => {
-        setBasicAnsweredQuestions(answers);
-      });
-      fetchWeeklyAnsweredQuestions().then((answers) => {
-        setWeeklyAnsweredQuestions(answers);
+      fetchQuestion(questionId).then((question) => {
+        setQuestion(question);
       });
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
-  }, []);
+  }, [questionId]);
 
   useEffect(() => {
-    if (questionId && questionIdNumber) {
-      try {
-        fetchQuestion(questionIdNumber).then((question) => {
-          setQuestion(question);
-          setIsFavorite(question.isFavorite ?? false);
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  }, [questionId, questionIdNumber]);
+    fetchFavorite(questionId)
+      .then((isFavorite) => {
+        setIsFavorite(isFavorite);
+      })
+      .catch((error) => {
+        if (error.status === HttpStatusCode.NotFound) {
+          setIsFavorite(false);
+        }
+      });
+  }, [questionId]);
 
   useEffect(() => {
-    if (answerId && answerIdNumber) {
-      try {
-        fetchAnswer(answerIdNumber).then((answer) => {
-          setMyAnswer(answer.content);
-        });
-      } catch (error) {
-        console.log(error);
-      }
+    if (answerId === undefined) {
+      return;
     }
-  }, [answerId, answerIdNumber]);
+
+    try {
+      fetchAnswer(answerId).then((answer) => {
+        setAnswer(answer.content);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }, [answerId]);
 
   return {
-    weeklyAnsweredQuestions,
-    basicAnsweredQuestions,
     question,
-    myAnswer,
-    answerIdNumber,
+    answer,
     isFavorite,
+    setAnswer,
+    setIsFavorite,
   };
 }

@@ -4,6 +4,6 @@ export interface Answer {
   question: {
     id: number;
     title: string;
-    categories: number[];
+    categories: string[];
   };
 }

@@ -5,7 +5,7 @@ export interface Category {
 
 export interface Question {
   id: number;
-  categories: number[];
+  categories: string[];
   title: string;
   content?: string;
   isAnswered: boolean;

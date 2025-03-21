@@ -2,12 +2,12 @@ import styled from "styled-components";
 import HomeImg from "../assets/MainPageIcon.png";
 import { SlArrowRight } from "react-icons/sl";
 import { Link } from "react-router-dom";
-import { useQuestion } from "../hooks/UseQuestion";
 import { FRONTEND_URLS } from "../constants/Urls";
 import { replaceUrlParams } from "../utils/Url";
+import { useWeeklyQuestion } from "../hooks/UseWeeklyQuestion";
 
 function MainPage() {
-  const { weeklyQuestion } = useQuestion();
+  const { weeklyQuestion } = useWeeklyQuestion();
 
   return (
     <>
@@ -26,13 +26,13 @@ function MainPage() {
         {weeklyQuestion ? (
           <Link
             to={replaceUrlParams(FRONTEND_URLS.ANSWER, {
-              questionId: weeklyQuestion.id.toString(),
+              questionId: weeklyQuestion.id?.toString(),
             })}
             className="weekly-question"
           >
             <p>{weeklyQuestion.title}</p>
             <div>
-              <span>{weeklyQuestion.categories.join(",")}</span>
+              <span>{weeklyQuestion.categories[0]}</span>
             </div>
           </Link>
         ) : (

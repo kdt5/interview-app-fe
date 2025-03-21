@@ -9,10 +9,12 @@ import {
   PASSWORD_MIN_LENGTH,
   NICKNAME_MAX_LENGTH,
   NICKNAME_MIN_LENGTH,
+  PASSWORD_MAX_LENGTH,
 } from "../constants/Auth";
 import { useState } from "react";
 import ConfirmModal from "../components/common/ConfirmModal";
 import AlertModal from "../components/common/AlertModal";
+import { AxiosError, HttpStatusCode } from "axios";
 export default SignUpPage;
 
 export interface SignUpInputs {
@@ -48,17 +50,24 @@ function SignUpPage() {
     }
 
     checkEmailExists(email)
-      .then((exists) => {
-        if (!exists) {
-          setIsEmailUnique(true);
-        } else {
-          setError("email", {
-            type: "manual",
-            message: "중복된 이메일입니다.",
-          });
+      .then((isExists) => {
+        if (!isExists) {
+          return;
         }
+
+        setIsEmailUnique(true);
       })
       .catch((error) => {
+        if (error instanceof AxiosError) {
+          if (error.status === HttpStatusCode.Conflict) {
+            setError("email", {
+              type: "manual",
+              message: "중복된 이메일입니다.",
+            });
+
+            return;
+          }
+        }
         console.error(error);
         setError("email", {
           type: "manual",
@@ -75,17 +84,24 @@ function SignUpPage() {
     }
 
     checkNicknameExists(nickname)
-      .then((exists) => {
-        if (!exists) {
-          setIsNicknameUnique(true);
-        } else {
-          setError("nickname", {
-            type: "manual",
-            message: "중복된 닉네임입니다.",
-          });
+      .then((isExists) => {
+        if (isExists) {
+          return;
         }
+
+        setIsNicknameUnique(true);
       })
       .catch((error) => {
+        if (error instanceof AxiosError) {
+          if (error.status === HttpStatusCode.Conflict) {
+            setError("nickname", {
+              type: "manual",
+              message: "중복된 닉네임입니다.",
+            });
+
+            return;
+          }
+        }
         console.error(error);
         setError("nickname", {
           type: "manual",
@@ -131,13 +147,9 @@ function SignUpPage() {
       return;
     }
 
-    signUp(data)
-      .then(() => {
-        navigate("/login");
-      })
-      .then(() => {
-        setIsModalVisible({ confirm: false, alert: true });
-      });
+    signUp(data).then(() => {
+      setIsModalVisible({ confirm: false, alert: true });
+    });
   };
 
   return (
@@ -164,7 +176,7 @@ function SignUpPage() {
                 {...register("email", {
                   required: { value: true, message: "이메일을 입력해주세요." },
                   pattern: {
-                    value: /^\S+@\S+$/i,
+                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/i,
                     message: "유효한 이메일 형식이 아닙니다.",
                   },
                   maxLength: {
@@ -209,9 +221,11 @@ function SignUpPage() {
                     value: true,
                     message: "비밀번호를 입력해주세요.",
                   },
-                  minLength: {
-                    value: PASSWORD_MIN_LENGTH,
-                    message: `비밀번호는 최소 ${PASSWORD_MIN_LENGTH}자 이상입니다.`,
+                  pattern: {
+                    value: new RegExp(
+                      `^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{${PASSWORD_MIN_LENGTH},${PASSWORD_MAX_LENGTH}}$`
+                    ),
+                    message: `영문 대소문자, 숫자, 특수문자 포함 ${PASSWORD_MIN_LENGTH} - ${PASSWORD_MAX_LENGTH}자`,
                   },
                 })}
               />
@@ -236,13 +250,11 @@ function SignUpPage() {
                     value: true,
                     message: "닉네임을 입력해주세요.",
                   },
-                  minLength: {
-                    value: NICKNAME_MIN_LENGTH,
-                    message: `닉네임은 ${NICKNAME_MIN_LENGTH}자 이상 ${NICKNAME_MAX_LENGTH}자 이하입니다`,
-                  },
-                  maxLength: {
-                    value: NICKNAME_MAX_LENGTH,
-                    message: `닉네임은 ${NICKNAME_MIN_LENGTH}자 이상 ${NICKNAME_MAX_LENGTH}자 이하입니다`,
+                  pattern: {
+                    value: new RegExp(
+                      `^[가-힣a-zA-Z0-9]{${NICKNAME_MIN_LENGTH},${NICKNAME_MAX_LENGTH}}$`
+                    ),
+                    message: `한글, 영문, 숫자 ${NICKNAME_MIN_LENGTH} - ${NICKNAME_MAX_LENGTH}자`,
                   },
                   onChange: onChangeNickname,
                 })}
@@ -283,7 +295,7 @@ function SignUpPage() {
           {isModalVisible.confirm && (
             <ConfirmModal
               onClose={() => {
-                setIsModalVisible((prev) => ({ ...prev, alert: false }));
+                setIsModalVisible((prev) => ({ ...prev, confirm: false }));
               }}
               onConfirm={handleSubmit(onSubmit)}
               message="회원가입 하시겠습니까?"

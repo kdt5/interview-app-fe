@@ -7,7 +7,15 @@ export function useFavorite() {
 
   useEffect(() => {
     try {
-      fetchFavoriteQuestions().then((questions) => {
+      fetchFavoriteQuestions().then((response) => {
+        const questions: Question[] = response.map((field) => {
+          return {
+            id: field.question.id,
+            title: field.question.title,
+            categories: [],
+            isAnswered: false,
+          };
+        });
         setFavoriteQuestions(questions);
       });
     } catch (error) {

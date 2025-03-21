@@ -44,15 +44,14 @@ export async function recordAnswer(answer: string, questionId: number) {
   return response;
 }
 
-export async function editAnswer(newAnswer: string, answerId: number) {
+export async function editAnswer(answerId: number, newAnswer: string) {
   const response = await backendHttpClient
     .patch(
       replaceUrlParams(BACKEND_URLS.ANSWERS.ANSWER_EDIT, {
         answerId: answerId.toString(),
       }),
       {
-        id: answerId,
-        content: newAnswer,
+        newAnswer: newAnswer,
       }
     )
     .then((response) => response.data)
