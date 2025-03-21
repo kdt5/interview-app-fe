@@ -48,26 +48,29 @@ function LoginPage() {
         <form onSubmit={handleSubmit(onSubmit)} noValidate>
           <div className="login-form">
             <div className="login-form__container">
-              <input
-                placeholder="이메일 입력"
-                type="email"
-                className={
-                  errors.email === undefined
-                    ? "login-form__input"
-                    : "login-form__error-input"
-                }
-                {...register("email", {
-                  required: { value: true, message: "이메일을 입력해주세요." },
-                  pattern: {
-                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/i,
-                    message: "유효한 이메일 형식이 아닙니다.",
-                  },
-                  maxLength: {
-                    value: EMAIL_MAX_LENGTH,
-                    message: `이메일은 ${EMAIL_MAX_LENGTH}자 이하로 입력해주세요.`,
-                  },
-                })}
-              />
+              <div className="login-form__input-container">
+                <input
+                  autoComplete="off"
+                  placeholder="이메일 입력"
+                  type="email"
+                  className="login-form__input"
+                  {...register("email", {
+                    required: {
+                      value: true,
+                      message: "이메일을 입력해주세요.",
+                    },
+                    pattern: {
+                      value:
+                        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/i,
+                      message: "유효한 이메일 형식이 아닙니다.",
+                    },
+                    maxLength: {
+                      value: EMAIL_MAX_LENGTH,
+                      message: `이메일은 ${EMAIL_MAX_LENGTH}자 이하로 입력해주세요.`,
+                    },
+                  })}
+                />
+              </div>
               <ErrorMessage
                 errors={errors}
                 name="email"
@@ -77,27 +80,26 @@ function LoginPage() {
               />
             </div>
             <div className="login-form__container">
-              <input
-                placeholder="비밀번호 입력"
-                type="password"
-                className={
-                  errors.password === undefined
-                    ? "login-form__input"
-                    : "login-form__error-input"
-                }
-                {...register("password", {
-                  required: {
-                    value: true,
-                    message: "비밀번호를 입력해주세요.",
-                  },
-                  pattern: {
-                    value: new RegExp(
-                      `^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{${PASSWORD_MIN_LENGTH},${PASSWORD_MAX_LENGTH}}$`
-                    ),
-                    message: `영문 대소문자, 숫자, 특수문자 포함 ${PASSWORD_MIN_LENGTH} - ${PASSWORD_MAX_LENGTH}자`,
-                  },
-                })}
-              />
+              <div className="login-form__input-container">
+                <input
+                  autoComplete="off"
+                  placeholder="비밀번호 입력"
+                  type="password"
+                  className="login-form__input"
+                  {...register("password", {
+                    required: {
+                      value: true,
+                      message: "비밀번호를 입력해주세요.",
+                    },
+                    pattern: {
+                      value: new RegExp(
+                        `^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{${PASSWORD_MIN_LENGTH},${PASSWORD_MAX_LENGTH}}$`
+                      ),
+                      message: `영문 대소문자, 숫자, 특수문자 포함 ${PASSWORD_MIN_LENGTH} - ${PASSWORD_MAX_LENGTH}자`,
+                    },
+                  })}
+                />
+              </div>
               <ErrorMessage
                 errors={errors}
                 name="password"
