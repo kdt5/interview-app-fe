@@ -3,7 +3,13 @@ import { Category } from "../models/Question.model";
 import { fetchCategories, Position } from "../api/Question.api";
 import { ALL_CATEGORIES } from "../constants/Question";
 
-export function useCategory(position?: Position) {
+interface UseCategoryReturn {
+  categories: Category[];
+  setCategories: (categories: Category[]) => void;
+  getCategoryName: (categoryId: number) => string;
+}
+
+export function useCategory(position?: Position): UseCategoryReturn {
   const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {

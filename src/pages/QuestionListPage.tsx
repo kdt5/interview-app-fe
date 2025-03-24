@@ -12,10 +12,11 @@ export default QuestionListPage;
 function QuestionListPage(): JSX.Element {
   const { position } = useParams<{ position: string }>();
 
-  const [activeCategoryId, setActiveCategoryId] =
-    useState<number>(ALL_CATEGORIES);
   const { categories, questions, updateQuestions, getCategoryName } =
     useQuestions((position ? position : "frontend") as Position);
+
+  const [activeCategoryId, setActiveCategoryId] =
+    useState<number>(ALL_CATEGORIES);
 
   const onClickCategoryButton = (categoryId: number) => {
     setActiveCategoryId(categoryId);
