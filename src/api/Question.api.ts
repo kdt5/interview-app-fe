@@ -9,10 +9,6 @@ interface WeeklyQuestionResponse {
   questionDetail: Question;
 }
 
-interface FetchQuestionResponse {
-  questionDetail: Question;
-}
-
 export async function fetchCategories(position?: Position) {
   const response = await backendHttpClient
     .get<Category[]>(BACKEND_URLS.CATEGORIES.ALL, {
@@ -42,6 +38,10 @@ export async function fetchQuestions(position: Position, categoryId?: number) {
     });
 
   return response;
+}
+
+interface FetchQuestionResponse {
+  questionDetail: Question;
 }
 
 export async function fetchQuestion(questionId: number) {

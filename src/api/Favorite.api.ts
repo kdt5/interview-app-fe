@@ -2,7 +2,7 @@ import { backendHttpClient } from "./BackendHttpClient.api";
 import { BACKEND_URLS } from "../constants/Urls";
 import { replaceUrlParams } from "../utils/Url";
 
-interface FavoriteQuestion {
+interface FavoriteQuestionResponse {
   userId: number;
   question: {
     id: number;
@@ -12,7 +12,7 @@ interface FavoriteQuestion {
 
 export async function fetchFavoriteQuestions() {
   const response = await backendHttpClient
-    .get<FavoriteQuestion[]>(BACKEND_URLS.FAVORITES.MINE)
+    .get<FavoriteQuestionResponse[]>(BACKEND_URLS.FAVORITES.MINE)
     .then((response) => response.data)
     .catch((error) => {
       throw error;
