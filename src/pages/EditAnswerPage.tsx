@@ -1,7 +1,6 @@
 import styled from "styled-components";
-import { FaStar } from "react-icons/fa6";
 import { useEffect, useState } from "react";
-import { ModalType } from "./AnswerPage";
+import { AnswerPageStyle, FavoriteIcon, ModalType } from "./AnswerPage";
 import ConfirmModal from "../components/common/ConfirmModal";
 import AlertModal from "../components/common/AlertModal";
 import { deleteAnswer, editAnswer } from "../api/Answer.api";
@@ -122,10 +121,7 @@ function EditAnswerPage() {
           <p className="numbering-title">
             {question && String(question.id).padStart(2, "0")} |
           </p>
-          <FavoriteIconStyle
-            onClick={toggleFavorite}
-            $isFavorite={isFavorite}
-          />
+          <FavoriteIcon onClick={toggleFavorite} $isFavorite={isFavorite} />
         </div>
         <h2 className="question-title">{question && question.title}</h2>
         <span className="category-name">
@@ -180,115 +176,9 @@ function EditAnswerPage() {
   );
 }
 
-const FavoriteIconStyle = styled(FaStar)<{ $isFavorite: boolean }>`
-  fill: ${({ $isFavorite: isFavorite }) =>
-    isFavorite ? "#FFD600" : "#DFDFDF"};
-  cursor: pointer;
-  font-size: 24px;
-`;
-
-const EditAnswerPageStyle = styled.div<{ $isSubmitDisabled: boolean }>`
-  width: 100%;
-  max-width: 380px;
-  box-sizing: border-box;
-  padding: 25px 30px;
-
-  .question-box {
-    padding: 15px;
-    box-sizing: border-box;
-    width: 330px;
-    height: fit-content;
-    border: 1px solid #eff2f8;
-    border-radius: 10px;
-    background: #fbfbfb;
-
-    .category-name {
-      margin-top: 40px;
-      background-color: #bbd3ff;
-      color: #fff;
-      font-size: 12px;
-      font-weight: 300;
-      border-radius: 15px;
-      display: inline-block;
-      padding: 3px 10px;
-    }
-  }
-
-  .question-numbering {
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-
-    .numbering-title {
-      color: #888888;
-    }
-
-    svg {
-      font-size: 24px;
-      cursor: pointer;
-    }
-  }
-
-  .question-title {
-    font-weight: 600;
-  }
-
-  .answer-box {
-    border: 1px solid #eff2f8;
-    border-radius: 10px;
-    width: 330px;
-    height: 315px;
-    margin: 10px 0;
-
-    .answer-text {
-      -ms-overflow-style: none;
-      width: 100%;
-      height: 100%;
-      padding: 15px;
-      border-radius: 10px;
-      border: none;
-      background: none;
-      resize: none;
-    }
-
-    .answer-text:focus {
-      outline: none;
-    }
-
-    .answer-text::-webkit-scrollbar {
-      display: none;
-    }
-
-    .character-count {
-      font-size: 14px;
-      color: #888;
-      text-align: right;
-    }
-
-    .character-count.over-limit {
-      color: red;
-      animation: shake 0.5s ease-in-out;
-    }
-
-    @keyframes shake {
-      0% {
-        transform: translateX(0);
-      }
-      25% {
-        transform: translateX(-3px);
-      }
-      50% {
-        transform: translateX(3px);
-      }
-      75% {
-        transform: translateX(-3px);
-      }
-      100% {
-        transform: translateX(0);
-      }
-    }
-  }
-
+const EditAnswerPageStyle = styled(AnswerPageStyle)<{
+  $isSubmitDisabled: boolean;
+}>`
   .buttons {
     display: flex;
     justify-content: start;

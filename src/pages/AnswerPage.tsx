@@ -135,14 +135,14 @@ function AnswerPage() {
   );
 }
 
-const FavoriteIcon = styled(FaStar)<{ $isFavorite: boolean }>`
+export const FavoriteIcon = styled(FaStar)<{ $isFavorite: boolean }>`
   fill: ${({ $isFavorite: isFavorite }) =>
     isFavorite ? "#FFD600" : "#DFDFDF"};
   cursor: pointer;
   font-size: 24px;
 `;
 
-const AnswerPageStyle = styled.div<{ $isSubmitDisabled: boolean }>`
+export const AnswerPageStyle = styled.div<{ $isSubmitDisabled: boolean }>`
   width: 100%;
   max-width: 380px;
   box-sizing: border-box;
