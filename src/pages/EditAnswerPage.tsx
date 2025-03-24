@@ -1,12 +1,14 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { AnswerPageStyle, FavoriteIcon, ModalType } from "./AnswerPage";
+import { AnswerPageStyle, ModalType } from "./AnswerPage";
 import ConfirmModal from "../components/common/ConfirmModal";
 import AlertModal from "../components/common/AlertModal";
 import { deleteAnswer, editAnswer } from "../api/Answer.api";
 import { addFavorite, removeFavorite } from "../api/Favorite.api";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAnswer } from "../hooks/UseAnswer";
+import QuestionBox from "../components/AnswerPage/QuestionBox";
+import AnswerBox from "../components/AnswerPage/AnswerBox";
 
 function EditAnswerPage() {
   const navigate = useNavigate();
@@ -116,29 +118,18 @@ function EditAnswerPage() {
 
   return (
     <EditAnswerPageStyle $isSubmitDisabled={isSubmitDisabled}>
-      <div className="question-box">
-        <div className="question-numbering">
-          <p className="numbering-title">
-            {question && String(question.id).padStart(2, "0")} |
-          </p>
-          <FavoriteIcon onClick={toggleFavorite} $isFavorite={isFavorite} />
-        </div>
-        <h2 className="question-title">{question && question.title}</h2>
-        <span className="category-name">
-          {question && question.categories[0]}
-        </span>
-      </div>
-      <form action="/" className="answer-box">
-        <textarea
-          placeholder="답변을 작성해주세요."
-          className="answer-text"
-          value={currentAnswer}
-          onChange={handleAnswerChange}
-        ></textarea>
-        <p className={`character-count ${isOverLimit ? "over-limit" : ""}`}>
-          {currentAnswer.length}/500
-        </p>
-      </form>
+      <QuestionBox
+        questionId={String(question?.id)}
+        title={question?.title || "질문이 없습니다."}
+        category={question?.categories[0] || "카테고리가 없습니다."}
+        isFavorite={isFavorite}
+        toggleFavorite={toggleFavorite}
+      />
+      <AnswerBox
+        answer={currentAnswer}
+        handleAnswerChange={handleAnswerChange}
+        isOverLimit={isOverLimit}
+      />
       <div className="buttons">
         <button
           className="edit-button"
@@ -183,23 +174,24 @@ const EditAnswerPageStyle = styled(AnswerPageStyle)<{
     display: flex;
     justify-content: start;
     margin-bottom: 100px;
-  }
 
-  .edit-button,
-  .delete-button {
-    height: 60px;
-    font-size: 20px;
-    margin-top: 30px;
-  }
+    .edit-button,
+    .delete-button {
+      height: 60px;
+      font-size: 20px;
+      margin-top: 30px;
+    }
 
-  .edit-button {
-    flex-grow: 1;
-    opacity: ${(props) => (props.$isSubmitDisabled ? 0.5 : 1)};
-    cursor: ${(props) => (props.$isSubmitDisabled ? "not-allowed" : "pointer")};
-  }
+    .edit-button {
+      flex-grow: 1;
+      opacity: ${(props) => (props.$isSubmitDisabled ? 0.5 : 1)};
+      cursor: ${(props) =>
+        props.$isSubmitDisabled ? "not-allowed" : "pointer"};
+    }
 
-  .delete-button {
-    background: #d32121;
+    .delete-button {
+      background: #d32121;
+    }
   }
 `;
 
