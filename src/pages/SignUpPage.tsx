@@ -51,7 +51,7 @@ function SignUpPage() {
 
     checkEmailExists(email)
       .then((isExists) => {
-        if (!isExists) {
+        if (isExists) {
           return;
         }
 
