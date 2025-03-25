@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
-import { fetchBasicAnsweredQuestions } from "../api/Answer.api";
+import {
+  fetchBasicAnsweredQuestions,
+  fetchWeeklyAnsweredQuestions,
+} from "../api/Answer.api";
 import { Answer } from "../models/Answer.model";
 
 export function useAnsweredHistory() {
@@ -28,14 +31,14 @@ export function useAnsweredHistory() {
         setError((prev) => ({ ...prev, basic: error }));
       });
 
-    // fetchWeeklyAnsweredQuestions()
-    //   .then((answeredQuestion) => {
-    //     setWeeklyAnsweredQuestions(answeredQuestion);
-    //     setLoading((prev) => ({ ...prev, weekly: false }));
-    //   })
-    //   .catch((error) => {
-    //     setError((prev) => ({ ...prev, weekly: error }));
-    //   });
+    fetchWeeklyAnsweredQuestions()
+      .then((answeredQuestion) => {
+        setWeeklyAnsweredQuestions(answeredQuestion);
+        setLoading((prev) => ({ ...prev, weekly: false }));
+      })
+      .catch((error) => {
+        setError((prev) => ({ ...prev, weekly: error }));
+      });
 
     setWeeklyAnsweredQuestions([]);
     setLoading((prev) => ({ ...prev, weekly: false }));
