@@ -6,9 +6,9 @@ interface Props {
   isOverLimit: boolean;
 }
 
-function AnswerBox({ answer, handleAnswerChange, isOverLimit }: Props) {
+function AnswerForm({ answer, handleAnswerChange, isOverLimit }: Props) {
   return (
-    <AnswerBoxStyle>
+    <AnswerFormStyle>
       <textarea
         placeholder="답변을 작성해주세요."
         className="answer-text"
@@ -18,11 +18,11 @@ function AnswerBox({ answer, handleAnswerChange, isOverLimit }: Props) {
       <p className={`character-count ${isOverLimit ? "over-limit" : ""}`}>
         {answer.length}/500
       </p>
-    </AnswerBoxStyle>
+    </AnswerFormStyle>
   );
 }
 
-const AnswerBoxStyle = styled.form`
+const AnswerFormStyle = styled.form`
   border: 1px solid #eff2f8;
   border-radius: 10px;
   width: 330px;
@@ -78,4 +78,4 @@ const AnswerBoxStyle = styled.form`
   }
 `;
 
-export default AnswerBox;
+export default AnswerForm;

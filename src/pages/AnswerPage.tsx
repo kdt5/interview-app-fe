@@ -6,8 +6,8 @@ import { addFavorite, removeFavorite } from "../api/Favorite.api";
 import { useNavigate, useParams } from "react-router-dom";
 import { recordAnswer } from "../api/Answer.api";
 import { useAnswer } from "../hooks/UseAnswer";
-import QuestionBox from "../components/AnswerPage/QuestionBox";
-import AnswerBox from "../components/AnswerPage/AnswerBox";
+import QuestionContainer from "../components/AnswerPage/QuestionContainer";
+import AnswerForm from "../components/AnswerPage/AnswerForm";
 
 export type ModalType = "confirm" | "alert";
 
@@ -85,14 +85,14 @@ function AnswerPage() {
 
   return (
     <AnswerPageStyle $isSubmitDisabled={isSubmitDisabled}>
-      <QuestionBox
+      <QuestionContainer
         questionId={String(question?.id)}
         title={question?.title || "질문이 없습니다."}
         category={question?.categories[0] || "카테고리가"}
         isFavorite={isFavorite}
         toggleFavorite={toggleFavorite}
       />
-      <AnswerBox
+      <AnswerForm
         answer={answer}
         handleAnswerChange={handleAnswerChange}
         isOverLimit={isOverLimit}

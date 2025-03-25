@@ -9,7 +9,7 @@ interface Props {
   toggleFavorite: () => void;
 }
 
-function QuestionBox({
+function QuestionContainer({
   questionId,
   title,
   category,
@@ -17,7 +17,7 @@ function QuestionBox({
   toggleFavorite,
 }: Props) {
   return (
-    <QuestionBoxStyle>
+    <QuestionContainerStyle>
       <div className="question-numbering">
         <p className="numbering-title">
           {String(questionId).padStart(2, "0")} |
@@ -26,7 +26,7 @@ function QuestionBox({
       </div>
       <h2 className="question-title">{title}</h2>
       <span className="category-name">{category}</span>
-    </QuestionBoxStyle>
+    </QuestionContainerStyle>
   );
 }
 
@@ -37,7 +37,7 @@ export const FavoriteIcon = styled(FaStar)<{ $isFavorite: boolean }>`
   font-size: 24px;
 `;
 
-const QuestionBoxStyle = styled.div`
+const QuestionContainerStyle = styled.div`
   padding: 15px;
   box-sizing: border-box;
   width: 330px;
@@ -77,4 +77,4 @@ const QuestionBoxStyle = styled.div`
   }
 `;
 
-export default QuestionBox;
+export default QuestionContainer;

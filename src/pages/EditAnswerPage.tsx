@@ -7,8 +7,8 @@ import { deleteAnswer, editAnswer } from "../api/Answer.api";
 import { addFavorite, removeFavorite } from "../api/Favorite.api";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAnswer } from "../hooks/UseAnswer";
-import QuestionBox from "../components/AnswerPage/QuestionBox";
-import AnswerBox from "../components/AnswerPage/AnswerBox";
+import QuestionContainer from "../components/AnswerPage/QuestionContainer";
+import AnswerForm from "../components/AnswerPage/AnswerForm";
 
 function EditAnswerPage() {
   const navigate = useNavigate();
@@ -118,14 +118,14 @@ function EditAnswerPage() {
 
   return (
     <EditAnswerPageStyle $isSubmitDisabled={isSubmitDisabled}>
-      <QuestionBox
+      <QuestionContainer
         questionId={String(question?.id)}
         title={question?.title || "질문이 없습니다."}
         category={question?.categories[0] || "카테고리가 없습니다."}
         isFavorite={isFavorite}
         toggleFavorite={toggleFavorite}
       />
-      <AnswerBox
+      <AnswerForm
         answer={currentAnswer}
         handleAnswerChange={handleAnswerChange}
         isOverLimit={isOverLimit}
