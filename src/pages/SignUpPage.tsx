@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { RegisterOptions, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { checkEmailExists, checkNicknameExists, signUp } from "../api/Auth.api";
@@ -153,7 +153,7 @@ function SignUpPage() {
     });
   };
 
-  const checkEmail = {
+  const checkEmail: RegisterOptions<SignUpInputs, "email"> = {
     required: { value: true, message: "이메일을 입력해주세요." },
     pattern: {
       value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/i,
@@ -166,7 +166,7 @@ function SignUpPage() {
     onChange: onChangeEmail,
   };
 
-  const checkPassword = {
+  const checkPassword: RegisterOptions<SignUpInputs, "password"> = {
     required: {
       value: true,
       message: "비밀번호를 입력해주세요.",
