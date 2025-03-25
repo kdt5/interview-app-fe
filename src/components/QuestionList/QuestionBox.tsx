@@ -12,7 +12,6 @@ interface Props {
   categoryImagePath: string;
   categoryName?: string;
   isAnswered: boolean;
-  isEditable: boolean;
 }
 
 function QuestionBox({
@@ -21,15 +20,14 @@ function QuestionBox({
   categoryImagePath,
   categoryName,
   isAnswered,
-  isEditable,
 }: Props) {
-  const answeredClassName = !isEditable && isAnswered ? "answered" : "";
+  const answeredClassName = isAnswered ? "answered" : "";
   const link = replaceUrlParams(FRONTEND_URLS.ANSWER, {
     questionId: questionId.toString(),
   });
 
   const answeredStateElement = () => {
-    if (!isEditable && isAnswered) {
+    if (isAnswered) {
       return <div className="answered-text">답변완료</div>;
     }
 

@@ -46,7 +46,6 @@ function Questions({ className, questions, questionsType }: Props) {
                 isAnswered={
                   questionsType === "Answered" ? false : question.isAnswered
                 }
-                isEditable={questionsType === "Complex"}
               />
             </SwiperSlide>
           );

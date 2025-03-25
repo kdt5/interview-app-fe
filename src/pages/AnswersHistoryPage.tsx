@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import Tabs from "../components/common/Tabs";
 import { useState } from "react";
-import Answers from "../components/answersHistory/Answers";
+import Answers from "../components/AnswersHistory/Answers";
 import { useCategory } from "../hooks/UseCategory";
-import { useAnsweredHistory } from "../hooks/useAnsweredHistory";
+import { useAnsweredHistory } from "../hooks/UseAnsweredHistory";
 
 export default AnswersHistoryPage;
 

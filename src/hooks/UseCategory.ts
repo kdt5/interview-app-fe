@@ -1,9 +1,16 @@
 import { useEffect, useState } from "react";
 import { Category } from "../models/Question.model";
-import { fetchCategories, Position } from "../api/Question.api";
+import { Position } from "../api/Question.api";
 import { ALL_CATEGORIES } from "../constants/Question";
+import { fetchCategories } from "../api/Category.api";
 
-export function useCategory(position?: Position) {
+interface UseCategoryReturn {
+  categories: Category[];
+  setCategories: (categories: Category[]) => void;
+  getCategoryName: (categoryId: number) => string;
+}
+
+export function useCategory(position?: Position): UseCategoryReturn {
   const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
@@ -23,7 +30,7 @@ export function useCategory(position?: Position) {
     } catch (error) {
       console.error(error);
     }
-  }, []);
+  }, [position]);
 
   const getCategoryName = (categoryId: number) => {
     const category = categories.find((category) => category.id === categoryId);

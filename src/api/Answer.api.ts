@@ -1,9 +1,10 @@
+import { HttpStatusCode } from "axios";
 import { BACKEND_URLS } from "../constants/Urls";
 import { Answer } from "../models/Answer.model";
 import { replaceUrlParams } from "../utils/Url";
 import { backendHttpClient } from "./BackendHttpClient.api";
 
-export async function fetchBasicAnsweredQuestions() {
+export async function fetchBasicAnsweredQuestions(): Promise<Answer[]> {
   const response = await backendHttpClient
     .get<Answer[]>(BACKEND_URLS.ANSWERS.MINE)
     .then((response) => response.data)
@@ -14,7 +15,7 @@ export async function fetchBasicAnsweredQuestions() {
   return response;
 }
 
-export async function fetchWeeklyAnsweredQuestions() {
+export async function fetchWeeklyAnsweredQuestions(): Promise<Answer[]> {
   const response = await backendHttpClient
     .get<Answer[]>(BACKEND_URLS.ANSWERS.WEEKLY)
     .then((response) => response.data)
@@ -25,7 +26,10 @@ export async function fetchWeeklyAnsweredQuestions() {
   return response;
 }
 
-export async function recordAnswer(answer: string, questionId: number) {
+export async function recordAnswer(
+  answer: string,
+  questionId: number
+): Promise<boolean> {
   const response = await backendHttpClient
     .post(
       replaceUrlParams(BACKEND_URLS.ANSWERS.ANSWER_RECORD, {
@@ -36,7 +40,7 @@ export async function recordAnswer(answer: string, questionId: number) {
         content: answer,
       }
     )
-    .then((response) => response.data)
+    .then((response) => response.status === HttpStatusCode.Created)
     .catch((error) => {
       throw error;
     });
@@ -44,7 +48,10 @@ export async function recordAnswer(answer: string, questionId: number) {
   return response;
 }
 
-export async function editAnswer(answerId: number, newAnswer: string) {
+export async function editAnswer(
+  answerId: number,
+  newAnswer: string
+): Promise<boolean> {
   const response = await backendHttpClient
     .patch(
       replaceUrlParams(BACKEND_URLS.ANSWERS.ANSWER_EDIT, {
@@ -54,7 +61,7 @@ export async function editAnswer(answerId: number, newAnswer: string) {
         newAnswer: newAnswer,
       }
     )
-    .then((response) => response.data)
+    .then((response) => response.status === HttpStatusCode.Ok)
     .catch((error) => {
       throw error;
     });
@@ -62,14 +69,14 @@ export async function editAnswer(answerId: number, newAnswer: string) {
   return response;
 }
 
-export async function deleteAnswer(answerId: number) {
+export async function deleteAnswer(answerId: number): Promise<boolean> {
   const response = await backendHttpClient
     .delete(
       replaceUrlParams(BACKEND_URLS.ANSWERS.ANSWER_EDIT, {
         answerId: answerId.toString(),
       })
     )
-    .then((response) => response.data)
+    .then((response) => response.status === HttpStatusCode.Ok)
     .catch((error) => {
       throw error;
     });
@@ -77,7 +84,7 @@ export async function deleteAnswer(answerId: number) {
   return response;
 }
 
-export async function fetchAnswer(answerId: number) {
+export async function fetchAnswer(answerId: number): Promise<Answer> {
   const response = await backendHttpClient
     .get<Answer>(
       replaceUrlParams(BACKEND_URLS.ANSWERS.ANSWER_EDIT, {

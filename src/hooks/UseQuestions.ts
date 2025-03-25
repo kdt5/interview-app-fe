@@ -1,10 +1,17 @@
 import { useEffect, useState } from "react";
-import { Question } from "../models/Question.model";
+import { Category, Question } from "../models/Question.model";
 import { fetchQuestions, Position } from "../api/Question.api";
 import { ALL_CATEGORIES } from "../constants/Question";
 import { useCategory } from "./UseCategory";
 
-export function useQuestions(position: Position) {
+interface UseQuestionsReturn {
+  categories: Category[];
+  questions: Question[];
+  getCategoryName: (categoryId: number) => string;
+  updateQuestions: (newCategoryId: number) => void;
+}
+
+export function useQuestions(position: Position): UseQuestionsReturn {
   const { categories, getCategoryName } = useCategory(position);
   const [questions, setQuestions] = useState<Question[]>([]);
 
@@ -16,7 +23,7 @@ export function useQuestions(position: Position) {
     } catch (error) {
       console.error(error);
     }
-  }, []);
+  }, [position]);
 
   const updateQuestions = (newCategoryId: number) => {
     try {
@@ -33,7 +40,7 @@ export function useQuestions(position: Position) {
   return {
     categories,
     questions,
-    updateQuestions,
     getCategoryName,
+    updateQuestions,
   };
 }
