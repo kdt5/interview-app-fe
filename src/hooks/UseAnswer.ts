@@ -5,7 +5,18 @@ import { fetchQuestion } from "../api/Question.api";
 import { fetchFavorite } from "../api/Favorite.api";
 import { HttpStatusCode } from "axios";
 
-export function useAnswer(questionId: number, answerId?: number) {
+interface UseAnswerReturn {
+  question?: Question;
+  answer: string;
+  isFavorite: boolean;
+  setAnswer: React.Dispatch<React.SetStateAction<string>>;
+  setIsFavorite: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export function useAnswer(
+  questionId: number,
+  answerId?: number
+): UseAnswerReturn {
   const [question, setQuestion] = useState<Question>();
   const [answer, setAnswer] = useState<string>("");
   const [isFavorite, setIsFavorite] = useState<boolean>(false);

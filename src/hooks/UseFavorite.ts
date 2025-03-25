@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { Question } from "../models/Question.model";
 import { fetchFavoriteQuestions } from "../api/Favorite.api";
 
-export function useFavorite() {
+interface UseFavoriteReturn {
+  favoriteQuestions: Question[];
+}
+
+export function useFavorite(): UseFavoriteReturn {
   const [favoriteQuestions, setFavoriteQuestions] = useState<Question[]>([]);
 
   useEffect(() => {
