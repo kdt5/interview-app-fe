@@ -23,7 +23,7 @@ export function useQuestions(position: Position): UseQuestionsReturn {
     } catch (error) {
       console.error(error);
     }
-  }, []);
+  }, [position]);
 
   const updateQuestions = (newCategoryId: number) => {
     try {
