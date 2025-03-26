@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { RegisterOptions, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { checkEmailExists, checkNicknameExists, signUp } from "../api/Auth.api";
@@ -15,6 +15,7 @@ import { useState } from "react";
 import ConfirmModal from "../components/common/ConfirmModal";
 import AlertModal from "../components/common/AlertModal";
 import { AxiosError, HttpStatusCode } from "axios";
+import InputText from "../components/common/Input";
 export default SignUpPage;
 
 export interface SignUpInputs {
@@ -152,6 +153,32 @@ function SignUpPage() {
     });
   };
 
+  const checkEmail: RegisterOptions<SignUpInputs, "email"> = {
+    required: { value: true, message: "이메일을 입력해주세요." },
+    pattern: {
+      value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/i,
+      message: "유효한 이메일 형식이 아닙니다.",
+    },
+    maxLength: {
+      value: EMAIL_MAX_LENGTH,
+      message: `이메일은 ${EMAIL_MAX_LENGTH}자 이하로 입력해주세요.`,
+    },
+    onChange: onChangeEmail,
+  };
+
+  const checkPassword: RegisterOptions<SignUpInputs, "password"> = {
+    required: {
+      value: true,
+      message: "비밀번호를 입력해주세요.",
+    },
+    pattern: {
+      value: new RegExp(
+        `^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{${PASSWORD_MIN_LENGTH},${PASSWORD_MAX_LENGTH}}$`
+      ),
+      message: `영문 대소문자, 숫자, 특수문자 포함 ${PASSWORD_MIN_LENGTH} - ${PASSWORD_MAX_LENGTH}자`,
+    },
+  };
+
   return (
     <>
       <GlobalStyle />
@@ -168,23 +195,11 @@ function SignUpPage() {
         >
           <div className="join-form__container">
             <div className="join-form__input-container">
-              <input
+              <InputText
                 autoComplete="off"
                 placeholder="이메일 입력"
                 type="email"
-                className="join-form__input"
-                {...register("email", {
-                  required: { value: true, message: "이메일을 입력해주세요." },
-                  pattern: {
-                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/i,
-                    message: "유효한 이메일 형식이 아닙니다.",
-                  },
-                  maxLength: {
-                    value: EMAIL_MAX_LENGTH,
-                    message: `이메일은 ${EMAIL_MAX_LENGTH}자 이하로 입력해주세요.`,
-                  },
-                  onChange: onChangeEmail,
-                })}
+                {...register("email", checkEmail)}
               />
               <div className="join-form__container-btn">
                 <button
@@ -211,23 +226,11 @@ function SignUpPage() {
           </div>
           <div className="join-form__container">
             <div className="join-form__input-container">
-              <input
+              <InputText
                 autoComplete="off"
                 placeholder="비밀번호 입력"
                 type="password"
-                className="join-form__input"
-                {...register("password", {
-                  required: {
-                    value: true,
-                    message: "비밀번호를 입력해주세요.",
-                  },
-                  pattern: {
-                    value: new RegExp(
-                      `^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{${PASSWORD_MIN_LENGTH},${PASSWORD_MAX_LENGTH}}$`
-                    ),
-                    message: `영문 대소문자, 숫자, 특수문자 포함 ${PASSWORD_MIN_LENGTH} - ${PASSWORD_MAX_LENGTH}자`,
-                  },
-                })}
+                {...register("password", checkPassword)}
               />
             </div>
             <ErrorMessage
@@ -240,11 +243,10 @@ function SignUpPage() {
           </div>
           <div className="join-form__container">
             <div className="join-form__input-container">
-              <input
+              <InputText
                 autoComplete="off"
                 placeholder="닉네임 입력"
                 type="text"
-                className="join-form__input"
                 {...register("nickname", {
                   required: {
                     value: true,
@@ -351,10 +353,6 @@ const SignUpPageStyle = styled.div<SignUpPageStyleProps>`
     flex-direction: column;
     height: 85px;
 
-    .join-form__input::placeholder {
-      color: #fff;
-    }
-
     .join-form__input-container {
       display: flex;
       border-bottom: 1px solid #ffffff;
@@ -376,20 +374,6 @@ const SignUpPageStyle = styled.div<SignUpPageStyleProps>`
       font-size: 12px;
       margin-top: 5px;
     }
-  }
-
-  .join-form__input {
-    border: none;
-    background: none;
-    padding: 15px;
-    font-size: 16px;
-    color: #ffffff;
-    width: 100%;
-    height: 60px;
-  }
-
-  .join-form__input:focus {
-    outline: none;
   }
 
   .join-form__btn {

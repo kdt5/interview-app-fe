@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { RegisterOptions, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { login } from "../api/Auth.api";
@@ -11,6 +11,7 @@ import {
   PASSWORD_MAX_LENGTH,
   PASSWORD_MIN_LENGTH,
 } from "../constants/Auth";
+import InputText from "../components/common/Input";
 
 export default LoginPage;
 
@@ -33,6 +34,31 @@ function LoginPage() {
     });
   };
 
+  const checkEmail: RegisterOptions<LoginInputs, "email"> = {
+    required: { value: true, message: "이메일을 입력해주세요." },
+    pattern: {
+      value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/i,
+      message: "유효한 이메일 형식이 아닙니다.",
+    },
+    maxLength: {
+      value: EMAIL_MAX_LENGTH,
+      message: `이메일은 ${EMAIL_MAX_LENGTH}자 이하로 입력해주세요.`,
+    },
+  };
+
+  const checkPassword: RegisterOptions<LoginInputs, "email"> = {
+    required: {
+      value: true,
+      message: "비밀번호를 입력해주세요.",
+    },
+    pattern: {
+      value: new RegExp(
+        `^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{${PASSWORD_MIN_LENGTH},${PASSWORD_MAX_LENGTH}}$`
+      ),
+      message: `영문 대소문자, 숫자, 특수문자 포함 ${PASSWORD_MIN_LENGTH} - ${PASSWORD_MAX_LENGTH}자`,
+    },
+  };
+
   return (
     <>
       <GlobalStyle />
@@ -46,78 +72,50 @@ function LoginPage() {
         </span>
 
         <form onSubmit={handleSubmit(onSubmit)} noValidate>
-          <div className="login-form">
-            <div className="login-form__container">
-              <div className="login-form__input-container">
-                <input
-                  autoComplete="off"
-                  placeholder="이메일 입력"
-                  type="email"
-                  className="login-form__input"
-                  {...register("email", {
-                    required: {
-                      value: true,
-                      message: "이메일을 입력해주세요.",
-                    },
-                    pattern: {
-                      value:
-                        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/i,
-                      message: "유효한 이메일 형식이 아닙니다.",
-                    },
-                    maxLength: {
-                      value: EMAIL_MAX_LENGTH,
-                      message: `이메일은 ${EMAIL_MAX_LENGTH}자 이하로 입력해주세요.`,
-                    },
-                  })}
-                />
-              </div>
-              <ErrorMessage
-                errors={errors}
-                name="email"
-                render={({ message }) => (
-                  <span className="error-message">{message}</span>
-                )}
+          <div className="login-form__container">
+            <div className="login-form__input-container">
+              <InputText
+                autoComplete="off"
+                placeholder="이메일 입력"
+                type="email"
+                {...register("email", checkEmail)}
               />
             </div>
-            <div className="login-form__container">
-              <div className="login-form__input-container">
-                <input
-                  autoComplete="off"
-                  placeholder="비밀번호 입력"
-                  type="password"
-                  className="login-form__input"
-                  {...register("password", {
-                    required: {
-                      value: true,
-                      message: "비밀번호를 입력해주세요.",
-                    },
-                    pattern: {
-                      value: new RegExp(
-                        `^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{${PASSWORD_MIN_LENGTH},${PASSWORD_MAX_LENGTH}}$`
-                      ),
-                      message: `영문 대소문자, 숫자, 특수문자 포함 ${PASSWORD_MIN_LENGTH} - ${PASSWORD_MAX_LENGTH}자`,
-                    },
-                  })}
-                />
-              </div>
-              <ErrorMessage
-                errors={errors}
-                name="password"
-                render={({ message }) => (
-                  <span className="error-message">{message}</span>
-                )}
-              />
-            </div>
-            <div className="login-form__column">
-              <span className="id-find-btn">아이디 찾기</span>
-              <div className="mid-line"></div>
-              <span className="pass-find-btn">비밀번호 찾기</span>
-              <div className="mid-line"></div>
-              <Link to={FRONTEND_URLS.SIGNUP}>
-                <span className="join-btn">회원가입</span>
-              </Link>
-            </div>
+            <ErrorMessage
+              errors={errors}
+              name="email"
+              render={({ message }) => (
+                <span className="error-message">{message}</span>
+              )}
+            />
           </div>
+          <div className="login-form__container">
+            <div className="login-form__input-container">
+              <InputText
+                autoComplete="off"
+                placeholder="비밀번호 입력"
+                type="password"
+                {...register("password", checkPassword)}
+              />
+            </div>
+            <ErrorMessage
+              errors={errors}
+              name="password"
+              render={({ message }) => (
+                <span className="error-message">{message}</span>
+              )}
+            />
+          </div>
+          <div className="login-form__column">
+            <span className="id-find-btn">아이디 찾기</span>
+            <div className="mid-line"></div>
+            <span className="pass-find-btn">비밀번호 찾기</span>
+            <div className="mid-line"></div>
+            <Link to={FRONTEND_URLS.SIGNUP}>
+              <span className="join-btn">회원가입</span>
+            </Link>
+          </div>
+
           <button type="submit" className="login-form__btn">
             로그인
           </button>
@@ -134,6 +132,10 @@ const LoginPageStyle = styled.div`
   margin: 0 auto;
   padding: 180px 30px 120px 30px;
   background-color: #6ea1ff;
+
+  form {
+    margin-top: 130px;
+  }
 
   .main-title {
     color: #ffffff;
@@ -156,16 +158,8 @@ const LoginPageStyle = styled.div`
   .login-form__container {
     height: 85px;
 
-    .login-form__input::placeholder {
-      color: #fff;
-    }
-
     .login-form__input-container {
       border-bottom: 1px solid #fff;
-    }
-
-    .login-form__input:focus {
-      outline: none;
     }
 
     .error-message {
@@ -173,20 +167,6 @@ const LoginPageStyle = styled.div`
       font-size: 12px;
       margin: 5px 0 0 5px;
     }
-  }
-
-  .login-form__input {
-    border: none;
-    background: none;
-    padding: 15px;
-    font-size: 16px;
-    color: #ffffff;
-    width: 100%;
-    height: 60px;
-  }
-
-  .login-form__input:focus {
-    outline: none;
   }
 
   .login-form__column {
