@@ -5,7 +5,20 @@ import {
 } from "../api/Answer.api";
 import { Answer } from "../models/Answer.model";
 
-export function useAnsweredHistory() {
+interface UseAnsweredHistoryReturn {
+  weeklyAnsweredQuestions: Answer[];
+  basicAnsweredQuestions: Answer[];
+  loading: {
+    basic: boolean;
+    weekly: boolean;
+  };
+  error: {
+    basic: unknown;
+    weekly: unknown;
+  };
+}
+
+export function useAnsweredHistory(): UseAnsweredHistoryReturn {
   const [basicAnsweredQuestions, setBasicAnsweredQuestions] = useState<
     Answer[]
   >([]);
