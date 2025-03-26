@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Category } from "../models/Question.model";
-import { Position } from "../api/Question.api";
-import { ALL_CATEGORIES } from "../constants/Question";
+import { ALL_CATEGORIES, Position } from "../constants/Question";
 import { fetchCategories } from "../api/Category.api";
 
 interface UseCategoryReturn {
@@ -35,7 +34,7 @@ export function useCategory(position?: Position): UseCategoryReturn {
   const getCategoryName = (categoryId: number) => {
     const category = categories.find((category) => category.id === categoryId);
 
-    return category !== undefined ? category.name : "";
+    return category === undefined ? "" : category.name;
   };
 
   return {

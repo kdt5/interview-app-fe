@@ -1,7 +1,7 @@
+import { Position } from "../constants/Question";
 import { BACKEND_URLS } from "../constants/Urls";
 import { Category } from "../models/Question.model";
 import { backendHttpClient } from "./BackendHttpClient.api";
-import { Position } from "./Question.api";
 
 export async function fetchCategories(
   position?: Position
