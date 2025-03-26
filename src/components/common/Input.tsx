@@ -3,19 +3,19 @@ import styled from "styled-components";
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   placeholder?: string;
-  inputType?: "text" | "email" | "password";
+  type?: "text" | "email" | "password";
 }
 
 const InputText = React.forwardRef(
   (
-    { placeholder, inputType, onChange, ...props }: Props,
+    { placeholder, type, onChange, ...props }: Props,
     ref: ForwardedRef<HTMLInputElement>
   ) => {
     return (
       <InputTextStyled
         placeholder={placeholder}
         ref={ref}
-        type={inputType}
+        type={type}
         onChange={onChange}
         {...props}
       />

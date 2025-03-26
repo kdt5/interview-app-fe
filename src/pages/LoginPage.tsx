@@ -46,7 +46,7 @@ function LoginPage() {
     },
   };
 
-  const checkPassword: RegisterOptions<LoginInputs, "password"> = {
+  const checkPassword: RegisterOptions<LoginInputs, "email"> = {
     required: {
       value: true,
       message: "비밀번호를 입력해주세요.",
@@ -147,7 +147,7 @@ const LoginPageStyle = styled.div`
 
   .sub-title {
     color: #ffffff;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 200;
   }
 
