@@ -3,17 +3,21 @@ import styled from "styled-components";
 import Categories from "../components/QuestionList/Categories.tsx";
 import Questions from "../components/QuestionList/Questions.tsx";
 import { useQuestions } from "../hooks/UseQuestions.ts";
-import { ALL_CATEGORIES } from "../constants/Question.ts";
+import { ALL_CATEGORIES, Position } from "../constants/Question.ts";
 import { useParams } from "react-router-dom";
-import { Position } from "../api/Question.api.ts";
+import { useCategory } from "../hooks/UseCategory.ts";
 
 export default QuestionListPage;
 
 function QuestionListPage(): JSX.Element {
-  const { position } = useParams<{ position: string }>();
+  const { position } = useParams<{ position: Position }>();
 
-  const { categories, questions, updateQuestions, getCategoryName } =
-    useQuestions((position ? position : "frontend") as Position);
+  if (position === undefined || (position as Position)) {
+    throw new Error("Position is not defined");
+  }
+
+  const { categories, getCategoryName } = useCategory(position);
+  const { questions, updateQuestions } = useQuestions(position);
 
   const [activeCategoryId, setActiveCategoryId] =
     useState<number>(ALL_CATEGORIES);

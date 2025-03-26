@@ -2,8 +2,7 @@ import { BACKEND_URLS } from "../constants/Urls";
 import { Question } from "../models/Question.model";
 import { backendHttpClient } from "./BackendHttpClient.api";
 import { replaceUrlParams } from "../utils/Url";
-
-export type Position = "frontend" | "backend";
+import { Position } from "../constants/Question";
 
 export async function fetchQuestions(
   position: Position,
