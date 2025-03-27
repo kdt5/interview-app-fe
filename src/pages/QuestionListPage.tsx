@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Categories from "../components/QuestionList/Categories.tsx";
 import Questions from "../components/QuestionList/Questions.tsx";
 import { useQuestions } from "../hooks/UseQuestions.ts";
-import { ALL_CATEGORIES, Position } from "../constants/Question.ts";
+import { ALL_CATEGORIES, Position, Positions } from "../constants/Question.ts";
 import { useParams } from "react-router-dom";
 import { useCategory } from "../hooks/UseCategory.ts";
 
@@ -12,7 +12,7 @@ export default QuestionListPage;
 function QuestionListPage(): JSX.Element {
   const { position } = useParams<{ position: Position }>();
 
-  if (position === undefined || (position as Position)) {
+  if (position === undefined || Positions.includes(position)) {
     throw new Error("Position is not defined");
   }
 
