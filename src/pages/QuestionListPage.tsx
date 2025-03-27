@@ -12,7 +12,7 @@ export default QuestionListPage;
 function QuestionListPage(): JSX.Element {
   const { position } = useParams<{ position: Position }>();
 
-  if (position === undefined || Positions.includes(position)) {
+  if (position === undefined || !Positions.includes(position)) {
     throw new Error("Position is not defined");
   }
 
