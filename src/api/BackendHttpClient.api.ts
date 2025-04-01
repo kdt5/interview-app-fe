@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+// Naming convention because the axios library uses complicated names
 import axios from "axios";
 
 export const backendHttpClient = axios.create({
