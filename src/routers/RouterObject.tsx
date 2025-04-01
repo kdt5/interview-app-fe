@@ -5,7 +5,7 @@ import AnswerPage from "../pages/AnswerPage";
 import LoginPage from "../pages/LoginPage";
 import SignUpPage from "../pages/SignUpPage";
 import QuestionListPage from "../pages/QuestionListPage";
-import AnswersHistoryPage from "../pages/AnswersHistoryPage";
+import AnswerHistoryPage from "../pages/AnswerHistoryPage";
 import { FRONTEND_URLS } from "../constants/Urls";
 import MyPage from "../pages/MyPage";
 import FavoriteQuestionListPage from "../pages/FavoriteQuestionListPage";
@@ -47,7 +47,7 @@ export const routerObjects: RouteObject[] = [
   },
   {
     path: FRONTEND_URLS.MY_PAGE.ANSWERS,
-    element: <AnswersHistoryPage />,
+    element: <AnswerHistoryPage />,
   },
   {
     path: FRONTEND_URLS.MY_PAGE.FAVORITES.QUESTIONS,
