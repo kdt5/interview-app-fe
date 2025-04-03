@@ -49,7 +49,7 @@ function CommunityList({
 const CommunityListStyle = styled.div`
   border-bottom: 3px solid #f5f5f5;
   cursor: pointer;
-  margin-bottom: 25px;
+  padding: 25px 30px;
 `;
 
 const CommonProfile = styled.img`
@@ -111,15 +111,15 @@ const Title = styled.h3`
 
 const Content = styled.p`
   color: #888;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 300;
-  margin-top: 10px;
+  margin-top: 5px;
 `;
 
 const Info = styled.div`
   font-size: 12px;
   color: #888;
-  margin: 15px 0 25px;
+  margin: 15px 0 0;
   span {
     font-weight: 300;
     color: #888888;
