@@ -16,8 +16,7 @@ interface Theme {
   button: {
     [key in ButtonSize]: {
       fontSize: string
-      width: string
-      height: string
+      padding: string
     }
   }
   buttonColor: {
@@ -27,9 +26,6 @@ interface Theme {
       borderColor: string
     }
   }
-  borderRadius: {
-    default: string
-  },
 }
 
 export const light: Theme = {
@@ -54,18 +50,15 @@ export const light: Theme = {
   button: {
     large: {
       fontSize: "18px",
-      width: "333px",
-      height: "55px"
+      padding: "16px 157.5px"
     },
     medium: {
       fontSize: "16px",
-      width: "122px",
-      height: "60px"
+      padding: "22px 53px"
     },
     small: {
       fontSize: "16px",
-      width: "100px",
-      height: "60px"
+      padding: "22px 42px"
     },
   },
   buttonColor: {
@@ -79,8 +72,5 @@ export const light: Theme = {
       backgroundColor: "#FFFFFF",
       borderColor: "#D4DCEA"
     }
-  },
-  borderRadius: {
-    default: "5px"
   },
 }
