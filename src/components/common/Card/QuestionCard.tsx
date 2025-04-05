@@ -3,19 +3,25 @@ import styled from "styled-components";
 interface Props {
   category: string;
   title: string;
-  date: string;
 }
 
-function QuestionCard({ category, title, date }: Props) {
+function QuestionCard({ category, title }: Props) {
   return (
     <>
       <QuestionCardStyle>
-        <QuestionCategory>{category}</QuestionCategory>
-        <QuestionTitle>{title}</QuestionTitle>
-        <QuestionInfo>
-          <QuestionDate>{date}</QuestionDate>
-          <QuestionAnswer>지금 답변하기</QuestionAnswer>
-        </QuestionInfo>
+        <QuestionCardHead>
+          <h2>면접 필수 질문</h2>
+          <QuestionLink>전체보기</QuestionLink>
+        </QuestionCardHead>
+        <ul>
+          <QuestionList>
+            <QuestionIcon></QuestionIcon>
+            <QuestionContents>
+              <span>{category}</span>
+              <p>{title}</p>
+            </QuestionContents>
+          </QuestionList>
+        </ul>
       </QuestionCardStyle>
     </>
   );
@@ -26,41 +32,52 @@ const QuestionCardStyle = styled.div`
   height: fit-content;
   padding: 15px 20px;
   border-radius: 20px;
-  background-color: #6ea1ff;
+  background-color: #fff;
   box-shadow: 5px 5px 20px #a8a8a866;
   box-sizing: border-box;
   margin: 0 30px;
 `;
 
-const QuestionCategory = styled.p`
-  background-color: #bbd3ff;
-  color: #fff;
-  font-size: 14px;
-  display: inline-block;
-  padding: 5px 15px;
+const QuestionCardHead = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+`;
+
+const QuestionLink = styled.a`
+  background-color: #f4f4f4;
+  color: #333;
+  padding: 5px 10px;
   border-radius: 30px;
+  display: block;
 `;
 
-const QuestionTitle = styled.h3`
-  color: #fff;
-  font-weight: 400 !important;
-  margin: 10px 0 30px;
-`;
-
-const QuestionInfo = styled.div`
+const QuestionList = styled.li`
+  list-style: none;
   display: flex;
   align-items: center;
   justify-content: space-between;
 `;
 
-const QuestionDate = styled.div`
-  color: #fff;
-  font-weight: 300 !important;
+const QuestionIcon = styled.img`
+  display: block;
+  width: 45px;
+  height: 45px;
+  background-color: #ccc;
+  border-radius: 35px;
 `;
 
-const QuestionAnswer = styled.a`
-  color: #fff;
-  font-weight: 300 !important;
+const QuestionContents = styled.div`
+  width: 80%;
+  span {
+    color: #888;
+    font-weight: 300 !important;
+  }
+  p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 `;
-
 export default QuestionCard;
