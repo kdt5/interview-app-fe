@@ -10,6 +10,7 @@ import { FRONTEND_URLS } from "../constants/Urls";
 import MyPage from "../pages/MyPage";
 import FavoriteQuestionListPage from "../pages/FavoriteQuestionListPage";
 import EditAnswerPage from "../pages/EditAnswerPage";
+import Community from "../pages/ComponentFile";
 
 const requiredUrls = [
   FRONTEND_URLS.HOME,
@@ -40,6 +41,10 @@ export const routerObjects: RouteObject[] = [
   {
     path: FRONTEND_URLS.QUESTION_LIST,
     element: <QuestionListPage />,
+  },
+  {
+    path: "/community",
+    element: <Community />,
   },
   {
     path: FRONTEND_URLS.MY_PAGE.HOME,
