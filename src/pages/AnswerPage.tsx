@@ -88,7 +88,7 @@ function AnswerPage() {
       <QuestionContainer
         questionId={String(question?.id)}
         title={question?.title || "질문이 없습니다."}
-        category={question?.categories[0] || "카테고리가"}
+        category={String(question?.categories[0]) || "카테고리가 없습니다."}
         isFavorite={isFavorite}
         toggleFavorite={toggleFavorite}
       />
