@@ -4,12 +4,13 @@ interface Props {
   placeholder?: string;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  type: string;
 }
 
-const InputField = ({ placeholder, value, onChange }: Props) => {
+const InputField = ({ placeholder, value, onChange, type }: Props) => {
   return (
     <StyledInput
-      type="text"
+      type={type}
       placeholder={placeholder}
       value={value}
       onChange={onChange}
