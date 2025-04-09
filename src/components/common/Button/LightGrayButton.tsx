@@ -1,26 +1,23 @@
 import styled from "styled-components";
+import BaseButton from "./BaseButton";
 
-interface Props {
-  children: React.ReactNode;
-  className?: string;
-}
-
-function LightGrayButton({ children, className }: Props) {
+function LightGrayButton({
+  children,
+  className,
+  width,
+}: React.ComponentProps<typeof BaseButton>) {
   return (
     <>
-      <LightGrayButtonStyle className={className}>
+      <LightGrayButtonStyle width={width} className={className}>
         {children}
       </LightGrayButtonStyle>
     </>
   );
 }
 
-const LightGrayButtonStyle = styled.button<Omit<Props, "children">>`
-  border: none;
+const LightGrayButtonStyle = styled(BaseButton)`
   background-color: #fbfbfb;
   color: #ccc;
-  border-radius: 5px;
-  padding: 20px 30px;
   border: solid 1px #f2f2f2;
 
   &.check {

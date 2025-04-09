@@ -7,6 +7,9 @@ import CommunitySmallBtn from "../components/common/Button/CommunitySmallButton"
 import WeeklyQuestionCard from "../components/common/Card/WeeklyQuestionCard";
 import QuestionCard from "../components/common/Card/QuestionCard";
 import InputField from "../components/common/Input/Input";
+import BaseButton from "../components/common/Button/BaseButton";
+import LightGrayButton from "../components/common/Button/LightGrayButton";
+import GrayButton from "../components/common/Button/GrayButton";
 const mockData = [
   {
     profileImg: "https://via.placeholder.com/40",
@@ -70,6 +73,14 @@ function Community() {
   return (
     <>
       <CommunityStyle>
+        <BaseButton>파란색 테두리</BaseButton>
+        <BaseButton width="100%">파란색 테두리</BaseButton>
+        <LightGrayButton>라이트 그레이</LightGrayButton>
+        <LightGrayButton width="100%" className="check">
+          라이트 그레이
+        </LightGrayButton>
+        <GrayButton width="100%">그레이버튼</GrayButton>
+        <GrayButton className="check">그레이버튼</GrayButton>
         {mockData.map((item, index) => (
           <CommunityList key={index} {...item} />
         ))}
