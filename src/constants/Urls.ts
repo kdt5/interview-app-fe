@@ -47,4 +47,12 @@ export const BACKEND_URLS = {
     MINE: "/api/favorites/mine",
     FAVORITE: "/api/favorites/:questionId",
   },
+  POSTS: {
+    ALL: "/api/posts",
+    POST: "/api/posts/:postId",
+  },
+  REPORTS: {
+    ALL: "/api/reports",
+    REPORT: "/api/reports/:reportId",
+  }
 };
