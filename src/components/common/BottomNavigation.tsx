@@ -48,7 +48,7 @@ function Nav() {
             </Link>
           </li>
           <li>
-            <Link to="">
+            <Link to="/community">
               <span>
                 <FaMicroblog />
                 <span>커뮤니티</span>
