@@ -34,12 +34,7 @@ function PostTab() {
     <>
       <SectionTitle to="/">인기글</SectionTitle>
       <PopularSlide>
-        <Swiper
-          spaceBetween={15}
-          slidesPerView="auto"
-          onSlideChange={() => console.log("slide changed")}
-          onSwiper={(swiper) => console.log(swiper)}
-        >
+        <Swiper spaceBetween={15} slidesPerView="auto">
           <SwiperSlide style={{ width: "150px" }}>
             <PopularSlideNotice>
               <div>
