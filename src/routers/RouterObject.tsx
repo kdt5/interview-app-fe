@@ -10,7 +10,7 @@ import { FRONTEND_URLS } from "../constants/Urls";
 import MyPage from "../pages/MyPage";
 import FavoriteQuestionListPage from "../pages/FavoriteQuestionListPage";
 import EditAnswerPage from "../pages/EditAnswerPage";
-import Community from "../pages/ComponentFile";
+import Community from "../pages/Community";
 
 const requiredUrls = [
   FRONTEND_URLS.HOME,
