@@ -1,27 +1,19 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import RankingProfile from "../components/common/Profile/RankingProfile";
+import CommonProfile from "../components/common/Profile/CommonProfile";
 
 function RankingPage() {
   return (
     <RankingPageStyle>
-      <div className="profile-container">
-        <h1 className="profile-title">내 프로필</h1>
-        <div className="profile">
-          <div className="profile-left">
-            <img
-              src="../public/profile-image.png"
-              alt="profile-image"
-              className="profile-image"
-            />
-            <div className="profile-info">
-              <p className="profile-nickname">NickName</p>
-              <span className="profile-position">Front-End</span>
-            </div>
-          </div>
-          <p className="level">
-            LV. <span className="level-number">05</span>
-          </p>
+      <div className="profile">
+        <div className="profile-box">
+          <CommonProfile
+            profileImg="../public/profile-image.png"
+            username="BulanPing"
+            position="Front-End"
+            level={5}
+          />
         </div>
         <div className="counts">
           <div className="answer-count">
@@ -149,66 +141,15 @@ const RankingPageStyle = styled.div`
   background: #ffffff;
   padding-bottom: 120px;
 
-  .profile-container {
+  .profile {
     padding: 0 30px;
-    .profile-title {
-      font-size: 16px;
-    }
 
-    .profile {
-      width: 333px;
+    .profile-box {
+      width: 100%;
       height: 80px;
       background: #fbfbfb;
       border-radius: 10px;
-      padding: 18px;
-      box-sizing: border-box;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 10px 0;
-
-      .profile-left {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-
-        .profile-image {
-          width: 45px;
-          height: 45px;
-          border-radius: 50%;
-        }
-
-        .profile-info {
-          display: flex;
-          flex-direction: column;
-
-          .profile-nickname {
-            font-size: 14px;
-          }
-
-          .profile-position {
-            font-size: 10px;
-            font-weight: 300;
-            color: #888888;
-            margin: 0;
-          }
-        }
-      }
-
-      .level {
-        font-size: 10px;
-        background: #6ea1ff;
-        border-radius: 999px;
-        color: #ffffff;
-        font-weight: 300;
-        padding: 4px 8px;
-
-        .level-number {
-          font-size: 10px;
-          font-weight: 600;
-          color: #ffffff;
-        }
-      }
+      padding: 15px;
     }
 
     .counts {
@@ -314,6 +255,7 @@ const RankingPageStyle = styled.div`
     background: #ffffff;
     box-shadow: 5px 5px 20px rgba(209, 209, 209, 0.25);
     padding: 20px;
+    margin-bottom: 10px;
   }
 
   .answer-ranking,
