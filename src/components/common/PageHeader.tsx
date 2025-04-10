@@ -60,6 +60,7 @@ const HeaderStyle = styled.header`
   position: fixed;
   top: 0;
   background-color: #fff;
+  z-index: 999;
 
   .logo {
     img {
