@@ -6,6 +6,7 @@ import LoginPage from "../pages/LoginPage";
 import SignUpPage from "../pages/SignUpPage";
 import QuestionListPage from "../pages/QuestionListPage";
 import AnswerHistoryPage from "../pages/AnswerHistoryPage";
+import RankingMainPage from "../pages/RankingMainPage";
 import { FRONTEND_URLS } from "../constants/Urls";
 import MyPage from "../pages/MyPage";
 import FavoriteQuestionListPage from "../pages/FavoriteQuestionListPage";
@@ -21,6 +22,7 @@ const requiredUrls = [
   FRONTEND_URLS.MY_PAGE.FAVORITES.QUESTIONS,
   FRONTEND_URLS.ANSWER,
   FRONTEND_URLS.ANSWER_EDIT,
+  FRONTEND_URLS.RANKING,
 ];
 
 const excludedPaths = [FRONTEND_URLS.SIGNUP, FRONTEND_URLS.LOGIN];
@@ -66,6 +68,10 @@ export const routerObjects: RouteObject[] = [
     path: FRONTEND_URLS.ANSWER_EDIT,
     element: <EditAnswerPage />,
   },
+  {
+    path: FRONTEND_URLS.RANKING,
+    element: <RankingMainPage />,
+  }
 ].map((routerObject) => {
   if (excludedPaths.includes(routerObject.path)) {
     return {

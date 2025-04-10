@@ -15,6 +15,7 @@ export const FRONTEND_URLS = {
   },
   ANSWER: "/questions/:questionId/answer",
   ANSWER_EDIT: "/questions/:questionId/answer/:answerId/edit",
+  RANKING: "/ranking",
 };
 
 export const BACKEND_URLS = {
@@ -47,4 +48,7 @@ export const BACKEND_URLS = {
     MINE: "/api/favorites/mine",
     FAVORITE: "/api/favorites/:questionId",
   },
+  RANKING: {
+    ALL: "/api/ranking",
+  }
 };
