@@ -24,6 +24,7 @@ const LayoutStyle = styled.div`
   width: 100%;
   max-width: 380px;
   height: fit-content;
+  min-height: 100dvh;
   margin: 0 auto;
   background-color: #fff;
 `;

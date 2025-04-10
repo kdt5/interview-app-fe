@@ -3,6 +3,7 @@ import WeeklyQuestionCard from "../common/Card/WeeklyQuestionCard";
 import CommonCategory from "../common/List/CommonCategory";
 import CommonQuestionList from "../common/List/CommonQuestionList";
 import SectionTitle from "../common/SectionTitle";
+import { Link } from "react-router-dom";
 
 const WeeklyQuestionData = [
   {
@@ -16,6 +17,22 @@ const WeeklyQuestionData = [
 const questionData = [
   {
     category: "React",
+    questiontitle: "useEffect 훅은 언제 사용하는가?",
+    complete: "작성 완료",
+    comments: 23,
+    likes: 53,
+  },
+
+  {
+    category: "React22",
+    questiontitle: "useEffect 훅은 언제 사용하는가?",
+    complete: "작성 완료",
+    comments: 23,
+    likes: 53,
+  },
+
+  {
+    category: "React33",
     questiontitle: "useEffect 훅은 언제 사용하는가?",
     complete: "작성 완료",
     comments: 23,
@@ -35,17 +52,10 @@ function InterviewTab() {
 
       <CommonQuestionSection>
         <CommonCategory></CommonCategory>
-
         {questionData.map((item, index) => (
-          <CommonQuestionList key={index} {...item} />
-        ))}
-
-        {questionData.map((item, index) => (
-          <CommonQuestionList key={index} {...item} />
-        ))}
-
-        {questionData.map((item, index) => (
-          <CommonQuestionList key={index} {...item} />
+          <Link key={index} to="/questiondetail">
+            <CommonQuestionList {...item} />
+          </Link>
         ))}
       </CommonQuestionSection>
     </>

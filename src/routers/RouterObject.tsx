@@ -11,6 +11,8 @@ import MyPage from "../pages/MyPage";
 import FavoriteQuestionListPage from "../pages/FavoriteQuestionListPage";
 import EditAnswerPage from "../pages/EditAnswerPage";
 import Community from "../pages/Community";
+import CommunityQuestionDetail from "../pages/Community/CommunityQuestionDetail";
+import CommunityAnswerDetail from "../pages/Community/CommunityAnswerDetail";
 
 const requiredUrls = [
   FRONTEND_URLS.HOME,
@@ -26,6 +28,16 @@ const requiredUrls = [
 const excludedPaths = [FRONTEND_URLS.SIGNUP, FRONTEND_URLS.LOGIN];
 
 export const routerObjects: RouteObject[] = [
+  {
+    path: "/questiondetail",
+    element: <CommunityQuestionDetail />,
+  },
+
+  {
+    path: "/answerdetail",
+    element: <CommunityAnswerDetail />,
+  },
+
   {
     path: FRONTEND_URLS.HOME,
     element: <MainPage />,
