@@ -13,7 +13,7 @@ function CommunitySmallBtn({ children }: Props) {
 }
 
 const CommunitySmallBtnStyle = styled.button<Omit<Props, "children">>`
-  background: #6ea1ff;
+  background: #3466c2;
   color: #fff;
   padding: 10px 15px;
   border-radius: 30px;

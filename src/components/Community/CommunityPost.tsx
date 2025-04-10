@@ -4,6 +4,8 @@ import SectionTitle from "../common/SectionTitle";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import styled from "styled-components";
+import CommonCategory from "../common/List/CommonCategory";
+import CommunitySmallBtn from "../common/Button/CommunitySmallButton";
 
 const popularpost = [
   {
@@ -67,9 +69,23 @@ function PostTab() {
           </SwiperSlide>
         </Swiper>
       </PopularSlide>
-      {mockData.map((item, index) => (
-        <CommunityList key={index} {...item} />
-      ))}
+
+      <PostList>
+        <CommonCategory></CommonCategory>
+        {mockData.map((item, index) => (
+          <CommunityList key={index} {...item} />
+        ))}
+        {mockData.map((item, index) => (
+          <CommunityList key={index} {...item} />
+        ))}
+        {mockData.map((item, index) => (
+          <CommunityList key={index} {...item} />
+        ))}
+      </PostList>
+
+      <FixedWrite>
+        <CommunitySmallBtn>글쓰기 +</CommunitySmallBtn>
+      </FixedWrite>
     </>
   );
 }
@@ -106,6 +122,17 @@ const Info = styled.div`
 
 const PopularSlide = styled.div`
   padding: 0 30px;
+`;
+
+const PostList = styled.div`
+  margin-top: 50px;
+`;
+
+const FixedWrite = styled.div`
+  position: fixed;
+  right: calc(50% - 160px); /* 380px의 오른쪽 끝 */
+  bottom: 100px;
+  z-index: 99;
 `;
 
 export default PostTab;

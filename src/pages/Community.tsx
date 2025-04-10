@@ -36,4 +36,5 @@ function Community() {
 const CommunityStyle = styled.div`
   margin-top: 60px;
   height: fit-content;
+  position: relative;
 `;
