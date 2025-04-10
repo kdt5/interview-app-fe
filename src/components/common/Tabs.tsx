@@ -31,14 +31,14 @@ function Tabs({ titles, onClickTab, currentTab }: Props): JSX.Element {
 
 const TabsStyle = styled.div`
   position: fixed;
-  top: 100px;
+  top: 84px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 10;
-
+  background-color: #fff;
   width: 100%;
   max-width: 380px;
-  padding: 0 30px;
+  padding: 20px 30px 0;
   box-sizing: border-box;
 
   display: flex;
@@ -56,13 +56,13 @@ const TabsStyle = styled.div`
     text-align: center;
 
     &.active {
-      color: #6ea1ff;
+      color: #333;
       border-color: #6ea1ff;
     }
 
     p {
       color: inherit;
-      font-size: 20px;
+      font-size: 16px;
     }
   }
 `;
