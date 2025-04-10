@@ -1,4 +1,6 @@
+import styled from "styled-components";
 import WeeklyQuestionCard from "../common/Card/WeeklyQuestionCard";
+import CommonCategory from "../common/List/CommonCategory";
 import CommonQuestionList from "../common/List/CommonQuestionList";
 import SectionTitle from "../common/SectionTitle";
 
@@ -24,16 +26,37 @@ const questionData = [
 function InterviewTab() {
   return (
     <>
-      <SectionTitle>위클리 답변 토론</SectionTitle>
-      {WeeklyQuestionData.map((item, index) => (
-        <WeeklyQuestionCard key={index} {...item} />
-      ))}
+      <WeeklyQuestionSection>
+        <SectionTitle>위클리 답변 토론</SectionTitle>
+        {WeeklyQuestionData.map((item, index) => (
+          <WeeklyQuestionCard key={index} {...item} />
+        ))}
+      </WeeklyQuestionSection>
 
-      {questionData.map((item, index) => (
-        <CommonQuestionList key={index} {...item} />
-      ))}
+      <CommonQuestionSection>
+        <CommonCategory></CommonCategory>
+
+        {questionData.map((item, index) => (
+          <CommonQuestionList key={index} {...item} />
+        ))}
+
+        {questionData.map((item, index) => (
+          <CommonQuestionList key={index} {...item} />
+        ))}
+
+        {questionData.map((item, index) => (
+          <CommonQuestionList key={index} {...item} />
+        ))}
+      </CommonQuestionSection>
     </>
   );
 }
 
+const WeeklyQuestionSection = styled.div`
+  margin-bottom: 50px;
+`;
+
+const CommonQuestionSection = styled.div`
+  margin-bottom: 50px;
+`;
 export default InterviewTab;
