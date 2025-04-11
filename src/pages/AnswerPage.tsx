@@ -8,6 +8,7 @@ import { recordAnswer } from "../api/Answer.api";
 import { useAnswer } from "../hooks/UseAnswer";
 import QuestionContainer from "../components/AnswerPage/QuestionContainer";
 import AnswerForm from "../components/AnswerPage/AnswerForm";
+import { useCategory } from "../hooks/UseCategory";
 
 export type ModalType = "confirm" | "alert";
 
@@ -29,6 +30,7 @@ function AnswerPage() {
     confirm: false,
     alert: false,
   });
+  const { getCategoryName } = useCategory();
 
   const handleSubmit = () => {
     toggleModal("confirm", true);
@@ -83,12 +85,14 @@ function AnswerPage() {
   const isSubmitDisabled = answer.trim() === "" || answer.length < 0;
   const isOverLimit = answer.length >= 500;
 
+  const category = question?.categories[0] ? getCategoryName(question?.categories[0]) : "카테고리가 없습니다.";
+
   return (
     <AnswerPageStyle $isSubmitDisabled={isSubmitDisabled}>
       <QuestionContainer
         questionId={String(question?.id)}
         title={question?.title || "질문이 없습니다."}
-        category={question?.categories[0] || "카테고리가"}
+        category={category}
         isFavorite={isFavorite}
         toggleFavorite={toggleFavorite}
       />
