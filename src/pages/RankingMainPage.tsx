@@ -149,7 +149,7 @@ const RankingPageStyle = styled.div`
       height: 80px;
       background: #fbfbfb;
       border-radius: 10px;
-      padding: 15px;
+      padding: 20px 15px 15px;
     }
 
     .counts {
@@ -235,10 +235,10 @@ const RankingPageStyle = styled.div`
     }
 
     .more-btn {
-      padding: 12px 53px;
       border-radius: 5px;
       font-weight: 600;
       font-size: 14px;
+      width: 320px;
     }
   }
 
