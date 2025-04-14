@@ -1,11 +1,6 @@
 import { createGlobalStyle } from "styled-components";
-import { ThemeName } from "./theme";
 
-interface Props {
-  themeName: ThemeName;
-}
-
-export const GlobalStyle = createGlobalStyle<Props>`
+export const GlobalStyle = createGlobalStyle`
   body {
     -ms-overflow-style: none;
     ::-webkit-scrollbar { display: none; }

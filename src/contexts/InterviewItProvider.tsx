@@ -13,7 +13,7 @@ export const InterviewItThemeProvider = ({ children }: Props) => {
   return (
     <ThemeContext.Provider value={{ themeName: DEFAULT_THEME_NAME }}>
       <ThemeProvider theme={getTheme(DEFAULT_THEME_NAME)}>
-        <GlobalStyle themeName={DEFAULT_THEME_NAME} />
+        <GlobalStyle />
         {children}
       </ThemeProvider>
     </ThemeContext.Provider>
