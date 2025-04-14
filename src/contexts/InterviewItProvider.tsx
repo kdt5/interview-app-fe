@@ -1,10 +1,9 @@
 import { ReactNode } from "react";
 import { ThemeProvider } from "styled-components";
-import { getTheme, ThemeName } from "../styles/theme";
+import { getTheme } from "../styles/theme";
 import { GlobalStyle } from "../styles/global";
 import { ThemeContext } from "./ThemeContext";
-
-const DEFAULT_THEME_NAME: ThemeName = "light";
+import { DEFAULT_THEME_NAME } from "../constants/Theme";
 
 interface Props {
   children: ReactNode;
