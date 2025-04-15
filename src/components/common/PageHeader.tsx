@@ -36,6 +36,8 @@ const getPageTitle = (pathname: string) => {
     [backend]: "백엔드 면접 질문",
     [FRONTEND_URLS.MY_PAGE.ANSWERS]: "내 답변 모아보기",
     [FRONTEND_URLS.MY_PAGE.FAVORITES.QUESTIONS]: "즐겨찾기 질문 모아보기",
+    [FRONTEND_URLS.RANKINGS.MAIN]: "랭킹",
+    [FRONTEND_URLS.RANKINGS.MORE]: "랭킹 더보기",
   };
 
   const matchAnswer = matchPath(FRONTEND_URLS.ANSWER, pathname);
