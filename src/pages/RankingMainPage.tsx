@@ -2,10 +2,11 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import RankingProfile from "../components/common/Profile/RankingProfile";
 import CommonProfile from "../components/common/Profile/CommonProfile";
+import { FRONTEND_URLS } from "../constants/Urls";
 
-function RankingPage() {
+function RankingMainPage() {
   return (
-    <RankingPageStyle>
+    <RankingMainPageStyle>
       <div className="profile">
         <div className="profile-box">
           <CommonProfile
@@ -99,7 +100,7 @@ function RankingPage() {
           <h1 className="ranking-title">
             많은 사람이 <span className="ranking-text">좋아하는</span>
           </h1>
-          <Link to="/" className="all-ranking-link">
+          <Link to={FRONTEND_URLS.RANKINGS.MORE} className="more-ranking-link">
             모두보기
           </Link>
         </div>
@@ -133,11 +134,11 @@ function RankingPage() {
           </div>
         </div>
       </div>
-    </RankingPageStyle>
+    </RankingMainPageStyle>
   );
 }
 
-const RankingPageStyle = styled.div`
+const RankingMainPageStyle = styled.div`
   background: #ffffff;
   padding-bottom: 120px;
 
@@ -242,7 +243,7 @@ const RankingPageStyle = styled.div`
     }
   }
 
-  .all-ranking-link {
+  .more-ranking-link {
     font-size: 12px;
     font-weight: 300;
     color: #888888;
@@ -291,4 +292,4 @@ const RankingPageStyle = styled.div`
   }
 `;
 
-export default RankingPage;
+export default RankingMainPage;

@@ -22,7 +22,8 @@ const requiredUrls = [
   FRONTEND_URLS.MY_PAGE.FAVORITES.QUESTIONS,
   FRONTEND_URLS.ANSWER,
   FRONTEND_URLS.ANSWER_EDIT,
-  FRONTEND_URLS.RANKING,
+  FRONTEND_URLS.RANKINGS.MAIN,
+  FRONTEND_URLS.RANKINGS.MORE,
 ];
 
 const excludedPaths = [FRONTEND_URLS.SIGNUP, FRONTEND_URLS.LOGIN];
@@ -69,9 +70,9 @@ export const routerObjects: RouteObject[] = [
     element: <EditAnswerPage />,
   },
   {
-    path: FRONTEND_URLS.RANKING,
+    path: FRONTEND_URLS.RANKINGS.MAIN,
     element: <RankingMainPage />,
-  }
+  },
 ].map((routerObject) => {
   if (excludedPaths.includes(routerObject.path)) {
     return {
