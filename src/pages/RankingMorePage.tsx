@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Tabs from "../components/common/Tabs";
 import { useState } from "react";
 import RankingProfile from "../components/common/Profile/RankingProfile";
-import RankingList from "../components/RankingMorePage/RankingList";
+import RankingList from "../components/RankingPage/RankingList";
 import { RankingData } from "../models/Ranking.model";
 
 function RankingMorePage() {

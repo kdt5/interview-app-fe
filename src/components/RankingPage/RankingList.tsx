@@ -5,10 +5,12 @@ import styled from "styled-components";
 
 interface Props {
   rankingData: RankingData[];
+  mode?: "main" | "more";
 }
 
-const RankingList: React.FC<Props> = ({ rankingData }) => {
-  const getRankClassName = (rank: number) => {
+const RankingList: React.FC<Props> = ({ rankingData, mode = "more" }) => {
+  const getRankClassName = (rank?: number) => {
+    if (mode === "main") return "common-ranking-box";
     if (rank === 1) return "top1-ranking-box";
     if (rank === 2) return "top2-ranking-box";
     if (rank === 3) return "top3-ranking-box";
@@ -28,7 +30,7 @@ const RankingList: React.FC<Props> = ({ rankingData }) => {
             level={user.level}
             like={user.like}
             comments={user.comments}
-            {...(user.ranking <= 3
+            {...(mode === "more" && user.ranking && user.ranking <= 3
               ? { ranking: user.ranking }
               : { commonRanking: user.ranking })}
           />
