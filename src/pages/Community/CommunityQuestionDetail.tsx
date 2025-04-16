@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import CommunityList from "../../components/common/List/CommunityList";
 import { Link } from "react-router-dom";
+import QuestionName from "../../components/common/Community/QuestionName";
 
 const mockData = [
   {
@@ -40,12 +41,9 @@ const mockData = [
 function CommunityQuestionDetail() {
   return (
     <>
-      <QuestionName>
-        <h3>
-          <span>Q</span> Lorem ipsum dolor sit amet consectetur adipisicing
-          elit. Rem quae eveniet commodi, doloremque,
-        </h3>
-      </QuestionName>
+      <QuestionDetailStyle>
+        <QuestionName></QuestionName>
+      </QuestionDetailStyle>
       {mockData.map((item, index) => (
         <Link key={index} to="/answerdetail">
           <CommunityList key={index} {...item} />
@@ -55,27 +53,7 @@ function CommunityQuestionDetail() {
   );
 }
 
-const QuestionName = styled.div`
+const QuestionDetailStyle = styled.div`
   padding: 0 30px;
-
-  h3 {
-    background-color: #fbfbfb;
-    font-size: 16px;
-    font-weight: 400;
-    padding: 20px;
-
-    span {
-      background-color: #6ea1ff;
-      color: #fff;
-      font-size: 16px;
-      font-weight: 400;
-      width: 25px;
-      height: 25px;
-      text-align: center;
-      line-height: 25px;
-      border-radius: 30px;
-      display: inline-block;
-    }
-  }
 `;
 export default CommunityQuestionDetail;
