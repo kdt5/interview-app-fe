@@ -2,6 +2,8 @@ import styled from "styled-components";
 import Tabs from "../components/common/Tabs";
 import { useState } from "react";
 import RankingProfile from "../components/common/Profile/RankingProfile";
+import RankingList from "../components/RankingMorePage/RankingList";
+import { RankingData } from "../models/Ranking.model";
 
 function RankingMorePage() {
   const titles: string[] = ["통합랭킹", "답변랭킹", "좋아요랭킹"] as const;
@@ -13,17 +15,7 @@ function RankingMorePage() {
     setCurrentTab(title);
   };
 
-  const rankingData: Record<
-    TabTitle,
-    {
-      id: number;
-      username: string;
-      level: number;
-      like: number;
-      comments: number;
-      ranking: number;
-    }[]
-  > = {
+  const rankingData: Record<TabTitle, RankingData[]> = {
     통합랭킹: [
       {
         id: 1,
@@ -200,13 +192,6 @@ function RankingMorePage() {
     ],
   };
 
-  const getRankClassName = (rank: number) => {
-    if (rank === 1) return "top1-ranking-box";
-    if (rank === 2) return "top2-ranking-box";
-    if (rank === 3) return "top3-ranking-box";
-    return "common-ranking-box";
-  };
-
   return (
     <RankingMorePageStyle>
       <Tabs
@@ -226,21 +211,7 @@ function RankingMorePage() {
           />
         </div>
         <div className="mid-line"></div>
-        {rankingData[currentTab].map((user) => (
-          <div
-            key={user.id}
-            className={`rank-profile-box rank-users-profile-box ${getRankClassName(user.ranking)}`}
-          >
-            <RankingProfile
-              profileImg="../public/user1.png"
-              username={user.username}
-              level={user.level}
-              like={user.like}
-              comments={user.comments}
-              ranking={user.ranking}
-            />
-          </div>
-        ))}
+        <RankingList rankingData={rankingData[currentTab]} />
       </div>
     </RankingMorePageStyle>
   );
@@ -249,8 +220,7 @@ function RankingMorePage() {
 const RankingMorePageStyle = styled.div`
   padding-bottom: 120px;
 
-  .my-profile-box,
-  .rank-profile-box {
+  .my-profile-box {
     width: 320px;
     height: 80px;
     border-radius: 10px;
@@ -267,46 +237,6 @@ const RankingMorePageStyle = styled.div`
     width: 100%;
     height: 5px;
     background: #f5f5f5;
-  }
-
-  .rank-users-profile-box {
-    margin: 10px auto 5px auto;
-    background: #6ea1ff;
-
-    .level,
-    .label-like,
-    .label-comment {
-      color: #ffffff;
-    }
-
-    .count-number {
-      color: #333333;
-    }
-  }
-
-  .top2-ranking-box {
-    background: #9bbeff;
-  }
-
-  .top3-ranking-box {
-    background: #c6daff;
-    margin-bottom: 0;
-  }
-
-  .common-ranking-box {
-    background: none;
-    border: none;
-    border-radius: 0;
-    margin: 0 auto;
-    border-bottom: 1px solid #f8f8f8;
-    box-sizing: border-box;
-
-    .level,
-    .label-like,
-    .label-comment,
-    .count-number {
-      color: #888888;
-    }
   }
 `;
 

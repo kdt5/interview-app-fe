@@ -19,6 +19,8 @@ function RankingProfile({
   commonRanking,
   ranking,
 }: Props) {
+  const displayLevel = String(level).padStart(2, "0");
+
   return (
     <>
       <RankingProfileStyle>
@@ -38,7 +40,7 @@ function RankingProfile({
           <UserInfo>
             <Username>{username}</Username>
             <Level className="level">
-              LV. <b className="level">{level}</b>
+              LV. <b className="level">{displayLevel}</b>
             </Level>
           </UserInfo>
           <UserData>
