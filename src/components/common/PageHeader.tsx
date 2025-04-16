@@ -3,11 +3,17 @@ import logo from "../../assets/logo.png";
 import { matchPath, useLocation, useNavigate } from "react-router-dom";
 import { HiArrowSmLeft } from "react-icons/hi";
 import { FRONTEND_URLS } from "../../constants/Urls";
+import Option from "../../assets/Option.png";
+import Like from "../../assets/Like.png";
 
 function Header() {
   const location = useLocation();
   const navigate = useNavigate();
   const MainPage = location.pathname === "/";
+
+  const isAnswerDetail = location.pathname === "/answerdetail";
+  const isPostDetail = location.pathname === "/postdetail";
+  const isDetailPage = isAnswerDetail || isPostDetail;
 
   return (
     <HeaderStyle>
@@ -20,7 +26,17 @@ function Header() {
           <BackButton onClick={() => navigate(-1)}>
             <HiArrowSmLeft />
           </BackButton>
-          <p>{getPageTitle(location.pathname)}</p>
+          <p>{isDetailPage ? "" : getPageTitle(location.pathname)}</p>
+          {isDetailPage && (
+            <DetailButton>
+              <LikeStyle>
+                <img src={Like} alt="" />
+              </LikeStyle>
+              <OptionStyle>
+                <img src={Option} alt="" />
+              </OptionStyle>
+            </DetailButton>
+          )}
         </TitleWrapStyle>
       )}
     </HeaderStyle>
@@ -37,6 +53,7 @@ const getPageTitle = (pathname: string) => {
     [FRONTEND_URLS.MY_PAGE.ANSWERS]: "내 답변 모아보기",
     [FRONTEND_URLS.MY_PAGE.FAVORITES.QUESTIONS]: "즐겨찾기 질문 모아보기",
     "/community": "커뮤니티",
+    "/answerdetail": "답변 상세보기",
   };
 
   const matchAnswer = matchPath(FRONTEND_URLS.ANSWER, pathname);
@@ -86,4 +103,17 @@ const BackButton = styled.button`
   padding: 0 0;
 `;
 
+const DetailButton = styled.div`
+  float: right;
+`;
+
+const LikeStyle = styled.button`
+  background-color: #fff;
+  padding: 0 10px;
+`;
+
+const OptionStyle = styled.button`
+  background-color: #fff;
+  padding: 0;
+`;
 export default Header;
