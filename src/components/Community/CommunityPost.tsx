@@ -106,7 +106,9 @@ function PostTab() {
       </PostList>
 
       <FixedWrite>
-        <CommunitySmallBtn>글쓰기 +</CommunitySmallBtn>
+        <Link to="/postwrite">
+          <CommunitySmallBtn>글쓰기 +</CommunitySmallBtn>
+        </Link>
       </FixedWrite>
     </>
   );

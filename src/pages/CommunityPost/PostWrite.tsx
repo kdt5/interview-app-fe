@@ -1,9 +1,12 @@
 import styled from "styled-components";
+import PostWriteCategory from "../../components/common/Community/PostWriteCategory";
 
 function PostWrite() {
   return (
     <>
-      <PostWriteStyle></PostWriteStyle>
+      <PostWriteStyle>
+        <PostWriteCategory></PostWriteCategory>
+      </PostWriteStyle>
     </>
   );
 }
