@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import LikeSmall from "../../assets/Link_Small.png";
 import ReplySmall from "../../assets/Reply_Small.png";
+import OptionSmall from "../../assets/Option.png";
 
 interface Props {
   profileImg: string;
@@ -53,10 +54,14 @@ function CommentContents({
   );
 }
 
-const OptionButton = styled.div`
+const OptionButton = styled.button`
   width: 10px;
   height: 30px;
-  background-color: #ccc;
+  background-color: transparent;
+  background-image: url(${OptionSmall});
+  background-repeat: no-repeat;
+  padding: 0;
+  border-radius: 0;
 `;
 const CommentInfo = styled.p`
   padding-left: 45px;
