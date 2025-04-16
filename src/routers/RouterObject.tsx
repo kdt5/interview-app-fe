@@ -12,6 +12,7 @@ import MyPage from "../pages/MyPage";
 import FavoriteQuestionListPage from "../pages/FavoriteQuestionListPage";
 import EditAnswerPage from "../pages/EditAnswerPage";
 import Community from "../pages/ComponentFile";
+import RankingMorePage from "../pages/RankingMorePage";
 
 const requiredUrls = [
   FRONTEND_URLS.HOME,
@@ -72,6 +73,10 @@ export const routerObjects: RouteObject[] = [
   {
     path: FRONTEND_URLS.RANKINGS.MAIN,
     element: <RankingMainPage />,
+  },
+  {
+    path: FRONTEND_URLS.RANKINGS.MORE,
+    element: <RankingMorePage />,
   },
 ].map((routerObject) => {
   if (excludedPaths.includes(routerObject.path)) {
