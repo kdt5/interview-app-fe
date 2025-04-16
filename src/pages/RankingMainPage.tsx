@@ -3,15 +3,22 @@ import styled from "styled-components";
 import RankingProfile from "../components/common/Profile/RankingProfile";
 import CommonProfile from "../components/common/Profile/CommonProfile";
 import { FRONTEND_URLS } from "../constants/Urls";
+import { useMyUserData } from "../hooks/useMyUserData";
 
 function RankingMainPage() {
+  const { data, isLoading, error } = useMyUserData();
+
+  if (isLoading) return <div>로딩 중...</div>;
+  if (error) return <div>에러 발생!</div>;
+  if (!data) return <div>데이터 없음</div>;
+
   return (
     <RankingMainPageStyle>
       <div className="profile">
         <div className="profile-box">
           <CommonProfile
             profileImg="../public/profile-image.png"
-            username="BulanPing"
+            username={data.nickname}
             position="Front-End"
             level={5}
           />
