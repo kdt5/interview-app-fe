@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import LikeSmall from "../../assets/Link_Small.png";
+import ReplySmall from "../../assets/Reply_Small.png";
 
 interface Props {
   profileImg: string;
@@ -35,9 +37,15 @@ function CommentContents({
         </FlexWrap>
         <Contents>{contents}</Contents>
         <CommentInfo>
-          <span>좋아요{likes}</span>{" "}
+          <span>
+            <img src={LikeSmall} alt="" />
+            좋아요 {likes}
+          </span>{" "}
           <Link to="/reply">
-            <span>답글{reply}</span>
+            <span>
+              <img src={ReplySmall} alt="" />
+              답글 {reply}
+            </span>
           </Link>
         </CommentInfo>
       </ProfileSection>
@@ -56,6 +64,13 @@ const CommentInfo = styled.p`
     color: #888;
     font-size: 12px;
     font-weight: 300;
+    display: inline-block;
+    margin-right: 6px;
+
+    img {
+      display: inline-block;
+      margin-right: 3px;
+    }
   }
 `;
 const CommonProfileStyle = styled.img`

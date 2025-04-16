@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { FavoriteIcon } from "../../AnswerPage/QuestionContainer";
 
 interface Props {
   category: string;
@@ -6,6 +7,8 @@ interface Props {
   complete: string;
   comments: number;
   likes: number;
+  isFavorite: boolean;
+  toggleFavorite: () => void;
 }
 
 function CommonQuestionList({
@@ -14,6 +17,8 @@ function CommonQuestionList({
   comments,
   complete,
   likes,
+  isFavorite,
+  toggleFavorite,
 }: Props) {
   return (
     <>
@@ -23,7 +28,10 @@ function CommonQuestionList({
             <QuestionCategory>{category}</QuestionCategory>
             <QuestionTitle>{questiontitle}</QuestionTitle>
           </div>
-          <QuestionFavorites></QuestionFavorites>
+          <FavoriteIcon
+            onClick={toggleFavorite}
+            $isFavorite={isFavorite}
+          ></FavoriteIcon>
         </Questionheader>
         <QuestionInfo>
           <QuestionComplete>{complete}</QuestionComplete>
@@ -66,12 +74,6 @@ const QuestionTitle = styled.h3`
   font-size: 14px;
   color: #333;
   font-weight: 600px;
-`;
-
-const QuestionFavorites = styled.div`
-  width: 24px;
-  height: 24px;
-  background-color: #ffd600;
 `;
 
 const QuestionComplete = styled.div`

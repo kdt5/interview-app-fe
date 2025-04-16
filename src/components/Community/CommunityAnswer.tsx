@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import CommonProfile from "../../components/common/Profile/CommonProfile";
+import ViewerImg from "../../assets/Viewer.png";
 
 interface Props {
   category: string;
@@ -32,7 +33,12 @@ function CommunityAnswer({
         <QuestionTitle>{questiontitle}</QuestionTitle>
         <AnswerContents>{answer}</AnswerContents>
         <QuestionLike>
-          <span>{views}명이 봤어요</span> | <span>좋아요 {likes}</span>
+          <span>
+            {" "}
+            <img src={ViewerImg} alt="Viewer Icon" />
+            {views}명이 봤어요
+          </span>{" "}
+          | <span>좋아요 {likes}</span>
         </QuestionLike>
       </AnswerDetail>
       <AnswerDetailProfile>
@@ -77,10 +83,15 @@ const AnswerContents = styled.p`
 const QuestionLike = styled.div`
   margin-top: 50px;
   color: #888;
-  p {
+  span {
     color: #888;
     font-size: 12px;
     font-weight: 300px;
+
+    img {
+      display: inline-block;
+      margin-right: 3px;
+    }
   }
 `;
 

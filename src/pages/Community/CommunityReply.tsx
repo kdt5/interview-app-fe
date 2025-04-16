@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import CommentContents from "../../components/common/Comment";
 import TextArea from "../../components/common/Community/Textarea";
+import ReplyInfo from "../../components/common/Community/ReplyInfo";
 
 const CommentData = [
   {
@@ -14,9 +15,17 @@ const CommentData = [
   },
 ];
 
+const relpyinfo = [
+  {
+    totalcomments: 24,
+  },
+];
 function CommunityReply() {
   return (
     <>
+      {relpyinfo.map((item, index) => (
+        <ReplyInfo key={index} {...item} />
+      ))}
       <CommunityReplyStyle>
         {CommentData.map((item, index) => (
           <CommentContents key={index} {...item} />

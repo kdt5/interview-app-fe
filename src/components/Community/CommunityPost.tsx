@@ -6,6 +6,7 @@ import "swiper/css";
 import styled from "styled-components";
 import CommonCategory from "../common/List/CommonCategory";
 import CommunitySmallBtn from "../common/Button/CommunitySmallButton";
+import { Link } from "react-router-dom";
 
 const popularpost = [
   {
@@ -98,7 +99,9 @@ function PostTab() {
       <PostList>
         <CommonCategory></CommonCategory>
         {mockData.map((item, index) => (
-          <CommunityList key={index} {...item} />
+          <Link key={index} to="/postdetail">
+            <CommunityList {...item} />
+          </Link>
         ))}
       </PostList>
 
