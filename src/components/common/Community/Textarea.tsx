@@ -1,17 +1,30 @@
 import styled from "styled-components";
+import Post from "../../../assets/ReplyPost.png";
+import PostActive from "../../../assets/ReplyPost_active.png";
+import { useState } from "react";
+
+interface Props {
+  hasText: boolean;
+}
 
 function TextArea() {
+  const [text, setText] = useState("");
+
   return (
     <>
-      <CommentSection>
-        <textarea placeholder="댓글을 입력하세요" />
+      <CommentSection hasText={text.length > 0}>
+        <textarea
+          placeholder="댓글을 입력하세요"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+        />
         <button></button>
       </CommentSection>
     </>
   );
 }
 
-const CommentSection = styled.div`
+const CommentSection = styled.div<Props>`
   position: fixed;
   width: 100%;
   max-width: 380px;
@@ -39,7 +52,11 @@ const CommentSection = styled.div`
   button {
     width: 40px;
     height: 40px;
-    background-color: #ccc;
+    background-color: transparent;
+    background-image: url(${(props) => (props.hasText ? PostActive : Post)});
+    background-position: center center;
+    background-repeat: no-repeat;
+    border: none;
   }
 `;
 
