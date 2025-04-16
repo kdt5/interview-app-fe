@@ -216,12 +216,16 @@ const RankingMainPageStyle = styled.div`
     }
 
     .more-ranking-link-button {
+      display: inline-block;
+      width: 320px;
+      height: 40px;
+      text-align: center;
       background: #6ea1ff;
       color: #ffffff;
       font-size: 14px;
       font-weight: 600;
-      padding: 12px 68px;
       border-radius: 5px;
+      padding-top: 10px;
     }
 
     .hot-users {
