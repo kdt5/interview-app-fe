@@ -25,7 +25,7 @@ function AnswerForm({ answer, handleAnswerChange, isOverLimit }: Props) {
 const AnswerFormStyle = styled.form`
   border: 1px solid #eff2f8;
   border-radius: 10px;
-  width: 330px;
+  width: 100%;
   height: 315px;
   margin: 10px 0;
 
