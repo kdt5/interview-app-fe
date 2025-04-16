@@ -22,12 +22,6 @@ function CommentContents({
 }: Props) {
   return (
     <>
-      <FlexWrap>
-        <span>댓글 {totalcomments}</span>{" "}
-        <span>
-          <b>최신순</b> 인기순
-        </span>
-      </FlexWrap>
       <ProfileSection>
         <FlexWrap>
           <UserInfo>

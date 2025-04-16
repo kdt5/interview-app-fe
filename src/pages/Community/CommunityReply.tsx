@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import CommentContents from "../../components/common/Comment";
+import TextArea from "../../components/common/Community/Textarea";
 
 const CommentData = [
   {
@@ -21,6 +22,7 @@ function CommunityReply() {
           <CommentContents key={index} {...item} />
         ))}
       </CommunityReplyStyle>
+      <TextArea></TextArea>
     </>
   );
 }
