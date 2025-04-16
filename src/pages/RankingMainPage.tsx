@@ -54,14 +54,19 @@ function RankingMainPage() {
             <span>누적 좋아요 456개</span>
           </div>
         </div>
-        <button className="more-btn">100위 안의 뷰잇러도 확인하세요!</button>
+        <Link
+          to={FRONTEND_URLS.RANKINGS.MORE}
+          className="more-ranking-link-button"
+        >
+          100위 안의 뷰잇러도 확인하세요!
+        </Link>
       </div>
       <div className="answer-ranking">
         <div className="ranking-text-container">
           <h1 className="ranking-title">
             모르는 게 없는 <span className="ranking-text">뷰잇러</span>
           </h1>
-          <Link to="/" className="all-ranking-link">
+          <Link to={FRONTEND_URLS.RANKINGS.MORE} className="more-ranking-link">
             모두보기
           </Link>
         </div>
@@ -167,7 +172,7 @@ const RankingMainPageStyle = styled.div`
       }
 
       .count-title {
-        font-size: 10px;
+        font-size: 12px;
         font-weight: 300;
         color: #888888;
       }
@@ -210,11 +215,20 @@ const RankingMainPageStyle = styled.div`
       }
     }
 
+    .more-ranking-link-button {
+      background: #6ea1ff;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 12px 68px;
+      border-radius: 5px;
+    }
+
     .hot-users {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
 
       .hot-user {
         display: flex;
@@ -229,7 +243,7 @@ const RankingMainPageStyle = styled.div`
       }
 
       .hot-user > span {
-        font-size: 10px;
+        font-size: 12px;
         font-weight: 300;
         color: #888888;
       }
