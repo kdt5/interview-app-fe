@@ -15,6 +15,7 @@ import CommunityQuestionDetail from "../pages/Community/CommunityQuestionDetail"
 import CommunityAnswerDetail from "../pages/Community/CommunityAnswerDetail";
 import CommunityReply from "../pages/Community/CommunityReply";
 import PostDetail from "../pages/CommunityPost/PostDetail";
+import PostWrite from "../pages/CommunityPost/PostWrite";
 
 const requiredUrls = [
   FRONTEND_URLS.HOME,
@@ -48,6 +49,11 @@ export const routerObjects: RouteObject[] = [
   {
     path: "/postdetail",
     element: <PostDetail />,
+  },
+
+  {
+    path: "/postwrite",
+    element: <PostWrite />,
   },
 
   {
