@@ -29,9 +29,7 @@ function Header() {
           <p>{isDetailPage ? "" : getPageTitle(location.pathname)}</p>
           {isDetailPage && (
             <DetailButton>
-              <LikeStyle>
-                <img src={Like} alt="" />
-              </LikeStyle>
+              <LikeStyle></LikeStyle>
               <OptionStyle>
                 <img src={Option} alt="" />
               </OptionStyle>
@@ -104,16 +102,26 @@ const BackButton = styled.button`
 `;
 
 const DetailButton = styled.div`
-  float: right;
+  display: flex;
+  align-items: center;
+  justify-content: right;
 `;
 
 const LikeStyle = styled.button`
-  background-color: #fff;
-  padding: 0 10px;
+  background-color: transparent;
+  padding: 0;
+  background-image: url(${Like});
+  width: 30px;
+  height: 30px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  margin-right: 5px;
 `;
 
 const OptionStyle = styled.button`
-  background-color: #fff;
+  background-color: transparent;
   padding: 0;
+  width: 10px;
+  height: 20px;
 `;
 export default Header;

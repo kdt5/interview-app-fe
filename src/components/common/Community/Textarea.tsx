@@ -57,6 +57,7 @@ const CommentSection = styled.div<Props>`
     background-position: center center;
     background-repeat: no-repeat;
     border: none;
+    padding: 0;
   }
 `;
 
