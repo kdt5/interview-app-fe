@@ -13,6 +13,7 @@ import EditAnswerPage from "../pages/EditAnswerPage";
 import Community from "../pages/Community";
 import CommunityQuestionDetail from "../pages/Community/CommunityQuestionDetail";
 import CommunityAnswerDetail from "../pages/Community/CommunityAnswerDetail";
+import CommunityReply from "../pages/Community/CommunityReply";
 
 const requiredUrls = [
   FRONTEND_URLS.HOME,
@@ -36,6 +37,11 @@ export const routerObjects: RouteObject[] = [
   {
     path: "/answerdetail",
     element: <CommunityAnswerDetail />,
+  },
+
+  {
+    path: "/reply",
+    element: <CommunityReply />,
   },
 
   {

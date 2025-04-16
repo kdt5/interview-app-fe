@@ -17,7 +17,7 @@ const AnswerData = [
 const CommentData = [
   {
     profileImg: "프로필이미지",
-    username: "나는유저",
+    username: "정호붕",
     contents: "답변 챗지피티가 달아준거 티나염",
     comments: 24,
     likes: 52,
