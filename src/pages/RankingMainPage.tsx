@@ -3,6 +3,7 @@ import styled from "styled-components";
 import RankingProfile from "../components/common/Profile/RankingProfile";
 import CommonProfile from "../components/common/Profile/CommonProfile";
 import { FRONTEND_URLS } from "../constants/Urls";
+import { useMyUserData } from "../hooks/UseMyUserData";
 
 const hotRankingUsers = [
   {
@@ -47,13 +48,19 @@ const answerRankingUsers = [
 ];
 
 function RankingMainPage() {
+  const { data, isLoading, error } = useMyUserData();
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+  if (!data) return <div>No data available. Please try again later.</div>;
+
   return (
     <RankingMainPageStyle>
       <div className="profile">
         <div className="profile-box">
           <CommonProfile
             profileImg="../public/profile-image.png"
-            username="BulanPing"
+            username={data.nickname}
             position="Front-End"
             level={5}
           />
