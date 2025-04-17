@@ -45,9 +45,11 @@ function InterviewTab() {
     <>
       <WeeklyQuestionSection>
         <SectionTitle>위클리 답변 토론</SectionTitle>
-        {WeeklyQuestionData.map((item, index) => (
-          <WeeklyQuestionCard key={index} {...item} />
-        ))}
+        <Link to="/weeklypost">
+          {WeeklyQuestionData.map((item, index) => (
+            <WeeklyQuestionCard key={index} {...item} />
+          ))}
+        </Link>
       </WeeklyQuestionSection>
 
       <CommonQuestionSection>

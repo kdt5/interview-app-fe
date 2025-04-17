@@ -24,7 +24,7 @@ function PostWrite() {
       <PostTextArea answer={answer} handleAnswerChange={handleAnswerChange} />
       <ConfirmButtonWrap>
         <GrayButton width="100px" className={isButtonActive ? "check" : ""}>
-          저장
+          완료
         </GrayButton>
       </ConfirmButtonWrap>
     </PostWriteStyle>

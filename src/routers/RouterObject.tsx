@@ -18,6 +18,7 @@ import CommunityReply from "../pages/Community/CommunityReply";
 import PostDetail from "../pages/CommunityPost/PostDetail";
 import PostWrite from "../pages/CommunityPost/PostWrite";
 import MoreRankingPage from "../pages/MoreRankingPage";
+import CommunityWeeklyAnswer from "../pages/Community/CommunityWeeklyAnswer";
 
 const requiredUrls = [
   FRONTEND_URLS.HOME,
@@ -58,6 +59,11 @@ export const routerObjects: RouteObject[] = [
   {
     path: "/postwrite",
     element: <PostWrite />,
+  },
+
+  {
+    path: "/weeklypost",
+    element: <CommunityWeeklyAnswer />,
   },
 
   {
