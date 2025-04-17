@@ -50,9 +50,9 @@ const answerRankingUsers = [
 function RankingMainPage() {
   const { data, isLoading, error } = useMyUserData();
 
-  if (isLoading) return <div>로딩 중...</div>;
-  if (error) return <div>에러 발생!</div>;
-  if (!data) return <div>데이터 없음</div>;
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+  if (!data) return <div>No data available. Please try again later.</div>;
 
   return (
     <RankingMainPageStyle>
