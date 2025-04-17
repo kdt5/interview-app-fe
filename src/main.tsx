@@ -4,6 +4,7 @@ import { worker } from "./mocks/Worker.ts";
 import App from "./App.tsx";
 import "sanitize.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { InterviewItThemeProvider } from "./contexts/InterviewItProvider.tsx";
 
 const queryClient = new QueryClient();
 
@@ -27,7 +28,9 @@ function createReactApp() {
   createRoot(document.getElementById("root")!).render(
     <StrictMode>
       <QueryClientProvider client={queryClient}>
-        <App />
+        <InterviewItThemeProvider>
+          <App />
+        </InterviewItThemeProvider>
       </QueryClientProvider>
     </StrictMode>
   );
