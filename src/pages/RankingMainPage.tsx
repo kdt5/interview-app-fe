@@ -3,7 +3,7 @@ import styled from "styled-components";
 import RankingProfile from "../components/common/Profile/RankingProfile";
 import CommonProfile from "../components/common/Profile/CommonProfile";
 import { FRONTEND_URLS } from "../constants/Urls";
-import { useMyUserData } from "../hooks/useMyUserData";
+import { useMyUserData } from "../hooks/UseMyUserData";
 
 function RankingMainPage() {
   const { data, isLoading, error } = useMyUserData();
