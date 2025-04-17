@@ -90,6 +90,6 @@ export const routerObjects: RouteObject[] = [
 const routerPaths = routerObjects.map((route) => route.path);
 const missingUrls = requiredUrls.filter((url) => !routerPaths.includes(url));
 
-// if (0 < missingUrls.length) {
-//   throw new Error(`Missing routes for URLs: ${missingUrls.join(", ")}`);
-// }
+if (0 < missingUrls.length) {
+  throw new Error(`Missing routes for URLs: ${missingUrls.join(", ")}`);
+}
