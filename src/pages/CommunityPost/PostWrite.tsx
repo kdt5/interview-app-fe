@@ -1,17 +1,24 @@
 import styled from "styled-components";
 import PostWriteCategory from "../../components/common/Community/PostWriteCategory";
-import AnswerForm from "../../components/AnswerPage/AnswerForm";
+
+import { useState } from "react";
+import PostTitleForm from "../../components/Community/PostTitleForm";
+import PostTextArea from "../../components/Community/PostTextArea";
 
 function PostWrite() {
+  const [title, setTitle] = useState("");
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+  };
   return (
     <>
       <PostWriteStyle>
         <PostWriteCategory></PostWriteCategory>
-        <AnswerForm
-          answer=""
-          handleAnswerChange={() => {}}
-          isOverLimit={false}
-        ></AnswerForm>
+        <PostTitleForm
+          title={title}
+          handleTitleChange={handleTitleChange}
+        ></PostTitleForm>
+        <PostTextArea></PostTextArea>
       </PostWriteStyle>
     </>
   );
