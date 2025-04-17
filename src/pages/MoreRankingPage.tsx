@@ -5,7 +5,7 @@ import RankingProfile from "../components/common/Profile/RankingProfile";
 import RankingList from "../components/RankingPage/RankingList";
 import { RankingData } from "../models/Ranking.model";
 
-function RankingMorePage() {
+function MoreRankingPage() {
   const titles: string[] = ["통합랭킹", "답변랭킹", "좋아요랭킹"] as const;
   type TabTitle = (typeof titles)[number];
 
@@ -193,7 +193,7 @@ function RankingMorePage() {
   };
 
   return (
-    <RankingMorePageStyle>
+    <MoreRankingPageStyle>
       <Tabs
         titles={titles}
         onClickTab={handleClickTab}
@@ -213,11 +213,11 @@ function RankingMorePage() {
         <div className="mid-line"></div>
         <RankingList rankingData={rankingData[currentTab]} />
       </div>
-    </RankingMorePageStyle>
+    </MoreRankingPageStyle>
   );
 }
 
-const RankingMorePageStyle = styled.div`
+const MoreRankingPageStyle = styled.div`
   padding-bottom: 120px;
 
   .my-profile-box {
@@ -240,4 +240,4 @@ const RankingMorePageStyle = styled.div`
   }
 `;
 
-export default RankingMorePage;
+export default MoreRankingPage;
