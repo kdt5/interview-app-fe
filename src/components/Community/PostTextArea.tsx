@@ -1,10 +1,19 @@
 import styled from "styled-components";
 
-function PostTextArea() {
+interface Props {
+  answer: string;
+  handleAnswerChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+}
+
+function PostTextArea({ answer, handleAnswerChange }: Props) {
   return (
     <>
       <PostTextAreaStyle>
-        <textarea placeholder="뷰잇러들과 이야기를 나눠보세요." />
+        <textarea
+          value={answer}
+          onChange={handleAnswerChange}
+          placeholder="뷰잇러들과 이야기를 나눠보세요."
+        />
       </PostTextAreaStyle>
     </>
   );
