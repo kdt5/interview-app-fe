@@ -13,6 +13,7 @@ import FavoriteQuestionListPage from "../pages/FavoriteQuestionListPage";
 import EditAnswerPage from "../pages/EditAnswerPage";
 import Community from "../pages/ComponentFile";
 import MoreRankingPage from "../pages/MoreRankingPage";
+import HeaderLayout from "../components/layout/HeaderLayout";
 
 const requiredUrls = [
   FRONTEND_URLS.HOME,
@@ -27,7 +28,7 @@ const requiredUrls = [
   FRONTEND_URLS.RANKINGS.MORE,
 ];
 
-const excludedPaths = [FRONTEND_URLS.SIGNUP, FRONTEND_URLS.LOGIN];
+const excludedPaths = [FRONTEND_URLS.LOGIN, FRONTEND_URLS.SIGNUP];
 
 export const routerObjects: RouteObject[] = [
   {
@@ -82,7 +83,7 @@ export const routerObjects: RouteObject[] = [
   if (excludedPaths.includes(routerObject.path)) {
     return {
       ...routerObject,
-      element: routerObject.element,
+      element: <HeaderLayout>{routerObject.element}</HeaderLayout>,
     };
   } else {
     return {

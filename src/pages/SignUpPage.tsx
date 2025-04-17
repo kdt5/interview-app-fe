@@ -15,7 +15,10 @@ import { useState } from "react";
 import ConfirmModal from "../components/common/ConfirmModal";
 import AlertModal from "../components/common/AlertModal";
 import { AxiosError, HttpStatusCode } from "axios";
-import InputText from "../components/common/Input";
+import InputField from "../components/common/Input/Input";
+import GrayButton from "../components/common/Button/GrayButton";
+import LightGrayButton from "../components/common/Button/LightGrayButton";
+import InputWithCheckButton from "../components/SignUpPage/InputWithCheckButton";
 export default SignUpPage;
 
 export interface SignUpInputs {
@@ -37,11 +40,22 @@ function SignUpPage() {
   } = useForm<SignUpInputs>({ mode: "onChange" });
   const [isEmailUnique, setIsEmailUnique] = useState(false);
   const [isNicknameUnique, setIsNicknameUnique] = useState(false);
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState({
     confirm: false,
     alert: false,
   });
-  const canSubmit = isValid && isEmailUnique && isNicknameUnique;
+  const [selected, setSelected] = useState<string | null>(null);
+
+  const canSubmit =
+    isValid && isEmailUnique && isNicknameUnique && selected !== null;
+
+  const positions = [
+    { value: "front-end", label: "Front-End" },
+    { value: "back-end", label: "Back-End" },
+    { value: "full-stack-developer", label: "Full-Stack-Developer" },
+    { value: "designer", label: "UI/UX Designer" },
+  ];
 
   const onClickEmailCheck = async (email: string) => {
     await trigger("email");
@@ -127,6 +141,11 @@ function SignUpPage() {
     }
   };
 
+  const onChangePassword = async () => {
+    const result = await trigger("password");
+    setIsPasswordValid(result);
+  };
+
   const onChangeNickname = async () => {
     if (isNicknameUnique) {
       setIsNicknameUnique(false);
@@ -177,62 +196,53 @@ function SignUpPage() {
       ),
       message: `영문 대소문자, 숫자, 특수문자 포함 ${PASSWORD_MIN_LENGTH} - ${PASSWORD_MAX_LENGTH}자`,
     },
+    onChange: onChangePassword,
+  };
+
+  const checkNickname: RegisterOptions<SignUpInputs, "nickname"> = {
+    required: {
+      value: true,
+      message: "닉네임을 입력해주세요.",
+    },
+    pattern: {
+      value: new RegExp(
+        `^[가-힣a-zA-Z0-9]{${NICKNAME_MIN_LENGTH},${NICKNAME_MAX_LENGTH}}$`
+      ),
+      message: `한글, 영문, 숫자 ${NICKNAME_MIN_LENGTH} - ${NICKNAME_MAX_LENGTH}자`,
+    },
+    onChange: onChangeNickname,
   };
 
   return (
     <>
       <GlobalStyle />
       <SignUpPageStyle $canSubmit={canSubmit}>
-        <p className="main-title">
-          함께하는 면접, <br />
-          합격까지 한걸음 더!
-        </p>
-        <span className="sub-title">인터뷰잇 회원이 아니시라면?</span>
         <form
           onSubmit={handleSubmit(onSubmit)}
           noValidate
           className="join-form"
         >
-          <div className="join-form__container">
-            <div className="join-form__input-container">
-              <InputText
-                autoComplete="off"
-                placeholder="이메일 입력"
-                type="email"
-                {...register("email", checkEmail)}
-              />
-              <div className="join-form__container-btn">
-                <button
-                  className="join-form__btn-chk"
-                  onClick={() => onClickEmailCheck(getValues("email"))}
-                  type="button"
-                >
-                  중복 확인
-                </button>
-              </div>
-            </div>
-            <ErrorMessage
-              errors={errors}
-              name="email"
-              render={({ message }) => (
-                <span className="error-message">{message}</span>
-              )}
+          <InputWithCheckButton
+            label="이메일"
+            name="email"
+            placeholder="이메일을 입력하세요"
+            isUnique={isEmailUnique}
+            onCheck={() => onClickEmailCheck(getValues("email"))}
+            register={register("email", checkEmail)}
+            error={errors.email}
+            onChange={onChangeEmail}
+            successMessage="사용 가능한 이메일입니다."
+          />
+          <div className="join-form-container">
+            <p className="title">비밀번호</p>
+            <InputField
+              className="password-input"
+              autoComplete="off"
+              placeholder="비밀번호를 입력하세요"
+              type="password"
+              maxLength={30}
+              {...register("password", checkPassword)}
             />
-            {isEmailUnique && (
-              <span className="duplication-message">
-                사용 가능한 이메일입니다.
-              </span>
-            )}
-          </div>
-          <div className="join-form__container">
-            <div className="join-form__input-container">
-              <InputText
-                autoComplete="off"
-                placeholder="비밀번호 입력"
-                type="password"
-                {...register("password", checkPassword)}
-              />
-            </div>
             <ErrorMessage
               errors={errors}
               name="password"
@@ -240,60 +250,49 @@ function SignUpPage() {
                 <span className="error-message">{message}</span>
               )}
             />
-          </div>
-          <div className="join-form__container">
-            <div className="join-form__input-container">
-              <InputText
-                autoComplete="off"
-                placeholder="닉네임 입력"
-                type="text"
-                {...register("nickname", {
-                  required: {
-                    value: true,
-                    message: "닉네임을 입력해주세요.",
-                  },
-                  pattern: {
-                    value: new RegExp(
-                      `^[가-힣a-zA-Z0-9]{${NICKNAME_MIN_LENGTH},${NICKNAME_MAX_LENGTH}}$`
-                    ),
-                    message: `한글, 영문, 숫자 ${NICKNAME_MIN_LENGTH} - ${NICKNAME_MAX_LENGTH}자`,
-                  },
-                  onChange: onChangeNickname,
-                })}
-              />
-              <div className="join-form__container-btn">
-                <button
-                  className="join-form__btn-chk"
-                  type="button"
-                  onClick={() => onClickNicknameCheck(getValues("nickname"))}
-                >
-                  중복 확인
-                </button>
-              </div>
-            </div>
-            <ErrorMessage
-              errors={errors}
-              name="nickname"
-              render={({ message }) => (
-                <span className="error-message">{message}</span>
-              )}
-            />
-            {isNicknameUnique && (
+            {isPasswordValid && (
               <span className="duplication-message">
-                사용 가능한 닉네임입니다.
+                사용 가능한 비밀번호입니다.
               </span>
             )}
           </div>
-          <button
+          <InputWithCheckButton
+            label="닉네임"
+            name="nickname"
+            placeholder="닉네임을 입력하세요"
+            isUnique={isNicknameUnique}
+            onCheck={() => onClickNicknameCheck(getValues("nickname"))}
+            register={register("nickname", checkNickname)}
+            error={errors.nickname}
+            onChange={onChangeNickname}
+            successMessage="사용 가능한 닉네임입니다."
+          />
+          <div className="join-form-container position">
+            <p className="title">포지션</p>
+            <div className="position-button-wrap">
+              {positions.map((pos) => (
+                <LightGrayButton
+                  key={pos.value}
+                  className={selected === pos.value ? "check" : ""}
+                  type="button"
+                  onClick={() => setSelected(pos.value)}
+                >
+                  {pos.label}
+                </LightGrayButton>
+              ))}
+            </div>
+          </div>
+          <GrayButton
+            width="100%"
+            className="join-button"
             type="button"
-            className="join-form__btn"
             disabled={!canSubmit}
             onClick={() =>
               setIsModalVisible((prev) => ({ ...prev, confirm: true }))
             }
           >
             회원가입
-          </button>
+          </GrayButton>
           {isModalVisible.confirm && (
             <ConfirmModal
               onClose={() => {
@@ -323,87 +322,107 @@ interface SignUpPageStyleProps {
 }
 
 const SignUpPageStyle = styled.div<SignUpPageStyleProps>`
-  width: 100%;
   max-width: 380px;
   height: 100dvh;
-  margin: 0 auto;
-  padding: 180px 30px 120px 30px;
-  background-color: #6ea1ff;
-
-  .main-title {
-    color: #ffffff;
-    font-weight: 600;
-    font-size: 30px;
-    line-height: 1.3;
-    margin-bottom: 15px;
-  }
-
-  .sub-title {
-    color: #ffffff;
-    font-size: 16px;
-    font-weight: 200;
-  }
+  padding: 0 30px;
+  background-color: #ffffff;
 
   .join-form {
-    margin-top: 60px;
+    margin-top: 20px;
   }
 
-  .join-form__container {
+  .join-form-container {
     display: flex;
     flex-direction: column;
-    height: 85px;
+    height: 115px;
+    margin-bottom: 30px;
 
-    .join-form__input-container {
-      display: flex;
-      border-bottom: 1px solid #ffffff;
+    .title {
+      color: #888888;
+      margin-bottom: 10px;
     }
 
-    .join-form__input-container.error-email,
-    .join-form__input-container.error-nickname {
-      border-bottom: 1px solid red;
+    .email-input-button-wrap {
+      display: flex;
+      justify-content: space-between;
+
+      .email-input {
+        width: 97%;
+      }
+    }
+
+    .password-input {
+      padding-right: 100px;
     }
 
     .error-message {
       color: red;
       font-size: 12px;
+      font-weight: 400;
       margin: 5px 0 0 5px;
     }
 
     .duplication-message {
-      color: green;
+      color: ${({ theme }) => theme.color.primary};
       font-size: 12px;
+      font-weight: 400;
       margin-top: 5px;
     }
   }
 
-  .join-form__btn {
-    margin-top: 80px;
-    width: 330px;
-    height: 60px;
-    font-size: 20px;
-    background: #ffffff;
-    color: #6ea1ff;
-    border-radius: 10px;
-    border: solid 1px #fff;
-    padding: 15px 20px;
-    text-align: center;
-    line-height: 1;
-    opacity: ${(props) => (props.$canSubmit ? 1 : 0.5)};
-    cursor: ${(props) => (props.$canSubmit ? "pointer" : "not-allowed")};
+  .nickname-input-button-wrap {
+    display: flex;
+    justify-content: space-between;
+
+    .nickname-input {
+      width: 97%;
+    }
+  }
+
+  .join-form-container.position {
+    height: fit-content;
+
+    .position-button-wrap {
+      display: flex;
+      flex-wrap: wrap;
+
+      button {
+        height: 60px;
+        margin-right: 10px;
+        padding: 16px 10px;
+        font-size: 16px;
+      }
+
+      button:nth-child(-n + 2) {
+        padding: 16px 20px;
+        margin-bottom: 8px;
+      }
+
+      button:last-child {
+        margin: 0;
+      }
+    }
+  }
+
+  .join-button {
+    margin-top: 10px;
+    border: ${({ $canSubmit }) => ($canSubmit ? "none" : "1px solid #d4dcea")};
+    background: ${({ $canSubmit }) => ($canSubmit ? "#6ea1ff" : "#ffffff")};
+    color: ${({ $canSubmit }) => ($canSubmit ? "#ffffff" : "#D4DCEA")};
+    font-size: 18px;
     font-weight: 600;
   }
 
-  .join-form__btn-chk {
-    width: 100px;
-    height: 45px;
-    border-radius: 10px;
-    flex-direction: column;
-    align-items: center;
-    border: 1px solid #ffffff;
-    background: #ffffff;
-    color: #6ea1ff;
+  .email-check-button,
+  .nickname-check-button {
+    height: 60px;
     font-size: 16px;
-    font-weight: 400;
-    padding: 10px;
+    padding: 15px 20px;
+
+    &.checked {
+      background: #6ea1ff;
+      color: #ffffff;
+      cursor: default;
+    }
   }
 `;
