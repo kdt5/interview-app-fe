@@ -15,6 +15,8 @@ function CommonProfile({
   level,
   position,
 }: Props) {
+  const displayLevel = String(level).padStart(2, "0");
+
   return (
     <>
       <ProfileSection>
@@ -29,7 +31,7 @@ function CommonProfile({
             )}
           </UserInfo>
           <Level>
-            LV. <b>{level}</b>
+            LV. <b>{displayLevel}</b>
           </Level>
         </FlexWrap>
       </ProfileSection>

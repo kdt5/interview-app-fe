@@ -5,6 +5,48 @@ import CommonProfile from "../components/common/Profile/CommonProfile";
 import { FRONTEND_URLS } from "../constants/Urls";
 import { useMyUserData } from "../hooks/UseMyUserData";
 
+const hotRankingUsers = [
+  {
+    profileImg: "/public/user1.png",
+    username: "명수옹",
+    like: 884,
+  },
+  {
+    profileImg: "/public/user2.png",
+    username: "광대하트",
+    like: 674,
+  },
+  {
+    profileImg: "/public/user3.png",
+    username: "희번덕",
+    like: 456,
+  },
+];
+
+const answerRankingUsers = [
+  {
+    profileImg: "/public/user1.png",
+    username: "명수옹",
+    level: 5,
+    like: 884,
+    comments: 223,
+  },
+  {
+    profileImg: "/public/user1.png",
+    username: "명수옹",
+    level: 5,
+    like: 884,
+    comments: 223,
+  },
+  {
+    profileImg: "/public/user1.png",
+    username: "명수옹",
+    level: 5,
+    like: 884,
+    comments: 223,
+  },
+];
+
 function RankingMainPage() {
   const { data, isLoading, error } = useMyUserData();
 
@@ -45,61 +87,36 @@ function RankingMainPage() {
           완전 <span className="hot-text">HOT한 </span>뷰잇러
         </h1>
         <div className="hot-users">
-          <div className="hot-user">
-            <img src="/public/user1.png" alt="" />
-            <p>명수옹</p>
-            <span>누적 좋아요 884개</span>
-          </div>
-          <div className="hot-user">
-            <img src="/public/user2.png" alt="" />
-            <p>광대하트</p>
-            <span>누적 좋아요 674개</span>
-          </div>
-          <div className="hot-user">
-            <img src="/public/user3.png" alt="" />
-            <p>희번덕</p>
-            <span>누적 좋아요 456개</span>
-          </div>
+          {hotRankingUsers.map((user, index) => (
+            <div className="hot-user" key={index}>
+              <img src={user.profileImg} alt={user.username} />
+              <p>{user.username}</p>
+              <span>누적 좋아요 {user.like}개</span>
+            </div>
+          ))}
         </div>
-        <button className="more-btn">100위 안의 뷰잇러도 확인하세요!</button>
+        <Link
+          to={FRONTEND_URLS.RANKINGS.MORE}
+          className="more-ranking-link-button"
+        >
+          100위 안의 뷰잇러도 확인하세요!
+        </Link>
       </div>
       <div className="answer-ranking">
         <div className="ranking-text-container">
           <h1 className="ranking-title">
             모르는 게 없는 <span className="ranking-text">뷰잇러</span>
           </h1>
-          <Link to="/" className="all-ranking-link">
+          <Link to={FRONTEND_URLS.RANKINGS.MORE} className="more-ranking-link">
             모두보기
           </Link>
         </div>
         <div className="answer-users">
-          <div className="rank-profile-box">
-            <RankingProfile
-              profileImg="../public/user1.png"
-              username="명수옹"
-              level={5}
-              like={132}
-              comments={423}
-            />
-          </div>
-          <div className="rank-profile-box">
-            <RankingProfile
-              profileImg="../public/user1.png"
-              username="명수옹"
-              level={5}
-              like={132}
-              comments={423}
-            />
-          </div>
-          <div className="rank-profile-box">
-            <RankingProfile
-              profileImg="../public/user1.png"
-              username="명수옹"
-              level={5}
-              like={132}
-              comments={423}
-            />
-          </div>
+          {answerRankingUsers.map((user, index) => (
+            <div className="rank-profile-box" key={`answer-${index}`}>
+              <RankingProfile {...user} />
+            </div>
+          ))}
         </div>
       </div>
       <div className="like-ranking">
@@ -112,33 +129,11 @@ function RankingMainPage() {
           </Link>
         </div>
         <div className="like-users">
-          <div className="rank-profile-box">
-            <RankingProfile
-              profileImg="../public/user1.png"
-              username="명수옹"
-              level={5}
-              like={132}
-              comments={423}
-            />
-          </div>
-          <div className="rank-profile-box">
-            <RankingProfile
-              profileImg="../public/user1.png"
-              username="명수옹"
-              level={5}
-              like={132}
-              comments={423}
-            />
-          </div>
-          <div className="rank-profile-box">
-            <RankingProfile
-              profileImg="../public/user1.png"
-              username="명수옹"
-              level={5}
-              like={132}
-              comments={423}
-            />
-          </div>
+          {answerRankingUsers.map((user, index) => (
+            <div className="rank-profile-box" key={`like-${index}`}>
+              <RankingProfile {...user} />
+            </div>
+          ))}
         </div>
       </div>
     </RankingMainPageStyle>
@@ -174,7 +169,7 @@ const RankingMainPageStyle = styled.div`
       }
 
       .count-title {
-        font-size: 10px;
+        font-size: 12px;
         font-weight: 300;
         color: #888888;
       }
@@ -217,11 +212,24 @@ const RankingMainPageStyle = styled.div`
       }
     }
 
+    .more-ranking-link-button {
+      display: inline-block;
+      width: 320px;
+      height: 40px;
+      text-align: center;
+      background: #6ea1ff;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 5px;
+      padding-top: 10px;
+    }
+
     .hot-users {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
 
       .hot-user {
         display: flex;
@@ -236,7 +244,7 @@ const RankingMainPageStyle = styled.div`
       }
 
       .hot-user > span {
-        font-size: 10px;
+        font-size: 12px;
         font-weight: 300;
         color: #888888;
       }
