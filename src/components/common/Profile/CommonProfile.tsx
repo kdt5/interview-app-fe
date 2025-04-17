@@ -3,11 +3,20 @@ import styled from "styled-components";
 interface Props {
   profileImg: string;
   username: string;
-  comments: number;
+  comments?: number;
   level: number;
+  position?: string;
 }
 
-function CommonProfile({ profileImg, username, comments, level }: Props) {
+function CommonProfile({
+  profileImg,
+  username,
+  comments,
+  level,
+  position,
+}: Props) {
+  const displayLevel = String(level).padStart(2, "0");
+
   return (
     <>
       <ProfileSection>
@@ -15,10 +24,14 @@ function CommonProfile({ profileImg, username, comments, level }: Props) {
         <FlexWrap>
           <UserInfo>
             <Username>{username}</Username>
-            <Comments>누적 답변{comments}개</Comments>
+            {position ? (
+              <Position>{position}</Position>
+            ) : (
+              <Comments>누적 답변 {comments}개</Comments>
+            )}
           </UserInfo>
           <Level>
-            LV. <b>{level}</b>
+            LV. <b>{displayLevel}</b>
           </Level>
         </FlexWrap>
       </ProfileSection>
@@ -59,6 +72,12 @@ const Username = styled.div`
 `;
 
 const Comments = styled.div`
+  font-weight: 300;
+  font-size: 12px;
+  color: #888888;
+`;
+
+const Position = styled.div`
   font-weight: 300;
   font-size: 12px;
   color: #888888;

@@ -9,6 +9,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAnswer } from "../hooks/UseAnswer";
 import QuestionContainer from "../components/AnswerPage/QuestionContainer";
 import AnswerForm from "../components/AnswerPage/AnswerForm";
+import { useCategory } from "../hooks/UseCategory";
 
 function EditAnswerPage() {
   const navigate = useNavigate();
@@ -37,6 +38,8 @@ function EditAnswerPage() {
     confirm: false,
     alert: false,
   });
+
+  const { getCategoryName } = useCategory();
 
   useEffect(() => {
     setCurrentAnswer(previousAnswer);
@@ -116,12 +119,14 @@ function EditAnswerPage() {
     }
   };
 
+  const category = question?.categories[0] ? getCategoryName(question?.categories[0]) : "카테고리가 없습니다.";
+
   return (
     <EditAnswerPageStyle $isSubmitDisabled={isSubmitDisabled}>
       <QuestionContainer
         questionId={String(question?.id)}
         title={question?.title || "질문이 없습니다."}
-        category={question?.categories[0] || "카테고리가 없습니다."}
+        category={category}
         isFavorite={isFavorite}
         toggleFavorite={toggleFavorite}
       />
