@@ -6,8 +6,8 @@ interface Props {
   category: string;
   questiontitle: string;
   answer: string;
-  views: number;
-  likes: number;
+  viewscount: number;
+  likescount: number;
 }
 
 const ProfileData = [
@@ -23,8 +23,8 @@ function CommunityAnswer({
   category,
   questiontitle,
   answer,
-  views,
-  likes,
+  viewscount,
+  likescount,
 }: Props) {
   return (
     <>
@@ -36,9 +36,9 @@ function CommunityAnswer({
           <span>
             {" "}
             <img src={ViewerImg} alt="Viewer Icon" />
-            {views}명이 봤어요
+            {viewscount}명이 봤어요
           </span>{" "}
-          | <span>좋아요 {likes}</span>
+          | <span>좋아요 {likescount}</span>
         </QuestionLike>
       </AnswerDetail>
       <AnswerDetailProfile>
