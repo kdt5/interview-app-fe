@@ -38,7 +38,7 @@ function Categories({
               className={category.id === activeCategoryId ? "active" : ""}
               onClick={() => onClickCategoryButton(category.id)}
             >
-              {category.name}
+              {category?.name}
             </button>
           </SwiperSlide>
         ))}

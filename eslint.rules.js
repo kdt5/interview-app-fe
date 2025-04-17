@@ -27,6 +27,7 @@ export const namingConvention = [
       regex: "[-]",
       match: false,
     },
+    leadingUnderscore: "allow",
   },
   {
     selector: "import",

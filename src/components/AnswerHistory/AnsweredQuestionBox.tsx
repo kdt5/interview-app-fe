@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { FRONTEND_URLS } from "../../constants/Urls";
 import { replaceUrlParams } from "../../utils/Url";
 
-export default AnswerBox;
+export default AnsweredQuestionBox;
 
 interface Props {
   questionId: number;
@@ -14,7 +14,7 @@ interface Props {
   categoryName?: string;
 }
 
-function AnswerBox({
+function AnsweredQuestionBox({
   questionId,
   answerId,
   title,
