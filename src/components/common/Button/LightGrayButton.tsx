@@ -5,10 +5,11 @@ function LightGrayButton({
   children,
   className,
   width,
+  ...props
 }: React.ComponentProps<typeof BaseButton>) {
   return (
     <>
-      <LightGrayButtonStyle width={width} className={className}>
+      <LightGrayButtonStyle width={width} className={className} {...props}>
         {children}
       </LightGrayButtonStyle>
     </>
