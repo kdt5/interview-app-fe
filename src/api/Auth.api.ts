@@ -86,6 +86,9 @@ export async function resetPassword(
   email: string,
   newPassword: string
 ): Promise<boolean> {
+  if (!token || !email || !newPassword) {
+    throw new Error("Missing required parameters");
+  }
   const response = await backendHttpClient
     .post(BACKEND_URLS.AUTH.RESET_PASSWORD, { token, email, newPassword })
     .then((response) => response.status === HttpStatusCode.Ok)

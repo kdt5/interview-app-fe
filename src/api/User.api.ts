@@ -40,6 +40,9 @@ export async function changePassword(
   oldPassword: string,
   newPassword: string
 ): Promise<boolean> {
+  if (!oldPassword || !newPassword) {
+    throw new Error("Missing required parameters");
+  }
   const response = await backendHttpClient
     .post(BACKEND_URLS.USERS.CHANGE_PASSWORD, { oldPassword, newPassword })
     .then((response) => response.status === HttpStatusCode.Ok)
