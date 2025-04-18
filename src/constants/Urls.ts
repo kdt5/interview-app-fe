@@ -2,6 +2,8 @@ export const FRONTEND_URLS = {
   HOME: "/",
   LOGIN: "/login",
   SIGNUP: "/signup",
+  ONBOARDING: "/onboarding",
+  FORGOT_PASSWORD: "/forgot-password",
   SETTINGS: {
     PROFILE: "/settings/profile",
   },
