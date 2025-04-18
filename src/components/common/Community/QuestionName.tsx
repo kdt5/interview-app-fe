@@ -1,25 +1,35 @@
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
-import { SlArrowRight } from "react-icons/sl";
+import { SlArrowRight as ArrowIcon } from "react-icons/sl";
 function QuestionName() {
   const location = useLocation();
   const inWeeklyAnswer = location.pathname === "/weeklypost";
+  const isComplete = false;
 
   return (
     <QuestionNameStyle>
       {inWeeklyAnswer ? (
-        <>
-          <WeeklyAnswerText>
-            <span>이번주 위클리 질문</span>에 답변하지 않았어요
-          </WeeklyAnswerText>
-          <SlArrowRight></SlArrowRight>
-        </>
+        isComplete ? (
+          <>
+            <CommonQuestion>Q</CommonQuestion>
+            <Question>
+              이번주 위클리 질문이 출력되는 곳 이번주 위클리 질문이 출력되는
+              곳이번주 위클리 질문이 출력되는 곳이번주 위클리 질문이 출력되는 곳
+            </Question>
+          </>
+        ) : (
+          <>
+            <WeeklyAnswerText>
+              <span>이번주 위클리 질문</span>에 답변하지 않았어요
+            </WeeklyAnswerText>
+            <SlArrowRight />
+          </>
+        )
       ) : (
         <>
           <CommonQuestion>Q</CommonQuestion>
           <Question>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem quae
-            eveniet commodi, doloremque,
+            내가 클릭해서 들어온 면접 필수 질문이 출력 되는 곳
           </Question>
         </>
       )}
@@ -34,7 +44,7 @@ const QuestionNameStyle = styled.div`
   border-radius: 10px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
 `;
 
 const CommonQuestion = styled.span`
@@ -48,6 +58,7 @@ const CommonQuestion = styled.span`
   line-height: 25px;
   border-radius: 30px;
   display: block;
+  margin-top: 3px;
 `;
 
 const Question = styled.p`
@@ -66,4 +77,7 @@ const WeeklyAnswerText = styled.p`
   }
 `;
 
+const SlArrowRight = styled(ArrowIcon)`
+  margin-top: 5px;
+`;
 export default QuestionName;
