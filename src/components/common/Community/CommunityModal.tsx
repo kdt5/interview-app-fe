@@ -8,16 +8,34 @@ interface Props {
 }
 
 function CommunityModal({ onClose, onEdit, onDelete }: Props) {
+  const isMyData = true;
+
   return (
     <>
       <BackDrop onClick={onClose}>
         <ModalContainer onClick={(e) => e.stopPropagation()}>
-          <button className="action-button delete" onClick={onDelete}>
-            삭제
-          </button>
-          <button className="action-button edit" onClick={onEdit}>
-            수정
-          </button>
+          {isMyData ? (
+            <>
+              <button className="action-button delete" onClick={onDelete}>
+                삭제
+              </button>
+              <button className="action-button edit" onClick={onEdit}>
+                수정
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                className="action-button report"
+                onClick={() => alert("신고했습니다.")}
+              >
+                신고
+              </button>
+              <button className="action-button close" onClick={onClose}>
+                닫기
+              </button>
+            </>
+          )}
         </ModalContainer>
       </BackDrop>
     </>
@@ -32,6 +50,8 @@ const BackDrop = styled.div`
   display: flex;
   justify-content: center;
   align-items: flex-end;
+  max-width: 380px;
+  margin: 0 auto;
 `;
 
 const ModalContainer = styled.div`
@@ -52,13 +72,24 @@ const ModalContainer = styled.div`
     border-radius: 8px;
   }
 
-  .delete {
+  .delete,
+  .report {
     background-color: #fbfbfb;
     color: #ff7070;
   }
 
   .edit {
     background-color: #fbfbfb;
+    color: #888;
+  }
+
+  .report {
+    background-color: #fbfbfb;
+    color: #888;
+  }
+
+  .close {
+    background-color: #fff;
     color: #888;
   }
 `;

@@ -5,6 +5,8 @@ import { HiArrowSmLeft } from "react-icons/hi";
 import { FRONTEND_URLS } from "../../constants/Urls";
 import Option from "../../assets/Option.png";
 import Like from "../../assets/Like.png";
+import { useState } from "react";
+import CommunityModal from "./Community/CommunityModal";
 
 function Header() {
   const location = useLocation();
@@ -14,6 +16,8 @@ function Header() {
   const isAnswerDetail = location.pathname === "/answerdetail";
   const isPostDetail = location.pathname === "/postdetail";
   const isDetailPage = isAnswerDetail || isPostDetail;
+
+  const [isModal, setIsModal] = useState(false);
 
   return (
     <HeaderStyle>
@@ -30,13 +34,12 @@ function Header() {
           {isDetailPage && (
             <DetailButton>
               <LikeStyle></LikeStyle>
-              <OptionStyle>
-                <img src={Option} alt="" />
-              </OptionStyle>
+              <OptionStyle onClick={() => setIsModal(true)}></OptionStyle>
             </DetailButton>
           )}
         </TitleWrapStyle>
       )}
+      {isModal && <CommunityModal onClose={() => setIsModal(false)} />}
     </HeaderStyle>
   );
 }
@@ -127,5 +130,9 @@ const OptionStyle = styled.button`
   padding: 0;
   width: 10px;
   height: 20px;
+  background-image: url(${Option});
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center center;
 `;
 export default Header;
