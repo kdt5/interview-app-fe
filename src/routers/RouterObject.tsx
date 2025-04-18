@@ -13,7 +13,6 @@ import FavoriteQuestionListPage from "../pages/FavoriteQuestionListPage";
 import EditAnswerPage from "../pages/EditAnswerPage";
 import Community from "../pages/ComponentFile";
 import MoreRankingPage from "../pages/MoreRankingPage";
-import HeaderLayout from "../components/layout/HeaderLayout";
 
 const requiredUrls = [
   FRONTEND_URLS.HOME,
@@ -27,8 +26,6 @@ const requiredUrls = [
   FRONTEND_URLS.RANKINGS.MAIN,
   FRONTEND_URLS.RANKINGS.MORE,
 ];
-
-const excludedPaths = [FRONTEND_URLS.LOGIN, FRONTEND_URLS.SIGNUP];
 
 export const routerObjects: RouteObject[] = [
   {
@@ -80,17 +77,10 @@ export const routerObjects: RouteObject[] = [
     element: <MoreRankingPage />,
   },
 ].map((routerObject) => {
-  if (excludedPaths.includes(routerObject.path)) {
-    return {
-      ...routerObject,
-      element: <HeaderLayout>{routerObject.element}</HeaderLayout>,
-    };
-  } else {
-    return {
-      ...routerObject,
-      element: <Layout>{routerObject.element}</Layout>,
-    };
-  }
+  return {
+    ...routerObject,
+    element: <Layout>{routerObject.element}</Layout>,
+  };
 });
 
 const routerPaths = routerObjects.map((route) => route.path);

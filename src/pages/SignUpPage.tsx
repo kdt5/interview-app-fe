@@ -45,10 +45,10 @@ function SignUpPage() {
     confirm: false,
     alert: false,
   });
-  const [selected, setSelected] = useState<string | null>(null);
+  const [selectedPosition, setSelectedPostion] = useState<string | null>(null);
 
   const canSubmit =
-    isValid && isEmailUnique && isNicknameUnique && selected !== null;
+    isValid && isEmailUnique && isNicknameUnique && selectedPosition !== null;
 
   const positions = [
     { value: "front-end", label: "Front-End" },
@@ -273,9 +273,9 @@ function SignUpPage() {
               {positions.map((pos) => (
                 <LightGrayButton
                   key={pos.value}
-                  className={selected === pos.value ? "check" : ""}
+                  className={selectedPosition === pos.value ? "check" : ""}
                   type="button"
-                  onClick={() => setSelected(pos.value)}
+                  onClick={() => setSelectedPostion(pos.value)}
                 >
                   {pos.label}
                 </LightGrayButton>
@@ -329,100 +329,70 @@ const SignUpPageStyle = styled.div<SignUpPageStyleProps>`
 
   .join-form {
     margin-top: 20px;
-  }
 
-  .join-form-container {
-    display: flex;
-    flex-direction: column;
-    height: 115px;
-    margin-bottom: 30px;
-
-    .title {
-      color: #888888;
-      margin-bottom: 10px;
-    }
-
-    .email-input-button-wrap {
+    .join-form-container {
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
+      height: 115px;
+      margin-bottom: 30px;
 
-      .email-input {
-        width: 97%;
+      .title {
+        color: #888888;
+        margin-bottom: 10px;
+      }
+
+      .password-input {
+        padding-right: 100px;
+      }
+
+      .error-message {
+        color: red;
+        font-size: 12px;
+        font-weight: 400;
+        margin: 5px 0 0 5px;
+      }
+
+      .duplication-message {
+        color: ${({ theme }) => theme.color.primary};
+        font-size: 12px;
+        font-weight: 400;
+        margin-top: 5px;
       }
     }
 
-    .password-input {
-      padding-right: 100px;
-    }
+    .join-form-container.position {
+      height: fit-content;
 
-    .error-message {
-      color: red;
-      font-size: 12px;
-      font-weight: 400;
-      margin: 5px 0 0 5px;
-    }
+      .position-button-wrap {
+        display: flex;
+        flex-wrap: wrap;
 
-    .duplication-message {
-      color: ${({ theme }) => theme.color.primary};
-      font-size: 12px;
-      font-weight: 400;
-      margin-top: 5px;
-    }
-  }
+        button {
+          height: 60px;
+          margin-right: 10px;
+          padding: 16px 10px;
+          font-size: 16px;
+        }
 
-  .nickname-input-button-wrap {
-    display: flex;
-    justify-content: space-between;
+        button:nth-child(-n + 2) {
+          padding: 16px 20px;
+          margin-bottom: 8px;
+        }
 
-    .nickname-input {
-      width: 97%;
-    }
-  }
-
-  .join-form-container.position {
-    height: fit-content;
-
-    .position-button-wrap {
-      display: flex;
-      flex-wrap: wrap;
-
-      button {
-        height: 60px;
-        margin-right: 10px;
-        padding: 16px 10px;
-        font-size: 16px;
-      }
-
-      button:nth-child(-n + 2) {
-        padding: 16px 20px;
-        margin-bottom: 8px;
-      }
-
-      button:last-child {
-        margin: 0;
+        button:last-child {
+          margin: 0;
+        }
       }
     }
-  }
 
-  .join-button {
-    margin-top: 10px;
-    border: ${({ $canSubmit }) => ($canSubmit ? "none" : "1px solid #d4dcea")};
-    background: ${({ $canSubmit }) => ($canSubmit ? "#6ea1ff" : "#ffffff")};
-    color: ${({ $canSubmit }) => ($canSubmit ? "#ffffff" : "#D4DCEA")};
-    font-size: 18px;
-    font-weight: 600;
-  }
-
-  .email-check-button,
-  .nickname-check-button {
-    height: 60px;
-    font-size: 16px;
-    padding: 15px 20px;
-
-    &.checked {
-      background: #6ea1ff;
-      color: #ffffff;
-      cursor: default;
+    .join-button {
+      margin-top: 10px;
+      border: ${({ $canSubmit }) =>
+        $canSubmit ? "none" : "1px solid #d4dcea"};
+      background: ${({ $canSubmit }) => ($canSubmit ? "#6ea1ff" : "#ffffff")};
+      color: ${({ $canSubmit }) => ($canSubmit ? "#ffffff" : "#D4DCEA")};
+      font-size: 18px;
+      font-weight: 600;
     }
   }
 `;
