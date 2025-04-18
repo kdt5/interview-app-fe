@@ -10,7 +10,8 @@ const WeeklyQuestionData = [
     category: "Javascript",
     title:
       "Javascript에서 var, let, const의 역할과 각각의 차이점은 무엇일까요?",
-    date: "3d 2h 30m",
+    date: "3월 4주차",
+    answercount: "53",
   },
 ];
 

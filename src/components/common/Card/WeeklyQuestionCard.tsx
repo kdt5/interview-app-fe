@@ -1,20 +1,52 @@
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
-
+import Clock from "../../../assets/Clock.png";
+import AnswerCountProfile from "../../../assets/Profile_Small.png";
 interface Props {
   category: string;
   title: string;
   date: string;
+  answercount?: number;
 }
 
-function WeeklyQuestionCard({ category, title, date }: Props) {
+function WeeklyQuestionCard({ category, title, date, answercount }: Props) {
+  const location = useLocation();
+  const inWeeklyAnswer = location.pathname === "/community";
+  const isComplete = true;
+
   return (
     <>
       <WeeklyQuestionCardStyle>
         <WeeklyQuestionCategory>{category}</WeeklyQuestionCategory>
         <WeeklyQuestionTitle>{title}</WeeklyQuestionTitle>
         <WeeklyQuestionInfo>
-          <WeeklyQuestionDate>{date}</WeeklyQuestionDate>
-          <WeeklyQuestionAnswer>지금 답변하기</WeeklyQuestionAnswer>
+          {inWeeklyAnswer ? (
+            isComplete ? (
+              <>
+                <WeeklyQuestionDate>
+                  <img src={Clock} alt="" />
+                  {date}
+                </WeeklyQuestionDate>
+                <AnswerCount>
+                  <img src={AnswerCountProfile} alt="" />
+                  {answercount}명 답변
+                </AnswerCount>
+              </>
+            ) : (
+              <>
+                <WeeklyQuestionDate>
+                  <img src={Clock} alt="" />
+                  {date}
+                </WeeklyQuestionDate>
+                <WeeklyQuestionAnswer>지금 답변하기</WeeklyQuestionAnswer>
+              </>
+            )
+          ) : (
+            <>
+              <WeeklyQuestionDate>{date}</WeeklyQuestionDate>
+              <WeeklyQuestionAnswer>지금 답변하기</WeeklyQuestionAnswer>
+            </>
+          )}
         </WeeklyQuestionInfo>
       </WeeklyQuestionCardStyle>
     </>
@@ -56,11 +88,32 @@ const WeeklyQuestionInfo = styled.div`
 const WeeklyQuestionDate = styled.div`
   color: #fff;
   font-weight: 300 !important;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  img {
+    width: 18px;
+    height: 18px;
+    margin-right: 3px;
+  }
 `;
 
 const WeeklyQuestionAnswer = styled.a`
   color: #fff;
   font-weight: 300 !important;
+`;
+
+const AnswerCount = styled.p`
+  color: #fff;
+  font-weight: 300 !important;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  img {
+    width: 18px;
+    height: 18px;
+    margin-right: 3px;
+  }
 `;
 
 export default WeeklyQuestionCard;
