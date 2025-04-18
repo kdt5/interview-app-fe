@@ -1,16 +1,8 @@
 import styled from "styled-components";
 import BaseButton from "./BaseButton";
 
-function GrayButton({
-  children,
-  className,
-  width,
-}: React.ComponentProps<typeof BaseButton>) {
-  return (
-    <GrayButtonStyle width={width} className={className}>
-      {children}
-    </GrayButtonStyle>
-  );
+function GrayButton(props: React.ComponentProps<typeof BaseButton>) {
+  return <GrayButtonStyle {...props} />;
 }
 
 const GrayButtonStyle = styled(BaseButton)`

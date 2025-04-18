@@ -15,6 +15,10 @@ export const FRONTEND_URLS = {
   },
   ANSWER: "/questions/:questionId/answer",
   ANSWER_EDIT: "/questions/:questionId/answer/:answerId/edit",
+  RANKINGS: {
+    MAIN: "/rankings",
+    MORE: "/rankings/more",
+  },
 };
 
 export const BACKEND_URLS = {
@@ -54,5 +58,11 @@ export const BACKEND_URLS = {
   REPORTS: {
     ALL: "/api/reports",
     REPORT: "/api/reports/:reportId",
-  }
+  },
+  RANKINGS: {
+    ALL: "/api/rankings",
+    ANSWERS: "/api/rankings/answers",
+    LIKES: "/api/rankings/likes",
+    ME: "/api/rankings/me",
+  },
 };

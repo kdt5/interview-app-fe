@@ -1,13 +1,19 @@
 export interface Category {
   id: number;
-  name: string;
+  name?: string;
 }
 
 export interface Question {
   id: number;
-  categories: number[];
   title: string;
   content?: string;
-  isAnswered: boolean;
+  createdAt: string;
+  viewCount: number;
+  favoriteCount: number;
+  categories: { id: number }[];
+  isAnswered?: boolean;
   isFavorite?: boolean;
+  _count?: {
+    answers: number;
+  };
 }

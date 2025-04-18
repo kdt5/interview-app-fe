@@ -6,11 +6,13 @@ import LoginPage from "../pages/LoginPage";
 import SignUpPage from "../pages/SignUpPage";
 import QuestionListPage from "../pages/QuestionListPage";
 import AnswerHistoryPage from "../pages/AnswerHistoryPage";
+import RankingMainPage from "../pages/RankingMainPage";
 import { FRONTEND_URLS } from "../constants/Urls";
 import MyPage from "../pages/MyPage";
 import FavoriteQuestionListPage from "../pages/FavoriteQuestionListPage";
 import EditAnswerPage from "../pages/EditAnswerPage";
 import Community from "../pages/ComponentFile";
+import MoreRankingPage from "../pages/MoreRankingPage";
 
 const requiredUrls = [
   FRONTEND_URLS.HOME,
@@ -21,9 +23,9 @@ const requiredUrls = [
   FRONTEND_URLS.MY_PAGE.FAVORITES.QUESTIONS,
   FRONTEND_URLS.ANSWER,
   FRONTEND_URLS.ANSWER_EDIT,
+  FRONTEND_URLS.RANKINGS.MAIN,
+  FRONTEND_URLS.RANKINGS.MORE,
 ];
-
-const excludedPaths = [FRONTEND_URLS.SIGNUP, FRONTEND_URLS.LOGIN];
 
 export const routerObjects: RouteObject[] = [
   {
@@ -66,18 +68,19 @@ export const routerObjects: RouteObject[] = [
     path: FRONTEND_URLS.ANSWER_EDIT,
     element: <EditAnswerPage />,
   },
+  {
+    path: FRONTEND_URLS.RANKINGS.MAIN,
+    element: <RankingMainPage />,
+  },
+  {
+    path: FRONTEND_URLS.RANKINGS.MORE,
+    element: <MoreRankingPage />,
+  },
 ].map((routerObject) => {
-  if (excludedPaths.includes(routerObject.path)) {
-    return {
-      ...routerObject,
-      element: routerObject.element,
-    };
-  } else {
-    return {
-      ...routerObject,
-      element: <Layout>{routerObject.element}</Layout>,
-    };
-  }
+  return {
+    ...routerObject,
+    element: <Layout>{routerObject.element}</Layout>,
+  };
 });
 
 const routerPaths = routerObjects.map((route) => route.path);
