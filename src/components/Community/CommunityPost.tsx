@@ -116,8 +116,8 @@ function PostTab() {
 
 const PopularSlideNotice = styled.div`
   background-color: #6ea1ff;
-  width: 150px;
-  height: 150px;
+  width: 160px;
+  height: 160px;
   padding: 15px;
   border-radius: 10px;
   display: grid;

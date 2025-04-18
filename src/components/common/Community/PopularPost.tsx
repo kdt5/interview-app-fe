@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import LikesIcon from "../../../assets/Popular_Like.png";
+import ReplysIcon from "../../../assets/Popular_reply.png";
 
 interface Props {
   title: string;
@@ -15,7 +17,15 @@ function PopularPost({ title, contents, comments, likes }: Props) {
         <Title>{title}</Title>
         <Content>{contents}</Content>
         <Info>
-          <span>{likes}</span> | <span>{comments}</span>
+          <CountInfo>
+            <img src={LikesIcon} alt="" />
+            <span> {likes}</span>
+          </CountInfo>
+
+          <CountInfo>
+            <img src={ReplysIcon} alt="" />
+            <span>{comments}</span>
+          </CountInfo>
         </Info>
       </PopularPostStyle>
     </>
@@ -26,7 +36,7 @@ const PopularPostStyle = styled.div`
   background-color: #f8f8f8;
   width: 100%;
   max-width: 380px;
-  height: 150px;
+  height: 160px;
   border-radius: 10px;
   padding: 15px 25px;
 
@@ -60,9 +70,23 @@ const Info = styled.div`
   font-size: 12px;
   color: #afafaf;
   margin: 10px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 30%;
+`;
+
+const CountInfo = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  margin-right: 10px;
   span {
     font-weight: 200;
     color: #afafaf;
+    font-size: 14px;
+    margin: 3px 0 0 3px;
   }
 `;
+
 export default PopularPost;
