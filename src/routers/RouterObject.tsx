@@ -13,11 +13,15 @@ import FavoriteQuestionListPage from "../pages/FavoriteQuestionListPage";
 import EditAnswerPage from "../pages/EditAnswerPage";
 import Community from "../pages/ComponentFile";
 import MoreRankingPage from "../pages/MoreRankingPage";
+import OnBoardingPage from "../pages/OnBoardingPage";
+import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 
 const requiredUrls = [
   FRONTEND_URLS.HOME,
+  FRONTEND_URLS.ONBOARDING,
   FRONTEND_URLS.LOGIN,
   FRONTEND_URLS.SIGNUP,
+  FRONTEND_URLS.FORGOT_PASSWORD,
   FRONTEND_URLS.MY_PAGE.HOME,
   FRONTEND_URLS.MY_PAGE.ANSWERS,
   FRONTEND_URLS.MY_PAGE.FAVORITES.QUESTIONS,
@@ -35,12 +39,20 @@ export const routerObjects: RouteObject[] = [
     element: <MainPage />,
   },
   {
+    path: FRONTEND_URLS.ONBOARDING,
+    element: <OnBoardingPage />,
+  },
+  {
     path: FRONTEND_URLS.LOGIN,
     element: <LoginPage />,
   },
   {
     path: FRONTEND_URLS.SIGNUP,
     element: <SignUpPage />,
+  },
+  {
+    path: FRONTEND_URLS.FORGOT_PASSWORD,
+    element: <ForgotPasswordPage />,
   },
   {
     path: FRONTEND_URLS.QUESTION_LIST,

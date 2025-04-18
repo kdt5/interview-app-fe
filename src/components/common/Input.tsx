@@ -22,20 +22,22 @@ const InputText = React.forwardRef(function InputText(
 });
 
 const InputTextStyled = styled.input`
-  border: none;
-  background: none;
+  border: 1px solid #ddd;
+  background: #fff;
   padding: 15px;
   font-size: 16px;
-  color: #ffffff;
+  color: #333;
   width: 100%;
   height: 60px;
+  border-radius: 8px;
 
   &::placeholder {
-    color: #fff;
+    color: #aaa;
   }
 
   &:focus {
     outline: none;
+    border-color: #6ea1ff;
   }
 `;
 
