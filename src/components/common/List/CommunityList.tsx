@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import CommonProfile from "../Profile/CommonProfile";
+import ViewerImg from "../../../assets/Viewer.png";
 
 interface Props {
   title: string;
@@ -27,7 +28,11 @@ function CommunityList({ title, content, views, likes }: Props) {
         <Title>{title}</Title>
         <Content>{content}</Content>
         <Info>
-          <span>{views}명이 봤어요</span> | <span>좋아요 {likes}</span>
+          <span>
+            <img src={ViewerImg} alt="Viewer Icon" />
+            {views}명이 봤어요
+          </span>{" "}
+          | <span>좋아요 {likes}</span>
         </Info>
       </CommunityListStyle>
     </>
@@ -60,6 +65,11 @@ const Info = styled.div`
   span {
     font-weight: 300;
     color: #888888;
+
+    img {
+      display: inline-block;
+      margin-right: 3px;
+    }
   }
 `;
 

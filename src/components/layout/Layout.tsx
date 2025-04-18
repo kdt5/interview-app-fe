@@ -31,14 +31,15 @@ function Layout({ children }: LayoutProps) {
 const LayoutStyle = styled.div`
   width: 100%;
   max-width: 380px;
-  height: 100dvh;
+  height: fit-content;
+  min-height: 100dvh;
   margin: 0 auto;
   background-color: #fff;
 `;
 
 const LayoutPadding = styled.div`
   padding: 100px 0;
-  height: 100dvh;
+  height: fit-content;
   box-sizing: border-box;
 `;
 

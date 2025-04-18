@@ -11,8 +11,14 @@ import { FRONTEND_URLS } from "../constants/Urls";
 import MyPage from "../pages/MyPage";
 import FavoriteQuestionListPage from "../pages/FavoriteQuestionListPage";
 import EditAnswerPage from "../pages/EditAnswerPage";
-import Community from "../pages/ComponentFile";
+import Community from "../pages/Community";
+import CommunityQuestionDetail from "../pages/Community/CommunityQuestionDetail";
+import CommunityAnswerDetail from "../pages/Community/CommunityAnswerDetail";
+import CommunityReply from "../pages/Community/CommunityReply";
+import PostDetail from "../pages/CommunityPost/PostDetail";
+import PostWrite from "../pages/CommunityPost/PostWrite";
 import MoreRankingPage from "../pages/MoreRankingPage";
+import CommunityWeeklyAnswer from "../pages/Community/CommunityWeeklyAnswer";
 
 const requiredUrls = [
   FRONTEND_URLS.HOME,
@@ -28,6 +34,36 @@ const requiredUrls = [
 ];
 
 export const routerObjects: RouteObject[] = [
+  {
+    path: "/questiondetail",
+    element: <CommunityQuestionDetail />,
+  },
+
+  {
+    path: "/answerdetail",
+    element: <CommunityAnswerDetail />,
+  },
+
+  {
+    path: "/reply",
+    element: <CommunityReply />,
+  },
+
+  {
+    path: "/postdetail",
+    element: <PostDetail />,
+  },
+
+  {
+    path: "/postwrite",
+    element: <PostWrite />,
+  },
+
+  {
+    path: "/weeklypost",
+    element: <CommunityWeeklyAnswer />,
+  },
+
   {
     path: FRONTEND_URLS.HOME,
     element: <MainPage />,

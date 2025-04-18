@@ -69,7 +69,7 @@ const QuestionData = [
       "Javascript에서 var, let, const의 역할과 각각의 차이점은 무엇일까요?",
   },
 ];
-function Community() {
+function Component() {
   return (
     <>
       <CommunityStyle>
@@ -111,6 +111,7 @@ function Community() {
         <InputField
           onChange={(e) => setText(e.target.value)}
           placeholder="아이디를 입력하세요"
+          type="text"
         ></InputField>
       </CommunityStyle>
     </>
@@ -123,4 +124,4 @@ const CommunityStyle = styled.main`
   background-color: #fff;
 `;
 
-export default Community;
+export default Component;
