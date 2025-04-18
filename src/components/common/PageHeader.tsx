@@ -59,6 +59,8 @@ const getPageTitle = (pathname: string) => {
 
     "/community": "커뮤니티",
     "/answerdetail": "답변 상세보기",
+    [FRONTEND_URLS.SIGNUP]: "회원가입",
+    [FRONTEND_URLS.LOGIN]: " ",
   };
 
   const matchAnswer = matchPath(FRONTEND_URLS.ANSWER, pathname);

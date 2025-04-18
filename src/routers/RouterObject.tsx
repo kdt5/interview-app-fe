@@ -33,8 +33,6 @@ const requiredUrls = [
   FRONTEND_URLS.RANKINGS.MORE,
 ];
 
-const excludedPaths = [FRONTEND_URLS.SIGNUP, FRONTEND_URLS.LOGIN];
-
 export const routerObjects: RouteObject[] = [
   {
     path: "/questiondetail",
@@ -115,17 +113,10 @@ export const routerObjects: RouteObject[] = [
     element: <MoreRankingPage />,
   },
 ].map((routerObject) => {
-  if (excludedPaths.includes(routerObject.path)) {
-    return {
-      ...routerObject,
-      element: routerObject.element,
-    };
-  } else {
-    return {
-      ...routerObject,
-      element: <Layout>{routerObject.element}</Layout>,
-    };
-  }
+  return {
+    ...routerObject,
+    element: <Layout>{routerObject.element}</Layout>,
+  };
 });
 
 const routerPaths = routerObjects.map((route) => route.path);

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Tabs from "../components/common/Tabs";
 import { useState } from "react";
-import Answers from "../components/AnswerHistory/Answers";
+import AnsweredQuestions from "../components/AnswerHistory/AnsweredQuestions";
 import { useCategory } from "../hooks/UseCategory";
 import { useAnsweredHistory } from "../hooks/UseAnsweredHistory";
 
@@ -28,9 +28,9 @@ function AnswerHistoryPage() {
         onClickTab={handleClickTab}
         currentTab={currentTab}
       />
-      <Answers
+      <AnsweredQuestions
         className="answers"
-        answers={
+        answeredQuestions={
           currentTab === "위클리"
             ? weeklyAnsweredQuestions
             : basicAnsweredQuestions

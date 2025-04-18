@@ -3,13 +3,13 @@ import Tabs from "../components/common/Tabs";
 import { useState } from "react";
 import Questions from "../components/QuestionList/Questions";
 import { useCategory } from "../hooks/UseCategory";
-import { useFavorite } from "../hooks/UseFavorite";
+import { useFavoriteQuestions } from "../hooks/UseFavorite";
 
 export default FavoriteQuestionListPage;
 
 function FavoriteQuestionListPage() {
   const { getCategoryName } = useCategory();
-  const { favoriteQuestions } = useFavorite();
+  const { favoriteQuestions } = useFavoriteQuestions();
   const [currentTab, setCurrentTab] = useState("위클리");
 
   const titles: string[] = ["위클리", "기본"];

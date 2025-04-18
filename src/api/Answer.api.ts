@@ -1,12 +1,14 @@
 import { HttpStatusCode } from "axios";
 import { BACKEND_URLS } from "../constants/Urls";
-import { Answer } from "../models/Answer.model";
+import { Answer, AnsweredQuestion } from "../models/Answer.model";
 import { replaceUrlParams } from "../utils/Url";
 import { backendHttpClient } from "./BackendHttpClient.api";
 
-export async function fetchBasicAnsweredQuestions(): Promise<Answer[]> {
+export async function fetchBasicAnsweredQuestions(): Promise<
+  AnsweredQuestion[]
+> {
   const response = await backendHttpClient
-    .get<Answer[]>(BACKEND_URLS.ANSWERS.MINE)
+    .get<AnsweredQuestion[]>(BACKEND_URLS.ANSWERS.MINE)
     .then((response) => response.data)
     .catch((error) => {
       throw error;
@@ -15,9 +17,11 @@ export async function fetchBasicAnsweredQuestions(): Promise<Answer[]> {
   return response;
 }
 
-export async function fetchWeeklyAnsweredQuestions(): Promise<Answer[]> {
+export async function fetchWeeklyAnsweredQuestions(): Promise<
+  AnsweredQuestion[]
+> {
   const response = await backendHttpClient
-    .get<Answer[]>(BACKEND_URLS.ANSWERS.WEEKLY)
+    .get<AnsweredQuestion[]>(BACKEND_URLS.ANSWERS.WEEKLY)
     .then((response) => response.data)
     .catch((error) => {
       throw error;

@@ -2,20 +2,24 @@ import styled from "styled-components";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { SwiperOptions } from "swiper/types";
 import { FreeMode, Mousewheel } from "swiper/modules";
-import { Answer } from "../../models/Answer.model";
+import { AnsweredQuestion } from "../../models/Answer.model";
 import "swiper/css";
 import "swiper/css/free-mode";
-import AnswerBox from "./AnswerBox";
+import AnsweredQuestionBox from "./AnsweredQuestionBox";
 
-export default Answers;
+export default AnsweredQuestions;
 
 interface Props {
   className?: string;
-  answers?: Answer[];
+  answeredQuestions?: AnsweredQuestion[];
   getCategoryName: (categoryId: number) => string;
 }
 
-function Answers({ className, answers, getCategoryName }: Props) {
+function AnsweredQuestions({
+  className,
+  answeredQuestions,
+  getCategoryName,
+}: Props) {
   const options: SwiperOptions = {
     slidesPerView: "auto",
     spaceBetween: 8,
@@ -28,15 +32,17 @@ function Answers({ className, answers, getCategoryName }: Props) {
   return (
     <AnswersStyle className={className}>
       <Swiper {...options}>
-        {answers?.map((answer) => {
-          const categoryName = getCategoryName(answer.question.categories[0]);
+        {answeredQuestions?.map((answeredQuestion) => {
+          const categoryName = getCategoryName(
+            answeredQuestion.question.categories[0].id
+          );
 
           return (
-            <SwiperSlide key={answer.id}>
-              <AnswerBox
-                questionId={answer.question.id}
-                answerId={answer.id}
-                title={answer.question.title}
+            <SwiperSlide key={answeredQuestion.id}>
+              <AnsweredQuestionBox
+                questionId={answeredQuestion.question.id}
+                answerId={answeredQuestion.id}
+                title={answeredQuestion.question.title}
                 categoryImagePath={`../assets/categories/${categoryName}.png`}
                 categoryName={categoryName}
               />

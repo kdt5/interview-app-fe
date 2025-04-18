@@ -1,22 +1,40 @@
+import React, { useState } from "react";
 import styled from "styled-components";
 
-interface Props {
+interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   placeholder?: string;
-  value?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   type: string;
 }
 
-const InputField = ({ placeholder, value, onChange, type }: Props) => {
+const InputField = ({ placeholder, type, ...rest }: Props) => {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+
   return (
-    <StyledInput
-      type={type}
-      placeholder={placeholder}
-      value={value}
-      onChange={onChange}
-    />
+    <InputWrapper>
+      <StyledInput
+        placeholder={placeholder}
+        type={type === "password" && !showPassword ? "password" : "text"}
+        {...rest}
+      />
+      {type === "password" && (
+        <ToggleButton type="button" onClick={togglePasswordVisibility}>
+          <img
+            src={showPassword ? "../public/Eye.png" : "../public/Invisible.png"}
+            alt={showPassword ? "Hide password" : "Show Password"}
+          />
+        </ToggleButton>
+      )}
+    </InputWrapper>
   );
 };
+
+const InputWrapper = styled.div`
+  position: relative;
+`;
 
 const StyledInput = styled.input`
   width: 100%;
@@ -36,6 +54,21 @@ const StyledInput = styled.input`
   &:focus {
     border-color: #6ea1ff;
     background-color: #fbfbfb;
+  }
+`;
+
+const ToggleButton = styled.button`
+  position: absolute;
+  right: 0px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  img {
+    width: 20px;
+    height: 20px;
   }
 `;
 

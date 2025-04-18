@@ -1,14 +1,12 @@
 import styled from "styled-components";
 
-interface Props {
-  children: React.ReactNode;
-  className?: string;
+interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   width?: string;
 }
 
-function BaseButton({ children, className, width }: Props) {
+function BaseButton({ children, className, width, ...rest }: Props) {
   return (
-    <BaseButtonStyle width={width} className={className}>
+    <BaseButtonStyle width={width} className={className} {...rest}>
       {children}
     </BaseButtonStyle>
   );
