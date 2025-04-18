@@ -20,14 +20,20 @@ export const FRONTEND_URLS = {
 export const BACKEND_URLS = {
   AUTH: {
     LOGIN: "/api/auth/login",
+    REFRESH: "/api/auth/refresh",
     LOGOUT: "/api/auth/logout",
     SIGNUP: "/api/auth/signup",
     CHECK_EMAIL: "/api/auth/check-email",
     CHECK_NICKNAME: "/api/auth/check-nickname",
+    RECOVER_PASSWORD: "/api/auth/recover-password",
+    RESET_PASSWORD: "/api/auth/reset-password",
   },
   USERS: {
     ME: "/api/users/me",
+    STATS: "/api/users/stats",
     USER: "/api/users/:userId",
+    CHANGE_PASSWORD: "/api/users/change-password",
+    CHANGE_NICKNAME: "/api/users/change-nickname",
   },
   QUESTIONS: {
     ALL: "/api/questions",
