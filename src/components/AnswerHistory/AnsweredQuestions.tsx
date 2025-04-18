@@ -38,10 +38,10 @@ function AnsweredQuestions({
           );
 
           return (
-            <SwiperSlide key={answeredQuestion.answer.id}>
+            <SwiperSlide key={answeredQuestion.id}>
               <AnsweredQuestionBox
                 questionId={answeredQuestion.question.id}
-                answerId={answeredQuestion.answer.id}
+                answerId={answeredQuestion.id}
                 title={answeredQuestion.question.title}
                 categoryImagePath={`../assets/categories/${categoryName}.png`}
                 categoryName={categoryName}

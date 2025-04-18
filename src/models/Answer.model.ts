@@ -11,7 +11,6 @@ export interface Answer {
   favoriteCount: number;
 }
 
-export interface AnsweredQuestion {
+export interface AnsweredQuestion extends Answer {
   question: Question;
-  answer: Answer;
 }
