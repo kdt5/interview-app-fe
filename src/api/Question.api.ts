@@ -23,18 +23,14 @@ export async function fetchQuestions(
   return response;
 }
 
-interface FetchQuestionResponse {
-  questionDetail: Question;
-}
-
 export async function fetchQuestion(questionId: number): Promise<Question> {
   const response = await backendHttpClient
-    .get<FetchQuestionResponse>(
+    .get<Question>(
       replaceUrlParams(BACKEND_URLS.QUESTIONS.QUESTION, {
         questionId: questionId.toString(),
       })
     )
-    .then((response) => response.data.questionDetail)
+    .then((response) => response.data)
     .catch((error) => {
       throw error;
     });
@@ -42,14 +38,10 @@ export async function fetchQuestion(questionId: number): Promise<Question> {
   return response;
 }
 
-interface WeeklyQuestionResponse {
-  questionDetail: Question;
-}
-
 export async function fetchWeeklyQuestion(): Promise<Question> {
   const response = await backendHttpClient
-    .get<WeeklyQuestionResponse>(BACKEND_URLS.QUESTIONS.WEEKLY)
-    .then((response) => response.data.questionDetail)
+    .get<Question>(BACKEND_URLS.QUESTIONS.WEEKLY)
+    .then((response) => response.data)
     .catch((error) => {
       throw error;
     });

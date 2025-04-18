@@ -85,7 +85,9 @@ function AnswerPage() {
   const isSubmitDisabled = answer.trim() === "" || answer.length < 0;
   const isOverLimit = answer.length >= 500;
 
-  const category = question?.categories[0] ? getCategoryName(question?.categories[0]) : "카테고리가 없습니다.";
+  const category = question?.categories[0]
+    ? getCategoryName(question?.categories[0].id)
+    : "카테고리가 없습니다.";
 
   return (
     <AnswerPageStyle $isSubmitDisabled={isSubmitDisabled}>
