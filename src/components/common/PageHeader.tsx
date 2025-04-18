@@ -3,11 +3,21 @@ import logo from "../../assets/logo.png";
 import { matchPath, useLocation, useNavigate } from "react-router-dom";
 import { HiArrowSmLeft } from "react-icons/hi";
 import { FRONTEND_URLS } from "../../constants/Urls";
+import Option from "../../assets/Option.png";
+import Like from "../../assets/Like.png";
+import { useState } from "react";
+import CommunityModal from "./Community/CommunityModal";
 
 function Header() {
   const location = useLocation();
   const navigate = useNavigate();
   const MainPage = location.pathname === "/";
+
+  const isAnswerDetail = location.pathname === "/answerdetail";
+  const isPostDetail = location.pathname === "/postdetail";
+  const isDetailPage = isAnswerDetail || isPostDetail;
+
+  const [isModal, setIsModal] = useState(false);
 
   return (
     <HeaderStyle>
@@ -20,9 +30,16 @@ function Header() {
           <BackButton onClick={() => navigate(-1)}>
             <HiArrowSmLeft />
           </BackButton>
-          <p>{getPageTitle(location.pathname)}</p>
+          <p>{isDetailPage ? "" : getPageTitle(location.pathname)}</p>
+          {isDetailPage && (
+            <DetailButton>
+              <LikeStyle></LikeStyle>
+              <OptionStyle onClick={() => setIsModal(true)}></OptionStyle>
+            </DetailButton>
+          )}
         </TitleWrapStyle>
       )}
+      {isModal && <CommunityModal onClose={() => setIsModal(false)} />}
     </HeaderStyle>
   );
 }
@@ -36,8 +53,12 @@ const getPageTitle = (pathname: string) => {
     [backend]: "백엔드 면접 질문",
     [FRONTEND_URLS.MY_PAGE.ANSWERS]: "내 답변 모아보기",
     [FRONTEND_URLS.MY_PAGE.FAVORITES.QUESTIONS]: "즐겨찾기 질문 모아보기",
+
     [FRONTEND_URLS.RANKINGS.MAIN]: "랭킹",
     [FRONTEND_URLS.RANKINGS.MORE]: "랭킹 더보기",
+
+    "/community": "커뮤니티",
+    "/answerdetail": "답변 상세보기",
     [FRONTEND_URLS.SIGNUP]: "회원가입",
     [FRONTEND_URLS.LOGIN]: " ",
   };
@@ -89,4 +110,31 @@ const BackButton = styled.button`
   padding: 0 0;
 `;
 
+const DetailButton = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: right;
+`;
+
+const LikeStyle = styled.button`
+  background-color: transparent;
+  padding: 0;
+  background-image: url(${Like});
+  width: 30px;
+  height: 30px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  margin-right: 5px;
+`;
+
+const OptionStyle = styled.button`
+  background-color: transparent;
+  padding: 0;
+  width: 10px;
+  height: 20px;
+  background-image: url(${Option});
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center center;
+`;
 export default Header;

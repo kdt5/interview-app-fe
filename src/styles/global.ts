@@ -20,6 +20,7 @@ export const GlobalStyle = createGlobalStyle`
   textarea {
     font-family: 'Pretendard', sans-serif;
     font-size: 16px;
+    resize: none;
   }
 
   h1 {
