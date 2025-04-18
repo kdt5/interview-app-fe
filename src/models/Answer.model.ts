@@ -1,9 +1,16 @@
+import { Question } from "./Question.model";
+import { UserBasicInfo } from "./User.model";
+
 export interface Answer {
   id: number;
-  question: {
-    id: number;
-    title: string;
-    categories: number[];
-  };
   content: string;
+  user: UserBasicInfo;
+  createdAt: string;
+  updatedAt: string;
+  viewCount: number;
+  favoriteCount: number;
+}
+
+export interface AnsweredQuestion extends Answer {
+  question: Question;
 }

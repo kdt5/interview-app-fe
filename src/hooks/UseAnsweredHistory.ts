@@ -3,11 +3,11 @@ import {
   fetchBasicAnsweredQuestions,
   fetchWeeklyAnsweredQuestions,
 } from "../api/Answer.api";
-import { Answer } from "../models/Answer.model";
+import { AnsweredQuestion } from "../models/Answer.model";
 
 interface UseAnsweredHistoryReturn {
-  weeklyAnsweredQuestions: Answer[];
-  basicAnsweredQuestions: Answer[];
+  weeklyAnsweredQuestions: AnsweredQuestion[];
+  basicAnsweredQuestions: AnsweredQuestion[];
   loading: {
     basic: boolean;
     weekly: boolean;
@@ -20,10 +20,10 @@ interface UseAnsweredHistoryReturn {
 
 export function useAnsweredHistory(): UseAnsweredHistoryReturn {
   const [basicAnsweredQuestions, setBasicAnsweredQuestions] = useState<
-    Answer[]
+    AnsweredQuestion[]
   >([]);
   const [weeklyAnsweredQuestions, setWeeklyAnsweredQuestions] = useState<
-    Answer[]
+    AnsweredQuestion[]
   >([]);
   const [loading, setLoading] = useState({
     basic: true,
