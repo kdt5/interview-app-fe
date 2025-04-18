@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
 interface Props {
-  onClose: () => void;
-  onEdit: () => void;
-  onDelete: () => void;
-  message: string;
+  onClose?: () => void;
+  onEdit?: () => void;
+  onDelete?: () => void;
+  message?: string;
 }
 
 function CommunityModal({ onClose, onEdit, onDelete }: Props) {
