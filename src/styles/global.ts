@@ -6,7 +6,7 @@ export const GlobalStyle = createGlobalStyle`
     ::-webkit-scrollbar { display: none; }
     margin: 0;
     padding: 0;
-    font-family: 'Pretendard', sans-serif;
+    font-family: 'Pretendard Variable', sans-serif;
     background-color: #ccc;
   }
 
@@ -18,7 +18,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   textarea {
-    font-family: 'Pretendard', sans-serif;
+    font-family: 'Pretendard Variable', sans-serif;
     font-size: 16px;
     resize: none;
   }
@@ -48,7 +48,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   button {
-    font-family: 'Pretendard', sans-serif;
+    font-family: 'Pretendard Variable', sans-serif;
     background: #6EA1FF;
     color: #FFF;
     border-radius: 10px;
@@ -60,7 +60,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   input::placeholder, textarea::placeholder {
-    font-family: 'Pretendard', sans-serif;
+    font-family: 'Pretendard Variable', sans-serif;
     color: #777;
     font-size: 16px;
     font-weight: 300;
