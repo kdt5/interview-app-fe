@@ -2,6 +2,8 @@ import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Clock from "../../../assets/Clock.png";
 import AnswerCountProfile from "../../../assets/Profile_Small.png";
+import { SlArrowRight as ArrowIcon } from "react-icons/sl";
+
 interface Props {
   category: string;
   title: string;
@@ -12,7 +14,7 @@ interface Props {
 function WeeklyQuestionCard({ category, title, date, answercount }: Props) {
   const location = useLocation();
   const inWeeklyAnswer = location.pathname === "/community";
-  const isComplete = true;
+  const isComplete = false;
 
   return (
     <>
@@ -38,13 +40,20 @@ function WeeklyQuestionCard({ category, title, date, answercount }: Props) {
                   <img src={Clock} alt="" />
                   {date}
                 </WeeklyQuestionDate>
-                <WeeklyQuestionAnswer>지금 답변하기</WeeklyQuestionAnswer>
+                <WeeklyQuestionAnswer>
+                  지금 답변하기 <SlArrowRight />
+                </WeeklyQuestionAnswer>
               </>
             )
           ) : (
             <>
-              <WeeklyQuestionDate>{date}</WeeklyQuestionDate>
-              <WeeklyQuestionAnswer>지금 답변하기</WeeklyQuestionAnswer>
+              <WeeklyQuestionDate>
+                <img src={Clock} alt="" />
+                {date}
+              </WeeklyQuestionDate>
+              <WeeklyQuestionAnswer>
+                지금 답변하기 <SlArrowRight />
+              </WeeklyQuestionAnswer>
             </>
           )}
         </WeeklyQuestionInfo>
@@ -114,6 +123,11 @@ const AnswerCount = styled.p`
     height: 18px;
     margin-right: 3px;
   }
+`;
+
+const SlArrowRight = styled(ArrowIcon)`
+  margin: 0 0 2px 2px;
+  fill: #fff;
 `;
 
 export default WeeklyQuestionCard;
