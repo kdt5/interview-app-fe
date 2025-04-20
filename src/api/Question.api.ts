@@ -38,9 +38,28 @@ export async function fetchQuestion(questionId: number): Promise<Question> {
   return response;
 }
 
-export async function fetchWeeklyQuestion(): Promise<Question> {
+interface WeeklyQuestionResponse {
+  questionId: number;
+  startDate: string;
+  question: Question;
+}
+
+export async function fetchWeeklyQuestion(): Promise<WeeklyQuestionResponse> {
   const response = await backendHttpClient
-    .get<Question>(BACKEND_URLS.QUESTIONS.WEEKLY)
+    .get<WeeklyQuestionResponse>(BACKEND_URLS.QUESTIONS.WEEKLY_TODAY)
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+
+  return response;
+}
+
+export async function fetchWeeklyQuestions(): Promise<
+  WeeklyQuestionResponse[]
+> {
+  const response = await backendHttpClient
+    .get<WeeklyQuestionResponse[]>(BACKEND_URLS.QUESTIONS.WEEKLY)
     .then((response) => response.data)
     .catch((error) => {
       throw error;
