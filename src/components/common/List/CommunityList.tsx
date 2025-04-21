@@ -5,34 +5,30 @@ import ViewerImg from "../../../assets/Viewer.png";
 interface Props {
   title: string;
   content: string;
-  views: number;
-  likes: number;
+  user: {
+    id: number;
+    nickname: string;
+    profileImageUrl: string;
+    answerCount: number;
+    level: number;
+  }
+  viewCount: number;
+  favoriteCount: number;
 }
 
-const ProfileData = [
-  {
-    profileImg: "https://via.placeholder.com/40",
-    username: "내가말하고있잖아",
-    comments: 25,
-    level: 5,
-  },
-];
-
-function CommunityList({ title, content, views, likes }: Props) {
+function CommunityList({ title, content, user, viewCount, favoriteCount }: Props) {
   return (
     <>
       <CommunityListStyle>
-        {ProfileData.map((item, index) => (
-          <CommonProfile key={index} {...item} />
-        ))}
+        {<CommonProfile key={user.id} {...user} />}
         <Title>{title}</Title>
         <Content>{content}</Content>
         <Info>
           <span>
             <img src={ViewerImg} alt="Viewer Icon" />
-            {views}명이 봤어요
+            {viewCount}명이 봤어요
           </span>{" "}
-          | <span>좋아요 {likes}</span>
+          | <span>좋아요 {favoriteCount}</span>
         </Info>
       </CommunityListStyle>
     </>

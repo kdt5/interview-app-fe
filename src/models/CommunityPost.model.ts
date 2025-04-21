@@ -2,10 +2,15 @@ export interface CommunityPost {
     id: number;
     title: string;
     content: string;
+    user: {
+        id: number;
+        nickname: string;
+        profileImageUrl: string;
+        answerCount: number;
+        level: number;
+    }
     createdAt: string;
     updatedAt: string;
-    userId: number;
-    user: {
-        nickname: string;
-    }
+    viewCount: number;
+    favoriteCount: number;
 }
