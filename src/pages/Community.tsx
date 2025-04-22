@@ -7,7 +7,7 @@ import PostTab from "../components/Community/CommunityPost";
 export default Community;
 
 function Community() {
-  const [currentTab, setCurrentTab] = useState("면접토론");
+  const [currentTab, setCurrentTab] = useState("게시글");
   const titles: string[] = ["면접토론", "게시글"];
   const handleClickTab = (title: string) => {
     setCurrentTab(title);
