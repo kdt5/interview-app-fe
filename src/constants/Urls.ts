@@ -19,6 +19,10 @@ export const FRONTEND_URLS = {
     MAIN: "/rankings",
     MORE: "/rankings/more",
   },
+  COMMUNITY: {
+    POST: "/community/posts",
+    ANSWER: "/community/answers",
+  }
 };
 
 export const BACKEND_URLS = {

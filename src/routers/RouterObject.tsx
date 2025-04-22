@@ -31,6 +31,8 @@ const requiredUrls = [
   FRONTEND_URLS.ANSWER_EDIT,
   FRONTEND_URLS.RANKINGS.MAIN,
   FRONTEND_URLS.RANKINGS.MORE,
+  FRONTEND_URLS.COMMUNITY.ANSWER,
+  FRONTEND_URLS.COMMUNITY.POST,
 ];
 
 export const routerObjects: RouteObject[] = [
@@ -81,7 +83,7 @@ export const routerObjects: RouteObject[] = [
     element: <QuestionListPage />,
   },
   {
-    path: "/community",
+    path: FRONTEND_URLS.COMMUNITY.POST,
     element: <Community />,
   },
   {

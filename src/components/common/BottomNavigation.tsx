@@ -48,7 +48,7 @@ function Nav() {
             </Link>
           </li>
           <li>
-            <Link to="/community">
+            <Link to={FRONTEND_URLS.COMMUNITY.POST}>
               <span>
                 <FaMicroblog />
                 <span>커뮤니티</span>
