@@ -4,10 +4,10 @@ import { SlArrowRight } from "react-icons/sl";
 import { Link } from "react-router-dom";
 import { FRONTEND_URLS } from "../constants/Urls";
 import { replaceUrlParams } from "../utils/Url";
-import { useWeeklyQuestion } from "../hooks/UseWeeklyQuestion";
+import { useFetchWeeklyQuestion } from "../hooks/UseFetchWeeklyQuestion";
 
 function MainPage() {
-  const { weeklyQuestion } = useWeeklyQuestion();
+  const { weeklyQuestion } = useFetchWeeklyQuestion();
 
   return (
     <>

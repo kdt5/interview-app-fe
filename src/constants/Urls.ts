@@ -42,6 +42,7 @@ export const BACKEND_URLS = {
   QUESTIONS: {
     ALL: "/api/questions",
     QUESTION: "/api/questions/:questionId",
+    WEEKLY_TODAY: "/api/questions/weekly/today",
     WEEKLY: "/api/questions/weekly",
   },
   CATEGORIES: {

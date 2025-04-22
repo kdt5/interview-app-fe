@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import { fetchWeeklyQuestion } from "../api/Question.api";
 import { Question } from "../models/Question.model";
+import { fetchWeeklyQuestion } from "../api/Question.api";
 
-export function useWeeklyQuestion() {
+export function useFetchWeeklyQuestion() {
   const [weeklyQuestion, setWeeklyQuestion] = useState<Question>();
 
   useEffect(() => {
     fetchWeeklyQuestion().then((response) => {
-      setWeeklyQuestion(response);
+      setWeeklyQuestion(response.question);
     });
   }, []);
 

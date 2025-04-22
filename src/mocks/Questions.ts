@@ -25,7 +25,7 @@ const questionsData: Question[] = Array.from({ length: 20 }).map(
 const questionData = questionsData[0];
 
 export const weeklyQuestion = http.get(
-  `${import.meta.env.VITE_BACKEND_BASE_URL}${BACKEND_URLS.QUESTIONS.WEEKLY}`,
+  `${import.meta.env.VITE_BACKEND_BASE_URL}${BACKEND_URLS.QUESTIONS.WEEKLY_TODAY}`,
   () => {
     return HttpResponse.json(questionData, { status: 200 });
   }
