@@ -20,7 +20,7 @@ export const FRONTEND_URLS = {
     MORE: "/rankings/more",
   },
   COMMUNITY: {
-    POST: "/community/posts",
+    POST: "/community",
     ANSWER: "/community/answers",
   }
 };

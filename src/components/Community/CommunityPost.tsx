@@ -7,7 +7,7 @@ import styled from "styled-components";
 import CommonCategory from "../common/List/CommonCategory";
 import CommunitySmallBtn from "../common/Button/CommunitySmallButton";
 import { Link } from "react-router-dom";
-import { fetchPosts } from "../../api/Post.api";
+import { useCommunityPosts } from "../../hooks/UsePost";
 
 const popularpost = [
   {
@@ -71,9 +71,9 @@ const popularpost = [
 //   },
 // ];
 
-const realData = await fetchPosts();
-
 function PostTab() {
+  const { communityPosts } = useCommunityPosts();
+
   return (
     <>
       <SectionTitle to="/">인기글</SectionTitle>
@@ -101,7 +101,7 @@ function PostTab() {
 
       <PostList>
         <CommonCategory></CommonCategory>
-        {realData.map((item, index) => (
+        {communityPosts.map((item, index) => (
           <Link key={index} to="/postdetail">
             <CommunityList {...item} />
           </Link>
