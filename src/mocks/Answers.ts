@@ -15,14 +15,14 @@ const answersData: Answer[] = Array.from({ length: 20 }).map((_, index) => ({
 }));
 
 export const basicAnsweredQuestions = http.get(
-  `${import.meta.env.VITE_BACKEND_BASE_URL}${BACKEND_URLS.ANSWERS.MINE}`,
+  `${import.meta.env.VITE_BACKEND_BASE_URL}${BACKEND_URLS.ANSWERS.MINE.BASIC}`,
   () => {
     return HttpResponse.json(answersData, { status: 200 });
   }
 );
 
 export const weeklyAnsweredQuestions = http.get(
-  `${import.meta.env.VITE_BACKEND_BASE_URL}${BACKEND_URLS.ANSWERS.WEEKLY}`,
+  `${import.meta.env.VITE_BACKEND_BASE_URL}${BACKEND_URLS.ANSWERS.MINE.WEEKLY}`,
   () => {
     return HttpResponse.json(answersData, { status: 200 });
   }
