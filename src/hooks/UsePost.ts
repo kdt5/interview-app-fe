@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { CommunityPost } from "../models/CommunityPost.model";
-import { fetchPostDetail, fetchPosts } from "../api/Post.api";
+import { fetchPostComments, fetchPostDetail, fetchPosts } from "../api/Post.api";
+import { Comment } from "../models/Comment.model";
 
 export function useCommunityPosts() {
   const [communityPosts, setCommunityPosts] = useState<CommunityPost[]>([]);
@@ -32,4 +33,20 @@ export function useCommunityPostDetail(postId: number) {
   }, [postId]);
 
   return { communityPostDetail };
+}
+
+export function useCommunityPostComments(targetId: number, categoryName: string) {
+  const [communityPostComments, setCommunityPostComments] = useState<Comment[]>([]);
+
+  useEffect(() => {
+    try {
+      fetchPostComments(targetId, categoryName).then((comment) => {
+        setCommunityPostComments(comment);
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }, [targetId, categoryName]);
+
+  return { communityPostComments };
 }
