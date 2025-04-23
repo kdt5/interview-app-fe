@@ -30,9 +30,6 @@ function CommunityAnswer({
     (category) => category.id === postCategoryId
   )?.name;
 
-  console.log("postCategoryId", postCategoryId, "postCategoryName", postCategoryName);
-  console.log(title, content, postCategoryId, user, viewCount, favoriteCount);
-
   return (
     <>
       <AnswerDetail>
