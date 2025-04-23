@@ -26,13 +26,13 @@ function PostDetail() {
         )
       }
       {
-        communityPostComments ? (
-          (communityPostComments.length > 0) ? (
+        topLevelComments ? (
+          (topLevelComments.length > 0) ? (
             <>
             <ReplyInfo totalComments={communityPostComments.length} />
             <CommentStyle>
-              {topLevelComments.map((item, index) => (
-                <CommentContents key={index} {...item} replies={getReplies(item.id)} />
+              {topLevelComments.map((item) => (
+                <CommentContents key={item.id} {...item} replies={getReplies(item.id)} depth={0} postId={Number(postId)} allComments={communityPostComments}/>
               ))}
             </CommentStyle>
           </>

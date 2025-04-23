@@ -5,6 +5,9 @@ import ReplySmall from "../../assets/Reply_Small.png";
 import OptionSmall from "../../assets/Option.png";
 import { Comment } from "../../models/Comment.model";
 import { CommentStyle } from "../../pages/CommunityPost/PostDetail";
+import { FRONTEND_URLS } from "../../constants/Urls";
+import { MAX_COMMENT_DEPTH } from "../../constants/Post";
+import { countAllReplies } from "../../utils/commentCount";
 
 interface Props {
   id: number;
@@ -18,14 +21,22 @@ interface Props {
   };
   favoriteCount: number;
   replies?: Comment[];
+  depth: number;
+  postId?: number;
+  allComments?: Comment[];
 }
 
 function CommentContents({
+  id,
   content,
   user,
   favoriteCount,
   replies,
+  depth,
+  postId,
+  allComments,
 }: Props) {
+  const getReplies = (parentId: number) => (allComments?.filter((comment) => comment.parentId === parentId) || []);
 
   return (
     <>
@@ -46,18 +57,18 @@ function CommentContents({
             <img src={LikeSmall} alt="" />
             좋아요 {favoriteCount}
           </span>{" "}
-          <Link to="/reply">
+          <Link to={`${FRONTEND_URLS.COMMUNITY.POST_DETAIL.replace(":postId", String(postId))}/${FRONTEND_URLS.COMMUNITY.REPLIES.replace(":commentId", String(id))}`}>
             <span>
               <img src={ReplySmall} alt="" />
-              답글 {replies ? replies.length : 0}
+              답글 {countAllReplies(allComments || [], id)}
             </span>
           </Link>
         </CommentInfo>
         {
-          replies && replies.length > 0 ? (
+          depth < MAX_COMMENT_DEPTH && replies && replies.length > 0 ? (
             <CommentStyle>
-              {replies.map((reply, index) => (
-                <CommentContents key={index} {...reply} />
+              {replies.map((reply) => (
+                <CommentContents key={reply.id} {...reply} replies={getReplies(reply.id)} depth={depth + 1} postId={postId} allComments={allComments}/>
               ))}
             </CommentStyle>
           ) : (
@@ -69,7 +80,7 @@ function CommentContents({
   );
 }
 
-const OptionButton = styled.button`
+export const OptionButton = styled.button`
   width: 10px;
   height: 30px;
   background-color: transparent;
@@ -78,7 +89,7 @@ const OptionButton = styled.button`
   padding: 0;
   border-radius: 0;
 `;
-const CommentInfo = styled.p`
+export const CommentInfo = styled.p`
   padding-left: 45px;
   span {
     color: #888;
@@ -93,7 +104,7 @@ const CommentInfo = styled.p`
     }
   }
 `;
-const CommonProfileStyle = styled.img`
+export const CommonProfileStyle = styled.img`
   width: 35px;
   height: 35px;
   background-color: #ccc;
@@ -101,23 +112,23 @@ const CommonProfileStyle = styled.img`
   display: block;
 `;
 
-const ProfileSection = styled.div`
+export const ProfileSection = styled.div`
   margin-top: 15px;
 `;
 
-const FlexWrap = styled.div`
+export const FlexWrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
 `;
 
-const UserInfo = styled.div`
+export const UserInfo = styled.div`
   display: flex;
   align-items: center;
   justify-content: left;
 `;
 
-const Username = styled.div`
+export const Username = styled.div`
   margin-left: 10px;
   p {
     font-weight: 600;
@@ -126,13 +137,13 @@ const Username = styled.div`
   }
 `;
 
-const Comments = styled.div`
+export const Comments = styled.div`
   font-weight: 300;
   font-size: 12px;
   color: #888888;
 `;
 
-const Contents = styled.div`
+export const Contents = styled.div`
   font-size: 14px;
   color: #333;
   border-radius: 20px;
