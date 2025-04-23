@@ -3,6 +3,8 @@ import styled from "styled-components";
 import LikeSmall from "../../assets/Link_Small.png";
 import ReplySmall from "../../assets/Reply_Small.png";
 import OptionSmall from "../../assets/Option.png";
+import { Comment } from "../../models/Comment.model";
+import { CommentStyle } from "../../pages/CommunityPost/PostDetail";
 
 interface Props {
   id: number;
@@ -14,17 +16,16 @@ interface Props {
     level: number;
     answerCount: number;
   };
-  parentId: number | null;
   favoriteCount: number;
+  replies?: Comment[];
 }
 
 function CommentContents({
   content,
   user,
-  parentId,
-  favoriteCount
+  favoriteCount,
+  replies,
 }: Props) {
-  const reply = 0; // TODO: 댓글 수를 가져오는 로직을 추가해야 합니다.
 
   return (
     <>
@@ -48,10 +49,21 @@ function CommentContents({
           <Link to="/reply">
             <span>
               <img src={ReplySmall} alt="" />
-              답글 {(!parentId) ? reply : 0}
+              답글 {replies ? replies.length : 0}
             </span>
           </Link>
         </CommentInfo>
+        {
+          replies && replies.length > 0 ? (
+            <CommentStyle>
+              {replies.map((reply, index) => (
+                <CommentContents key={index} {...reply} />
+              ))}
+            </CommentStyle>
+          ) : (
+            <div></div>
+          )
+        }
       </ProfileSection>
     </>
   );

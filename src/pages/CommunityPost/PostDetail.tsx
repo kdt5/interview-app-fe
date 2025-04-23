@@ -11,6 +11,9 @@ function PostDetail() {
   const { communityPostDetail } = useCommunityPostDetail(Number(postId));
   const { communityPostComments } = useCommunityPostComments(Number(postId), "post");
 
+  const topLevelComments = communityPostComments?.filter((comment) => comment.parentId === null) || [];
+  const getReplies = (parentId: number) => (communityPostComments?.filter((comment) => comment.parentId === parentId) || []);
+
   return (
     <>
       {
@@ -28,8 +31,8 @@ function PostDetail() {
             <>
             <ReplyInfo totalComments={communityPostComments.length} />
             <CommentStyle>
-              {communityPostComments.map((item, index) => (
-                <CommentContents key={index} {...item} />
+              {topLevelComments.map((item, index) => (
+                <CommentContents key={index} {...item} replies={getReplies(item.id)} />
               ))}
             </CommentStyle>
           </>
@@ -51,7 +54,7 @@ const AnswerDetailStyle = styled.div`
   border-bottom: 5px solid #f5f5f5;
 `;
 
-const CommentStyle = styled.div`
+export const CommentStyle = styled.div`
   margin-top: 30px;
   padding: 0 30px;
 `;
