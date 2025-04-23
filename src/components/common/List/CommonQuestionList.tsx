@@ -71,13 +71,13 @@ const QuestionInfo = styled.div`
 const QuestionCategory = styled.p`
   font-size: 12px;
   color: #888;
-  font-weight: 400px;
+  font-weight: 400;
 `;
 
 const QuestionTitle = styled.h3`
   font-size: 14px;
   color: #333;
-  font-weight: 600px;
+  font-weight: 600;
   width: 285px;
   word-break: keep-all;
   overflow-wrap: break-word;
@@ -90,7 +90,7 @@ const QuestionComplete = styled.div`
   padding: 5px 15px;
   border-radius: 25px;
   font-size: 12px;
-  font-weight: 400px;
+  font-weight: 400;
 `;
 
 const QuestionLike = styled.div`
@@ -98,7 +98,7 @@ const QuestionLike = styled.div`
   span {
     color: #888;
     font-size: 12px;
-    font-weight: 400px;
+    font-weight: 400;
   }
 `;
 

@@ -7,7 +7,7 @@ import { backendHttpClient } from "./BackendHttpClient.api";
 export async function fetchCategories(
   position?: Position
 ): Promise<Category[]> {
-  const positionId = getPositionIdByKey(position);
+  const positionId: number | undefined = getPositionIdByKey(position);
   const params = positionId ? { positionId } : {};
 
   const response = await backendHttpClient
