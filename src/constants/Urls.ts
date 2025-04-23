@@ -69,6 +69,7 @@ export const BACKEND_URLS = {
     ALL: "/api/posts",
     POST: "/api/posts/:postId",
   },
+  COMMENTS: "/api/comments",
   REPORTS: {
     ALL: "/api/reports",
     REPORT: "/api/reports/:reportId",
