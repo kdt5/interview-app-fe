@@ -10,10 +10,6 @@ import MyPageSection from "../components/MyPage/MyPageSection";
 import { MyPageSectionStyle } from "../components/MyPage/MyPageSectionStyle";
 import { FaChevronRight } from "react-icons/fa";
 
-interface Props {
-  newpage: boolean;
-}
-
 function MyPage() {
   const navigate = useNavigate();
   const { me, logout } = useUser();
@@ -44,73 +40,59 @@ function MyPage() {
     }
   };
 
-  const [newpage, setNewpage] = useState(true); // 초기값 true or false
-
-  // 이 함수로 상태를 바꿔
-  const toggleNewPage = () => {
-    setNewpage((prev) => !prev); // true <-> false 토글
-  };
-
   return (
     <>
-      <button onClick={toggleNewPage}>페이지 바꾸기</button>
-      {newpage ? (
-        <>
-          <div>
-            <Link to={FRONTEND_URLS.SETTINGS.PROFILE}>회원 정보 수정</Link>
-            <button type="submit" className="logout-btn" onClick={handleSubmit}>
-              로그아웃
-            </button>
-            {isModalsVisible.confirm && (
-              <ConfirmModal
-                onClose={() => toggleModal("confirm", false)}
-                onConfirm={handleConfirmSubmit}
-                message="로그아웃 하시겠습니까?"
-              />
-            )}
-            {isModalsVisible.alert && (
-              <AlertModal
-                onClose={() => {
-                  toggleModal("alert", false);
-                  navigate(FRONTEND_URLS.LOGIN);
-                }}
-                message="로그아웃 되었습니다."
-              />
-            )}
-          </div>
-        </>
-      ) : (
-        <>
-          <NewMypageStyle>
-            <MyProfileStyle to="">
-              <div className="profile-wrap">
-                <div className="profile-icon"></div>
-                <div>
-                  <h2>{me?.nickname}</h2>
-                  <span>Front-End</span>
-                </div>
-              </div>
-              <FaChevronRight></FaChevronRight>
-            </MyProfileStyle>
+      <div>
+        <Link to={FRONTEND_URLS.MY_PAGE.EDIT.PROFILE}>회원 정보 수정</Link>
+        <button type="submit" className="logout-btn" onClick={handleSubmit}>
+          로그아웃
+        </button>
+        {isModalsVisible.confirm && (
+          <ConfirmModal
+            onClose={() => toggleModal("confirm", false)}
+            onConfirm={handleConfirmSubmit}
+            message="로그아웃 하시겠습니까?"
+          />
+        )}
+        {isModalsVisible.alert && (
+          <AlertModal
+            onClose={() => {
+              toggleModal("alert", false);
+              navigate(FRONTEND_URLS.LOGIN);
+            }}
+            message="로그아웃 되었습니다."
+          />
+        )}
+      </div>
 
-            <MyInfo>
-              <MyInfoBox>
-                <span>답변 질문 수</span>
-                <p>20개</p>
-              </MyInfoBox>
-              <MyInfoBox>
-                <span>작성 게시글</span>
-                <p>20개</p>
-              </MyInfoBox>
-              <MyInfoBox>
-                <span>누적 좋아요</span>
-                <p>20개</p>
-              </MyInfoBox>
-            </MyInfo>
-            <MyPageSection></MyPageSection>
-          </NewMypageStyle>
-        </>
-      )}
+      <NewMypageStyle>
+        <MyProfileStyle to={FRONTEND_URLS.MY_PAGE.EDIT.PROFILE}>
+          <div className="profile-wrap">
+            <div className="profile-icon"></div>
+            <div>
+              <h2>{me?.nickname}</h2>
+              <span>Front-End</span>
+            </div>
+          </div>
+          <FaChevronRight></FaChevronRight>
+        </MyProfileStyle>
+
+        <MyInfo>
+          <MyInfoBox>
+            <span>답변 질문 수</span>
+            <p>20개</p>
+          </MyInfoBox>
+          <MyInfoBox>
+            <span>작성 게시글</span>
+            <p>20개</p>
+          </MyInfoBox>
+          <MyInfoBox>
+            <span>누적 좋아요</span>
+            <p>20개</p>
+          </MyInfoBox>
+        </MyInfo>
+        <MyPageSection></MyPageSection>
+      </NewMypageStyle>
     </>
   );
 }
