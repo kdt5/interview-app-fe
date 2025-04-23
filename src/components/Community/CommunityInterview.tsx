@@ -77,7 +77,7 @@ function InterviewTab() {
               }
               title={weeklyQuestion.question.title}
               date={formatToWeeklyLabel(weeklyQuestion.startDate)}
-              answercount={weeklyQuestion.question._count?.answers ?? 0}
+              answercount={weeklyQuestion.question.answerCount ?? 0}
               isComplete={weeklyQuestion.question.isAnswered}
             />
           )}
@@ -94,7 +94,7 @@ function InterviewTab() {
               category={getCategoryName(item.categories[0]?.id ?? 0)}
               questiontitle={item.title}
               complete={item.isAnswered ? "작성 완료" : "미작성"}
-              comments={item._count?.answers ?? 0}
+              comments={item.answerCount ?? 0}
               likes={item.favoriteCount}
               isFavorite={item.isFavorite ?? false}
               toggleFavorite={() => handleToggleFavorite(item.id)}

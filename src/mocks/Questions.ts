@@ -16,9 +16,7 @@ const questionsData: Question[] = Array.from({ length: 20 }).map(
     })),
     isAnswered: faker.datatype.boolean(),
     isFavorite: faker.datatype.boolean(),
-    _count: {
-      answers: faker.helpers.rangeToNumber({ min: 0, max: 100 }),
-    },
+    answerCount: faker.helpers.rangeToNumber({ min: 0, max: 100 }),
   })
 );
 
