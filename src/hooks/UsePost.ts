@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { CommunityPost } from "../models/CommunityPost.model";
-import { fetchPosts } from "../api/Post.api";
+import { fetchPostDetail, fetchPosts } from "../api/Post.api";
 
 export function useCommunityPosts() {
   const [communityPosts, setCommunityPosts] = useState<CommunityPost[]>([]);
@@ -16,4 +16,20 @@ export function useCommunityPosts() {
   }, []);
 
   return { communityPosts };
+}
+
+export function useCommunityPostDetail(postId: number) {
+  const [communityPostDetail, setCommunityPostDetail] = useState<CommunityPost>();
+
+  useEffect(() => {
+    try {
+      fetchPostDetail(postId).then((post) => {
+        setCommunityPostDetail(post);
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }, [postId]);
+
+  return { communityPostDetail };
 }

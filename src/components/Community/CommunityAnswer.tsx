@@ -1,50 +1,55 @@
 import styled from "styled-components";
 import CommonProfile from "../../components/common/Profile/CommonProfile";
 import ViewerImg from "../../assets/Viewer.png";
+import { POST_CATEGORIES } from "../../constants/PostCategory";
 
 interface Props {
-  category: string;
-  questiontitle: string;
-  answer: string;
-  viewscount: number;
-  likescount: number;
+  title: string;
+  content: string;
+  postCategoryId: number;
+  user: {
+      id: number;
+      nickname: string;
+      profileImageUrl: string;
+      level: number;
+      answerCount: number;
+  }
+  viewCount: number;
+  favoriteCount: number;
 }
 
-const ProfileData = [
-  {
-    profileImg: "https://via.placeholder.com/40",
-    username: "내가말하고있잖아",
-    comments: 25,
-    level: 5,
-  },
-];
-
 function CommunityAnswer({
-  category,
-  questiontitle,
-  answer,
-  viewscount,
-  likescount,
+  title,
+  content,
+  postCategoryId,
+  user,
+  viewCount,
+  favoriteCount
 }: Props) {
+  const postCategoryName = POST_CATEGORIES.find(
+    (category) => category.id === postCategoryId
+  )?.name;
+
+  console.log("postCategoryId", postCategoryId, "postCategoryName", postCategoryName);
+  console.log(title, content, postCategoryId, user, viewCount, favoriteCount);
+
   return (
     <>
       <AnswerDetail>
-        <AnswerCategory>{category}</AnswerCategory>
-        <QuestionTitle>{questiontitle}</QuestionTitle>
-        <AnswerContents>{answer}</AnswerContents>
+        <AnswerCategory>{postCategoryName || "기타"}</AnswerCategory>
+        <QuestionTitle>{title}</QuestionTitle>
+        <AnswerContents>{content}</AnswerContents>
         <QuestionLike>
           <span>
             {" "}
             <img src={ViewerImg} alt="Viewer Icon" />
-            {viewscount}명이 봤어요
+            {viewCount}명이 봤어요
           </span>{" "}
-          | <span>좋아요 {likescount}</span>
+          | <span>좋아요 {favoriteCount}</span>
         </QuestionLike>
       </AnswerDetail>
       <AnswerDetailProfile>
-        {ProfileData.map((item, index) => (
-          <CommonProfile key={index} {...item} />
-        ))}
+        {user && <CommonProfile key={user.id} {...user} />}
       </AnswerDetailProfile>
     </>
   );
