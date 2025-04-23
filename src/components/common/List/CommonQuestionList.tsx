@@ -20,6 +20,10 @@ function CommonQuestionList({
   isFavorite,
   toggleFavorite,
 }: Props) {
+  const handleFavoriteClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    toggleFavorite();
+  };
   return (
     <>
       <CommonQuestionListStyle>
@@ -29,7 +33,7 @@ function CommonQuestionList({
             <QuestionTitle>{questiontitle}</QuestionTitle>
           </div>
           <FavoriteIcon
-            onClick={toggleFavorite}
+            onClick={handleFavoriteClick}
             $isFavorite={isFavorite}
           ></FavoriteIcon>
         </Questionheader>
@@ -74,6 +78,10 @@ const QuestionTitle = styled.h3`
   font-size: 14px;
   color: #333;
   font-weight: 600px;
+  width: 285px;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  white-space: normal;
 `;
 
 const QuestionComplete = styled.div`
