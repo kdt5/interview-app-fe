@@ -5,47 +5,50 @@ import ReplySmall from "../../assets/Reply_Small.png";
 import OptionSmall from "../../assets/Option.png";
 
 interface Props {
-  profileImg: string;
-  username: string;
-  contents: string;
-  comments: number;
-  likes: number;
-  reply: number;
-  totalcomments: number;
+  id: number;
+  content: string;
+  user: {
+    id: number;
+    nickname: string;
+    profileImageUrl: string;
+    level: number;
+    answerCount: number;
+  };
+  parentId: number | null;
+  favoriteCount: number;
 }
 
 function CommentContents({
-  profileImg,
-  username,
-  contents,
-  comments,
-  likes,
-  reply,
-  totalcomments,
+  content,
+  user,
+  parentId,
+  favoriteCount
 }: Props) {
+  const reply = 0; // TODO: 댓글 수를 가져오는 로직을 추가해야 합니다.
+
   return (
     <>
       <ProfileSection>
         <FlexWrap>
           <UserInfo>
-            <CommonProfileStyle src={profileImg} alt={`${username}의 프로필`} />
+            <CommonProfileStyle src={user.profileImageUrl} alt={`${user.nickname}의 프로필`} />
             <Username>
-              <p>{username}</p>
-              <Comments>누적 답변{comments}개</Comments>
+              <p>{user.nickname}</p>
+              <Comments>누적 답변{user.answerCount}개</Comments>
             </Username>
           </UserInfo>
           <OptionButton></OptionButton>
         </FlexWrap>
-        <Contents>{contents}</Contents>
+        <Contents>{content}</Contents>
         <CommentInfo>
           <span>
             <img src={LikeSmall} alt="" />
-            좋아요 {likes}
+            좋아요 {favoriteCount}
           </span>{" "}
           <Link to="/reply">
             <span>
               <img src={ReplySmall} alt="" />
-              답글 {reply}
+              답글 {(!parentId) ? reply : 0}
             </span>
           </Link>
         </CommentInfo>
