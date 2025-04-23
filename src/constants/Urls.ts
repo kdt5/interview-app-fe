@@ -20,8 +20,9 @@ export const FRONTEND_URLS = {
     MORE: "/rankings/more",
   },
   COMMUNITY: {
-    POST: "/community",
-    ANSWER: "/community/answers",
+    MAIN: "/community",
+    POST: "/community/posts",
+    POST_DETAIL: "/community/posts/:postId",
   }
 };
 

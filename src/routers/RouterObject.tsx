@@ -32,6 +32,7 @@ const requiredUrls = [
   FRONTEND_URLS.RANKINGS.MAIN,
   FRONTEND_URLS.RANKINGS.MORE,
   FRONTEND_URLS.COMMUNITY.POST,
+  FRONTEND_URLS.COMMUNITY.POST_DETAIL,
 ];
 
 export const routerObjects: RouteObject[] = [
@@ -51,7 +52,7 @@ export const routerObjects: RouteObject[] = [
   },
 
   {
-    path: "/postdetail",
+    path: FRONTEND_URLS.COMMUNITY.POST_DETAIL,
     element: <PostDetail />,
   },
 
