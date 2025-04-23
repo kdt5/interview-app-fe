@@ -47,7 +47,7 @@ export const routerObjects: RouteObject[] = [
   },
 
   {
-    path: "/reply",
+    path: `${FRONTEND_URLS.COMMUNITY.POST_DETAIL}/${FRONTEND_URLS.COMMUNITY.REPLIES}`,
     element: <CommunityReply />,
   },
 

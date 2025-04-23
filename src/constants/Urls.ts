@@ -23,6 +23,7 @@ export const FRONTEND_URLS = {
     MAIN: "/community",
     POST: "/community/posts",
     POST_DETAIL: "/community/posts/:postId",
+    REPLIES: "/replies/:commentId",
   }
 };
 
