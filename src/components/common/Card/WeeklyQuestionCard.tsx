@@ -101,9 +101,12 @@ const WeeklyQuestionTitle = styled.h3`
   font-weight: 700;
   font-size: 16px;
   margin: 10px 0 30px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
   word-break: keep-all;
-  overflow-wrap: break-word;
-  white-space: normal;
 `;
 
 const WeeklyQuestionInfo = styled.div`
