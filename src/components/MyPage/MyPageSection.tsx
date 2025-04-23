@@ -9,6 +9,7 @@ import MenuIcon06 from "../../assets/mypage/MyPageMenuIcon-06.png";
 import MenuIcon07 from "../../assets/mypage/MyPageMenuIcon-07.png";
 import MenuIcon08 from "../../assets/mypage/MyPageMenuIcon-08.png";
 import { MyPageSectionStyle } from "./MyPageSectionStyle";
+import { FRONTEND_URLS } from "../../constants/Urls";
 
 function MyPageSection() {
   return (
@@ -19,9 +20,13 @@ function MyPageSection() {
         <MyPageSectionList
           iconsrc={MenuIcon02}
           menu="필수 질문 내 답변"
-          to=""
+          to={FRONTEND_URLS.MY_PAGE.ANSWERS}
         />
-        <MyPageSectionList iconsrc={MenuIcon03} menu="즐겨찾기한 질문" to="" />
+        <MyPageSectionList
+          iconsrc={MenuIcon03}
+          menu="즐겨찾기한 질문"
+          to={FRONTEND_URLS.MY_PAGE.FAVORITES.QUESTIONS}
+        />
       </MyPageMenu>
 
       <MyPageMenu>
