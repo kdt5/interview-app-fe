@@ -68,7 +68,7 @@ const CategoryName = styled.div`
   color: #ccc;
   font-weight: 300;
   border-radius: 5px;
-  padding: 8px 15px;
+  padding: 5px 15px;
   font-size: 14px;
   width: fit-content;
 

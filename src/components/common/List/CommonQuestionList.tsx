@@ -78,10 +78,10 @@ const QuestionTitle = styled.h3`
   font-size: 14px;
   color: #333;
   font-weight: 600;
-  width: 285px;
-  word-break: keep-all;
-  overflow-wrap: break-word;
-  white-space: normal;
+  width: 270px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const QuestionComplete = styled.div`
@@ -94,11 +94,23 @@ const QuestionComplete = styled.div`
 `;
 
 const QuestionLike = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: #888;
+
   span {
     color: #888;
     font-size: 12px;
     font-weight: 400;
+  }
+
+  span:first-child {
+    margin-right: 5px;
+  }
+
+  span:last-child {
+    margin-left: 5px;
   }
 `;
 

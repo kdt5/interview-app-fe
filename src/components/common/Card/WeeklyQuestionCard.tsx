@@ -101,6 +101,9 @@ const WeeklyQuestionTitle = styled.h3`
   font-weight: 700;
   font-size: 16px;
   margin: 10px 0 30px;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  white-space: normal;
 `;
 
 const WeeklyQuestionInfo = styled.div`
