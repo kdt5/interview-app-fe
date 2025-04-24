@@ -28,7 +28,7 @@ function Nav() {
               to={
                 weeklyQuestion
                   ? replaceUrlParams(FRONTEND_URLS.ANSWER, {
-                      questionId: weeklyQuestion.question.id?.toString(),
+                      questionId: weeklyQuestion.question?.id?.toString(),
                     })
                   : ""
               }

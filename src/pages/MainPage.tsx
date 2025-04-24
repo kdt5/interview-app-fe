@@ -30,9 +30,9 @@ function MainPage() {
             })}
             className="weekly-question"
           >
-            <p>{weeklyQuestion.question.title}</p>
+            <p>{weeklyQuestion.question?.title}</p>
             <div>
-              <span>{weeklyQuestion.question.categories[0].id}</span>
+              <span>{weeklyQuestion.question?.categories[0]?.id}</span>
             </div>
           </Link>
         ) : (
