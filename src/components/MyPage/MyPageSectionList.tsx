@@ -14,7 +14,7 @@ function MyPageSectionList({ iconSource, menu, to }: Props) {
       <MyPageSectionListStyle to={to || "/"}>
         <LeftSection>
           <IconImage src={iconSource} alt={`${menu} 아이콘`} />
-          <MyPageMenu>{menu}</MyPageMenu>
+          <MyPageSectionMenu>{menu}</MyPageSectionMenu>
         </LeftSection>
         <RightArrow />
       </MyPageSectionListStyle>
@@ -41,7 +41,7 @@ const IconImage = styled.img`
   margin-right: 10px;
 `;
 
-const MyPageMenu = styled.span`
+const MyPageSectionMenu = styled.span`
   font-size: 16px;
   font-weight: 400;
   color: #333;
