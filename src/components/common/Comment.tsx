@@ -11,7 +11,6 @@ interface Props {
   comments: number;
   likes: number;
   reply: number;
-  totalcomments: number;
 }
 
 function CommentContents({
@@ -21,7 +20,6 @@ function CommentContents({
   comments,
   likes,
   reply,
-  totalcomments,
 }: Props) {
   return (
     <>
