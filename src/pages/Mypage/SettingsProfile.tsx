@@ -9,6 +9,13 @@ import { FRONTEND_URLS } from "../../constants/Urls";
 import { ModalType } from "../AnswerPage";
 import MyProfileDefaultImg from "../../assets/mypage/MyProfileDefaultImage.png";
 import MyProfileAddBtn from "../../assets/mypage/MyProfileAddButton.png";
+import InputWithCheckButton from "../../components/SignUpPage/InputWithCheckButton";
+import InputField from "../../components/common/Input/Input";
+
+export interface SignUpInputs {
+  password: string;
+  nickname: string;
+}
 
 function SettingProfile() {
   const navigate = useNavigate();
@@ -61,7 +68,33 @@ function SettingProfile() {
               <h2>닉네임</h2>
               <p>{me?.nickname}</p>
             </ProfileDefaultInfo>
+            <InputWithCheckButton
+              name="nickname"
+              placeholder="닉네임을 입력하세요"
+              successMessage="사용 가능한 닉네임입니다."
+            />
           </ProfileInfo>
+
+          <PasswordChange>
+            <ProfileDefaultInfo>
+              <h2>비밀번호</h2>
+            </ProfileDefaultInfo>
+            <InputField
+              className="password-input"
+              autoComplete="off"
+              placeholder="현재 비밀번호 입력"
+              type="password"
+              maxLength={30}
+            />
+
+            <InputField
+              className="password-input"
+              autoComplete="off"
+              placeholder="새로운 비밀번호 입력"
+              type="password"
+              maxLength={30}
+            />
+          </PasswordChange>
         </ProfileWrap>
         <AccountStyle>
           <button type="submit" onClick={handleSubmit}>
@@ -94,6 +127,7 @@ function SettingProfile() {
 const EditProfileStyle = styled.div`
   background-color: #fbfbfb;
   min-height: 100dvh;
+  height: fit-content;
   padding: 30px;
 `;
 
@@ -155,6 +189,14 @@ const ProfileDefaultInfo = styled.div`
   p {
     font-weight: 400;
     color: #ccc;
+  }
+`;
+
+const PasswordChange = styled.div`
+  padding: 25px 0;
+
+  .password-input {
+    margin: 15px 0;
   }
 `;
 
