@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { useUser } from "../../hooks/UseUser";
 import { FRONTEND_URLS } from "../../constants/Urls";
 import { ModalType } from "../AnswerPage";
+import MyProfileDefaultImg from "../../assets/mypage/MyProfileDefaultImage.png";
+import MyProfileAddBtn from "../../assets/mypage/MyProfileAddButton.png";
 
 function SettingProfile() {
   const navigate = useNavigate();
@@ -40,26 +42,50 @@ function SettingProfile() {
   return (
     <>
       <EditProfileStyle>
-        <ProfileWrap>asd</ProfileWrap>
-        <button type="submit" className="logout-btn" onClick={handleSubmit}>
-          로그아웃
-        </button>
-        {isModalsVisible.confirm && (
-          <ConfirmModal
-            onClose={() => toggleModal("confirm", false)}
-            onConfirm={handleConfirmSubmit}
-            message="로그아웃 하시겠습니까?"
-          />
-        )}
-        {isModalsVisible.alert && (
-          <AlertModal
-            onClose={() => {
-              toggleModal("alert", false);
-              navigate(FRONTEND_URLS.LOGIN);
-            }}
-            message="로그아웃 되었습니다."
-          />
-        )}
+        <ProfileWrap>
+          <ProfileImageSetting>
+            <img src={MyProfileDefaultImg} alt="" />
+            <ProfileImgAddBtn>
+              <img src={MyProfileAddBtn} alt="" />
+            </ProfileImgAddBtn>
+          </ProfileImageSetting>
+          <ProfileInfo>
+            <ProfileDefaultInfo>
+              <h2>이메일</h2>
+              <p>{me?.email}</p>
+            </ProfileDefaultInfo>
+          </ProfileInfo>
+
+          <ProfileInfo>
+            <ProfileDefaultInfo>
+              <h2>닉네임</h2>
+              <p>{me?.nickname}</p>
+            </ProfileDefaultInfo>
+          </ProfileInfo>
+        </ProfileWrap>
+        <AccountStyle>
+          <button type="submit" onClick={handleSubmit}>
+            로그아웃
+          </button>
+          <span>|</span>
+          <button type="submit">회원탈퇴</button>
+          {isModalsVisible.confirm && (
+            <ConfirmModal
+              onClose={() => toggleModal("confirm", false)}
+              onConfirm={handleConfirmSubmit}
+              message="로그아웃 하시겠습니까?"
+            />
+          )}
+          {isModalsVisible.alert && (
+            <AlertModal
+              onClose={() => {
+                toggleModal("alert", false);
+                navigate(FRONTEND_URLS.LOGIN);
+              }}
+              message="로그아웃 되었습니다."
+            />
+          )}
+        </AccountStyle>
       </EditProfileStyle>
     </>
   );
@@ -68,9 +94,68 @@ function SettingProfile() {
 const EditProfileStyle = styled.div`
   background-color: #fbfbfb;
   min-height: 100dvh;
-  padding: 0 30px;
+  padding: 30px;
 `;
 
 const ProfileWrap = styled(MyPageSectionStyle)``;
+
+const AccountStyle = styled.div`
+  width: auto;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  button {
+    background-color: transparent;
+    border: none;
+  }
+
+  button,
+  span {
+    color: #333;
+  }
+`;
+
+const ProfileImageSetting = styled.div`
+  position: relative;
+  width: fit-content;
+  height: fit-content;
+
+  margin: 0 auto 10px;
+`;
+
+const ProfileImgAddBtn = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: fit-content;
+  height: fit-content;
+
+  img {
+    display: block;
+  }
+`;
+
+const ProfileInfo = styled.div`
+  padding: 25px 0;
+  border-bottom: solid 1px #f5f5f5;
+`;
+
+const ProfileDefaultInfo = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  h2 {
+    font-weight: 600;
+    color: #333;
+  }
+
+  p {
+    font-weight: 400;
+    color: #ccc;
+  }
+`;
 
 export default SettingProfile;
