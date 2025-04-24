@@ -14,8 +14,8 @@ import { FRONTEND_URLS } from "../../constants/Urls";
 function MyPageSection() {
   return (
     <>
-      <MyPageMenu>
-        <MyPageMenuTitle>질문답변</MyPageMenuTitle>
+      <MyPageSectionMenu>
+        <MyPageSectionMenuTitle>질문답변</MyPageSectionMenuTitle>
         <MyPageSectionList
           iconSource={MenuIcon01}
           menu="위클리 내 답변"
@@ -31,10 +31,10 @@ function MyPageSection() {
           menu="즐겨찾기한 질문"
           to={FRONTEND_URLS.MY_PAGE.FAVORITES.QUESTIONS}
         />
-      </MyPageMenu>
+      </MyPageSectionMenu>
 
-      <MyPageMenu>
-        <MyPageMenuTitle>커뮤니티</MyPageMenuTitle>
+      <MyPageSectionMenu>
+        <MyPageSectionMenuTitle>커뮤니티</MyPageSectionMenuTitle>
         <MyPageSectionList
           iconSource={MenuIcon04}
           menu="내가 쓴 게시글"
@@ -45,21 +45,21 @@ function MyPageSection() {
           menu="좋아요한 게시글"
           to=""
         />
-      </MyPageMenu>
+      </MyPageSectionMenu>
 
-      <MyPageMenu>
-        <MyPageMenuTitle>고객지원</MyPageMenuTitle>
+      <MyPageSectionMenu>
+        <MyPageSectionMenuTitle>고객지원</MyPageSectionMenuTitle>
         <MyPageSectionList iconSource={MenuIcon06} menu="고객센터" to="" />
         <MyPageSectionList iconSource={MenuIcon07} menu="의견 남기기" to="" />
         <MyPageSectionList iconSource={MenuIcon08} menu="약관 및 정책" to="" />
-      </MyPageMenu>
+      </MyPageSectionMenu>
     </>
   );
 }
 
-export const MyPageMenu = styled(MyPageSectionStyle)``;
+export const MyPageSectionMenu = styled(MyPageSectionStyle)``;
 
-const MyPageMenuTitle = styled.h3`
+const MyPageSectionMenuTitle = styled.h3`
   font-weight: 600;
   color: #333;
   font-size: 16px;
