@@ -19,8 +19,14 @@ function Header() {
 
   const [isModal, setIsModal] = useState(false);
 
+  const getBackgroundColorByPath = (pathname: string) => {
+    if (pathname === FRONTEND_URLS.MY_PAGE.HOME) return "#fbfbfb";
+    if (pathname === FRONTEND_URLS.MY_PAGE.EDIT.PROFILE) return "#fbfbfb";
+    return "#fff";
+  };
+
   return (
-    <HeaderStyle>
+    <HeaderStyle $bgColor={getBackgroundColorByPath(location.pathname)}>
       {MainPage ? (
         <div className="logo">
           <img src={logo} alt="interview it" />
@@ -77,14 +83,15 @@ const getPageTitle = (pathname: string) => {
   return titles[pathname] || "페이지";
 };
 
-const HeaderStyle = styled.header`
+const HeaderStyle = styled.header<{ $bgColor: string }>`
   width: 100%;
   max-width: 380px;
   padding: 50px 30px 10px;
   position: fixed;
   top: 0;
-  background-color: #fff;
+  background-color: ${({ $bgColor }) => $bgColor};
   z-index: 999;
+  height: 85px;
 
   .logo {
     img {

@@ -47,8 +47,8 @@ function MyPage() {
 const NewMypageStyle = styled.div`
   background-color: #fbfbfb;
   width: 100%;
-  height: 100dvh;
-  padding: 0 30px;
+  height: fit-content;
+  padding: 0 30px 50px;
 `;
 
 const MyInfo = styled(MyPageSectionStyle)`
