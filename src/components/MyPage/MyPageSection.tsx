@@ -16,14 +16,18 @@ function MyPageSection() {
     <>
       <MyPageMenu>
         <MyPageMenuTitle>질문답변</MyPageMenuTitle>
-        <MyPageSectionList iconsrc={MenuIcon01} menu="위클리 내 답변" to="" />
         <MyPageSectionList
-          iconsrc={MenuIcon02}
+          iconSource={MenuIcon01}
+          menu="위클리 내 답변"
+          to=""
+        />
+        <MyPageSectionList
+          iconSource={MenuIcon02}
           menu="필수 질문 내 답변"
           to={FRONTEND_URLS.MY_PAGE.ANSWERS}
         />
         <MyPageSectionList
-          iconsrc={MenuIcon03}
+          iconSource={MenuIcon03}
           menu="즐겨찾기한 질문"
           to={FRONTEND_URLS.MY_PAGE.FAVORITES.QUESTIONS}
         />
@@ -31,15 +35,23 @@ function MyPageSection() {
 
       <MyPageMenu>
         <MyPageMenuTitle>커뮤니티</MyPageMenuTitle>
-        <MyPageSectionList iconsrc={MenuIcon04} menu="내가 쓴 게시글" to="" />
-        <MyPageSectionList iconsrc={MenuIcon05} menu="좋아요한 게시글" to="" />
+        <MyPageSectionList
+          iconSource={MenuIcon04}
+          menu="내가 쓴 게시글"
+          to=""
+        />
+        <MyPageSectionList
+          iconSource={MenuIcon05}
+          menu="좋아요한 게시글"
+          to=""
+        />
       </MyPageMenu>
 
       <MyPageMenu>
         <MyPageMenuTitle>고객지원</MyPageMenuTitle>
-        <MyPageSectionList iconsrc={MenuIcon06} menu="고객센터" to="" />
-        <MyPageSectionList iconsrc={MenuIcon07} menu="의견 남기기" to="" />
-        <MyPageSectionList iconsrc={MenuIcon08} menu="약관 및 정책" to="" />
+        <MyPageSectionList iconSource={MenuIcon06} menu="고객센터" to="" />
+        <MyPageSectionList iconSource={MenuIcon07} menu="의견 남기기" to="" />
+        <MyPageSectionList iconSource={MenuIcon08} menu="약관 및 정책" to="" />
       </MyPageMenu>
     </>
   );
