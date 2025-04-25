@@ -13,7 +13,5 @@ export interface Question {
   categories: { id: number }[];
   isAnswered?: boolean;
   isFavorite?: boolean;
-  _count?: {
-    answers: number;
-  };
+  answerCount?: number;
 }

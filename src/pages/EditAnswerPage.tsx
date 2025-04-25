@@ -119,7 +119,9 @@ function EditAnswerPage() {
     }
   };
 
-  const category = question?.categories[0] ? getCategoryName(question?.categories[0]) : "카테고리가 없습니다.";
+  const category = question?.categories[0]
+    ? getCategoryName(question?.categories[0]?.id)
+    : "카테고리가 없습니다.";
 
   return (
     <EditAnswerPageStyle $isSubmitDisabled={isSubmitDisabled}>
