@@ -3,12 +3,6 @@ import styled from "styled-components";
 import { SlArrowRight } from "react-icons/sl";
 import { usePostCategories } from "../../../hooks/UsePost";
 
-// const categoryMap: Record<string, string[]> = {
-//   취업: ["취업", "면접 후기"],
-//   포지션: ["Front-End", "Back-End", "Full-Stack"],
-//   자유: ["일상", "자유글", "반려동물"],
-// };
-
 const PostWriteCategory = () => {
   const [selectedCategory, setSelectedCategory] =
     useState("게시글의 주제를 선택해주세요");
@@ -113,12 +107,6 @@ const Title = styled.div`
 const CategoryBlock = styled.div`
   margin-bottom: 16px;
 `;
-
-// const MainCategory = styled.div`
-//   font-size: 14px;
-//   font-weight: bold;
-//   color: #888;
-// `;
 
 const SubCategory = styled.div`
   padding: 15px 20px;
