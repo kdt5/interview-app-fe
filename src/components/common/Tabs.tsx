@@ -7,13 +7,15 @@ interface Props {
   titles: string[];
   onClickTab: (title: string) => void;
   currentTab: string;
+  counts?: number[];
 }
 
-function Tabs({ titles, onClickTab, currentTab }: Props): JSX.Element {
+function Tabs({ titles, onClickTab, currentTab, counts }: Props): JSX.Element {
   return (
     <TabsStyle className="tabs">
-      {titles.map((title) => {
+      {titles.map((title, idx) => {
         const active = title === currentTab ? "active" : "";
+        const count = counts?.[idx] ?? null;
 
         return (
           <div
@@ -21,7 +23,10 @@ function Tabs({ titles, onClickTab, currentTab }: Props): JSX.Element {
             className={`tab ${active}`}
             onClick={() => onClickTab(title)}
           >
-            <p>{title}</p>
+            <p>
+              {title}
+              {count !== null && <span className="count"> {count}</span>}
+            </p>
           </div>
         );
       })}
@@ -61,12 +66,24 @@ const TabsStyle = styled.div`
       text-align: center;
     }
 
+    .count {
+      color: #888888;
+      font-weight: 400;
+      font-size: 14px;
+    }
+
     &.active {
       border-color: #6ea1ff;
 
       p {
         color: #333333;
         font-weight: 600;
+      }
+
+      .count {
+        color: #333333;
+        font-weight: 600;
+        font-size: 14px;
       }
     }
   }

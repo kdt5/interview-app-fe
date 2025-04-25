@@ -93,7 +93,7 @@ function InterviewTab() {
             <CommonQuestionList
               category={getCategoryName(item.categories[0]?.id ?? 0)}
               questiontitle={item.title}
-              complete={item.isAnswered ? "작성 완료" : "미작성"}
+              complete={item.isAnswered ? "작성 완료" : "답변 미작성"}
               comments={item.answerCount ?? 0}
               likes={item.favoriteCount}
               isFavorite={item.isFavorite ?? false}
