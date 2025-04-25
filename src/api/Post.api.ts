@@ -1,6 +1,6 @@
 import { HttpStatusCode } from "axios";
 import { BACKEND_URLS } from "../constants/Urls";
-import { CommunityPost } from "../models/CommunityPost.model";
+import { CommunityPost, PostCategory } from "../models/CommunityPost.model";
 import { backendHttpClient } from "./BackendHttpClient.api";
 import { replaceUrlParams } from "../utils/Url";
 import { Comment } from "../models/Comment.model";
@@ -112,6 +112,18 @@ export async function fetchPostComments(
     .get<Comment[]>(`${BACKEND_URLS.COMMENTS}/${targetId}`, {
       params: { categoryName },
     })
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+
+  return response;
+}
+
+export async function fetchPostCategories(
+): Promise<PostCategory[]> {
+  const response = await backendHttpClient
+    .get<PostCategory[]>(BACKEND_URLS.POSTS.CATEGORIES)
     .then((response) => response.data)
     .catch((error) => {
       throw error;

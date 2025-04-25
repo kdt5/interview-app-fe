@@ -15,3 +15,8 @@ export interface CommunityPost {
     viewCount: number;
     favoriteCount: number;
 }
+
+export interface PostCategory {
+    id: number;
+    name: string;
+}
