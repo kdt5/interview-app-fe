@@ -5,9 +5,10 @@ import { backendHttpClient } from "./BackendHttpClient.api";
 import { replaceUrlParams } from "../utils/Url";
 import { Comment } from "../models/Comment.model";
 
-export async function fetchPosts(): Promise<CommunityPost[]> {
+export async function fetchPosts(categoryId?: number): Promise<CommunityPost[]> {
+  const params = categoryId ? { categoryId } : {};
   const response = await backendHttpClient
-    .get<CommunityPost[]>(BACKEND_URLS.POSTS.ALL)
+    .get<CommunityPost[]>(BACKEND_URLS.POSTS.ALL, {params})
     .then((response) => response.data)
     .catch((error) => {
       throw error;

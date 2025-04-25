@@ -3,18 +3,18 @@ import { CommunityPost, PostCategory } from "../models/CommunityPost.model";
 import { createPost, editPost, fetchPostCategories, fetchPostComments, fetchPostDetail, fetchPosts } from "../api/Post.api";
 import { Comment } from "../models/Comment.model";
 
-export function useCommunityPosts() {
+export function useCommunityPosts(categoryId?: number) {
   const [communityPosts, setCommunityPosts] = useState<CommunityPost[]>([]);
 
   useEffect(() => {
     try {
-      fetchPosts().then((posts) => {
+      fetchPosts(categoryId).then((posts) => {
         setCommunityPosts(posts);
       });
     } catch (error) {
       console.error(error);
     }
-  }, []);
+  }, [categoryId]);
 
   return { communityPosts };
 }
