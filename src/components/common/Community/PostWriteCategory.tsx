@@ -1,14 +1,17 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { SlArrowRight } from "react-icons/sl";
-import { usePostCategories } from "../../../hooks/UsePost";
 
-const PostWriteCategory = () => {
-  const [selectedCategory, setSelectedCategory] =
-    useState("게시글의 주제를 선택해주세요");
-    
-  const {postCategories} = usePostCategories();
+interface PostWriteCategoryProps {
+  selectedCategory: string;
+  setSelectedCategory: (name: string) => void;
+  postCategories: {
+    id: number;
+    name: string;
+  }[];
+}
 
+const PostWriteCategory = ({selectedCategory, setSelectedCategory, postCategories}: PostWriteCategoryProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSelect = (name: string) => {

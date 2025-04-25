@@ -33,6 +33,7 @@ const requiredUrls = [
   FRONTEND_URLS.RANKINGS.MORE,
   FRONTEND_URLS.COMMUNITY.POST,
   FRONTEND_URLS.COMMUNITY.POST_DETAIL,
+  FRONTEND_URLS.COMMUNITY.POST_NEW,
 ];
 
 export const routerObjects: RouteObject[] = [
@@ -57,8 +58,8 @@ export const routerObjects: RouteObject[] = [
   },
 
   {
-    path: "/postwrite",
-    element: <PostWrite />,
+    path: FRONTEND_URLS.COMMUNITY.POST_NEW,
+    element: <PostWrite mode="create" />,
   },
 
   {

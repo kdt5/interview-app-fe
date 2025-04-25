@@ -75,7 +75,7 @@ function PostTab() {
       </PostList>
 
       <FixedWrite>
-        <Link to="/postwrite">
+        <Link to={FRONTEND_URLS.COMMUNITY.POST_NEW}>
           <CommunitySmallBtn>글쓰기 +</CommunitySmallBtn>
         </Link>
       </FixedWrite>
