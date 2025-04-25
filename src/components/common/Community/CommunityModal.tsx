@@ -183,11 +183,6 @@ const ModalContainer = styled.div`
     color: #888;
   }
 
-  .report {
-    background-color: #fbfbfb;
-    color: #888;
-  }
-
   .close {
     background-color: #fff;
     color: #888;
