@@ -3,7 +3,7 @@ export const FRONTEND_URLS = {
   LOGIN: "/login",
   SIGNUP: "/signup",
   SETTINGS: {
-    PROFILE: "settings/profile",
+    PROFILE: "/settings/profile",
   },
   QUESTION_LIST: "/question-list/:position",
   MY_PAGE: {
@@ -11,6 +11,9 @@ export const FRONTEND_URLS = {
     ANSWERS: "/my-page/answers",
     FAVORITES: {
       QUESTIONS: "/my-page/favorite-questions",
+    },
+    EDIT: {
+      PROFILE: "/my-page/edit-my-profile",
     },
   },
   ANSWER: "/questions/:questionId/answer",

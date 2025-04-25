@@ -19,6 +19,7 @@ import PostDetail from "../pages/CommunityPost/PostDetail";
 import PostWrite from "../pages/CommunityPost/PostWrite";
 import MoreRankingPage from "../pages/MoreRankingPage";
 import CommunityWeeklyAnswer from "../pages/Community/CommunityWeeklyAnswer";
+import SettingProfile from "../pages/Mypage/SettingsProfile";
 
 const requiredUrls = [
   FRONTEND_URLS.HOME,
@@ -95,6 +96,10 @@ export const routerObjects: RouteObject[] = [
   {
     path: FRONTEND_URLS.MY_PAGE.FAVORITES.QUESTIONS,
     element: <FavoriteQuestionListPage />,
+  },
+  {
+    path: FRONTEND_URLS.MY_PAGE.EDIT.PROFILE,
+    element: <SettingProfile />,
   },
   {
     path: FRONTEND_URLS.ANSWER,

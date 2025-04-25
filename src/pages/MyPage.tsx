@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import ButtonWhite from "../components/common/ButtonWhite";
 import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../hooks/UseUser";
 import { FRONTEND_URLS } from "../constants/Urls";
@@ -7,6 +6,9 @@ import { useState } from "react";
 import ConfirmModal from "../components/common/ConfirmModal";
 import AlertModal from "../components/common/AlertModal";
 import { ModalType } from "./AnswerPage";
+import MyPageSection from "../components/MyPage/MyPageSection";
+import { MyPageSectionStyle } from "../components/MyPage/MyPageSectionStyle";
+import { FaChevronRight } from "react-icons/fa";
 
 function MyPage() {
   const navigate = useNavigate();
@@ -40,33 +42,8 @@ function MyPage() {
 
   return (
     <>
-      <MyPageStyle>
-        <div className="profile-wrap">
-          <div className="profile-icon"></div>
-          <div>
-            <h1>{me?.nickname}</h1>
-            <span>Ranking</span>
-          </div>
-        </div>
-      </MyPageStyle>
-
-      <MyPageStyle>
-        <p className="menu-title">모아보기</p>
-        <Link className="link" to={FRONTEND_URLS.MY_PAGE.ANSWERS}>
-          <ButtonWhite>내 답변 모아보기</ButtonWhite>
-        </Link>
-        <Link className="link" to={FRONTEND_URLS.MY_PAGE.FAVORITES.QUESTIONS}>
-          <ButtonWhite>즐겨찾기 질문 모아보기</ButtonWhite>
-        </Link>
-      </MyPageStyle>
-
-      <MyPageStyle>
-        <p className="menu-title">랭킹</p>
-        <ButtonWhite>내 랭킹 보러가기</ButtonWhite>
-      </MyPageStyle>
-
-      <UserMenuStyle>
-        <Link to={FRONTEND_URLS.SETTINGS.PROFILE}>회원 정보 수정</Link>
+      <div>
+        <Link to={FRONTEND_URLS.MY_PAGE.EDIT.PROFILE}>회원 정보 수정</Link>
         <button type="submit" className="logout-btn" onClick={handleSubmit}>
           로그아웃
         </button>
@@ -86,47 +63,76 @@ function MyPage() {
             message="로그아웃 되었습니다."
           />
         )}
-      </UserMenuStyle>
+      </div>
+
+      <NewMypageStyle>
+        <MyProfileStyle to={FRONTEND_URLS.MY_PAGE.EDIT.PROFILE}>
+          <div className="profile-wrap">
+            <div className="profile-icon"></div>
+            <div>
+              <h2>{me?.nickname}</h2>
+              <span>Front-End</span>
+            </div>
+          </div>
+          <FaChevronRight></FaChevronRight>
+        </MyProfileStyle>
+
+        <MyInfo>
+          <MyInfoBox>
+            <span>답변 질문 수</span>
+            <p>20개</p>
+          </MyInfoBox>
+          <MyInfoBox>
+            <span>작성 게시글</span>
+            <p>20개</p>
+          </MyInfoBox>
+          <MyInfoBox>
+            <span>누적 좋아요</span>
+            <p>20개</p>
+          </MyInfoBox>
+        </MyInfo>
+        <MyPageSection></MyPageSection>
+      </NewMypageStyle>
     </>
   );
 }
 
-const UserMenuStyle = styled.div`
-  padding: 25px 30px;
-  a,
-  button {
-    width: 100%;
-    text-align: center;
+//추가
+const NewMypageStyle = styled.div`
+  background-color: #fbfbfb;
+  width: 100%;
+  height: 100dvh;
+  padding: 0 30px;
+`;
+
+const MyInfo = styled(MyPageSectionStyle)`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const MyInfoBox = styled.div`
+  width: calc(100% / 3);
+  border-right: solid 1px #f8f8f8;
+  text-align: center;
+
+  span {
+    font-size: 12px;
+    color: #888;
+    font-weight: 300;
   }
 
-  a {
-    display: block;
-    background: #6ea1ff;
-    color: #fff;
-    border-radius: 10px;
-    border: solid 1px #fff;
-    padding: 15px 20px;
-    line-height: 1;
-    margin-bottom: 10px;
-  }
-
-  button {
-    background: #fff;
-    color: #6ea1ff;
-    border-radius: 10px;
-    border: solid 1px #6ea1ff;
-    cursor: pointer;
-    width: 100%;
-    padding: 15px 20px;
-    line-height: 1;
-    font-size: 16px;
+  &:last-child {
+    border-right: none;
   }
 `;
 
-const MyPageStyle = styled.div`
+const MyProfileStyle = styled(Link)`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
-  border-bottom: 5px solid #fafafa;
-  padding: 25px 30px;
+  padding: 30px 0;
 
   .profile-wrap {
     display: flex;
@@ -134,25 +140,25 @@ const MyPageStyle = styled.div`
     justify-content: left;
 
     .profile-icon {
-      width: 60px;
-      height: 60px;
+      width: 50px;
+      height: 50px;
       border-radius: 50px;
       background-color: #ccc;
-      margin-right: 15px;
+      margin-right: 10px;
     }
 
     div {
+      h2 {
+        font-weight: 600;
+        font-size: 18px;
+      }
       span {
-        color: #fff;
-        background-color: #6ea1ff;
-        padding: 5px 10px;
+        color: #888;
+        font-weight: 300;
+
         border-radius: 15px;
       }
     }
-  }
-
-  .menu-title {
-    margin-bottom: 10px;
   }
 `;
 
