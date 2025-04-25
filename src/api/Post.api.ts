@@ -33,12 +33,14 @@ export async function fetchPostDetail(postId: number): Promise<CommunityPost> {
 
 export async function createPost(
   title: string,
-  content: string
+  content: string,
+  categoryId: number
 ): Promise<boolean> {
   const response = await backendHttpClient
     .post(BACKEND_URLS.POSTS.ALL, {
       title: title,
       content: content,
+      categoryId: categoryId
     })
     .then((response) => response.status === HttpStatusCode.Created)
     .catch((error) => {
@@ -51,7 +53,8 @@ export async function createPost(
 export async function editPost(
   postId: number,
   title: string,
-  content: string
+  content: string,
+  categoryId: number,
 ): Promise<boolean> {
   const response = await backendHttpClient
     .patch(
@@ -61,6 +64,7 @@ export async function editPost(
       {
         title: title,
         content: content,
+        categoryId: categoryId,
       }
     )
     .then((response) => response.status === HttpStatusCode.Ok)
