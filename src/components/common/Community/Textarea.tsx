@@ -2,13 +2,37 @@ import styled from "styled-components";
 import Post from "../../../assets/ReplyPost.png";
 import PostActive from "../../../assets/ReplyPost_active.png";
 import { useState } from "react";
+import { createPostComment } from "../../../api/Post.api";
 
 interface Props {
-  hasText: boolean;
+  targetId: number;
+  categoryName: "post" | "answer";
+  parentId?: number;
+  refetchComments: () => void;
 }
 
-function TextArea() {
+function TextArea({ targetId, categoryName, parentId, refetchComments }: Props) {
   const [text, setText] = useState("");
+
+  const handleClick = async () => {
+    try {
+      let response;
+
+      if(parentId){
+        response = await createPostComment(targetId, categoryName, text, parentId);
+      } else {
+        response = await createPostComment(targetId, categoryName, text);
+      }
+
+      if(response) {
+        alert("댓글이 등록되었습니다.");
+        setText("");
+        refetchComments?.();
+      }
+    } catch {
+      alert("댓글 등록에 실패했습니다.");
+    }
+  }
 
   return (
     <>
@@ -18,13 +42,17 @@ function TextArea() {
           value={text}
           onChange={(e) => setText(e.target.value)}
         />
-        <button></button>
+        <button onClick={handleClick}></button>
       </CommentSection>
     </>
   );
 }
 
-const CommentSection = styled.div<Props>`
+interface CommentSectionProps {
+  hasText: boolean;
+}
+
+const CommentSection = styled.div<CommentSectionProps>`
   position: fixed;
   width: 100%;
   max-width: 380px;

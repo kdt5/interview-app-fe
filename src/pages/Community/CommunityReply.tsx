@@ -9,7 +9,7 @@ import { countAllReplies } from "../../utils/commentCount";
 
 function CommunityReply() {
   const { postId, commentId } = useParams();
-  const { communityPostComments } = useCommunityPostComments(Number(postId), "post");
+  const { communityPostComments, refetchComments } = useCommunityPostComments(Number(postId), "post");
   const subComment = communityPostComments?.find((comment) => comment.id === Number(commentId));
   const subCommentTopLevelComments = communityPostComments?.filter((comment) => comment.parentId === Number(commentId)) || [];
   const getReplies = (parentId: number) => (communityPostComments?.filter((comment) => comment.parentId === parentId) || []);
@@ -56,7 +56,7 @@ function CommunityReply() {
             <div>로딩중...</div>
           )
         }
-        <TextArea></TextArea>
+        <TextArea targetId={postId ? Number(postId) : -1} categoryName="post" parentId={commentId ? Number(commentId) : undefined} refetchComments={refetchComments}></TextArea>
       </ProfileSection>
     </>
   );

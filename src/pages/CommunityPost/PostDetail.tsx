@@ -9,7 +9,7 @@ import { useCommunityPostComments, useCommunityPostDetail } from "../../hooks/Us
 function PostDetail() {
   const { postId } = useParams();
   const { communityPostDetail } = useCommunityPostDetail(Number(postId));
-  const { communityPostComments } = useCommunityPostComments(Number(postId), "post");
+  const { communityPostComments, refetchComments } = useCommunityPostComments(Number(postId), "post");
 
   const topLevelComments = communityPostComments?.filter((comment) => comment.parentId === null) || [];
   const getReplies = (parentId: number) => (communityPostComments?.filter((comment) => comment.parentId === parentId) || []);
@@ -44,7 +44,7 @@ function PostDetail() {
           <div>로딩중...</div>
         )
       }
-      <TextArea></TextArea>
+      <TextArea targetId={postId ? Number(postId) : -1} categoryName="post" refetchComments={refetchComments}/>
     </>
   );
 }
