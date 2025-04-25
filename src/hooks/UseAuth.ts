@@ -1,16 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { FRONTEND_URLS } from "../constants/Urls";
-import {
-  logout,
-  signUp,
-  checkEmailExists,
-  checkNicknameExists,
-  recoverPassword,
-  resetPassword,
-  refreshToken,
-  login,
-} from "../api/Auth.api";
+import { logout, refreshToken, login } from "../api/Auth.api";
 import {
   changeNickname,
   changePassword,
@@ -20,7 +11,7 @@ import {
   REFRESH_TOKEN_LIFETIME,
   REFRESH_TOKEN_THRESHOLD,
 } from "../constants/Auth";
-import { SignUpData, UserBasicInfo } from "../models/User.model";
+import { UserBasicInfo } from "../models/User.model";
 
 interface UseAuthReturn {
   isAuthenticated: boolean;
@@ -28,21 +19,48 @@ interface UseAuthReturn {
   error: string | null;
   me: UserBasicInfo | null;
   handleLogin: (email: string, password: string) => Promise<void>;
-  handleSignUp: (userData: SignUpData) => Promise<void>;
   handleLogout: () => Promise<void>;
-  checkEmail: (email: string) => Promise<boolean>;
-  checkNickname: (nickname: string) => Promise<boolean>;
   handleChangeNickname: (nickname: string) => Promise<void>;
   handleChangePassword: (
     oldPassword: string,
     newPassword: string
   ) => Promise<void>;
-  handleRecoverPassword: (email: string) => Promise<void>;
-  handleResetPassword: (
-    token: string,
-    email: string,
-    newPassword: string
-  ) => Promise<void>;
+}
+
+function getCookieValue(name: string): string | null {
+  const match = document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`));
+  return match ? match[2] : null;
+}
+
+function hasAuthToken(): boolean {
+  return !!getCookieValue("accessToken");
+}
+
+function getTokenExpiration(tokenName: string): number | null {
+  const cookies = document.cookie.split(";");
+  for (const cookie of cookies) {
+    const [name, value] = cookie.trim().split("=");
+    if (name === tokenName) {
+      try {
+        const payload = JSON.parse(atob(value.split(".")[1]));
+        return payload.exp * 1000;
+      } catch {
+        return null;
+      }
+    }
+  }
+  return null;
+}
+
+function shouldRefreshToken(): boolean {
+  const refreshTokenExp = getTokenExpiration("refreshToken");
+  if (!refreshTokenExp) return false;
+
+  const now = Date.now();
+  const tokenAge = now - (refreshTokenExp - REFRESH_TOKEN_LIFETIME);
+  const usageRatio = tokenAge / REFRESH_TOKEN_LIFETIME;
+
+  return usageRatio >= REFRESH_TOKEN_THRESHOLD;
 }
 
 export function useAuth(): UseAuthReturn {
@@ -51,31 +69,6 @@ export function useAuth(): UseAuthReturn {
   const [error, setError] = useState<string | null>(null);
   const [me, setMe] = useState<UserBasicInfo | null>(null);
   const navigate = useNavigate();
-
-  const getCookieValue = useCallback((name: string): string | null => {
-    const match = document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`));
-    return match ? match[2] : null;
-  }, []);
-
-  const hasAuthToken = useCallback((): boolean => {
-    return !!getCookieValue("accessToken");
-  }, [getCookieValue]);
-
-  const getTokenExpiration = useCallback((tokenName: string): number | null => {
-    const cookies = document.cookie.split(";");
-    for (const cookie of cookies) {
-      const [name, value] = cookie.trim().split("=");
-      if (name === tokenName) {
-        try {
-          const payload = JSON.parse(atob(value.split(".")[1]));
-          return payload.exp * 1000;
-        } catch {
-          return null;
-        }
-      }
-    }
-    return null;
-  }, []);
 
   const updateAuthState = useCallback(
     (
@@ -125,17 +118,6 @@ export function useAuth(): UseAuthReturn {
     }
   }, [handleLogout, handleError]);
 
-  const shouldRefreshToken = useCallback((): boolean => {
-    const refreshTokenExp = getTokenExpiration("refreshToken");
-    if (!refreshTokenExp) return false;
-
-    const now = Date.now();
-    const tokenAge = now - (refreshTokenExp - REFRESH_TOKEN_LIFETIME);
-    const usageRatio = tokenAge / REFRESH_TOKEN_LIFETIME;
-
-    return usageRatio >= REFRESH_TOKEN_THRESHOLD;
-  }, [getTokenExpiration]);
-
   const checkAuthStatus = useCallback(async () => {
     try {
       if (hasAuthToken()) {
@@ -152,13 +134,7 @@ export function useAuth(): UseAuthReturn {
       handleError(err, "인증 상태 확인에 실패했습니다.");
       updateAuthState(false, null, false);
     }
-  }, [
-    hasAuthToken,
-    shouldRefreshToken,
-    refreshAuthToken,
-    updateAuthState,
-    handleError,
-  ]);
+  }, [refreshAuthToken, updateAuthState, handleError]);
 
   useEffect(() => {
     checkAuthStatus();
@@ -192,69 +168,6 @@ export function useAuth(): UseAuthReturn {
     },
     [navigate, updateAuthState, handleError]
   );
-
-  const handleSignUp = useCallback(
-    async (userData: SignUpData): Promise<void> => {
-      try {
-        updateAuthState(false, null, true);
-        const success = await signUp(userData);
-        if (success) {
-          updateAuthState(false, null, false);
-          navigate(FRONTEND_URLS.LOGIN);
-        }
-      } catch (err: unknown) {
-        handleError(err, "회원가입에 실패했습니다. 다시 시도해주세요.");
-        updateAuthState(false, null, false);
-      }
-    },
-    [navigate, updateAuthState, handleError]
-  );
-
-  async function checkEmail(email: string): Promise<boolean> {
-    try {
-      return await checkEmailExists(email);
-    } catch (err: unknown) {
-      handleError(err, "이메일 확인에 실패했습니다.");
-      return false;
-    }
-  }
-
-  async function checkNickname(nickname: string): Promise<boolean> {
-    try {
-      return await checkNicknameExists(nickname);
-    } catch (err: unknown) {
-      handleError(err, "닉네임 확인에 실패했습니다.");
-      return false;
-    }
-  }
-
-  async function handleRecoverPassword(email: string): Promise<void> {
-    try {
-      updateAuthState(false, null, true);
-      await recoverPassword(email);
-    } catch (err: unknown) {
-      handleError(err, "비밀번호 복구 이메일 전송에 실패했습니다.");
-      updateAuthState(false, null, false);
-    }
-  }
-
-  async function handleResetPassword(
-    token: string,
-    email: string,
-    newPassword: string
-  ): Promise<void> {
-    try {
-      updateAuthState(false, null, true);
-      const success = await resetPassword(token, email, newPassword);
-      if (success) {
-        updateAuthState(false, null, false);
-        navigate(FRONTEND_URLS.LOGIN);
-      }
-    } catch (err: unknown) {
-      handleError(err, "비밀번호 재설정에 실패했습니다.");
-      updateAuthState(false, null, false);
-    }
-  }
 
   const handleChangeNickname = useCallback(
     async (nickname: string): Promise<void> => {
@@ -292,13 +205,8 @@ export function useAuth(): UseAuthReturn {
     error,
     me,
     handleLogin,
-    handleSignUp,
     handleLogout,
-    checkEmail,
-    checkNickname,
     handleChangeNickname,
     handleChangePassword,
-    handleRecoverPassword,
-    handleResetPassword,
   };
 }
