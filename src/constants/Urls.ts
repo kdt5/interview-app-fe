@@ -24,6 +24,8 @@ export const FRONTEND_URLS = {
     POST: "/community/posts",
     POST_DETAIL: "/community/posts/:postId",
     REPLIES: "/replies/:commentId",
+    POST_NEW: "/community/posts/new",
+    POST_EDIT: "/community/posts/:postId/edit",
   }
 };
 
