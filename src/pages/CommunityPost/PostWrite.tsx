@@ -6,42 +6,35 @@ import PostTextArea from "../../components/Community/PostTextArea";
 import GrayButton from "../../components/common/Button/GrayButton";
 import { usePostCategories, usePostMutation } from "../../hooks/UsePost";
 import { PostCategory } from "../../models/CommunityPost.model";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FRONTEND_URLS } from "../../constants/Urls";
 
-function PostWrite({
-  mode,
-  postId,
-  currentTitle,
-  currentContent,
-  currentCategoryId,
-}: {
+function PostWrite({mode}: {
   mode: "create" | "edit";
-  postId?: number;
-  currentTitle?: string;
-  currentContent?: string;
-  currentCategoryId?: number;
 }) {
+  const location = useLocation();
+  const state = location.state as {
+    postId?: number;
+    currentTitle?: string;
+    currentContent?: string;
+    currentCategoryId?: number;
+  };
   const navigate = useNavigate();
-  const [title, setTitle] = useState<string>(
-    mode === "edit" && currentTitle ? currentTitle : ""
-  );
-  const [content, setContent] = useState(
-    mode === "edit" && currentContent ? currentContent : ""
-  );
+  const [title, setTitle] = useState<string>(state?.currentTitle || "");
+  const [content, setContent] = useState<string>(state?.currentContent || "");
   const { postCategories } = usePostCategories();
   const [selectedCategory, setSelectedCategory] =
     useState("게시글의 주제를 선택해주세요.");
   useEffect(() => {
-    if (mode === "edit" && currentCategoryId && postCategories.length > 0) {
+    if (mode === "edit" && state?.currentCategoryId && postCategories.length > 0) {
       const foundCategory = postCategories.find(
-        (cat) => cat.id === currentCategoryId
+        (cat) => cat.id === state.currentCategoryId
       );
       setSelectedCategory(
         foundCategory ? foundCategory.name : "존재하지 않는 주제 입니다."
       );
     }
-  }, [mode, currentCategoryId, postCategories]);
+  }, [state, postCategories]);
 
   const { submitNewPost, updateExistingPost } = usePostMutation();
 
@@ -65,8 +58,8 @@ function PostWrite({
     try {
       if (mode === "create") {
         await submitNewPost(title, content, categoryId);
-      } else if (mode === "edit" && postId) {
-        await updateExistingPost(postId, title, content, categoryId);
+      } else if (mode === "edit" && state?.postId) {
+        await updateExistingPost(state?.postId, title, content, categoryId);
       } else {
         console.error("게시글 모드 create/edit 만 가능합니다.");
         throw new Error("게시글 모드가 잘못되었습니다.");
