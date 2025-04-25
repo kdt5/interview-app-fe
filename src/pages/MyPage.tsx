@@ -1,7 +1,11 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../hooks/UseUser";
 import { FRONTEND_URLS } from "../constants/Urls";
+import { useState } from "react";
+import ConfirmModal from "../components/common/ConfirmModal";
+import AlertModal from "../components/common/AlertModal";
+import { ModalType } from "./AnswerPage";
 import MyPageSection from "../components/MyPage/MyPageSection";
 import { MyPageSectionStyle } from "../components/MyPage/MyPageSectionStyle";
 import { FaChevronRight } from "react-icons/fa";
@@ -11,6 +15,29 @@ function MyPage() {
 
   return (
     <>
+      <div>
+        <Link to={FRONTEND_URLS.MY_PAGE.EDIT.PROFILE}>회원 정보 수정</Link>
+        <button type="submit" className="logout-btn" onClick={handleSubmit}>
+          로그아웃
+        </button>
+        {isModalsVisible.confirm && (
+          <ConfirmModal
+            onClose={() => toggleModal("confirm", false)}
+            onConfirm={handleConfirmSubmit}
+            message="로그아웃 하시겠습니까?"
+          />
+        )}
+        {isModalsVisible.alert && (
+          <AlertModal
+            onClose={() => {
+              toggleModal("alert", false);
+              navigate(FRONTEND_URLS.LOGIN);
+            }}
+            message="로그아웃 되었습니다."
+          />
+        )}
+      </div>
+
       <NewMypageStyle>
         <MyProfileStyle to={FRONTEND_URLS.MY_PAGE.EDIT.PROFILE}>
           <div className="profile-wrap">
@@ -48,7 +75,7 @@ const NewMypageStyle = styled.div`
   background-color: #fbfbfb;
   width: 100%;
   height: fit-content;
-  padding: 0 30px 50px;
+  padding: 0 30px 100px;
 `;
 
 const MyInfo = styled(MyPageSectionStyle)`
@@ -58,7 +85,7 @@ const MyInfo = styled(MyPageSectionStyle)`
 `;
 
 const MyInfoBox = styled.div`
-  width: 30%;
+  width: calc(100% / 3);
   border-right: solid 1px #f8f8f8;
   text-align: center;
 
