@@ -32,9 +32,9 @@ export function useCategory(position?: Position): UseCategoryReturn {
   }, [position]);
 
   const getCategoryName = (categoryId: number) => {
-    const category = categories.find((category) => category.id === categoryId);
-
-    return category === undefined ? "" : category.name;
+    return (
+      categories.find((category) => category.id === categoryId)?.name ?? ""
+    );
   };
 
   return {

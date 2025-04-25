@@ -97,7 +97,7 @@ function PostTab() {
       </PopularSlide>
 
       <PostList>
-        <CommonCategory></CommonCategory>
+        <CommonCategory onSelectCategory={() => {}}></CommonCategory>
         {mockData.map((item, index) => (
           <Link key={index} to="/postdetail">
             <CommunityList {...item} />

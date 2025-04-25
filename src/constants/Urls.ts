@@ -45,7 +45,7 @@ export const BACKEND_URLS = {
   QUESTIONS: {
     ALL: "/api/questions",
     QUESTION: "/api/questions/:questionId",
-    WEEKLY_TODAY: "/api/questions/weekly/today",
+    WEEKLY_CURRENT: "/api/questions/weekly/current",
     WEEKLY: "/api/questions/weekly",
   },
   CATEGORIES: {
@@ -62,7 +62,7 @@ export const BACKEND_URLS = {
   },
   FAVORITES: {
     MINE: "/api/favorites/mine",
-    FAVORITE: "/api/favorites/:questionId",
+    FAVORITE: "/api/favorites/:targetType/:targetId",
   },
   RANKINGS: {
     ALL: "/api/rankings",

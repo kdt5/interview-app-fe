@@ -13,8 +13,8 @@ const PostWriteCategory = () => {
     useState("게시글의 주제를 선택해주세요");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleSelect = (main: string, sub: string) => {
-    setSelectedCategory(sub);
+  const handleCategorySelect = (category: string) => {
+    setSelectedCategory(category);
     setIsModalOpen(false);
   };
 
@@ -31,19 +31,21 @@ const PostWriteCategory = () => {
         <ModalBackdrop onClick={() => setIsModalOpen(false)}>
           <Modal onClick={(e) => e.stopPropagation()}>
             <Title>게시글의 주제를 선택해주세요.</Title>
-            {Object.entries(categoryMap).map(([main, subList]) => (
-              <CategoryBlock key={main}>
-                <MainCategory>{main}</MainCategory>
-                {subList.map((sub) => (
-                  <SubCategory
-                    key={sub}
-                    onClick={() => handleSelect(main, sub)}
-                  >
-                    {sub}
-                  </SubCategory>
-                ))}
-              </CategoryBlock>
-            ))}
+            {Object.entries(categoryMap).map(
+              ([mainCategory, subCategories]) => (
+                <CategoryBlock key={mainCategory}>
+                  <MainCategory>{mainCategory}</MainCategory>
+                  {subCategories.map((subCategory) => (
+                    <SubCategory
+                      key={subCategory}
+                      onClick={() => handleCategorySelect(subCategory)}
+                    >
+                      {subCategory}
+                    </SubCategory>
+                  ))}
+                </CategoryBlock>
+              )
+            )}
           </Modal>
         </ModalBackdrop>
       )}

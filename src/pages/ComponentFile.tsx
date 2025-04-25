@@ -70,6 +70,10 @@ const QuestionData = [
   },
 ];
 function Component() {
+  function setText(value: string) {
+    console.log(value);
+  }
+
   return (
     <>
       <CommunityStyle>
@@ -86,7 +90,17 @@ function Component() {
         ))}
 
         {questionData.map((item, index) => (
-          <CommonQuestionList key={index} {...item} />
+          <CommonQuestionList
+            key={index}
+            {...item}
+            isFavorite={false}
+            toggleFavorite={() => {}}
+            category="dd"
+            comments={2}
+            complete="s"
+            likes={1}
+            questiontitle="adfd"
+          />
         ))}
 
         {ProfileData.map((item, index) => (
