@@ -1,14 +1,50 @@
 import styled from "styled-components";
+import { fetchPostOwnership } from "../../../api/Post.api";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { FRONTEND_URLS } from "../../../constants/Urls";
 
 interface Props {
   onClose?: () => void;
-  onEdit?: () => void;
   onDelete?: () => void;
+  postId?: number;
+  title?: string;
+  content?: string;
+  postCategoryId?: number;
   message?: string;
 }
 
-function CommunityModal({ onClose, onEdit, onDelete }: Props) {
-  const isMyData = true;
+function CommunityModal({ onClose, onDelete, postId, title, content, postCategoryId }: Props) {
+  const navigate = useNavigate();
+
+  const [isMyData, setIsMyData] = useState<boolean>(false);
+
+  useEffect(() => {
+    const checkOwnership = async () => {
+      if (postId !== undefined) {
+        try {
+          const result = await fetchPostOwnership(postId);
+          setIsMyData(result);
+        } catch {
+          setIsMyData(false);
+        }
+      }
+    };
+    checkOwnership();
+  }, [postId]);
+
+  const handleEdit = () => {
+    if (postId) {
+      navigate(`${FRONTEND_URLS.COMMUNITY.POST_EDIT.replace(":postId", String(postId))}`, {
+        state: {
+          postId,
+          currentTitle: title,
+          currentContent: content,
+          currentCategoryId: postCategoryId,
+        }
+      });
+    }
+  };
 
   return (
     <>
@@ -19,7 +55,7 @@ function CommunityModal({ onClose, onEdit, onDelete }: Props) {
               <button className="action-button delete" onClick={onDelete}>
                 삭제
               </button>
-              <button className="action-button edit" onClick={onEdit}>
+              <button className="action-button edit" onClick={handleEdit}>
                 수정
               </button>
             </>
