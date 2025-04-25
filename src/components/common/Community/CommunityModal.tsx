@@ -1,12 +1,11 @@
 import styled from "styled-components";
-import { fetchPostOwnership } from "../../../api/Post.api";
+import { deletePost, fetchPostOwnership } from "../../../api/Post.api";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FRONTEND_URLS } from "../../../constants/Urls";
 
 interface Props {
   onClose?: () => void;
-  onDelete?: () => void;
   postId?: number;
   title?: string;
   content?: string;
@@ -14,10 +13,11 @@ interface Props {
   message?: string;
 }
 
-function CommunityModal({ onClose, onDelete, postId, title, content, postCategoryId }: Props) {
+function CommunityModal({ onClose, postId, title, content, postCategoryId }: Props) {
   const navigate = useNavigate();
 
   const [isMyData, setIsMyData] = useState<boolean>(false);
+  const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
 
   useEffect(() => {
     const checkOwnership = async () => {
@@ -46,37 +46,101 @@ function CommunityModal({ onClose, onDelete, postId, title, content, postCategor
     }
   };
 
+  const handleDelete = async () => {
+    if(!postId) return;
+    try {
+      const result = await deletePost(postId);
+      if(result) {
+        setShowSuccessModal(true);
+      } else {
+        alert("삭제에 실패했습니다.");
+      }
+    } catch (error) {
+      console.error("게시글 삭제 오류:", error);
+      alert("게시글 삭제에 실패했습니다.");
+    }
+  };
+
+  const handleSuccessOk = () => {
+    navigate(FRONTEND_URLS.COMMUNITY.POST);
+  };
+
   return (
     <>
-      <BackDrop onClick={onClose}>
-        <ModalContainer onClick={(e) => e.stopPropagation()}>
-          {isMyData ? (
-            <>
-              <button className="action-button delete" onClick={onDelete}>
-                삭제
-              </button>
-              <button className="action-button edit" onClick={handleEdit}>
-                수정
-              </button>
-            </>
-          ) : (
-            <>
-              <button
-                className="action-button report"
-                onClick={() => alert("신고했습니다.")}
-              >
-                신고
-              </button>
-              <button className="action-button close" onClick={onClose}>
-                닫기
-              </button>
-            </>
-          )}
-        </ModalContainer>
-      </BackDrop>
+      {!showSuccessModal && (
+        <BackDrop onClick={onClose}>
+          <ModalContainer onClick={(e) => e.stopPropagation()}>
+            {isMyData ? (
+              <>
+                <button className="action-button delete" onClick={handleDelete}>
+                  삭제
+                </button>
+                <button className="action-button edit" onClick={handleEdit}>
+                  수정
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  className="action-button report"
+                  onClick={() => alert("신고했습니다.")}
+                >
+                  신고
+                </button>
+                <button className="action-button close" onClick={onClose}>
+                  닫기
+                </button>
+              </>
+            )}
+          </ModalContainer>
+        </BackDrop>
+      )}
+
+      {showSuccessModal && (
+        <CenterModalBackdrop>
+          <CenterModalContainer onClick={(e) => e.stopPropagation()}>
+            <p style={{ textAlign: "center", marginBottom: "16px" }}>
+              성공적으로 삭제되었습니다.
+            </p>
+            <button className="action-button close" onClick={handleSuccessOk}>
+              확인
+            </button>
+          </CenterModalContainer>
+        </CenterModalBackdrop>
+      )}
     </>
   );
 }
+
+const CenterModalBackdrop = styled.div`
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000; // higher than BackDrop
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const CenterModalContainer = styled.div`
+  background: #ffffff;
+  padding: 30px 20px;
+  border-radius: 10px;
+  width: 300px;
+  text-align: center;
+
+  .action-button {
+    margin-top: 20px;
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #555;
+  }
+`;
 
 const BackDrop = styled.div`
   position: fixed;
