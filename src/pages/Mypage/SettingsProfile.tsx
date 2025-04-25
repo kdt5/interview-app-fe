@@ -9,7 +9,7 @@ import { FRONTEND_URLS } from "../../constants/Urls";
 import { ModalType } from "../AnswerPage";
 import MyProfileDefaultImg from "../../assets/mypage/MyProfileDefaultImage.png";
 import MyProfileAddBtn from "../../assets/mypage/MyProfileAddButton.png";
-import InputWithCheckButton from "../../components/SignUpPage/InputWithCheckButton";
+// import InputWithCheckButton from "../../components/SignUpPage/InputWithCheckButton";
 import InputField from "../../components/common/Input/Input";
 
 export interface SignUpInputs {
@@ -68,11 +68,6 @@ function SettingProfile() {
               <h2>닉네임</h2>
               <p>{me?.nickname}</p>
             </ProfileDefaultInfo>
-            <InputWithCheckButton
-              name="nickname"
-              placeholder="닉네임을 입력하세요"
-              successMessage="사용 가능한 닉네임입니다."
-            />
           </ProfileInfo>
 
           <PasswordChange>
