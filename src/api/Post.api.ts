@@ -1,4 +1,4 @@
-import { HttpStatusCode } from "axios";
+import axios, { HttpStatusCode } from "axios";
 import { BACKEND_URLS } from "../constants/Urls";
 import { CommunityPost, PostCategory } from "../models/CommunityPost.model";
 import { backendHttpClient } from "./BackendHttpClient.api";
@@ -29,6 +29,22 @@ export async function fetchPostDetail(postId: number): Promise<CommunityPost> {
     });
 
   return response;
+}
+
+export async function fetchPostOwnership(postId: number): Promise<boolean> {
+  try {
+    await backendHttpClient.get<boolean>(
+      replaceUrlParams(BACKEND_URLS.POSTS.OWNERSHIP, {
+        postId: postId.toString(),
+      })
+    );
+    return true;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response?.status === 403) {
+      return false;
+    }
+    throw error;
+  }
 }
 
 export async function createPost(
