@@ -24,6 +24,7 @@ export const FRONTEND_URLS = {
   },
   COMMUNITY: {
     HOME: "/community",
+    WEEKLY: "/community/weekly",
   },
 };
 

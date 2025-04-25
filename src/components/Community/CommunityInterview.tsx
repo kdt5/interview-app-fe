@@ -4,6 +4,7 @@ import CommonCategory from "../common/List/CommonCategory";
 import CommonQuestionList from "../common/List/CommonQuestionList";
 import SectionTitle from "../common/SectionTitle";
 import { Link } from "react-router-dom";
+import { FRONTEND_URLS } from "../../constants/Urls";
 
 const WeeklyQuestionData = [
   {
@@ -46,7 +47,7 @@ function InterviewTab() {
     <>
       <WeeklyQuestionSection>
         <SectionTitle>위클리 답변 토론</SectionTitle>
-        <Link to="/weeklypost">
+        <Link to={FRONTEND_URLS.COMMUNITY.WEEKLY}>
           {WeeklyQuestionData.map((item, index) => (
             <WeeklyQuestionCard key={index} {...item} />
           ))}

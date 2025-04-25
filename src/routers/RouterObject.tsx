@@ -61,7 +61,7 @@ export const routerObjects: RouteObject[] = [
   },
 
   {
-    path: "/weeklypost",
+    path: FRONTEND_URLS.COMMUNITY.WEEKLY,
     element: <CommunityWeeklyAnswer />,
   },
 
