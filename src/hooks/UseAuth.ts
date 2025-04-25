@@ -144,10 +144,9 @@ export function useAuth(): UseAuthReturn {
     async (email: string, password: string): Promise<void> => {
       try {
         updateAuthState(false, null, true);
-        const response = await login({ email, password });
+        const userData = await login({ email, password });
 
-        if (response) {
-          const userData = await fetchMyUserData();
+        if (userData) {
           updateAuthState(true, userData, false);
           navigate(FRONTEND_URLS.HOME);
         } else {
