@@ -7,6 +7,13 @@ export interface UserBasicInfo {
   profileImageUrl?: string;
 }
 
+export interface SignUpData {
+  email: string;
+  password: string;
+  nickname: string;
+  positionId: number;
+}
+
 export interface UserStats {
   answerCount: number; // 답변 수
   favoriteCount: number; // 받은 좋아요 합계
