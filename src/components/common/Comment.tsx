@@ -55,12 +55,12 @@ function CommentContents({
         <CommentInfo>
           <span>
             <img src={LikeSmall} alt="" />
-            좋아요 {favoriteCount}
+            좋아요 {favoriteCount === 0 ? "" : favoriteCount}
           </span>{" "}
           <Link to={`${FRONTEND_URLS.COMMUNITY.POST_DETAIL.replace(":postId", String(postId))}${FRONTEND_URLS.COMMUNITY.REPLIES.replace(":commentId", String(id))}`}>
             <span>
               <img src={ReplySmall} alt="" />
-              답글 {countAllReplies(allComments || [], id)}
+              답글 {countAllReplies(allComments || [], id) === 0 ? "쓰기" : countAllReplies(allComments || [], id)}
             </span>
           </Link>
         </CommentInfo>
