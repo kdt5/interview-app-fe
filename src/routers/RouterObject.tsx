@@ -34,6 +34,7 @@ const requiredUrls = [
   FRONTEND_URLS.COMMUNITY.POST,
   FRONTEND_URLS.COMMUNITY.POST_DETAIL,
   FRONTEND_URLS.COMMUNITY.POST_NEW,
+  FRONTEND_URLS.COMMUNITY.POST_EDIT,
 ];
 
 export const routerObjects: RouteObject[] = [
@@ -60,6 +61,11 @@ export const routerObjects: RouteObject[] = [
   {
     path: FRONTEND_URLS.COMMUNITY.POST_NEW,
     element: <PostWrite mode="create" />,
+  },
+
+  {
+    path: FRONTEND_URLS.COMMUNITY.POST_EDIT,
+    element: <PostWrite mode="edit" />
   },
 
   {
