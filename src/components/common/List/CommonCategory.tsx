@@ -1,24 +1,27 @@
 import styled from "styled-components";
 import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { useState } from "react";
+import { usePostCategories } from "../../../hooks/UsePost";
 
 interface Props {
   className?: string;
+  selectedCatId: number;
+  setSelectedCatId: (catId: number) => void;
 }
-function CommonCategory({ className }: Props) {
-  const [selectedIndex, setSelectedIndex] = useState(0);
+function CommonCategory({ className, selectedCatId, setSelectedCatId }: Props) {
+  const { postCategories } = usePostCategories();
+  const categories = [{ id: 0, name: "전체" }, ...postCategories];
 
-  const categories = [
-    "전체",
-    "HTML",
-    "CSS",
-    "JAVASCRIPT",
-    "REACT",
-    "VUE",
-    "NODE.JS",
-    "FFFF",
-  ];
+  // const categories = [
+  //   "전체",
+  //   "HTML",
+  //   "CSS",
+  //   "JAVASCRIPT",
+  //   "REACT",
+  //   "VUE",
+  //   "NODE.JS",
+  //   "FFFF",
+  // ];
 
   return (
     <CommonCategoryStyle>
@@ -28,15 +31,15 @@ function CommonCategory({ className }: Props) {
         onSlideChange={() => console.log("slide changed")}
         onSwiper={(swiper) => console.log(swiper)}
       >
-        {categories.map((cat, index) => (
+        {categories.map((category) => (
           <SwiperSlide
-            key={index}
+            key={category.id}
             className={className}
             style={{ width: "auto" }}
-            onClick={() => setSelectedIndex(index)}
+            onClick={() => setSelectedCatId(category.id)}
           >
-            <CategoryName className={selectedIndex === index ? "active" : ""}>
-              {cat}
+            <CategoryName className={selectedCatId === category.id ? "active" : ""}>
+              {category.name}
             </CategoryName>
           </SwiperSlide>
         ))}

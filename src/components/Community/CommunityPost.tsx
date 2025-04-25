@@ -9,6 +9,7 @@ import CommunitySmallBtn from "../common/Button/CommunitySmallButton";
 import { Link } from "react-router-dom";
 import { useCommunityPosts } from "../../hooks/UsePost";
 import { FRONTEND_URLS } from "../../constants/Urls";
+import { useState } from "react";
 
 const popularpost = [
   {
@@ -38,7 +39,8 @@ const popularpost = [
 
 
 function PostTab() {
-  const { communityPosts } = useCommunityPosts();
+  const [ selectedCatId, setSelectedCatId ] = useState(0);
+  const { communityPosts } = useCommunityPosts(selectedCatId === 0 ? undefined : selectedCatId);
 
   return (
     <>
@@ -66,7 +68,7 @@ function PostTab() {
       </PopularSlide>
 
       <PostList>
-        <CommonCategory></CommonCategory>
+        <CommonCategory selectedCatId={selectedCatId} setSelectedCatId={setSelectedCatId} />
         {communityPosts.map((item, index) => (
           <Link key={index} to={`${FRONTEND_URLS.COMMUNITY.POST}/${item.id}`}>
             <CommunityList {...item} />
