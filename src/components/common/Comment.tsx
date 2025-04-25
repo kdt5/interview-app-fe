@@ -46,7 +46,7 @@ function CommentContents({
             <CommonProfileStyle src={user.profileImageUrl} alt={`${user.nickname}의 프로필`} />
             <Username>
               <p>{user.nickname}</p>
-              <Comments>누적 답변{user.answerCount}개</Comments>
+              <Comments>누적 답변 {user.answerCount}개</Comments>
             </Username>
           </UserInfo>
           <OptionButton></OptionButton>
@@ -57,7 +57,7 @@ function CommentContents({
             <img src={LikeSmall} alt="" />
             좋아요 {favoriteCount}
           </span>{" "}
-          <Link to={`${FRONTEND_URLS.COMMUNITY.POST_DETAIL.replace(":postId", String(postId))}/${FRONTEND_URLS.COMMUNITY.REPLIES.replace(":commentId", String(id))}`}>
+          <Link to={`${FRONTEND_URLS.COMMUNITY.POST_DETAIL.replace(":postId", String(postId))}${FRONTEND_URLS.COMMUNITY.REPLIES.replace(":commentId", String(id))}`}>
             <span>
               <img src={ReplySmall} alt="" />
               답글 {countAllReplies(allComments || [], id)}

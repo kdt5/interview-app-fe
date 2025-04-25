@@ -49,7 +49,7 @@ export const routerObjects: RouteObject[] = [
   },
 
   {
-    path: `${FRONTEND_URLS.COMMUNITY.POST_DETAIL}/${FRONTEND_URLS.COMMUNITY.REPLIES}`,
+    path: `${FRONTEND_URLS.COMMUNITY.POST_DETAIL}${FRONTEND_URLS.COMMUNITY.REPLIES}`,
     element: <CommunityReply />,
   },
 
