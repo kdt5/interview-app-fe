@@ -20,6 +20,10 @@ function CommonQuestionList({
   isFavorite,
   toggleFavorite,
 }: Props) {
+  const handleFavoriteClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    toggleFavorite();
+  };
   return (
     <>
       <CommonQuestionListStyle>
@@ -29,7 +33,7 @@ function CommonQuestionList({
             <QuestionTitle>{questiontitle}</QuestionTitle>
           </div>
           <FavoriteIcon
-            onClick={toggleFavorite}
+            onClick={handleFavoriteClick}
             $isFavorite={isFavorite}
           ></FavoriteIcon>
         </Questionheader>
@@ -67,13 +71,17 @@ const QuestionInfo = styled.div`
 const QuestionCategory = styled.p`
   font-size: 12px;
   color: #888;
-  font-weight: 400px;
+  font-weight: 400;
 `;
 
 const QuestionTitle = styled.h3`
   font-size: 14px;
   color: #333;
-  font-weight: 600px;
+  font-weight: 600;
+  width: 270px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const QuestionComplete = styled.div`
@@ -82,15 +90,27 @@ const QuestionComplete = styled.div`
   padding: 5px 15px;
   border-radius: 25px;
   font-size: 12px;
-  font-weight: 400px;
+  font-weight: 400;
 `;
 
 const QuestionLike = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: #888;
+
   span {
     color: #888;
     font-size: 12px;
-    font-weight: 400px;
+    font-weight: 400;
+  }
+
+  span:first-child {
+    margin-right: 5px;
+  }
+
+  span:last-child {
+    margin-left: 5px;
   }
 `;
 

@@ -2,23 +2,17 @@ import styled from "styled-components";
 import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useState } from "react";
+import { useCategory } from "../../../hooks/UseCategory";
 
 interface Props {
   className?: string;
+  onSelectCategory: (categoryId: number | null) => void;
 }
-function CommonCategory({ className }: Props) {
+
+function CommonCategory({ className, onSelectCategory }: Props) {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const categories = [
-    "전체",
-    "HTML",
-    "CSS",
-    "JAVASCRIPT",
-    "REACT",
-    "VUE",
-    "NODE.JS",
-    "FFFF",
-  ];
+  const { categories, getCategoryName } = useCategory();
 
   return (
     <CommonCategoryStyle>
@@ -28,18 +22,37 @@ function CommonCategory({ className }: Props) {
         onSlideChange={() => console.log("slide changed")}
         onSwiper={(swiper) => console.log(swiper)}
       >
-        {categories.map((cat, index) => (
-          <SwiperSlide
-            key={index}
-            className={className}
-            style={{ width: "auto" }}
-            onClick={() => setSelectedIndex(index)}
-          >
-            <CategoryName className={selectedIndex === index ? "active" : ""}>
-              {cat}
-            </CategoryName>
-          </SwiperSlide>
-        ))}
+        <SwiperSlide
+          className={className}
+          style={{ width: "auto" }}
+          onClick={() => {
+            setSelectedIndex(0);
+            onSelectCategory(null);
+          }}
+        >
+          <CategoryName className={selectedIndex === 0 ? "active" : ""}>
+            전체
+          </CategoryName>
+        </SwiperSlide>
+        {categories
+          .filter((cat) => cat.id !== -1)
+          .map((cat, index) => (
+            <SwiperSlide
+              key={cat.id}
+              className={className}
+              style={{ width: "auto" }}
+              onClick={() => {
+                setSelectedIndex(index + 1);
+                onSelectCategory(cat.id);
+              }}
+            >
+              <CategoryName
+                className={selectedIndex === index + 1 ? "active" : ""}
+              >
+                {getCategoryName(cat.id)}
+              </CategoryName>
+            </SwiperSlide>
+          ))}
       </Swiper>
     </CommonCategoryStyle>
   );
@@ -55,7 +68,7 @@ const CategoryName = styled.div`
   color: #ccc;
   font-weight: 300;
   border-radius: 5px;
-  padding: 8px 15px;
+  padding: 5px 15px;
   font-size: 14px;
   width: fit-content;
 

@@ -18,7 +18,8 @@ export async function fetchFavorite(questionId: number) {
   const response = await backendHttpClient
     .get<boolean>(
       replaceUrlParams(BACKEND_URLS.FAVORITES.FAVORITE, {
-        questionId: questionId.toString(),
+        targetType: "question",
+        targetId: questionId.toString(),
       })
     )
     .then((response) => response.data)
@@ -33,7 +34,8 @@ export async function addFavorite(questionId: number) {
   const response = await backendHttpClient
     .post(
       replaceUrlParams(BACKEND_URLS.FAVORITES.FAVORITE, {
-        questionId: questionId.toString(),
+        targetType: "question",
+        targetId: questionId.toString(),
       })
     )
     .then((response) => response.data)
@@ -48,7 +50,8 @@ export async function removeFavorite(questionId: number) {
   const response = await backendHttpClient
     .delete(
       replaceUrlParams(BACKEND_URLS.FAVORITES.FAVORITE, {
-        questionId: questionId.toString(),
+        targetType: "question",
+        targetId: questionId.toString(),
       })
     )
     .then((response) => response.data)

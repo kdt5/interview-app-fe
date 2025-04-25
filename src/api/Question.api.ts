@@ -5,7 +5,7 @@ import { replaceUrlParams } from "../utils/Url";
 import { Position } from "../constants/Question";
 
 export async function fetchQuestions(
-  position: Position,
+  position?: Position,
   categoryId?: number
 ): Promise<Question[]> {
   const response = await backendHttpClient
@@ -38,7 +38,7 @@ export async function fetchQuestion(questionId: number): Promise<Question> {
   return response;
 }
 
-interface WeeklyQuestionResponse {
+export interface WeeklyQuestionResponse {
   questionId: number;
   startDate: string;
   question: Question;
@@ -46,7 +46,7 @@ interface WeeklyQuestionResponse {
 
 export async function fetchWeeklyQuestion(): Promise<WeeklyQuestionResponse> {
   const response = await backendHttpClient
-    .get<WeeklyQuestionResponse>(BACKEND_URLS.QUESTIONS.WEEKLY_TODAY)
+    .get<WeeklyQuestionResponse>(BACKEND_URLS.QUESTIONS.WEEKLY_CURRENT)
     .then((response) => response.data)
     .catch((error) => {
       throw error;

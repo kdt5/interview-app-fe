@@ -16,16 +16,14 @@ const questionsData: Question[] = Array.from({ length: 20 }).map(
     })),
     isAnswered: faker.datatype.boolean(),
     isFavorite: faker.datatype.boolean(),
-    _count: {
-      answers: faker.helpers.rangeToNumber({ min: 0, max: 100 }),
-    },
+    answerCount: faker.helpers.rangeToNumber({ min: 0, max: 100 }),
   })
 );
 
 const questionData = questionsData[0];
 
 export const weeklyQuestion = http.get(
-  `${import.meta.env.VITE_BACKEND_BASE_URL}${BACKEND_URLS.QUESTIONS.WEEKLY_TODAY}`,
+  `${import.meta.env.VITE_BACKEND_BASE_URL}${BACKEND_URLS.QUESTIONS.WEEKLY_CURRENT}`,
   () => {
     return HttpResponse.json(questionData, { status: 200 });
   }
