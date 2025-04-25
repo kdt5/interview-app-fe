@@ -140,6 +140,30 @@ export async function fetchPostComments(
   return response;
 }
 
+export async function createPostComment(
+  targetId: number,
+  categoryName: string,
+  content: string,
+  parentId?: number
+): Promise<boolean> {
+  const response = await backendHttpClient
+    .post(`${BACKEND_URLS.COMMENTS}/${targetId}`, 
+      { content },
+      {
+        params: { 
+          categoryName,
+          ...(parentId !== undefined && { parentId })
+         },
+      }
+    )
+    .then((response) => response.status === HttpStatusCode.Created)
+    .catch((error) => {
+      throw error;
+    });
+
+  return response;
+}
+
 export async function fetchPostCategories(
 ): Promise<PostCategory[]> {
   const response = await backendHttpClient

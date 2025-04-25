@@ -90,18 +90,29 @@ export function usePostMutation() {
 
 export function useCommunityPostComments(targetId: number, categoryName: string) {
   const [communityPostComments, setCommunityPostComments] = useState<Comment[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchComments = async () => {
+    setLoading(true);
+    try {
+      const result = await fetchPostComments(targetId, categoryName);
+      setCommunityPostComments(result);
+    } catch (err) {
+      console.error("댓글 불러오기 실패", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    try {
-      fetchPostComments(targetId, categoryName).then((comment) => {
-        setCommunityPostComments(comment);
-      });
-    } catch (error) {
-      console.error(error);
-    }
+    fetchComments();
   }, [targetId, categoryName]);
 
-  return { communityPostComments };
+  return {
+    communityPostComments,
+    loading,
+    refetchComments: fetchComments,
+  };
 }
 
 export function usePostCategories(){
