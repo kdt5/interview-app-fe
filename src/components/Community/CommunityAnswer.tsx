@@ -2,8 +2,13 @@ import styled from "styled-components";
 import CommonProfile from "../../components/common/Profile/CommonProfile";
 import ViewerImg from "../../assets/Viewer.png";
 import { POST_CATEGORIES } from "../../constants/PostCategory";
+import LikeImg from "../../assets/Like.png";
+import OptionImg from "../../assets/Option.png";
+import CommunityModal from "../../components/common/Community/CommunityModal";
+import { useState } from "react";
 
 interface Props {
+  id: number;
   title: string;
   content: string;
   postCategoryId: number;
@@ -19,6 +24,7 @@ interface Props {
 }
 
 function CommunityAnswer({
+  id,
   title,
   content,
   postCategoryId,
@@ -30,10 +36,22 @@ function CommunityAnswer({
     (category) => category.id === postCategoryId
   )?.name;
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOptionClick = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
   return (
     <>
       <AnswerDetail>
-        <AnswerCategory>{postCategoryName || "기타"}</AnswerCategory>
+        <AnswerInfo>
+          <AnswerCategory>{postCategoryName || "기타"}</AnswerCategory>
+          <span>
+            <img src={LikeImg} alt="Like Icon" />
+            <img src={OptionImg} alt="Option Icon" onClick={handleOptionClick}/>
+          </span>
+        </AnswerInfo>
         <QuestionTitle>{title}</QuestionTitle>
         <AnswerContents>{content}</AnswerContents>
         <QuestionLike>
@@ -48,12 +66,26 @@ function CommunityAnswer({
       <AnswerDetailProfile>
         {user && <CommonProfile key={user.id} {...user} />}
       </AnswerDetailProfile>
+      {isModalOpen && <CommunityModal onClose={handleOptionClick} postId={id} title={title} content={content} postCategoryId={postCategoryId}/>}
     </>
   );
 }
 
 const AnswerDetail = styled.div`
   margin-bottom: 15px;
+`;
+
+const AnswerInfo = styled.div`
+  margin-top: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  span {
+    img {
+      display: inline-block;
+      margin-right: 12px;
+    }
+  }
 `;
 
 const AnswerCategory = styled.div`
