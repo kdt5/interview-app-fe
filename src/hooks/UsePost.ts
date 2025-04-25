@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { CommunityPost, PostCategory } from "../models/CommunityPost.model";
-import { fetchPostCategories, fetchPostComments, fetchPostDetail, fetchPosts } from "../api/Post.api";
+import { createPost, editPost, fetchPostCategories, fetchPostComments, fetchPostDetail, fetchPosts } from "../api/Post.api";
 import { Comment } from "../models/Comment.model";
 
 export function useCommunityPosts() {
@@ -33,6 +33,59 @@ export function useCommunityPostDetail(postId: number) {
   }, [postId]);
 
   return { communityPostDetail };
+}
+
+export function usePostMutation() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+
+  const submitNewPost = async (
+    title: string,
+    content: string,
+    categoryId: number
+  ) => {
+    setIsLoading(true);
+    setError(null);
+    setIsSuccess(false);
+
+    try {
+      const success = await createPost(title, content, categoryId);
+      setIsSuccess(success);
+    } catch (err) {
+      setError(err as Error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const updateExistingPost = async (
+    postId: number,
+    title: string,
+    content: string,
+    categoryId: number,
+  ) => {
+    setIsLoading(true);
+    setError(null);
+    setIsSuccess(false);
+
+    try {
+      const success = await editPost(postId, title, content, categoryId);
+      setIsSuccess(success);
+    } catch (err) {
+      setError(err as Error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return {
+    isLoading,
+    isSuccess,
+    error,
+    submitNewPost,
+    updateExistingPost,
+  };
 }
 
 export function useCommunityPostComments(targetId: number, categoryName: string) {
