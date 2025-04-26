@@ -114,7 +114,9 @@ function QuestionBox({ isWeekly = true }: Props) {
           onClick={() => navigate(`/questions/${item.id}/answer`)}
         >
           <CommonQuestionList
-            category={getCategoryName(item.categories[0]?.id ?? 0) || "기타"}
+            category={
+              getCategoryName(item.categories[0]?.category?.id ?? 0) || "기타"
+            }
             questiontitle={item.title}
             complete={item.isAnswered ? "작성 완료" : "답변 미작성"}
             comments={item.answerCount ?? 0}
