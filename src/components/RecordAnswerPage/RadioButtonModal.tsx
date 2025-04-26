@@ -1,13 +1,15 @@
 import styled from "styled-components";
 
+type VisibilityOption = "공개" | "비공개";
+
 interface Props {
-  visibility: "공개" | "비공개" | null;
+  visibility: VisibilityOption | null;
   onClose?: () => void;
-  onChange?: (value: "공개" | "비공개") => void;
+  onChange?: (value: VisibilityOption) => void;
 }
 
 function RadioButtonModal({ visibility, onClose, onChange }: Props) {
-  const handleOptionChange = (value: "공개" | "비공개") => {
+  const handleOptionChange = (value: VisibilityOption) => {
     onChange?.(value);
   };
 
