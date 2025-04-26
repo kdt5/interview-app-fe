@@ -72,7 +72,7 @@ function InterviewTab() {
             <WeeklyQuestionCard
               category={
                 getCategoryName(
-                  weeklyQuestion.question.categories[0]?.id ?? 0
+                  weeklyQuestion.question.categories[0]?.category.id ?? 0
                 ) || "기타"
               }
               title={weeklyQuestion.question.title}
@@ -91,7 +91,7 @@ function InterviewTab() {
         {questionList.map((item) => (
           <div key={item.id} onClick={() => navigate("/questiondetail")}>
             <CommonQuestionList
-              category={getCategoryName(item.categories[0]?.id ?? 0)}
+              category={getCategoryName(item.categories[0]?.category.id ?? 0)}
               questiontitle={item.title}
               complete={item.isAnswered ? "작성 완료" : "답변 미작성"}
               comments={item.answerCount ?? 0}
