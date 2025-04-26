@@ -4,6 +4,8 @@ import { useAnswer } from "../hooks/UseAnswer";
 import QuestionContainer from "../components/AnswerPage/QuestionContainer";
 import AnswerForm from "../components/AnswerPage/AnswerForm";
 import { SlArrowRight } from "react-icons/sl";
+import { useState } from "react";
+import RadioButtonModal from "../components/RecordAnswerPage/RadioButtonModal";
 
 export type ModalType = "confirm" | "alert";
 
@@ -16,10 +18,14 @@ function RecordAnswerPage() {
   if (questionId === undefined) {
     console.error("questionId 또는 answerId 가 유효하지 않습니다.");
     navigate(-1);
+    return null;
   }
 
   const parsedQuestionId = parseInt(questionId as string);
   const { question, answer, setAnswer } = useAnswer(parsedQuestionId);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [visibility, setVisibility] = useState<"공개" | "비공개" | null>(null);
 
   const handleAnswerChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const answerCount = e.target.value;
@@ -34,8 +40,8 @@ function RecordAnswerPage() {
   return (
     <RecordAnswerPageStyle>
       <QuestionContainer title={question?.title || "질문이 없습니다."} />
-      <ToggleVisibilityButton>
-        <Label>답변 공개 설정</Label>
+      <ToggleVisibilityButton onClick={() => setIsModalOpen(true)}>
+        <Label>답변 공개 설정{visibility ? `: ${visibility}` : ""}</Label>
         <SlArrowRight />
       </ToggleVisibilityButton>
       <AnswerForm
@@ -43,6 +49,15 @@ function RecordAnswerPage() {
         handleAnswerChange={handleAnswerChange}
         isOverLimit={isOverLimit}
       />
+      {isModalOpen && (
+        <RadioButtonModal
+          visibility={visibility}
+          onClose={() => setIsModalOpen(false)}
+          onChange={(value) => {
+            setVisibility(value);
+          }}
+        />
+      )}
     </RecordAnswerPageStyle>
   );
 }
