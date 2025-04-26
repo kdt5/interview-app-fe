@@ -3,29 +3,34 @@ import styled from "styled-components";
 
 export default Tabs;
 
-interface Props {
-  titles: string[];
-  onClickTab: (title: string) => void;
-  currentTab: string;
-  counts?: number[];
+interface TabItem {
+  title: string;
+  count?: number;
 }
 
-function Tabs({ titles, onClickTab, currentTab, counts }: Props): JSX.Element {
+interface Props {
+  tabs: TabItem[];
+  onClickTab: (title: string) => void;
+  currentTab: string;
+}
+
+function Tabs({ tabs, onClickTab, currentTab }: Props): JSX.Element {
   return (
     <TabsStyle className="tabs">
-      {titles.map((title, idx) => {
-        const active = title === currentTab ? "active" : "";
-        const count = counts?.[idx] ?? null;
+      {tabs.map((tab) => {
+        const active = tab.title === currentTab ? "active" : "";
 
         return (
           <div
-            key={title}
+            key={tab.title}
             className={`tab ${active}`}
-            onClick={() => onClickTab(title)}
+            onClick={() => onClickTab(tab.title)}
           >
             <p>
-              {title}
-              {count !== null && <span className="count"> {count}</span>}
+              {tab.title}
+              {tab.count !== null && (
+                <span className="count"> {tab.count}</span>
+              )}
             </p>
           </div>
         );

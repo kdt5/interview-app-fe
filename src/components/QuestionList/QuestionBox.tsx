@@ -55,8 +55,8 @@ function QuestionBox({ isWeekly = true }: Props) {
           );
           setQuestionList(data);
         }
-      } catch (e) {
-        console.error("질문 불러오기 실패", e);
+      } catch (error) {
+        console.error("질문 불러오기 실패", error);
       }
     };
 
