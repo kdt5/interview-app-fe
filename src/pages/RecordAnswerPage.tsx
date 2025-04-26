@@ -15,17 +15,17 @@ function RecordAnswerPage() {
     questionId: string;
   }>();
 
-  if (questionId === undefined) {
-    console.error("questionId 또는 answerId 가 유효하지 않습니다.");
-    navigate(-1);
-    return null;
-  }
-
   const parsedQuestionId = parseInt(questionId as string);
   const { question, answer, setAnswer } = useAnswer(parsedQuestionId);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [visibility, setVisibility] = useState<"공개" | "비공개" | null>(null);
+
+  if (questionId === undefined) {
+    console.error("questionId 또는 answerId 가 유효하지 않습니다.");
+    navigate(-1);
+    return null;
+  }
 
   const handleAnswerChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const answerCount = e.target.value;
