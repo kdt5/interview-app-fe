@@ -15,8 +15,10 @@ function QuestionListPage(): JSX.Element {
   const [weeklyCount, setWeeklyCount] = useState<number>(0);
   const [requiredCount, setRequiredCount] = useState<number>(0);
 
-  const titles: string[] = ["위클리", "필수 면접"];
-  const counts = [weeklyCount, requiredCount];
+  const tabs = [
+    { title: "위클리", count: weeklyCount },
+    { title: "필수 면접", count: requiredCount },
+  ];
 
   const handleClickTab = (title: string) => {
     setCurrentTab(title);
@@ -49,10 +51,9 @@ function QuestionListPage(): JSX.Element {
   return (
     <>
       <Tabs
-        titles={titles}
+        tabs={tabs}
         onClickTab={handleClickTab}
         currentTab={currentTab}
-        counts={counts}
       ></Tabs>
       <QuestionListPageStyle $isWeekly={isWeekly}>
         <QuestionBox isWeekly={isWeekly} />
