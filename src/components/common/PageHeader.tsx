@@ -67,7 +67,7 @@ const getPageTitle = (pathname: string) => {
   const matchAnswerEdit = matchPath(FRONTEND_URLS.ANSWER_EDIT, pathname);
 
   if (matchAnswer) {
-    return "질문 답변하기";
+    return "답변 작성";
   }
 
   if (matchAnswerEdit) {

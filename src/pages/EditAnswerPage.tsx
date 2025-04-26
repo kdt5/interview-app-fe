@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { AnswerPageStyle, ModalType } from "./AnswerPage";
+import { RecordAnswerPageStyle, ModalType } from "./RecordAnswerPage";
 import ConfirmModal from "../components/common/ConfirmModal";
 import AlertModal from "../components/common/AlertModal";
 import { deleteAnswer, editAnswer } from "../api/Answer.api";
@@ -174,7 +174,7 @@ function EditAnswerPage() {
   );
 }
 
-const EditAnswerPageStyle = styled(AnswerPageStyle)<{
+const EditAnswerPageStyle = styled(RecordAnswerPageStyle)<{
   $isSubmitDisabled: boolean;
 }>`
   .buttons {

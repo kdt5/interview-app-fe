@@ -1,4 +1,12 @@
 import styled from "styled-components";
+import ConfirmModal from "../common/ConfirmModal";
+import AlertModal from "../common/AlertModal";
+import { useState } from "react";
+import { ModalType } from "../../pages/RecordAnswerPage";
+import { useAnswer } from "../../hooks/UseAnswer";
+import { useNavigate, useParams } from "react-router-dom";
+import { recordAnswer } from "../../api/Answer.api";
+import GrayButton from "../common/Button/GrayButton";
 
 interface Props {
   answer: string;
@@ -7,37 +15,104 @@ interface Props {
 }
 
 function AnswerForm({ answer, handleAnswerChange, isOverLimit }: Props) {
+  const navigate = useNavigate();
+
+  const [isModalsVisible, setIsModalsVisible] = useState({
+    confirm: false,
+    alert: false,
+  });
+
+  const { questionId } = useParams<{
+    questionId: string;
+  }>();
+
+  const parsedQuestionId = parseInt(questionId as string);
+  const { question } = useAnswer(parsedQuestionId);
+
+  const toggleModal = (type: ModalType, state: boolean) => {
+    setIsModalsVisible((prev) => ({
+      ...prev,
+      [type]: state,
+    }));
+  };
+
+  const handleSubmit = () => {
+    toggleModal("confirm", true);
+  };
+
+  const handleConfirmSubmit = async () => {
+    if (typeof question?.id === "undefined") {
+      console.error("question 가 유효하지 않습니다.");
+      return;
+    }
+
+    try {
+      await recordAnswer(answer, question.id);
+      toggleModal("confirm", false);
+      toggleModal("alert", true);
+    } catch (error) {
+      console.log("제출에 실패하였습니다.", error);
+    }
+  };
+
+  const isSubmitDisabled = answer.trim() === "" || answer.length < 0;
+
   return (
-    <AnswerFormStyle>
+    <AnswerFormStyle $isSubmitDisabled={isSubmitDisabled}>
       <textarea
-        placeholder="답변을 작성해주세요."
+        placeholder="질문에 답변해주세요."
         className="answer-text"
         value={answer}
         onChange={handleAnswerChange}
       ></textarea>
-      <p className={`character-count ${isOverLimit ? "over-limit" : ""}`}>
-        {answer.length}/500
-      </p>
+      <div className="bottom-container">
+        <p className={`character-count ${isOverLimit ? "over-limit" : ""}`}>
+          {answer.length} / 500
+        </p>
+        <GrayButton
+          className="submit-button"
+          type="button"
+          onClick={handleSubmit}
+          disabled={isSubmitDisabled}
+        >
+          완료
+        </GrayButton>
+        {isModalsVisible.confirm && (
+          <ConfirmModal
+            onClose={() => toggleModal("confirm", false)}
+            onConfirm={handleConfirmSubmit}
+            message="답변을 제출하시겠습니까?"
+          />
+        )}
+        {isModalsVisible.alert && (
+          <AlertModal
+            onClose={() => {
+              toggleModal("alert", false);
+              navigate(-1);
+            }}
+            message="제출되었습니다."
+          />
+        )}
+      </div>
     </AnswerFormStyle>
   );
 }
 
-const AnswerFormStyle = styled.form`
-  border: 1px solid #eff2f8;
-  border-radius: 10px;
-  width: 100%;
-  height: 315px;
-  margin: 10px 0;
-
+const AnswerFormStyle = styled.form<{ $isSubmitDisabled: boolean }>`
   .answer-text {
     -ms-overflow-style: none;
     width: 100%;
-    height: 100%;
-    padding: 15px;
-    border-radius: 10px;
+    height: 320px;
+    padding: 20px 30px;
+    border-radius: 0;
     border: none;
     background: none;
     resize: none;
+    font-size: 14px;
+    font-weight: 400;
+    color: #888888;
+    box-sizing: border-box;
+    border-bottom: 1px solid #f5f5f5;
   }
 
   .answer-text:focus {
@@ -49,32 +124,32 @@ const AnswerFormStyle = styled.form`
   }
 
   .character-count {
-    font-size: 14px;
-    color: #888;
-    text-align: right;
+    font-size: 16px;
+    color: #333333;
+    text-align: left;
   }
 
   .character-count.over-limit {
     color: red;
-    animation: shake 0.5s ease-in-out;
   }
 
-  @keyframes shake {
-    0% {
-      transform: translateX(0);
-    }
-    25% {
-      transform: translateX(-3px);
-    }
-    50% {
-      transform: translateX(3px);
-    }
-    75% {
-      transform: translateX(-3px);
-    }
-    100% {
-      transform: translateX(0);
-    }
+  .bottom-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 30px auto;
+    padding: 0 30px;
+  }
+
+  .submit-button {
+    width: 105px;
+    height: 60px;
+    font-size: 16px;
+    color: ${(props) => (props.$isSubmitDisabled ? "#aaaaaa" : "#ffffff")};
+    border-radius: 5px;
+    opacity: ${(props) => (props.$isSubmitDisabled ? 0.5 : 1)};
+    cursor: ${(props) => (props.$isSubmitDisabled ? "not-allowed" : "pointer")};
+    background: ${(props) => (props.$isSubmitDisabled ? "#fbfbfb" : "#6ea1ff")};
   }
 `;
 

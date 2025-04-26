@@ -1,79 +1,39 @@
 import styled from "styled-components";
-import { FaStar } from "react-icons/fa6";
 
 interface Props {
-  questionId: string;
   title: string;
-  category: string;
-  isFavorite: boolean;
-  toggleFavorite: () => void;
 }
 
-function QuestionContainer({
-  questionId,
-  title,
-  category,
-  isFavorite,
-  toggleFavorite,
-}: Props) {
+function QuestionContainer({ title }: Props) {
   return (
     <QuestionContainerStyle>
-      <div className="question-numbering">
-        <p className="numbering-title">
-          {String(questionId).padStart(2, "0")} |
-        </p>
-        <FavoriteIcon onClick={toggleFavorite} $isFavorite={isFavorite} />
-      </div>
+      <p className="date-box">25년 3월 4주차 질문</p>
       <h2 className="question-title">{title}</h2>
-      <span className="category-name">{category}</span>
     </QuestionContainerStyle>
   );
 }
 
-export const FavoriteIcon = styled(FaStar)<{ $isFavorite: boolean }>`
-  fill: ${({ $isFavorite: isFavorite }) =>
-    isFavorite ? "#FFD600" : "#DFDFDF"};
-  cursor: pointer;
-  font-size: 24px;
-`;
-
 const QuestionContainerStyle = styled.div`
-  padding: 15px;
-  box-sizing: border-box;
-  width: 330px;
-  height: fit-content;
-  border: 1px solid #eff2f8;
-  border-radius: 10px;
-  background: #fbfbfb;
+  margin: 0 auto;
+  text-align: center;
 
-  .question-numbering {
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-
-    .numbering-title {
-      color: #888888;
-    }
-
-    .question-title {
-      font-weight: 600;
-    }
-
-    svg {
-      font-size: 24px;
-      cursor: pointer;
-    }
+  .date-box {
+    margin: 20px 0;
+    font-weight: 500;
+    color: #888888;
+    font-size: 12px;
+    border: 1px solid #e4e4e4;
+    border-radius: 10px;
+    padding: 12px 32px;
+    display: inline-block;
   }
 
-  .category-name {
-    margin-top: 40px;
-    background-color: #bbd3ff;
-    color: #fff;
-    font-size: 12px;
-    font-weight: 300;
-    border-radius: 15px;
-    display: inline-block;
-    padding: 3px 10px;
+  .question-title {
+    font-size: 16px;
+    font-weight: 500;
+    width: 250px;
+    margin: 10px auto 45px auto;
+    word-break: keep-all;
   }
 `;
 
