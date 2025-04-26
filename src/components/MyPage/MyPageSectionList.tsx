@@ -3,18 +3,18 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 interface Props {
-  iconsrc: string;
+  iconSource: string;
   menu: string;
   to?: string;
 }
 
-function MyPageSectionList({ iconsrc, menu, to }: Props) {
+function MyPageSectionList({ iconSource, menu, to }: Props) {
   return (
     <>
-      <MyPageSectionListStyle to={to!}>
+      <MyPageSectionListStyle to={to || "/"}>
         <LeftSection>
-          <IconImage src={iconsrc} alt={`${menu} 아이콘`} />
-          <MyPageMenu>{menu}</MyPageMenu>
+          <IconImage src={iconSource} alt={`${menu} 아이콘`} />
+          <MyPageSectionMenu>{menu}</MyPageSectionMenu>
         </LeftSection>
         <RightArrow />
       </MyPageSectionListStyle>
@@ -41,7 +41,7 @@ const IconImage = styled.img`
   margin-right: 10px;
 `;
 
-const MyPageMenu = styled.span`
+const MyPageSectionMenu = styled.span`
   font-size: 16px;
   font-weight: 400;
   color: #333;

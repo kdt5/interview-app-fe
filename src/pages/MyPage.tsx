@@ -58,7 +58,7 @@ const MyInfo = styled(MyPageSectionStyle)`
 `;
 
 const MyInfoBox = styled.div`
-  width: 30%;
+  width: calc(100% / 3);
   border-right: solid 1px #f8f8f8;
   text-align: center;
 
