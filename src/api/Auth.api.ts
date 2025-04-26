@@ -3,6 +3,7 @@ import { BACKEND_URLS } from "../constants/Urls";
 import { LoginInputs } from "../pages/LoginPage";
 import { SignUpInputs } from "../pages/SignUpPage";
 import { backendHttpClient } from "./BackendHttpClient.api";
+import { UserBasicInfo } from "../models/User.model";
 
 export async function signUp(userData: SignUpInputs): Promise<boolean> {
   const response = await backendHttpClient
@@ -15,10 +16,10 @@ export async function signUp(userData: SignUpInputs): Promise<boolean> {
   return response;
 }
 
-export async function login(userData: LoginInputs): Promise<boolean> {
+export async function login(userData: LoginInputs): Promise<UserBasicInfo> {
   const response = await backendHttpClient
-    .post(BACKEND_URLS.AUTH.LOGIN, userData)
-    .then((response) => response.status === HttpStatusCode.Ok)
+    .post<UserBasicInfo>(BACKEND_URLS.AUTH.LOGIN, userData)
+    .then((response) => response.data)
     .catch((error) => {
       throw error;
     });
