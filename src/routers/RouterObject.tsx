@@ -1,7 +1,7 @@
 import { RouteObject } from "react-router-dom";
 import Layout from "../components/layout/Layout";
 import MainPage from "../pages/MainPage";
-import AnswerPage from "../pages/AnswerPage";
+import RecordAnswerPage from "../pages/RecordAnswerPage";
 import LoginPage from "../pages/LoginPage";
 import SignUpPage from "../pages/SignUpPage";
 import QuestionListPage from "../pages/QuestionListPage";
@@ -103,7 +103,7 @@ export const routerObjects: RouteObject[] = [
   },
   {
     path: FRONTEND_URLS.ANSWER,
-    element: <AnswerPage />,
+    element: <RecordAnswerPage />,
   },
   {
     path: FRONTEND_URLS.ANSWER_EDIT,

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { FavoriteIcon } from "../../AnswerPage/QuestionContainer";
+import { FaStar } from "react-icons/fa6";
 
 interface Props {
   category: string;
@@ -63,6 +63,13 @@ const Questionheader = styled.div`
   align-items: center;
   width: 100%;
   justify-content: space-between;
+`;
+
+export const FavoriteIcon = styled(FaStar)<{ $isFavorite: boolean }>`
+  fill: ${({ $isFavorite: isFavorite }) =>
+    isFavorite ? "#FFD600" : "#DFDFDF"};
+  cursor: pointer;
+  font-size: 24px;
 `;
 
 const QuestionInfo = styled.div`

@@ -5,7 +5,7 @@ import { FRONTEND_URLS } from "../constants/Urls";
 import { useState } from "react";
 import ConfirmModal from "../components/common/ConfirmModal";
 import AlertModal from "../components/common/AlertModal";
-import { ModalType } from "./AnswerPage";
+import { ModalType } from "./RecordAnswerPage";
 import MyPageSection from "../components/MyPage/MyPageSection";
 import { MyPageSectionStyle } from "../components/MyPage/MyPageSectionStyle";
 import { FaChevronRight } from "react-icons/fa";

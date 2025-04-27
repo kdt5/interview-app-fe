@@ -1,15 +1,13 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { AnswerPageStyle, ModalType } from "./AnswerPage";
+import { RecordAnswerPageStyle, ModalType } from "./RecordAnswerPage";
 import ConfirmModal from "../components/common/ConfirmModal";
 import AlertModal from "../components/common/AlertModal";
 import { deleteAnswer, editAnswer } from "../api/Answer.api";
-import { addFavorite, removeFavorite } from "../api/Favorite.api";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAnswer } from "../hooks/UseAnswer";
 import QuestionContainer from "../components/AnswerPage/QuestionContainer";
 import AnswerForm from "../components/AnswerPage/AnswerForm";
-import { useCategory } from "../hooks/UseCategory";
 
 function EditAnswerPage() {
   const navigate = useNavigate();
@@ -25,12 +23,10 @@ function EditAnswerPage() {
 
   const parsedQuestionId = parseInt(questionId as string);
   const parsedAnswerId = parseInt(answerId as string);
-  const {
-    question,
-    answer: previousAnswer,
-    isFavorite,
-    setIsFavorite,
-  } = useAnswer(parsedQuestionId, parsedAnswerId);
+  const { question, answer: previousAnswer } = useAnswer(
+    parsedQuestionId,
+    parsedAnswerId
+  );
   const [currentAnswer, setCurrentAnswer] = useState(previousAnswer);
   const [confirmMessage, setConfirmMessage] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
@@ -38,8 +34,6 @@ function EditAnswerPage() {
     confirm: false,
     alert: false,
   });
-
-  const { getCategoryName } = useCategory();
 
   useEffect(() => {
     setCurrentAnswer(previousAnswer);
@@ -103,35 +97,9 @@ function EditAnswerPage() {
     }));
   };
 
-  const toggleFavorite = async () => {
-    if (question === undefined) return;
-
-    setIsFavorite(!isFavorite);
-
-    try {
-      if (isFavorite) {
-        removeFavorite(question?.id);
-      } else {
-        addFavorite(question?.id);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const category = question?.categories[0]
-    ? getCategoryName(question?.categories[0]?.category.id)
-    : "카테고리가 없습니다.";
-
   return (
     <EditAnswerPageStyle $isSubmitDisabled={isSubmitDisabled}>
-      <QuestionContainer
-        questionId={String(question?.id)}
-        title={question?.title || "질문이 없습니다."}
-        category={category}
-        isFavorite={isFavorite}
-        toggleFavorite={toggleFavorite}
-      />
+      <QuestionContainer title={question?.title || "질문이 없습니다."} />
       <AnswerForm
         answer={currentAnswer}
         handleAnswerChange={handleAnswerChange}
@@ -174,9 +142,7 @@ function EditAnswerPage() {
   );
 }
 
-const EditAnswerPageStyle = styled(AnswerPageStyle)<{
-  $isSubmitDisabled: boolean;
-}>`
+const EditAnswerPageStyle = styled(RecordAnswerPageStyle)<{$isSubmitDisabled: boolean;}>`
   .buttons {
     display: flex;
     justify-content: start;

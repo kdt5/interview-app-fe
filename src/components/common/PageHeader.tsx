@@ -66,7 +66,7 @@ const getPageTitle = (pathname: string) => {
   if (matchInterview) return "면접 질문";
 
   if (matchAnswer) {
-    return "질문 답변하기";
+    return "답변 작성";
   }
 
   if (matchAnswerEdit) {
