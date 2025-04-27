@@ -8,14 +8,16 @@ export default Community;
 
 function Community() {
   const [currentTab, setCurrentTab] = useState("면접토론");
-  const titles: string[] = ["면접토론", "게시글"];
+
+  const tabs = [{ title: "면접토론" }, { title: "게시글" }];
+
   const handleClickTab = (title: string) => {
     setCurrentTab(title);
   };
   return (
     <>
       <Tabs
-        titles={titles}
+        tabs={tabs}
         onClickTab={handleClickTab}
         currentTab={currentTab}
       ></Tabs>

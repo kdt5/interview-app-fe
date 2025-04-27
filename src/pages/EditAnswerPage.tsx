@@ -142,9 +142,7 @@ function EditAnswerPage() {
   );
 }
 
-const EditAnswerPageStyle = styled(RecordAnswerPageStyle)<{
-  $isSubmitDisabled: boolean;
-}>`
+const EditAnswerPageStyle = styled(RecordAnswerPageStyle)<{$isSubmitDisabled: boolean;}>`
   .buttons {
     display: flex;
     justify-content: start;

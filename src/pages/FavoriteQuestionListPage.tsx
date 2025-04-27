@@ -1,36 +1,25 @@
 import styled from "styled-components";
 import Tabs from "../components/common/Tabs";
 import { useState } from "react";
-import Questions from "../components/QuestionList/Questions";
-import { useCategory } from "../hooks/UseCategory";
-import { useFavoriteQuestions } from "../hooks/UseFavorite";
+import QuestionBox from "../components/QuestionList/QuestionBox";
 
 export default FavoriteQuestionListPage;
 
 function FavoriteQuestionListPage() {
-  const { getCategoryName } = useCategory();
-  const { favoriteQuestions } = useFavoriteQuestions();
   const [currentTab, setCurrentTab] = useState("위클리");
 
-  const titles: string[] = ["위클리", "기본"];
+  const tabs = [{ title: "위클리" }, { title: "기본" }];
 
   const handleClickTab = (title: string) => {
     setCurrentTab(title);
   };
 
+  const isWeekly = currentTab === "위클리";
+
   return (
     <FavoriteQuestionListStyle>
-      <Tabs
-        titles={titles}
-        onClickTab={handleClickTab}
-        currentTab={currentTab}
-      />
-      <Questions
-        className="questions"
-        questions={favoriteQuestions}
-        questionsType="Answered"
-        getCategoryName={getCategoryName}
-      />
+      <Tabs tabs={tabs} onClickTab={handleClickTab} currentTab={currentTab} />
+      <QuestionBox isWeekly={isWeekly} />
     </FavoriteQuestionListStyle>
   );
 }
