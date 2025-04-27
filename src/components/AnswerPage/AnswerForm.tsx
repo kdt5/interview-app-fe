@@ -12,9 +12,15 @@ interface Props {
   answer: string;
   handleAnswerChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   isOverLimit: boolean;
+  isPublic?: boolean | null;
 }
 
-function AnswerForm({ answer, handleAnswerChange, isOverLimit }: Props) {
+function AnswerForm({
+  answer,
+  handleAnswerChange,
+  isOverLimit,
+  isPublic,
+}: Props) {
   const navigate = useNavigate();
 
   const [isModalsVisible, setIsModalsVisible] = useState({
@@ -55,7 +61,8 @@ function AnswerForm({ answer, handleAnswerChange, isOverLimit }: Props) {
     }
   };
 
-  const isSubmitDisabled = answer.trim() === "" || answer.length < 0;
+  const isSubmitDisabled =
+    answer.trim() === "" || answer.length < 0 || isPublic === null;
 
   return (
     <AnswerFormStyle $isSubmitDisabled={isSubmitDisabled}>

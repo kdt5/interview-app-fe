@@ -20,6 +20,7 @@ function RadioButtonModal({ visibility, onClose, onChange }: Props) {
           <div className="radio-group">
             <label className="radio-label">
               <input
+                name="visibility"
                 type="radio"
                 value="공개"
                 checked={visibility === "공개"}
@@ -29,6 +30,7 @@ function RadioButtonModal({ visibility, onClose, onChange }: Props) {
             </label>
             <label className="radio-label">
               <input
+                name="visibility"
                 type="radio"
                 value="비공개"
                 checked={visibility === "비공개"}

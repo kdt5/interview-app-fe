@@ -19,7 +19,7 @@ function RecordAnswerPage() {
   const { question, answer, setAnswer } = useAnswer(parsedQuestionId);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [visibility, setVisibility] = useState<"공개" | "비공개" | null>(null);
+  const [isPublic, setIsPublic] = useState<boolean | null>(null);
 
   if (questionId === undefined) {
     console.error("questionId 또는 answerId 가 유효하지 않습니다.");
@@ -41,20 +41,24 @@ function RecordAnswerPage() {
     <RecordAnswerPageStyle>
       <QuestionContainer title={question?.title || "질문이 없습니다."} />
       <ToggleVisibilityButton onClick={() => setIsModalOpen(true)}>
-        <Label>답변 공개 설정{visibility ? `: ${visibility}` : ""}</Label>
+        <Label>
+          답변 공개 설정
+          {isPublic !== null && `: ${isPublic ? "공개" : "비공개"}`}
+        </Label>
         <SlArrowRight />
       </ToggleVisibilityButton>
       <AnswerForm
         answer={answer}
         handleAnswerChange={handleAnswerChange}
         isOverLimit={isOverLimit}
+        isPublic={isPublic}
       />
       {isModalOpen && (
         <RadioButtonModal
-          visibility={visibility}
+          visibility={isPublic === null ? null : isPublic ? "공개" : "비공개"}
           onClose={() => setIsModalOpen(false)}
           onChange={(value) => {
-            setVisibility(value);
+            setIsPublic(value === "공개");
           }}
         />
       )}
