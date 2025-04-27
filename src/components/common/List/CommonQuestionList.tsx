@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { FavoriteIcon } from "../../AnswerPage/QuestionContainer";
+import { FaStar } from "react-icons/fa6";
 
 interface Props {
   category: string;
@@ -24,6 +24,9 @@ function CommonQuestionList({
     e.stopPropagation();
     toggleFavorite();
   };
+
+  const isComplete = complete === "작성 완료";
+
   return (
     <>
       <CommonQuestionListStyle>
@@ -38,7 +41,9 @@ function CommonQuestionList({
           ></FavoriteIcon>
         </Questionheader>
         <QuestionInfo>
-          <QuestionComplete>{complete}</QuestionComplete>
+          <QuestionComplete $isComplete={isComplete}>
+            {complete}
+          </QuestionComplete>
           <QuestionLike>
             <span>답변 수 {comments}</span> | <span>좋아요 {likes}</span>
           </QuestionLike>
@@ -58,6 +63,13 @@ const Questionheader = styled.div`
   align-items: center;
   width: 100%;
   justify-content: space-between;
+`;
+
+export const FavoriteIcon = styled(FaStar)<{ $isFavorite: boolean }>`
+  fill: ${({ $isFavorite: isFavorite }) =>
+    isFavorite ? "#FFD600" : "#DFDFDF"};
+  cursor: pointer;
+  font-size: 24px;
 `;
 
 const QuestionInfo = styled.div`
@@ -84,9 +96,10 @@ const QuestionTitle = styled.h3`
   text-overflow: ellipsis;
 `;
 
-const QuestionComplete = styled.div`
-  color: #fff;
-  background-color: #6ea1ff;
+const QuestionComplete = styled.div<{ $isComplete?: boolean }>`
+  color: ${({ $isComplete }) => ($isComplete ? "#fff" : "#ccc")};
+  background-color: ${({ $isComplete }) =>
+    $isComplete ? "#6ea1ff" : "#f5f5f5"};
   padding: 5px 15px;
   border-radius: 25px;
   font-size: 12px;

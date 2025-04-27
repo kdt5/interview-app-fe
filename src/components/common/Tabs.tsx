@@ -3,25 +3,35 @@ import styled from "styled-components";
 
 export default Tabs;
 
+interface TabItem {
+  title: string;
+  count?: number;
+}
+
 interface Props {
-  titles: string[];
+  tabs: TabItem[];
   onClickTab: (title: string) => void;
   currentTab: string;
 }
 
-function Tabs({ titles, onClickTab, currentTab }: Props): JSX.Element {
+function Tabs({ tabs, onClickTab, currentTab }: Props): JSX.Element {
   return (
     <TabsStyle className="tabs">
-      {titles.map((title) => {
-        const active = title === currentTab ? "active" : "";
+      {tabs.map((tab) => {
+        const active = tab.title === currentTab ? "active" : "";
 
         return (
           <div
-            key={title}
+            key={tab.title}
             className={`tab ${active}`}
-            onClick={() => onClickTab(title)}
+            onClick={() => onClickTab(tab.title)}
           >
-            <p>{title}</p>
+            <p>
+              {tab.title}
+              {tab.count !== null && (
+                <span className="count"> {tab.count}</span>
+              )}
+            </p>
           </div>
         );
       })}
@@ -61,12 +71,24 @@ const TabsStyle = styled.div`
       text-align: center;
     }
 
+    .count {
+      color: #888888;
+      font-weight: 400;
+      font-size: 14px;
+    }
+
     &.active {
       border-color: #6ea1ff;
 
       p {
         color: #333333;
         font-weight: 600;
+      }
+
+      .count {
+        color: #333333;
+        font-weight: 600;
+        font-size: 14px;
       }
     }
   }

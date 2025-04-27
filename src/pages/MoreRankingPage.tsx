@@ -6,16 +6,19 @@ import RankingList from "../components/RankingPage/RankingList";
 import { RankingData } from "../models/Ranking.model";
 
 function MoreRankingPage() {
-  const titles: string[] = ["통합랭킹", "답변랭킹", "좋아요랭킹"] as const;
-  type TabTitle = (typeof titles)[number];
+  const [currentTab, setCurrentTab] = useState("통합랭킹");
 
-  const [currentTab, setCurrentTab] = useState<TabTitle>("통합랭킹");
+  const tabs = [
+    { title: "통합랭킹" },
+    { title: "답변랭킹" },
+    { title: "좋아요랭킹" },
+  ];
 
   const handleClickTab = (title: string) => {
     setCurrentTab(title);
   };
 
-  const rankingData: Record<TabTitle, RankingData[]> = {
+  const rankingData: Record<string, RankingData[]> = {
     통합랭킹: [
       {
         id: 1,
@@ -194,11 +197,7 @@ function MoreRankingPage() {
 
   return (
     <MoreRankingPageStyle>
-      <Tabs
-        titles={titles}
-        onClickTab={handleClickTab}
-        currentTab={currentTab}
-      />
+      <Tabs tabs={tabs} onClickTab={handleClickTab} currentTab={currentTab} />
       <div>
         <div className="my-profile-box">
           <RankingProfile

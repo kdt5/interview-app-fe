@@ -51,12 +51,8 @@ function Header() {
 }
 
 const getPageTitle = (pathname: string) => {
-  const frontend = FRONTEND_URLS.QUESTION_LIST + "/frontend";
-  const backend = FRONTEND_URLS.QUESTION_LIST + "/backend";
   const titles: Record<string, string> = {
     [FRONTEND_URLS.MY_PAGE.HOME]: "마이페이지",
-    [frontend]: "프론트엔드 면접 질문",
-    [backend]: "백엔드 면접 질문",
     [FRONTEND_URLS.MY_PAGE.ANSWERS]: "내 답변 모아보기",
     [FRONTEND_URLS.MY_PAGE.FAVORITES.QUESTIONS]: "즐겨찾기 질문 모아보기",
 
@@ -71,9 +67,12 @@ const getPageTitle = (pathname: string) => {
 
   const matchAnswer = matchPath(FRONTEND_URLS.ANSWER, pathname);
   const matchAnswerEdit = matchPath(FRONTEND_URLS.ANSWER_EDIT, pathname);
+  const matchInterview = matchPath("/question-list/:position/*", pathname);
+
+  if (matchInterview) return "면접 질문";
 
   if (matchAnswer) {
-    return "질문 답변하기";
+    return "답변 작성";
   }
 
   if (matchAnswerEdit) {

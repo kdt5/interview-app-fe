@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { fetchAnswer } from "../api/Answer.api";
 import { Question } from "../models/Question.model";
 import { fetchQuestion } from "../api/Question.api";
-import { fetchFavorite } from "../api/Favorite.api";
-import { HttpStatusCode } from "axios";
 
 interface UseAnswerReturn {
   question?: Question;
@@ -29,18 +27,6 @@ export function useAnswer(
     } catch (error) {
       console.log(error);
     }
-  }, [questionId]);
-
-  useEffect(() => {
-    fetchFavorite(questionId)
-      .then((isFavorite) => {
-        setIsFavorite(isFavorite);
-      })
-      .catch((error) => {
-        if (error.status === HttpStatusCode.NotFound) {
-          setIsFavorite(false);
-        }
-      });
   }, [questionId]);
 
   useEffect(() => {

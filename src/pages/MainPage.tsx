@@ -32,7 +32,7 @@ function MainPage() {
           >
             <p>{weeklyQuestion.question?.title}</p>
             <div>
-              <span>{weeklyQuestion.question?.categories[0]?.id}</span>
+              <span>{weeklyQuestion.question?.categories[0]?.category.id}</span>
             </div>
           </Link>
         ) : (
