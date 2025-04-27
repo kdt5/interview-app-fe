@@ -1,8 +1,7 @@
-export interface RankingData {
-  id: number;
-  username: string;
-  level: number;
-  like: number;
-  comments: number;
-  ranking: number;
+export interface RankingItem {
+  nickname: string;
+  rank: number;
+  totalFavoriteCount: number;
+  totalAnswerCount: number;
+  totalScore: number;
 }
