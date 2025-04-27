@@ -24,6 +24,9 @@ function CommonQuestionList({
     e.stopPropagation();
     toggleFavorite();
   };
+
+  const isComplete = complete === "작성 완료";
+
   return (
     <>
       <CommonQuestionListStyle>
@@ -38,7 +41,9 @@ function CommonQuestionList({
           ></FavoriteIcon>
         </Questionheader>
         <QuestionInfo>
-          <QuestionComplete>{complete}</QuestionComplete>
+          <QuestionComplete $isComplete={isComplete}>
+            {complete}
+          </QuestionComplete>
           <QuestionLike>
             <span>답변 수 {comments}</span> | <span>좋아요 {likes}</span>
           </QuestionLike>
@@ -84,9 +89,10 @@ const QuestionTitle = styled.h3`
   text-overflow: ellipsis;
 `;
 
-const QuestionComplete = styled.div`
-  color: #fff;
-  background-color: #6ea1ff;
+const QuestionComplete = styled.div<{ $isComplete?: boolean }>`
+  color: ${({ $isComplete }) => ($isComplete ? "#fff" : "#ccc")};
+  background-color: ${({ $isComplete }) =>
+    $isComplete ? "#6ea1ff" : "#f5f5f5"};
   padding: 5px 15px;
   border-radius: 25px;
   font-size: 12px;

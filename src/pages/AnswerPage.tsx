@@ -86,7 +86,7 @@ function AnswerPage() {
   const isOverLimit = answer.length >= 500;
 
   const category = question?.categories[0]
-    ? getCategoryName(question?.categories[0].id)
+    ? getCategoryName(question?.categories[0].category.id)
     : "카테고리가 없습니다.";
 
   return (

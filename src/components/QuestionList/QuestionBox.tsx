@@ -1,103 +1,166 @@
 import styled from "styled-components";
-import { SlArrowRight } from "react-icons/sl";
+import CommonCategory from "../common/List/CommonCategory";
+import CommonQuestionList from "../common/List/CommonQuestionList";
+import { useNavigate } from "react-router-dom";
+import { useCategory } from "../../hooks/UseCategory";
+import { useFetchWeeklyQuestion } from "../../hooks/UseFetchWeeklyQuestion";
+import { useMyUserData } from "../../hooks/UseMyUserData";
+import { useEffect, useState } from "react";
+import { Question } from "../../models/Question.model";
+import {
+  fetchQuestions,
+  fetchWeeklyQuestions,
+  WeeklyQuestionResponse,
+} from "../../api/Question.api";
+import { addFavorite, removeFavorite } from "../../api/Favorite.api";
 import { Link } from "react-router-dom";
-import { FRONTEND_URLS } from "../../constants/Urls";
-import { replaceUrlParams } from "../../utils/Url";
-
-export default QuestionBox;
+import { SlArrowRight } from "react-icons/sl";
+import { getPositionKeyById } from "../../utils/Positions";
 
 interface Props {
-  questionId: number;
-  title: string;
-  categoryImagePath: string;
-  categoryName?: string;
-  isAnswered: boolean;
+  isWeekly?: boolean;
 }
 
-function QuestionBox({
-  questionId,
-  title,
-  categoryImagePath,
-  categoryName,
-  isAnswered,
-}: Props) {
-  const answeredClassName = isAnswered ? "answered" : "";
-  const link = replaceUrlParams(FRONTEND_URLS.ANSWER, {
-    questionId: questionId.toString(),
-  });
+function QuestionBox({ isWeekly = true }: Props) {
+  const navigate = useNavigate();
 
-  const answeredStateElement = () => {
-    if (isAnswered) {
-      return <div className="answered-text">답변완료</div>;
+  const { weeklyQuestion } = useFetchWeeklyQuestion();
+  const { data: userData } = useMyUserData();
+
+  const { getCategoryName } = useCategory();
+
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
+    null
+  );
+  const [questionList, setQuestionList] = useState<Question[]>([]);
+
+  useEffect(() => {
+    const loadQuestions = async () => {
+      try {
+        if (isWeekly) {
+          const data: WeeklyQuestionResponse[] = await fetchWeeklyQuestions();
+          const questions = data.map((item) => item.question);
+          setQuestionList(questions);
+        } else {
+          const positionString =
+            userData?.positionId !== undefined
+              ? getPositionKeyById(userData.positionId)
+              : undefined;
+
+          if (!positionString) return;
+
+          const data = await fetchQuestions(
+            positionString,
+            selectedCategoryId ?? undefined
+          );
+          setQuestionList(data);
+        }
+      } catch (error) {
+        console.error("질문 불러오기 실패", error);
+      }
+    };
+
+    loadQuestions();
+  }, [isWeekly, userData?.positionId, selectedCategoryId]);
+
+  const handleToggleFavorite = async (questionId: number) => {
+    setQuestionList((prevList) =>
+      prevList.map((q) =>
+        q.id === questionId
+          ? {
+              ...q,
+              isFavorite: !q.isFavorite,
+              favoriteCount: q.isFavorite
+                ? q.favoriteCount - 1
+                : q.favoriteCount + 1,
+            }
+          : q
+      )
+    );
+
+    try {
+      const toggledQuestion = questionList.find((q) => q.id === questionId);
+      if (!toggledQuestion) return;
+
+      if (toggledQuestion.isFavorite) {
+        await removeFavorite(questionId);
+      } else {
+        await addFavorite(questionId);
+      }
+    } catch (error) {
+      console.error("좋아요 토글 실패", error);
     }
-
-    return <SlArrowRight className="icon-goto" />;
   };
 
+  if (!weeklyQuestion || !userData) return null;
+
   return (
-    <ContentBoxStyle className="question">
-      <Link className={`question-link ${answeredClassName}`} to={link}>
-        <div className="content">
-          <img src={categoryImagePath} alt={categoryName} />
-          <p>{title}</p>
+    <CommonQuestionSection>
+      {isWeekly ? (
+        <WeeklyAnswerPageLinkStyle to="/">
+          <h1>
+            <span>이번 주 위클리 질문</span>에 답변하지 않았어요
+          </h1>
+          <SlArrowRight />
+        </WeeklyAnswerPageLinkStyle>
+      ) : (
+        <CommonCategory
+          onSelectCategory={setSelectedCategoryId}
+        ></CommonCategory>
+      )}
+      {questionList.map((item) => (
+        <div
+          key={item.id}
+          onClick={() => navigate(`/questions/${item.id}/answer`)}
+        >
+          <CommonQuestionList
+            category={
+              getCategoryName(item.categories[0]?.category?.id ?? 0) || "기타"
+            }
+            questiontitle={item.title}
+            complete={item.isAnswered ? "작성 완료" : "답변 미작성"}
+            comments={item.answerCount ?? 0}
+            likes={item.favoriteCount}
+            isFavorite={item.isFavorite ?? false}
+            toggleFavorite={() => handleToggleFavorite(item.id)}
+          />
         </div>
-        {answeredStateElement()}
-      </Link>
-    </ContentBoxStyle>
+      ))}
+    </CommonQuestionSection>
   );
 }
 
-const ContentBoxStyle = styled.div`
+const WeeklyAnswerPageLinkStyle = styled(Link)`
+  position: relative;
+  margin: 0 30px;
+  margin-top: 60px;
   display: flex;
-  flex-direction: column;
-
-  min-height: 60px;
-  background-color: #fbfbfb;
-  border: solid 1px #eff2f8;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  background: #fbfbfb;
   border-radius: 10px;
+  padding: 0 18px;
 
-  .question-link {
-    display: flex;
-    justify-content: space-between;
-
-    padding: 20px 15px;
-
-    color: inherit;
-    text-decoration: none;
-
-    align-items: center;
+  h1 {
+    font-size: 16px;
+    font-weight: 600;
   }
 
-  .content {
-    display: flex;
-
-    padding-right: 10px;
-    gap: 10px;
-
-    img {
-      width: 20px;
-      height: 20px;
-    }
-
-    p {
-      width: 210px;
-      font-weight: 400;
-    }
+  span {
+    font-size: 16px;
+    font-weight: 600;
+    color: #6ea1ff;
   }
 
-  .answered {
-    pointer-events: none;
-    opacity: 0.5;
-  }
-
-  .icon-goto {
-    width: 15px;
-    height: 15px;
-    min-width: 15px;
-    min-height: 15px;
-  }
-
-  .answered-text {
-    font-size: 12px;
+  svg {
+    stroke-width: 60px;
+    color: #000;
+    font-size: 14px;
   }
 `;
+
+const CommonQuestionSection = styled.div`
+  margin-bottom: 50px;
+`;
+export default QuestionBox;

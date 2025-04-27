@@ -34,7 +34,7 @@ function AnsweredQuestions({
       <Swiper {...options}>
         {answeredQuestions?.map((answeredQuestion) => {
           const categoryName = getCategoryName(
-            answeredQuestion.question.categories[0].id
+            answeredQuestion.question.categories[0].category.id
           );
 
           return (

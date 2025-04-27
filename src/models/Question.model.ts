@@ -10,7 +10,7 @@ export interface Question {
   createdAt: string;
   viewCount: number;
   favoriteCount: number;
-  categories: { id: number }[];
+  categories: { category: { id: number } }[];
   isAnswered?: boolean;
   isFavorite?: boolean;
   answerCount?: number;
