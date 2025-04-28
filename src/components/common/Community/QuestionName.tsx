@@ -1,9 +1,10 @@
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { SlArrowRight as ArrowIcon } from "react-icons/sl";
+import { FRONTEND_URLS } from "../../../constants/Urls";
 function QuestionName() {
   const location = useLocation();
-  const inWeeklyAnswer = location.pathname === "/weeklypost";
+  const inWeeklyAnswer = location.pathname === FRONTEND_URLS.COMMUNITY.WEEKLY;
   const isComplete = false;
 
   return (

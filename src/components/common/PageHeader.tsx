@@ -59,7 +59,7 @@ const getPageTitle = (pathname: string) => {
     [FRONTEND_URLS.RANKINGS.MAIN]: "랭킹",
     [FRONTEND_URLS.RANKINGS.MORE]: "랭킹 더보기",
 
-    "/community": "커뮤니티",
+    [FRONTEND_URLS.COMMUNITY.HOME]: "커뮤니티",
     "/answerdetail": "답변 상세보기",
     [FRONTEND_URLS.SIGNUP]: "회원가입",
     [FRONTEND_URLS.LOGIN]: " ",

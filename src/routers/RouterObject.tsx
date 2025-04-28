@@ -61,7 +61,7 @@ export const routerObjects: RouteObject[] = [
   },
 
   {
-    path: "/weeklypost",
+    path: FRONTEND_URLS.COMMUNITY.WEEKLY,
     element: <CommunityWeeklyAnswer />,
   },
 
@@ -82,7 +82,7 @@ export const routerObjects: RouteObject[] = [
     element: <QuestionListPage />,
   },
   {
-    path: "/community",
+    path: FRONTEND_URLS.COMMUNITY.HOME,
     element: <Community />,
   },
   {
