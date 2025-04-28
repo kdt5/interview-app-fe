@@ -67,11 +67,11 @@ function SettingProfile() {
               <h2>닉네임</h2>
               <p>{me?.nickname}</p>
             </ProfileDefaultInfo>
-            <InputWithCheckButton
+            {/* <InputWithCheckButton
               name="nickname"
               placeholder="닉네임을 입력하세요"
               successMessage="사용 가능한 닉네임입니다."
-            />
+            /> */}
           </ProfileInfo>
 
           <PasswordChange>
