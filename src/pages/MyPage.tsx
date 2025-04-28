@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 import { useUser } from "../hooks/UseUser";
 import { FRONTEND_URLS } from "../constants/Urls";
 import MyPageSection from "../components/MyPage/MyPageSection";
 import { MyPageSectionStyle } from "../components/MyPage/MyPageSectionStyle";
 import { FaChevronRight } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 function MyPage() {
   const { me } = useUser();
@@ -48,7 +48,7 @@ const NewMypageStyle = styled.div`
   background-color: #fbfbfb;
   width: 100%;
   height: fit-content;
-  padding: 0 30px 50px;
+  padding: 0 30px 100px;
 `;
 
 const MyInfo = styled(MyPageSectionStyle)`

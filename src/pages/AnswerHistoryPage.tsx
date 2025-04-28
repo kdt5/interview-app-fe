@@ -15,7 +15,7 @@ function AnswerHistoryPage() {
     useAnsweredHistory();
   const [currentTab, setCurrentTab] = useState<TabType>("기본");
 
-  const titles: TabType[] = ["기본", "위클리"];
+  const tabs = [{ title: "기본" }, { title: "위클리" }];
 
   const handleClickTab = (title: string) => {
     setCurrentTab(title as TabType);
@@ -23,11 +23,7 @@ function AnswerHistoryPage() {
 
   return (
     <AnswerHistoryStyle>
-      <Tabs
-        titles={titles}
-        onClickTab={handleClickTab}
-        currentTab={currentTab}
-      />
+      <Tabs tabs={tabs} onClickTab={handleClickTab} currentTab={currentTab} />
       <AnsweredQuestions
         className="answers"
         answeredQuestions={

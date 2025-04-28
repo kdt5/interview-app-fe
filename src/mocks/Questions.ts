@@ -12,7 +12,9 @@ const questionsData: Question[] = Array.from({ length: 20 }).map(
     viewCount: faker.helpers.rangeToNumber({ min: 0, max: 1000 }),
     favoriteCount: faker.helpers.rangeToNumber({ min: 0, max: 1000 }),
     categories: Array.from({ length: 3 }).map((_, index) => ({
-      id: index,
+      category: {
+        id: index,
+      },
     })),
     isAnswered: faker.datatype.boolean(),
     isFavorite: faker.datatype.boolean(),

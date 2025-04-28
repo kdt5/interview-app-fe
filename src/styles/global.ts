@@ -61,8 +61,8 @@ export const GlobalStyle = createGlobalStyle`
 
   input::placeholder, textarea::placeholder {
     font-family: 'Pretendard Variable', sans-serif;
-    color: #777;
-    font-size: 16px;
-    font-weight: 300;
+    color: #888;
+    font-size: 14px;
+    font-weight: 400;
   }
 `;

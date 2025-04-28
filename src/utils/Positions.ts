@@ -12,8 +12,8 @@ export function getPositionKeyById(id: number): Position | undefined {
 }
 
 export const positionKeyToId = {
-  frontend: 1,
-  backend: 2,
+  backend: 1,
+  frontend: 2,
   fullStack: 3,
   designer: 4,
 } as const;

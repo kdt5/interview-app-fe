@@ -6,11 +6,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../hooks/UseUser";
 import { FRONTEND_URLS } from "../../constants/Urls";
-import { ModalType } from "../AnswerPage";
 import MyProfileDefaultImg from "../../assets/mypage/MyProfileDefaultImage.png";
 import MyProfileAddBtn from "../../assets/mypage/MyProfileAddButton.png";
-import InputWithCheckButton from "../../components/SignUpPage/InputWithCheckButton";
 import InputField from "../../components/common/Input/Input";
+import { ModalType } from "../RecordAnswerPage";
 
 export interface SignUpInputs {
   password: string;
