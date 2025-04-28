@@ -6,16 +6,14 @@ import {
   fetchIntegrationRanking,
 } from "../api/Ranking.api";
 
-// 통합 랭킹 조회 훅
 export function useIntegrationRanking() {
   return useQuery<RankingItem[]>({
     queryKey: ["integrationRanking"],
     queryFn: fetchIntegrationRanking,
-    staleTime: 1000 * 60 * 5, // 5분 동안 fresh
+    staleTime: 1000 * 60 * 5,
   });
 }
 
-// 답변수 랭킹 조회 훅
 export function useAnswerRanking() {
   return useQuery<RankingItem[]>({
     queryKey: ["answerRanking"],
@@ -24,7 +22,6 @@ export function useAnswerRanking() {
   });
 }
 
-// 좋아요수 랭킹 조회 훅
 export function useFavoriteRanking() {
   return useQuery<RankingItem[]>({
     queryKey: ["favoriteRanking"],

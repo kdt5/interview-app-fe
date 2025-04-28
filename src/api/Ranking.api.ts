@@ -7,9 +7,9 @@ export async function fetchIntegrationRanking(): Promise<RankingItem[]> {
     .get<RankingItem[]>(BACKEND_URLS.RANKINGS.ALL)
     .then((res) => res.data)
     .catch((error) => {
-      throw error;
+      console.error("Error fetching ranking data:", error);
+      throw new Error("Failed to fetch ranking data");
     });
-
   return response;
 }
 
