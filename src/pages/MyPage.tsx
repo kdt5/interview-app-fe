@@ -1,70 +1,16 @@
 import styled from "styled-components";
-import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../hooks/UseUser";
 import { FRONTEND_URLS } from "../constants/Urls";
-import { useState } from "react";
-import ConfirmModal from "../components/common/ConfirmModal";
-import AlertModal from "../components/common/AlertModal";
-import { ModalType } from "./RecordAnswerPage";
 import MyPageSection from "../components/MyPage/MyPageSection";
 import { MyPageSectionStyle } from "../components/MyPage/MyPageSectionStyle";
 import { FaChevronRight } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 function MyPage() {
-  const navigate = useNavigate();
-  const { me, logout } = useUser();
-
-  const [isModalsVisible, setIsModalsVisible] = useState({
-    confirm: false,
-    alert: false,
-  });
-
-  const handleSubmit = () => {
-    toggleModal("confirm", true);
-  };
-
-  const toggleModal = (type: ModalType, state: boolean) => {
-    setIsModalsVisible((prev) => ({
-      ...prev,
-      [type]: state,
-    }));
-  };
-
-  const handleConfirmSubmit = async () => {
-    try {
-      await logout();
-      toggleModal("confirm", false);
-      toggleModal("alert", true);
-    } catch (error) {
-      console.log("로그아웃에 실패하였습니다.", error);
-    }
-  };
+  const { me } = useUser();
 
   return (
     <>
-      <div>
-        <Link to={FRONTEND_URLS.MY_PAGE.EDIT.PROFILE}>회원 정보 수정</Link>
-        <button type="submit" className="logout-btn" onClick={handleSubmit}>
-          로그아웃
-        </button>
-        {isModalsVisible.confirm && (
-          <ConfirmModal
-            onClose={() => toggleModal("confirm", false)}
-            onConfirm={handleConfirmSubmit}
-            message="로그아웃 하시겠습니까?"
-          />
-        )}
-        {isModalsVisible.alert && (
-          <AlertModal
-            onClose={() => {
-              toggleModal("alert", false);
-              navigate(FRONTEND_URLS.LOGIN);
-            }}
-            message="로그아웃 되었습니다."
-          />
-        )}
-      </div>
-
       <NewMypageStyle>
         <MyProfileStyle to={FRONTEND_URLS.MY_PAGE.EDIT.PROFILE}>
           <div className="profile-wrap">
@@ -101,8 +47,8 @@ function MyPage() {
 const NewMypageStyle = styled.div`
   background-color: #fbfbfb;
   width: 100%;
-  height: 100dvh;
-  padding: 0 30px;
+  height: fit-content;
+  padding: 0 30px 100px;
 `;
 
 const MyInfo = styled(MyPageSectionStyle)`
