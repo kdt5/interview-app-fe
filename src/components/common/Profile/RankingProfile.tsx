@@ -2,10 +2,10 @@ import styled from "styled-components";
 import { RankingItem } from "../../../models/Ranking.model";
 
 interface Props extends RankingItem {
-  commonRanking?: number; // 이건 여전히 선택
+  commonRanking?: number;
 }
 function RankingProfile({
-  // profileImageUrl,
+  profileImageUrl,
   nickname,
   totalAnswerCount,
   level,
@@ -14,6 +14,8 @@ function RankingProfile({
   rank,
 }: Props) {
   const displayLevel = String(level).padStart(2, "0");
+
+  profileImageUrl = "../public/user1.png";
 
   return (
     <RankingProfileStyle>
@@ -28,11 +30,7 @@ function RankingProfile({
           <span>RANK</span>
         </RankingNumber>
       )}
-      <RankingProfileimg
-        // src={profileImageUrl}
-        src="../public/user1.png"
-        alt={`${nickname}의 프로필`}
-      />
+      <RankingProfileimg src={profileImageUrl} alt={`${nickname}의 프로필`} />
       <FlexWrap>
         <UserInfo>
           <Username>{nickname}</Username>
