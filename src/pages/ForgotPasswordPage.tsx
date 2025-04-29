@@ -102,6 +102,7 @@ const InfoText = styled.p`
   margin-top: 12px;
   font-size: 13px;
   color: #6ca9ff;
+  font-weight: 400;
 `;
 
 const BottomFixed = styled.div`
