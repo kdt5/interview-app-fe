@@ -1,4 +1,6 @@
+import { useState } from "react";
 import styled from "styled-components";
+import ReportModal from "../Modal/ReportModal";
 
 interface Props {
   onClose?: () => void;
@@ -9,6 +11,15 @@ interface Props {
 
 function CommunityModal({ onClose, onEdit, onDelete }: Props) {
   const isMyData = true;
+  const [showReportModal, setShowReportModal] = useState(false);
+
+  const handleOpenReport = () => {
+    setShowReportModal(true);
+  };
+
+  const handleCloseReport = () => {
+    setShowReportModal(false);
+  };
 
   return (
     <>
@@ -27,7 +38,7 @@ function CommunityModal({ onClose, onEdit, onDelete }: Props) {
             <>
               <button
                 className="action-button report"
-                onClick={() => alert("신고했습니다.")}
+                onClick={handleOpenReport}
               >
                 신고
               </button>
@@ -38,6 +49,8 @@ function CommunityModal({ onClose, onEdit, onDelete }: Props) {
           )}
         </ModalContainer>
       </BackDrop>
+
+      {showReportModal && <ReportModal onClose={handleCloseReport} />}
     </>
   );
 }
@@ -59,7 +72,7 @@ const ModalContainer = styled.div`
   background: #ffffff;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  padding: 20px 16px;
+  padding: 20px 30px;
   box-sizing: border-box;
 
   .action-button {
