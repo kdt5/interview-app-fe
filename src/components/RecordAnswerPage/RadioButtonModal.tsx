@@ -11,6 +11,7 @@ interface Props {
 function RadioButtonModal({ visibility, onClose, onChange }: Props) {
   const handleOptionChange = (value: VisibilityOption) => {
     onChange?.(value);
+    onClose?.();
   };
 
   return (
@@ -38,10 +39,10 @@ function RadioButtonModal({ visibility, onClose, onChange }: Props) {
               />
               답변 비공개
             </label>
+            <p className="info-text">
+              * 답변 공개 여부는 추후 수정이 불가능합니다.
+            </p>
           </div>
-          <p className="info-text">
-            * 답변 공개 여부는 추후 수정이 불가능합니다.
-          </p>
         </ModalContainer>
       </BackDrop>
     </>
@@ -61,13 +62,18 @@ const BackDrop = styled.div`
 `;
 
 const ModalContainer = styled.div`
-  width: 100%;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 330px;
   background: #ffffff;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  padding: 30px 30px 10px;
+  border-radius: 10px;
+  padding: 30px;
   box-sizing: border-box;
-  min-height: 160px;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
 
   .radio-group {
     display: flex;
@@ -117,7 +123,6 @@ const ModalContainer = styled.div`
     font-size: 12px;
     color: #888888;
     font-weight: 400;
-    margin-top: 20px;
   }
 `;
 
