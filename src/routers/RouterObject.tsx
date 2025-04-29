@@ -21,11 +21,18 @@ import MoreRankingPage from "../pages/MoreRankingPage";
 import CommunityWeeklyAnswer from "../pages/Community/CommunityWeeklyAnswer";
 import SettingProfile from "../pages/Mypage/SettingsProfile";
 import AnswerDetail from "../pages/Community/AnswerDetail";
+import OnBoardingPage from "../pages/OnBoardingPage";
+import ForgotPasswordPage from "../pages/ForgotPasswordPage";
+import ResetPasswordPage from "../pages/ResetPasswordPage";
+import AnswerDetailPage from "../pages/AnswerDetailPage";
+
 
 const requiredUrls = [
   FRONTEND_URLS.HOME,
+  FRONTEND_URLS.ONBOARDING,
   FRONTEND_URLS.LOGIN,
   FRONTEND_URLS.SIGNUP,
+  FRONTEND_URLS.FORGOT_PASSWORD,
   FRONTEND_URLS.MY_PAGE.HOME,
   FRONTEND_URLS.MY_PAGE.ANSWERS,
   FRONTEND_URLS.MY_PAGE.FAVORITES.QUESTIONS,
@@ -50,7 +57,7 @@ export const routerObjects: RouteObject[] = [
     element: <CommunityAnswerDetail />,
   },
   {
-    path: FRONTEND_URLS.ANSWER_DETAIL,
+    path: FRONTEND_URLS.COMMUNITY.ANSWER_DETAIL,
     element: <AnswerDetail />,
   },
   {
@@ -83,12 +90,24 @@ export const routerObjects: RouteObject[] = [
     element: <MainPage />,
   },
   {
+    path: FRONTEND_URLS.ONBOARDING,
+    element: <OnBoardingPage />,
+  },
+  {
     path: FRONTEND_URLS.LOGIN,
     element: <LoginPage />,
   },
   {
     path: FRONTEND_URLS.SIGNUP,
     element: <SignUpPage />,
+  },
+  {
+    path: FRONTEND_URLS.FORGOT_PASSWORD,
+    element: <ForgotPasswordPage />,
+  },
+  {
+    path: FRONTEND_URLS.RESET_PASSWORD,
+    element: <ResetPasswordPage />,
   },
   {
     path: FRONTEND_URLS.QUESTION_LIST,
@@ -117,6 +136,10 @@ export const routerObjects: RouteObject[] = [
   {
     path: FRONTEND_URLS.ANSWER,
     element: <RecordAnswerPage />,
+  },
+  {
+    path: FRONTEND_URLS.ANSWER_DETAIL,
+    element: <AnswerDetailPage />,
   },
   {
     path: FRONTEND_URLS.ANSWER_EDIT,

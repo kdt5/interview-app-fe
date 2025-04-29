@@ -2,6 +2,9 @@ export const FRONTEND_URLS = {
   HOME: "/",
   LOGIN: "/login",
   SIGNUP: "/signup",
+  ONBOARDING: "/onboarding",
+  FORGOT_PASSWORD: "/forgot-password",
+  RESET_PASSWORD: "/reset-password",
   SETTINGS: {
     PROFILE: "/settings/profile",
   },
@@ -31,6 +34,7 @@ export const FRONTEND_URLS = {
     POST_NEW: "/community/posts/new",
     POST_EDIT: "/community/posts/:postId/edit",
     WEEKLY: "/community/weekly",
+    ANSWER_DETAIL: "/community/questions/:questionId/answer/:answerId",
   }
 };
 

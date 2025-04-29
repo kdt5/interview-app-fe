@@ -80,7 +80,7 @@ function CommunityReply() {
         <CommentInfo>
           <span>
             <img src={LikeSmall} alt="" />
-            좋아요 {subComment?.favoriteCount}
+            좋아요 {subComment?.favoriteCount || ""}
           </span>{" "}
           <span>
             <img src={ReplySmall} alt="" />

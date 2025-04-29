@@ -20,7 +20,7 @@ function CommunityAnswerDetail() {
 
       <AnswerListStyle>
         {answers.map((item) => (
-          <Link key={item.id} to={`${FRONTEND_URLS.ANSWER_DETAIL.replace(":questionId", questionId).replace(":answerId", item.id.toString())}}`}>
+          <Link key={item.id} to={`${FRONTEND_URLS.COMMUNITY.ANSWER_DETAIL.replace(":questionId", questionId).replace(":answerId", item.id.toString())}}`}>
             <CommunityList {...item} />
           </Link>
         ))}

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FRONTEND_URLS } from "../../../constants/Urls";
 import { deleteAnswer, fetchAnswerOwnership } from "../../../api/Answer.api";
+import ReportModal from "../Modal/ReportModal";
 
 interface Props {
   className?: string;
@@ -23,6 +24,7 @@ function CommunityModal({ className, questionId, onClose, postId, title, content
   const [isMyData, setIsMyData] = useState<boolean>(false);
   const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
   const [successMessage, setSuccessMessage] = useState<string>("");
+  const [showReportModal, setShowReportModal] = useState(false);
 
   useEffect(() => {
     const checkOwnership = async () => {
@@ -90,6 +92,14 @@ function CommunityModal({ className, questionId, onClose, postId, title, content
     }
   };
 
+  const onOpenReport = () => {
+    setShowReportModal(true);
+  };
+
+  const onCloseReport = () => {
+    setShowReportModal(false);
+  };
+
   const handleSuccessOk = () => {
     navigate(FRONTEND_URLS.COMMUNITY.MAIN);
   };
@@ -112,7 +122,7 @@ function CommunityModal({ className, questionId, onClose, postId, title, content
               <>
                 <button
                   className="action-button report"
-                  onClick={() => alert("신고했습니다.")}
+                  onClick={onOpenReport}
                 >
                   신고
                 </button>
@@ -137,6 +147,7 @@ function CommunityModal({ className, questionId, onClose, postId, title, content
           </CenterModalContainer>
         </CenterModalBackdrop>
       )}
+      {showReportModal && <ReportModal onClose={onCloseReport}/>}
     </>
   );
 }
@@ -188,7 +199,7 @@ const ModalContainer = styled.div`
   background: #ffffff;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  padding: 20px 16px;
+  padding: 20px 30px;
   box-sizing: border-box;
 
   .action-button {

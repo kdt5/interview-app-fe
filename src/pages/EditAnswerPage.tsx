@@ -1,13 +1,15 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { RecordAnswerPageStyle, ModalType } from "./RecordAnswerPage";
+import { ModalType } from "./RecordAnswerPage";
 import ConfirmModal from "../components/common/ConfirmModal";
 import AlertModal from "../components/common/AlertModal";
-import { deleteAnswer, editAnswer } from "../api/Answer.api";
+import { editAnswer } from "../api/Answer.api";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAnswer } from "../hooks/UseAnswer";
 import QuestionContainer from "../components/AnswerPage/QuestionContainer";
 import AnswerForm from "../components/AnswerPage/AnswerForm";
+import { replaceUrlParams } from "../utils/Url";
+import { FRONTEND_URLS } from "../constants/Urls";
 
 function EditAnswerPage() {
   const navigate = useNavigate();
@@ -28,7 +30,7 @@ function EditAnswerPage() {
     parsedAnswerId
   );
   const [currentAnswer, setCurrentAnswer] = useState(previousAnswer);
-  const [confirmMessage, setConfirmMessage] = useState("");
+  const [confirmMessage] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
   const [isModalsVisible, setIsModalsVisible] = useState({
     confirm: false,
@@ -45,16 +47,6 @@ function EditAnswerPage() {
     previousAnswer === currentAnswer;
   const isOverLimit = currentAnswer.length >= 500;
 
-  const handleEditClick = () => {
-    setConfirmMessage("답변을 수정하시겠습니까?");
-    toggleModal("confirm", true);
-  };
-
-  const handleDeleteClick = () => {
-    setConfirmMessage("답변을 삭제하시겠습니까?");
-    toggleModal("confirm", true);
-  };
-
   const handleConfirmSubmit = async () => {
     if (typeof question?.id === "undefined") {
       console.error("question 가 유효하지 않습니다.");
@@ -69,15 +61,6 @@ function EditAnswerPage() {
         toggleModal("alert", true);
       } catch (error) {
         console.log("수정에 실패하였습니다.", error);
-      }
-    } else {
-      try {
-        await deleteAnswer(parsedAnswerId);
-        setAlertMessage("삭제되었습니다.");
-        toggleModal("confirm", false);
-        toggleModal("alert", true);
-      } catch (error) {
-        console.log("삭제에 실패하였습니다.", error);
       }
     }
   };
@@ -97,32 +80,26 @@ function EditAnswerPage() {
     }));
   };
 
+  const handleSubmitSuccess = () => {
+    navigate(
+      replaceUrlParams(FRONTEND_URLS.ANSWER_DETAIL, {
+        questionId: parsedQuestionId.toString(),
+        answerId: parsedAnswerId.toString(),
+      })
+    );
+  };
+
   return (
     <EditAnswerPageStyle $isSubmitDisabled={isSubmitDisabled}>
       <QuestionContainer title={question?.title || "질문이 없습니다."} />
       <AnswerForm
-        isEdit={true}
         answer={currentAnswer}
         handleAnswerChange={handleAnswerChange}
         isOverLimit={isOverLimit}
+        onSubmitSuccess={handleSubmitSuccess}
+        buttonText="수정"
+        isSubmitDisabled={isSubmitDisabled}
       />
-      <div className="buttons">
-        <button
-          className="edit-button"
-          type="submit"
-          disabled={isSubmitDisabled}
-          onClick={handleEditClick}
-        >
-          수정
-        </button>
-        <button
-          className="delete-button"
-          type="submit"
-          onClick={handleDeleteClick}
-        >
-          삭제
-        </button>
-      </div>
       {isModalsVisible.confirm && (
         <ConfirmModal
           onClose={() => toggleModal("confirm", false)}
@@ -143,7 +120,7 @@ function EditAnswerPage() {
   );
 }
 
-const EditAnswerPageStyle = styled(RecordAnswerPageStyle)<{$isSubmitDisabled: boolean;}>`
+const EditAnswerPageStyle = styled.div<{ $isSubmitDisabled: boolean }>`
   .buttons {
     display: flex;
     justify-content: start;

@@ -4,27 +4,28 @@ import AlertModal from "../common/AlertModal";
 import { useState } from "react";
 import { ModalType } from "../../pages/RecordAnswerPage";
 import { useAnswer } from "../../hooks/UseAnswer";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { recordAnswer } from "../../api/Answer.api";
 import GrayButton from "../common/Button/GrayButton";
 
 interface Props {
-  isEdit?: boolean;
   answer: string;
   handleAnswerChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   isOverLimit: boolean;
   isPublic?: boolean | null;
+  onSubmitSuccess: () => void;
+  buttonText: string;
+  isSubmitDisabled: boolean;
 }
 
 function AnswerForm({
-  isEdit,
   answer,
   handleAnswerChange,
   isOverLimit,
-  isPublic,
+  onSubmitSuccess,
+  buttonText,
+  isSubmitDisabled,
 }: Props) {
-  const navigate = useNavigate();
-
   const [isModalsVisible, setIsModalsVisible] = useState({
     confirm: false,
     alert: false,
@@ -63,9 +64,6 @@ function AnswerForm({
     }
   };
 
-  const isSubmitDisabled =
-    answer.trim() === "" || answer.length < 0 || isPublic === null;
-
   return (
     <AnswerFormStyle $isSubmitDisabled={isSubmitDisabled}>
       <textarea
@@ -78,16 +76,14 @@ function AnswerForm({
         <p className={`character-count ${isOverLimit ? "over-limit" : ""}`}>
           {answer.length} / 500
         </p>
-        {!isEdit && (
-          <GrayButton
+        <GrayButton
           className="submit-button"
           type="button"
           onClick={handleSubmit}
           disabled={isSubmitDisabled}
-          >
-            완료
-          </GrayButton>
-        )}
+        >
+          {buttonText}
+        </GrayButton>
         {isModalsVisible.confirm && (
           <ConfirmModal
             onClose={() => toggleModal("confirm", false)}
@@ -99,7 +95,7 @@ function AnswerForm({
           <AlertModal
             onClose={() => {
               toggleModal("alert", false);
-              navigate(-1);
+              onSubmitSuccess();
             }}
             message="제출되었습니다."
           />
