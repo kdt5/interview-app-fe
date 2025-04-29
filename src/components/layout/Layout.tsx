@@ -12,17 +12,26 @@ interface LayoutProps {
 function Layout({ children }: LayoutProps) {
   const location = useLocation();
 
-  const hiddenHeaderAndNavPaths = [FRONTEND_URLS.SIGNUP, FRONTEND_URLS.LOGIN];
+  const hiddenHeaderPaths = [FRONTEND_URLS.SIGNUP, FRONTEND_URLS.LOGIN];
+  const hiddenNavPaths = [
+    FRONTEND_URLS.SIGNUP,
+    FRONTEND_URLS.LOGIN,
+    "/some-other-path",
+  ];
 
-  const isHidden = hiddenHeaderAndNavPaths.includes(location.pathname);
+  const isHeaderHidden = hiddenHeaderPaths.includes(location.pathname);
+  const isNavHidden = hiddenNavPaths.includes(location.pathname);
 
   return (
     <>
       <GlobalStyle />
       <LayoutStyle>
         <Header />
-        <LayoutPadding>{children}</LayoutPadding>
-        {!isHidden && <Nav />}
+        {!isHeaderHidden && <Header />}
+        <LayoutPadding isHeaderHidden={isHeaderHidden}>
+          {children}
+        </LayoutPadding>
+        {!isNavHidden && <Nav />}
       </LayoutStyle>
     </>
   );
@@ -37,8 +46,9 @@ const LayoutStyle = styled.div`
   background-color: #fff;
 `;
 
-const LayoutPadding = styled.div`
-  padding: 85px 0 80px;
+const LayoutPadding = styled.div<{ isHeaderHidden: boolean }>`
+  padding: ${({ isHeaderHidden }) =>
+    isHeaderHidden ? "0 0 80px" : "85px 0 80px"};
   height: fit-content;
   box-sizing: border-box;
 `;
