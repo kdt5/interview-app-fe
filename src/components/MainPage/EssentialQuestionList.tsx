@@ -4,14 +4,21 @@ import styled from "styled-components";
 interface Porps {
   category: string;
   questiontitle: string;
+  to?: string;
+  imageSource?: string;
 }
 
-function EssentialQuestionList({ category, questiontitle }: Porps) {
+function EssentialQuestionList({
+  category,
+  questiontitle,
+  to = "/",
+  imageSource,
+}: Porps) {
   return (
     <>
-      <EssentialQuestionListStyle to="">
+      <EssentialQuestionListStyle to={to}>
         <div>
-          <img src="" alt="" />
+          <img src={imageSource} alt="" />
         </div>
         <QuestionInfoStyle>
           <span>{category}</span>

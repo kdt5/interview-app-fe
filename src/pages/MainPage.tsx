@@ -5,8 +5,8 @@ import { FRONTEND_URLS } from "../constants/Urls";
 import { replaceUrlParams } from "../utils/Url";
 import { useFetchWeeklyQuestion } from "../hooks/UseFetchWeeklyQuestion";
 import SectionTitle from "../components/common/SectionTitle";
-import EssentialQuestionList from "../components/MainPage/EssentialQuestionList";
 import EssentialQuestionListGroup from "../components/MainPage/EssentialQuestionListSection";
+import MainPageIconNavigation from "../components/MainPage/MainPageIconNavigation";
 
 function MainPage() {
   const { weeklyQuestion } = useFetchWeeklyQuestion();
@@ -35,6 +35,28 @@ function MainPage() {
       </MainPageStyle>
 
       <MainPageStyleNew>
+        <MainPageNavigation>
+          <MainPageIconNavigation
+            to="/"
+            iconSource="/"
+            menu="위클리"
+          ></MainPageIconNavigation>
+          <MainPageIconNavigation
+            to="/"
+            iconSource="/"
+            menu="필수 질문"
+          ></MainPageIconNavigation>
+          <MainPageIconNavigation
+            to="/"
+            iconSource="/"
+            menu="내 답변"
+          ></MainPageIconNavigation>
+          <MainPageIconNavigation
+            to="/"
+            iconSource="/"
+            menu="커뮤니티"
+          ></MainPageIconNavigation>
+        </MainPageNavigation>
         <MainPageSectionStyle>
           <SectionTitle to="/question-list/frontend">
             면접 필수 질문
@@ -56,7 +78,14 @@ const MainPageStyleNew = styled.main`
 `;
 
 const MainPageSectionStyle = styled.div``;
-
+const MainPageNavigation = styled.div`
+  padding: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 380px;
+`;
 const MainPageStyle = styled.main`
   width: 100%;
   padding: 0 30px;
@@ -142,11 +171,6 @@ const MainPageStyle = styled.main`
       }
     }
   }
-`;
-
-const LinkStyle = styled(Link)`
-  color: #6ea1ff;
-  font-weight: 400;
 `;
 
 export default MainPage;
