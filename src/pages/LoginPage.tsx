@@ -33,29 +33,34 @@ function LoginPage() {
   };
 
   const checkEmail: RegisterOptions<LoginInputs, "email"> = {
-    required: { value: true, message: "이메일을 입력해주세요." },
+    required: { value: true, message: "이메일 또는 비밀번호를 확인하세요." },
     pattern: {
       value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/i,
-      message: "유효한 이메일 형식이 아닙니다.",
+      message: "이메일 또는 비밀번호를 확인하세요.",
     },
     maxLength: {
       value: EMAIL_MAX_LENGTH,
-      message: `이메일은 ${EMAIL_MAX_LENGTH}자 이하로 입력해주세요.`,
+      message: "이메일 또는 비밀번호를 확인하세요.",
     },
   };
 
   const checkPassword: RegisterOptions<LoginInputs, "email"> = {
     required: {
       value: true,
-      message: "비밀번호를 입력해주세요.",
+      message: "이메일 또는 비밀번호를 확인하세요.",
     },
     pattern: {
       value: new RegExp(
         `^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{${PASSWORD_MIN_LENGTH},${PASSWORD_MAX_LENGTH}}$`
       ),
-      message: `영문 대소문자, 숫자, 특수문자 포함 ${PASSWORD_MIN_LENGTH} - ${PASSWORD_MAX_LENGTH}자`,
+      message: "이메일 또는 비밀번호를 확인하세요.",
     },
   };
+  const firstErrorField = errors.email
+    ? "email"
+    : errors.password
+      ? "password"
+      : null;
 
   return (
     <Wrapper>
@@ -75,11 +80,6 @@ function LoginPage() {
                 {...register("email", checkEmail)}
               />
             </InputWrapper>
-            <ErrorMessage
-              errors={errors}
-              name="email"
-              render={({ message }) => <ErrorText>{message}</ErrorText>}
-            />
           </FormGroup>
 
           <FormGroup>
@@ -91,12 +91,19 @@ function LoginPage() {
                 {...register("password", checkPassword)}
               />
             </InputWrapper>
-            <ErrorMessage
-              errors={errors}
-              name="password"
-              render={({ message }) => <ErrorText>{message}</ErrorText>}
-            />
           </FormGroup>
+          <ErrorText>
+            {firstErrorField ? (
+              <ErrorMessage
+                errors={errors}
+                name={firstErrorField}
+                render={({ message }) => message}
+              />
+            ) : (
+              " "
+            )}
+          </ErrorText>
+
           <LoginButton>로그인</LoginButton>
         </LoginForm>
 
@@ -105,13 +112,6 @@ function LoginPage() {
           <Divider>|</Divider>
           <StyledLink to="/signup">회원가입</StyledLink>
         </LinkGroup>
-
-        <OrDivider>또는</OrDivider>
-
-        <SocialButtonGroup>
-          <KakaoButton></KakaoButton>
-          <NaverButton></NaverButton>
-        </SocialButtonGroup>
       </Content>
     </Wrapper>
   );
@@ -162,6 +162,8 @@ const ErrorText = styled.span`
   font-size: 12px;
   color: #e74c3c;
   padding-left: 4px;
+  min-height: 18px;
+  display: block;
 `;
 const LoginButton = styled.button`
   padding: 14px 0;
@@ -197,41 +199,4 @@ const StyledLink = styled(Link)`
 
 const Divider = styled.span`
   color: #aaa;
-`;
-
-const OrDivider = styled.div`
-  margin: 30px 0 16px;
-  font-size: 14px;
-  color: #888;
-  display: flex;
-  justify-content: center;
-  margin-top: 50px;
-`;
-
-const SocialButtonGroup = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-`;
-
-const KakaoButton = styled.button`
-  background-color: #fee500;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-`;
-
-const NaverButton = styled.button`
-  background-color: #03c75a;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  border: none;
-  font-size: 20px;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
 `;

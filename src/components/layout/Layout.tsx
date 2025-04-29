@@ -12,11 +12,11 @@ interface LayoutProps {
 function Layout({ children }: LayoutProps) {
   const location = useLocation();
 
-  const hiddenHeaderPaths = [FRONTEND_URLS.SIGNUP, FRONTEND_URLS.LOGIN];
+  const hiddenHeaderPaths = [FRONTEND_URLS.ONBOARDING];
   const hiddenNavPaths = [
+    FRONTEND_URLS.ONBOARDING,
     FRONTEND_URLS.SIGNUP,
     FRONTEND_URLS.LOGIN,
-    "/some-other-path",
   ];
 
   const isHeaderHidden = hiddenHeaderPaths.includes(location.pathname);
@@ -26,7 +26,6 @@ function Layout({ children }: LayoutProps) {
     <>
       <GlobalStyle />
       <LayoutStyle>
-        <Header />
         {!isHeaderHidden && <Header />}
         <LayoutPadding isHeaderHidden={isHeaderHidden}>
           {children}
