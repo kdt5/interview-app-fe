@@ -33,8 +33,11 @@ const SlideNavigationIcon = styled.div`
   width: 60px;
   height: 60px;
   border: solid 1px #f2f2f2;
-  background-color: #fbfbfb;
-  border-radius: 10px;
+  background-color: #f5f7fa;
+  border-radius: 60px;
+  display: grid;
+  align-items: center;
+  justify-content: center;
 `;
 
 export default MainPageIconNavigation;

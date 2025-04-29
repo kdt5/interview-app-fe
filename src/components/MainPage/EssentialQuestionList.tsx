@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
+import ReactIcon from "../../assets/ReactIcon.png";
 interface Porps {
   category: string;
   questiontitle: string;
@@ -12,7 +13,7 @@ function EssentialQuestionList({
   category,
   questiontitle,
   to = "/",
-  imageSource,
+  imageSource = ReactIcon,
 }: Porps) {
   return (
     <>
@@ -30,7 +31,7 @@ function EssentialQuestionList({
 }
 
 const EssentialQuestionListStyle = styled(Link)`
-  padding: 15px 30px;
+  padding: 10px 30px;
   width: 100%;
   height: fit-content;
   box-sizing: border-box;
