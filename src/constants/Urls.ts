@@ -3,7 +3,7 @@ export const FRONTEND_URLS = {
   LOGIN: "/login",
   SIGNUP: "/signup",
   SETTINGS: {
-    PROFILE: "settings/profile",
+    PROFILE: "/settings/profile",
   },
   QUESTION_LIST: "/question-list/:position",
   MY_PAGE: {
@@ -11,6 +11,9 @@ export const FRONTEND_URLS = {
     ANSWERS: "/my-page/answers",
     FAVORITES: {
       QUESTIONS: "/my-page/favorite-questions",
+    },
+    EDIT: {
+      PROFILE: "/my-page/edit-my-profile",
     },
   },
   ANSWER: "/questions/:questionId/answer",
@@ -26,6 +29,7 @@ export const FRONTEND_URLS = {
     REPLIES: "/replies/:commentId",
     POST_NEW: "/community/posts/new",
     POST_EDIT: "/community/posts/:postId/edit",
+    WEEKLY: "/community/weekly",
   }
 };
 
@@ -50,7 +54,7 @@ export const BACKEND_URLS = {
   QUESTIONS: {
     ALL: "/api/questions",
     QUESTION: "/api/questions/:questionId",
-    WEEKLY_TODAY: "/api/questions/weekly/today",
+    WEEKLY_CURRENT: "/api/questions/weekly/current",
     WEEKLY: "/api/questions/weekly",
   },
   CATEGORIES: {
@@ -61,12 +65,13 @@ export const BACKEND_URLS = {
       BASIC: "/api/answers/mine/basic",
       WEEKLY: "/api/answers/mine/weekly",
     },
+    ANSWER_LIST: "/api/questions/:questionId/answers",
     ANSWER_RECORD: "/api/answers/:questionId",
     ANSWER_EDIT: "/api/answers/:answerId",
   },
   FAVORITES: {
     MINE: "/api/favorites/mine",
-    FAVORITE: "/api/favorites/:questionId",
+    FAVORITE: "/api/favorites/:targetType/:targetId",
   },
   POSTS: {
     ALL: "/api/posts",

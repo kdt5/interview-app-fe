@@ -38,7 +38,7 @@ const LayoutStyle = styled.div`
 `;
 
 const LayoutPadding = styled.div`
-  padding: 100px 0;
+  padding: 85px 0 80px;
   height: fit-content;
   box-sizing: border-box;
 `;

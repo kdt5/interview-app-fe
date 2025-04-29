@@ -5,18 +5,16 @@ export const myUserInfoData: UserBasicInfo = {
   email: "myUser@interview.it",
   nickname: "myUser",
   level: 10,
-  _count: {
-    answers: 10,
-  },
+  answerCount: 10,
+  positionId: 1,
 };
 
 export const userInfoData: UserBasicInfo = {
   email: "user@gmail.com",
   nickname: "user",
   level: 1,
-  _count: {
-    answers: 0,
-  },
+  answerCount: 10,
+  positionId: 1,
 };
 
 export const myUserInfo = http.get(

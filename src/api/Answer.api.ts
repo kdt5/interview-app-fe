@@ -102,3 +102,20 @@ export async function fetchAnswer(answerId: number): Promise<Answer> {
 
   return response;
 }
+
+export async function fetchAnswers(
+  questionId: number
+): Promise<AnsweredQuestion[]> {
+  const response = await backendHttpClient
+    .get<AnsweredQuestion[]>(
+      replaceUrlParams(BACKEND_URLS.ANSWERS.ANSWER_LIST, {
+        questionId: questionId.toString(),
+      })
+    )
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+
+  return response;
+}

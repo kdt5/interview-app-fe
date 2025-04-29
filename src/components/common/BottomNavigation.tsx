@@ -1,15 +1,22 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
-import { MdHomeFilled } from "react-icons/md";
-import { FaMicroblog } from "react-icons/fa6";
-import { IoMicSharp } from "react-icons/io5";
-import { IoIosSettings } from "react-icons/io";
-import { MdStars } from "react-icons/md";
+
 import { FRONTEND_URLS } from "../../constants/Urls";
 import { replaceUrlParams } from "../../utils/Url";
 import { useFetchWeeklyQuestion } from "../../hooks/UseFetchWeeklyQuestion";
+import HomeImage from "../../assets/Navigation/Home.png";
+import HomeImageActive from "../../assets/Navigation/Home-Active.png";
+import QuestionImage from "../../assets/Navigation/Question.png";
+import QuestionImageActive from "../../assets/Navigation/Qeustion-Active.png";
+import RankingImage from "../../assets/Navigation/Ranking.png";
+import RankingImageActive from "../../assets/Navigation/Ranking-Active.png";
+import CommunityImage from "../../assets/Navigation/Community.png";
+import CommunityImageActive from "../../assets/Navigation/Community-Active.png";
+import MyPageImage from "../../assets/Navigation/MyPage.png";
+import MyPageImageActive from "../../assets/Navigation/MyPage-Active.png";
 
 function Nav() {
+  const { pathname } = useLocation();
   const { weeklyQuestion } = useFetchWeeklyQuestion();
   return (
     <>
@@ -18,8 +25,19 @@ function Nav() {
           <li>
             <Link to={FRONTEND_URLS.HOME}>
               <span>
-                <MdHomeFilled />
-                <span>홈</span>
+                <img
+                  src={
+                    pathname === FRONTEND_URLS.HOME
+                      ? HomeImageActive
+                      : HomeImage
+                  }
+                  alt="홈"
+                />
+                <span
+                  className={pathname === FRONTEND_URLS.HOME ? "active" : ""}
+                >
+                  홈
+                </span>
               </span>
             </Link>
           </li>
@@ -28,38 +46,80 @@ function Nav() {
               to={
                 weeklyQuestion
                   ? replaceUrlParams(FRONTEND_URLS.ANSWER, {
-                      questionId: weeklyQuestion.id?.toString(),
+                      questionId: weeklyQuestion.question?.id?.toString(),
                     })
                   : ""
               }
             >
               <span>
-                <IoMicSharp />
-                <span>위클리</span>
+                <img
+                  src={
+                    pathname.includes("answer")
+                      ? QuestionImageActive
+                      : QuestionImage
+                  }
+                  alt="면접질문"
+                />
+                <span className={pathname.includes("answer") ? "active" : ""}>
+                  면접질문
+                </span>
               </span>
             </Link>
           </li>
           <li>
-            <Link to={FRONTEND_URLS.MY_PAGE.ANSWERS}>
+            <Link to={FRONTEND_URLS.RANKINGS.MAIN}>
               <span>
-                <MdStars />
-                <span>내 인터뷰</span>
+                <img
+                  src={
+                    pathname.startsWith("/rankings")
+                      ? RankingImageActive
+                      : RankingImage
+                  }
+                  alt="랭킹"
+                />
+                <span
+                  className={pathname.startsWith("/rankings") ? "active" : ""}
+                >
+                  랭킹
+                </span>
               </span>
             </Link>
           </li>
           <li>
-            <Link to={FRONTEND_URLS.COMMUNITY.POST}>
+            <Link to={FRONTEND_URLS.COMMUNITY.MAIN}>
               <span>
-                <FaMicroblog />
-                <span>커뮤니티</span>
+                <img
+                  src={
+                    pathname.startsWith("/community")
+                      ? CommunityImageActive
+                      : CommunityImage
+                  }
+                  alt="커뮤니티"
+                />
+                <span
+                  className={pathname.startsWith("/community") ? "active" : ""}
+                >
+                  커뮤니티
+                </span>
               </span>
             </Link>
           </li>
           <li>
             <Link to={FRONTEND_URLS.MY_PAGE.HOME}>
               <span>
-                <IoIosSettings />
-                <span>마이뷰잇</span>
+                <img
+                  src={
+                    pathname.startsWith("/my-page")
+                      ? MyPageImageActive
+                      : MyPageImage
+                  }
+                  alt="마이뷰잇"
+                />
+                <span
+                  className={pathname.startsWith("/my-page") ? "active" : ""}
+                >
+                  마이뷰잇
+                </span>
               </span>
             </Link>
           </li>
@@ -75,11 +135,12 @@ const NavStyle = styled.nav`
   max-width: 380px;
   background-color: #fafafa;
   border-top: solid 1px #ededed;
-  color: #6ea1ff;
+  color: #ccc;
   position: fixed;
   bottom: 0;
   text-align: center;
   display: grid;
+  box-shadow: 0 -1px 16px #a7a7a752;
 
   .category {
     display: flex;
@@ -91,16 +152,24 @@ const NavStyle = styled.nav`
       list-style: none;
       width: calc(100% / 5);
       text-align: center;
-      span {
-        font-weight: 400;
+
+      .active {
         color: #6ea1ff;
+        font-weight: 600;
+      }
+
+      span {
+        font-weight: 300;
+        color: #ccc;
         display: block;
+        font-size: 14px;
+        margin-top: 3px;
 
         svg {
           font-size: 20px;
           margin-bottom: 5px;
           path {
-            color: #6ea1ff;
+            color: #ccc;
           }
         }
       }

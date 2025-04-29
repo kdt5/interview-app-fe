@@ -1,7 +1,7 @@
 import { RouteObject } from "react-router-dom";
 import Layout from "../components/layout/Layout";
 import MainPage from "../pages/MainPage";
-import AnswerPage from "../pages/AnswerPage";
+import RecordAnswerPage from "../pages/RecordAnswerPage";
 import LoginPage from "../pages/LoginPage";
 import SignUpPage from "../pages/SignUpPage";
 import QuestionListPage from "../pages/QuestionListPage";
@@ -19,6 +19,7 @@ import PostDetail from "../pages/CommunityPost/PostDetail";
 import PostWrite from "../pages/CommunityPost/PostWrite";
 import MoreRankingPage from "../pages/MoreRankingPage";
 import CommunityWeeklyAnswer from "../pages/Community/CommunityWeeklyAnswer";
+import SettingProfile from "../pages/Mypage/SettingsProfile";
 
 const requiredUrls = [
   FRONTEND_URLS.HOME,
@@ -69,7 +70,7 @@ export const routerObjects: RouteObject[] = [
   },
 
   {
-    path: "/weeklypost",
+    path: FRONTEND_URLS.COMMUNITY.WEEKLY,
     element: <CommunityWeeklyAnswer />,
   },
 
@@ -90,7 +91,7 @@ export const routerObjects: RouteObject[] = [
     element: <QuestionListPage />,
   },
   {
-    path: FRONTEND_URLS.COMMUNITY.POST,
+    path: FRONTEND_URLS.COMMUNITY.MAIN,
     element: <Community />,
   },
   {
@@ -106,8 +107,12 @@ export const routerObjects: RouteObject[] = [
     element: <FavoriteQuestionListPage />,
   },
   {
+    path: FRONTEND_URLS.MY_PAGE.EDIT.PROFILE,
+    element: <SettingProfile />,
+  },
+  {
     path: FRONTEND_URLS.ANSWER,
-    element: <AnswerPage />,
+    element: <RecordAnswerPage />,
   },
   {
     path: FRONTEND_URLS.ANSWER_EDIT,

@@ -12,20 +12,20 @@ const questionsData: Question[] = Array.from({ length: 20 }).map(
     viewCount: faker.helpers.rangeToNumber({ min: 0, max: 1000 }),
     favoriteCount: faker.helpers.rangeToNumber({ min: 0, max: 1000 }),
     categories: Array.from({ length: 3 }).map((_, index) => ({
-      id: index,
+      category: {
+        id: index,
+      },
     })),
     isAnswered: faker.datatype.boolean(),
     isFavorite: faker.datatype.boolean(),
-    _count: {
-      answers: faker.helpers.rangeToNumber({ min: 0, max: 100 }),
-    },
+    answerCount: faker.helpers.rangeToNumber({ min: 0, max: 100 }),
   })
 );
 
 const questionData = questionsData[0];
 
 export const weeklyQuestion = http.get(
-  `${import.meta.env.VITE_BACKEND_BASE_URL}${BACKEND_URLS.QUESTIONS.WEEKLY_TODAY}`,
+  `${import.meta.env.VITE_BACKEND_BASE_URL}${BACKEND_URLS.QUESTIONS.WEEKLY_CURRENT}`,
   () => {
     return HttpResponse.json(questionData, { status: 200 });
   }

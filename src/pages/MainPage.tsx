@@ -26,13 +26,13 @@ function MainPage() {
         {weeklyQuestion ? (
           <Link
             to={replaceUrlParams(FRONTEND_URLS.ANSWER, {
-              questionId: weeklyQuestion.id?.toString(),
+              questionId: weeklyQuestion.question.id?.toString(),
             })}
             className="weekly-question"
           >
-            <p>{weeklyQuestion.title}</p>
+            <p>{weeklyQuestion.question?.title}</p>
             <div>
-              <span>{weeklyQuestion.categories[0].id}</span>
+              <span>{weeklyQuestion.question?.categories[0]?.category.id}</span>
             </div>
           </Link>
         ) : (
