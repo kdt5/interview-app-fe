@@ -91,12 +91,6 @@ const HeaderStyle = styled.header<{ $bgColor: string }>`
   background-color: ${({ $bgColor }) => $bgColor};
   z-index: 999;
   height: 85px;
-
-  .logo {
-    img {
-      width: 140px;
-    }
-  }
 `;
 
 const TitleWrapStyle = styled.div`
