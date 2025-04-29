@@ -23,6 +23,8 @@ import SettingProfile from "../pages/Mypage/SettingsProfile";
 import OnBoardingPage from "../pages/OnBoardingPage";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
+import AnswerDetailPage from "../pages/AnswerDetailPage";
+
 
 const requiredUrls = [
   FRONTEND_URLS.HOME,
@@ -121,6 +123,10 @@ export const routerObjects: RouteObject[] = [
   {
     path: FRONTEND_URLS.ANSWER,
     element: <RecordAnswerPage />,
+  },
+  {
+    path: FRONTEND_URLS.ANSWER_DETAIL,
+    element: <AnswerDetailPage />,
   },
   {
     path: FRONTEND_URLS.ANSWER_EDIT,
