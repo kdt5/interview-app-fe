@@ -42,7 +42,10 @@ function QuestionListPage(): JSX.Element {
     loadCounts();
   }, [position]);
 
-  if (position === undefined || !Positions.includes(position)) {
+  if (
+    currentTab === "필수 면접" &&
+    (position === undefined || !Positions.includes(position))
+  ) {
     throw new Error("Position is not defined");
   }
 

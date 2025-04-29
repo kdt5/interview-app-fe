@@ -3,15 +3,13 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { login } from "../api/Auth.api";
 import { Link } from "react-router-dom";
-import { FRONTEND_URLS } from "../constants/Urls";
-import { GlobalStyle } from "../styles/global";
 import { ErrorMessage } from "@hookform/error-message";
+import InputField from "../components/common/Input/Input";
 import {
   EMAIL_MAX_LENGTH,
   PASSWORD_MAX_LENGTH,
   PASSWORD_MIN_LENGTH,
 } from "../constants/Auth";
-import InputText from "../components/common/Input";
 
 export default LoginPage;
 
@@ -35,179 +33,173 @@ function LoginPage() {
   };
 
   const checkEmail: RegisterOptions<LoginInputs, "email"> = {
-    required: { value: true, message: "이메일을 입력해주세요." },
+    required: { value: true, message: "이메일 또는 비밀번호를 확인하세요." },
     pattern: {
       value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/i,
-      message: "유효한 이메일 형식이 아닙니다.",
+      message: "이메일 또는 비밀번호를 확인하세요.",
     },
     maxLength: {
       value: EMAIL_MAX_LENGTH,
-      message: `이메일은 ${EMAIL_MAX_LENGTH}자 이하로 입력해주세요.`,
+      message: "이메일 또는 비밀번호를 확인하세요.",
     },
   };
 
   const checkPassword: RegisterOptions<LoginInputs, "email"> = {
     required: {
       value: true,
-      message: "비밀번호를 입력해주세요.",
+      message: "이메일 또는 비밀번호를 확인하세요.",
     },
     pattern: {
       value: new RegExp(
         `^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{${PASSWORD_MIN_LENGTH},${PASSWORD_MAX_LENGTH}}$`
       ),
-      message: `영문 대소문자, 숫자, 특수문자 포함 ${PASSWORD_MIN_LENGTH} - ${PASSWORD_MAX_LENGTH}자`,
+      message: "이메일 또는 비밀번호를 확인하세요.",
     },
   };
+  const firstErrorField = errors.email
+    ? "email"
+    : errors.password
+      ? "password"
+      : null;
 
   return (
-    <>
-      <GlobalStyle />
-      <LoginPageStyle>
-        <p className="main-title">
-          함께하는 면접, <br />
-          합격까지 한걸음 더!
-        </p>
-        <span className="sub-title">
-          인터뷰잇 서비스 이용을 위해 로그인 해주세요.
-        </span>
+    <Wrapper>
+      <Content>
+        <Title className="main-title">로그인</Title>
+        <Subtitle className="sub-title">
+          서비스 이용을 위해 로그인 해주세요.
+        </Subtitle>
 
-        <form onSubmit={handleSubmit(onSubmit)} noValidate>
-          <div className="login-form__container">
-            <div className="login-form__input-container">
-              <InputText
+        <LoginForm onSubmit={handleSubmit(onSubmit)} noValidate>
+          <FormGroup>
+            <InputWrapper>
+              <InputField
+                type="email"
                 autoComplete="off"
                 placeholder="이메일 입력"
-                type="email"
                 {...register("email", checkEmail)}
               />
-            </div>
-            <ErrorMessage
-              errors={errors}
-              name="email"
-              render={({ message }) => (
-                <span className="error-message">{message}</span>
-              )}
-            />
-          </div>
-          <div className="login-form__container">
-            <div className="login-form__input-container">
-              <InputText
+            </InputWrapper>
+          </FormGroup>
+
+          <FormGroup>
+            <InputWrapper>
+              <InputField
                 autoComplete="off"
                 placeholder="비밀번호 입력"
                 type="password"
                 {...register("password", checkPassword)}
               />
-            </div>
-            <ErrorMessage
-              errors={errors}
-              name="password"
-              render={({ message }) => (
-                <span className="error-message">{message}</span>
-              )}
-            />
-          </div>
-          <div className="login-form__column">
-            <span className="id-find-btn">아이디 찾기</span>
-            <div className="mid-line"></div>
-            <span className="pass-find-btn">비밀번호 찾기</span>
-            <div className="mid-line"></div>
-            <Link to={FRONTEND_URLS.SIGNUP}>
-              <span className="join-btn">회원가입</span>
-            </Link>
-          </div>
+            </InputWrapper>
+          </FormGroup>
+          <ErrorText>
+            {firstErrorField ? (
+              <ErrorMessage
+                errors={errors}
+                name={firstErrorField}
+                render={({ message }) => message}
+              />
+            ) : (
+              " "
+            )}
+          </ErrorText>
 
-          <button type="submit" className="login-form__btn">
-            로그인
-          </button>
-        </form>
-      </LoginPageStyle>
-    </>
+          <LoginButton>로그인</LoginButton>
+        </LoginForm>
+
+        <LinkGroup>
+          <StyledLink to="/forgot-password">비밀번호 찾기</StyledLink>
+          <Divider>|</Divider>
+          <StyledLink to="/signup">회원가입</StyledLink>
+        </LinkGroup>
+      </Content>
+    </Wrapper>
   );
 }
 
-const LoginPageStyle = styled.div`
-  width: 100%;
-  max-width: 380px;
-  height: 100dvh;
+const Wrapper = styled.div`
+  height: 100vh;
+  padding: 32px 20px;
+  max-width: 400px;
   margin: 0 auto;
-  padding: 180px 30px 120px 30px;
+  background-color: white;
+`;
+
+const Content = styled.div`
+  margin-top: 32px;
+`;
+
+const Title = styled.h1`
+  font-size: 30px;
+  font-weight: bold;
+`;
+
+const Subtitle = styled.p`
+  font-size: 16px;
+  color: #888888;
+  margin-top: 8px;
+  margin-bottom: 40px;
+  font-weight: 400;
+`;
+
+const LoginForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  gap: 8px;
+`;
+
+const FormGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
+
+const InputWrapper = styled.div`
+  width: 100%;
+`;
+
+const ErrorText = styled.span`
+  font-size: 12px;
+  color: #e74c3c;
+  padding-left: 4px;
+  min-height: 18px;
+  display: block;
+  text-align: right;
+`;
+const LoginButton = styled.button`
+  padding: 14px 0;
+  height: 55px;
+  border-radius: 8px;
   background-color: #6ea1ff;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  border: 1px solid #eee;
+  margin-top: 40px;
+`;
 
-  form {
-    margin-top: 130px;
+const LinkGroup = styled.div`
+  font-size: 13px;
+  color: #444;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 20px;
+`;
+
+const StyledLink = styled(Link)`
+  font-size: 13px;
+  color: #444;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
   }
+`;
 
-  .main-title {
-    color: #ffffff;
-    font-weight: 600;
-    font-size: 30px;
-    line-height: 1.3;
-    margin-bottom: 15px;
-  }
-
-  .sub-title {
-    color: #ffffff;
-    font-size: 16px;
-    font-weight: 200;
-  }
-
-  .login-form {
-    margin-top: 60px;
-  }
-
-  .login-form__container {
-    height: 85px;
-
-    .login-form__input-container {
-      border-bottom: 1px solid #fff;
-    }
-
-    .error-message {
-      color: red;
-      font-size: 12px;
-      margin: 5px 0 0 5px;
-    }
-  }
-
-  .login-form__column {
-    display: flex;
-    font-size: 10px;
-    color: #ffffff;
-    justify-content: flex-end;
-    margin-top: 15px;
-
-    .mid-line {
-      width: 1px;
-      height: 16px;
-      background-color: #fff;
-    }
-
-    .id-find-btn,
-    .pass-find-btn,
-    .join-btn {
-      font-weight: 300;
-      color: #ffffff;
-      padding: 0 10px;
-    }
-
-    .join-btn {
-      padding-right: 0;
-    }
-  }
-
-  .login-form__btn {
-    margin-top: 130px;
-    width: 330px;
-    height: 60px;
-    font-size: 20px;
-    background: #ffffff;
-    color: #6ea1ff;
-    border-radius: 10px;
-    border: solid 1px #fff;
-    padding: 15px 20px;
-    text-align: center;
-    line-height: 1;
-    cursor: pointer;
-    font-weight: 600;
-  }
+const Divider = styled.span`
+  color: #aaa;
 `;
