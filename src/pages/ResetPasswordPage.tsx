@@ -110,7 +110,9 @@ function ResetPasswordPage() {
       </Form>
 
       <BottomFixed>
-        <LoginButton onClick={() => navigate("/login")}>로그인</LoginButton>
+        <LoginButton onClick={() => navigate("/login")}>
+          비밀번호 재설정
+        </LoginButton>
       </BottomFixed>
     </Wrapper>
   );

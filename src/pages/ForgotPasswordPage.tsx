@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import InputText from "../components/common/Input";
 import { RegisterOptions, useForm } from "react-hook-form";
 import { EMAIL_MAX_LENGTH } from "../constants/Auth";
 import { ErrorMessage } from "@hookform/error-message";
+import InputField from "../components/common/Input/Input";
 
 function ForgotPasswordPage() {
   const navigate = useNavigate();
@@ -36,7 +36,7 @@ function ForgotPasswordPage() {
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Label>이메일</Label>
         <InputRow>
-          <InputText
+          <InputField
             type="email"
             placeholder="이메일 입력"
             {...register("email", checkEmail)}
