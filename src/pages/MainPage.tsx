@@ -7,6 +7,7 @@ import { useFetchWeeklyQuestion } from "../hooks/UseFetchWeeklyQuestion";
 import SectionTitle from "../components/common/SectionTitle";
 import EssentialQuestionListGroup from "../components/MainPage/EssentialQuestionListSection";
 import MainPageIconNavigation from "../components/MainPage/MainPageIconNavigation";
+import MainSlideBanner from "../components/MainPage/MainSlideBanner";
 
 function MainPage() {
   const { weeklyQuestion } = useFetchWeeklyQuestion();
@@ -63,7 +64,7 @@ function MainPage() {
           </SectionTitle>
           <EssentialQuestionListGroup></EssentialQuestionListGroup>
         </MainPageSectionStyle>
-        <MainPageSectionStyle>이미지</MainPageSectionStyle>
+        <MainSlideBanner></MainSlideBanner>
         <MainPageSectionStyle>
           <SectionTitle to="/mypage">실전 면접, 채용 공고</SectionTitle>
         </MainPageSectionStyle>
