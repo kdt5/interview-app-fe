@@ -14,10 +14,15 @@ import CommunityImage from "../../assets/Navigation/Community.png";
 import CommunityImageActive from "../../assets/Navigation/Community-Active.png";
 import MyPageImage from "../../assets/Navigation/MyPage.png";
 import MyPageImageActive from "../../assets/Navigation/MyPage-Active.png";
+import { getPositionKeyById } from "../../utils/Positions";
+import { useMyUserData } from "../../hooks/UseMyUserData";
 
 function Nav() {
   const { pathname } = useLocation();
   const { weeklyQuestion } = useFetchWeeklyQuestion();
+  const { data: userData } = useMyUserData();
+
+  if (!userData) return null;
   return (
     <>
       <NavStyle>
@@ -45,8 +50,8 @@ function Nav() {
             <Link
               to={
                 weeklyQuestion
-                  ? replaceUrlParams(FRONTEND_URLS.ANSWER, {
-                      questionId: weeklyQuestion.question?.id?.toString(),
+                  ? replaceUrlParams(FRONTEND_URLS.QUESTION_LIST, {
+                      position: getPositionKeyById(userData.positionId) || "",
                     })
                   : ""
               }

@@ -6,17 +6,24 @@ import AnswerForm from "../components/AnswerPage/AnswerForm";
 import { SlArrowRight } from "react-icons/sl";
 import { useState } from "react";
 import RadioButtonModal from "../components/RecordAnswerPage/RadioButtonModal";
+import { replaceUrlParams } from "../utils/Url";
+import { FRONTEND_URLS } from "../constants/Urls";
 
 export type ModalType = "confirm" | "alert";
 
 function RecordAnswerPage() {
   const navigate = useNavigate();
-  const { questionId } = useParams<{
+  const { questionId, answerId } = useParams<{
     questionId: string;
+    answerId: string;
   }>();
 
   const parsedQuestionId = parseInt(questionId as string);
-  const { question, answer, setAnswer } = useAnswer(parsedQuestionId);
+  const parsedAnswerId = parseInt(answerId as string);
+  const { question, answer, setAnswer } = useAnswer(
+    parsedQuestionId,
+    parsedAnswerId
+  );
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPublic, setIsPublic] = useState<boolean | null>(null);
@@ -37,8 +44,20 @@ function RecordAnswerPage() {
 
   const isOverLimit = answer.length >= 500;
 
+  const isSubmitDisabled =
+    answer.trim() === "" || answer.length < 0 || isPublic === null;
+
+  const handleSubmitSuccess = () => {
+    navigate(
+      replaceUrlParams(FRONTEND_URLS.ANSWER_DETAIL, {
+        questionId: parsedQuestionId.toString(),
+        answerId: parsedAnswerId.toString(),
+      })
+    );
+  };
+
   return (
-    <RecordAnswerPageStyle>
+    <>
       <QuestionContainer title={question?.title || "질문이 없습니다."} />
       <ToggleVisibilityButton onClick={() => setIsModalOpen(true)}>
         <Label>
@@ -52,6 +71,9 @@ function RecordAnswerPage() {
         handleAnswerChange={handleAnswerChange}
         isOverLimit={isOverLimit}
         isPublic={isPublic}
+        onSubmitSuccess={handleSubmitSuccess}
+        buttonText="완료"
+        isSubmitDisabled={isSubmitDisabled}
       />
       {isModalOpen && (
         <RadioButtonModal
@@ -62,11 +84,9 @@ function RecordAnswerPage() {
           }}
         />
       )}
-    </RecordAnswerPageStyle>
+    </>
   );
 }
-
-export const RecordAnswerPageStyle = styled.div``;
 
 const ToggleVisibilityButton = styled.button`
   width: 100%;
