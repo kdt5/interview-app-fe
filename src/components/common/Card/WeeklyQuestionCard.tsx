@@ -6,7 +6,7 @@ import { SlArrowRight as ArrowIcon } from "react-icons/sl";
 import { Link } from "react-router-dom";
 
 interface Props {
-  category: number;
+  category: string;
   title: string;
   date: string;
   answercount?: number;
