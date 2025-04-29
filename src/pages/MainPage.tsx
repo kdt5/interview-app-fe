@@ -12,6 +12,7 @@ import RankingIcon from "../assets/Navigation/Ranking-Active.png";
 import AnswerIcon from "../assets/Navigation/MyAnswer-Active.png";
 import CommunityIcon from "../assets/Navigation/Community-Active.png";
 import WeeklyQuestionCard from "../components/common/Card/WeeklyQuestionCard";
+import RecruitmentNotice from "../components/MainPage/RecruitmentNotice";
 function MainPage() {
   const { weeklyQuestion } = useFetchWeeklyQuestion();
 
@@ -76,6 +77,7 @@ function MainPage() {
         <MainSlideBanner></MainSlideBanner>
         <MainPageSectionStyle>
           <SectionTitle to="/mypage">실전 면접, 채용 공고</SectionTitle>
+          <RecruitmentNotice></RecruitmentNotice>
         </MainPageSectionStyle>
       </MainPageStyle>
     </>
