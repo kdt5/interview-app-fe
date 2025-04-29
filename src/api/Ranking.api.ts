@@ -13,7 +13,6 @@ export async function fetchIntegrationRanking(): Promise<RankingItem[]> {
   return response;
 }
 
-// 답변수 랭킹 가져오기
 export async function fetchAnswerRanking(): Promise<RankingItem[]> {
   const response = await backendHttpClient
     .get<RankingItem[]>(BACKEND_URLS.RANKINGS.ANSWERS)
@@ -25,7 +24,6 @@ export async function fetchAnswerRanking(): Promise<RankingItem[]> {
   return response;
 }
 
-// 좋아요수 랭킹 가져오기
 export async function fetchFavoriteRanking(): Promise<RankingItem[]> {
   const response = await backendHttpClient
     .get<RankingItem[]>(BACKEND_URLS.RANKINGS.LIKES)

@@ -9,49 +9,10 @@ import {
   useFavoriteRanking,
   useIntegrationRanking,
 } from "../hooks/UseRanking";
-import RankingProfile2 from "../components/common/Profile/RankingProfil2";
-
-const hotRankingUsers = [
-  {
-    profileImg: "/public/user1.png",
-    username: "명수옹",
-    like: 884,
-  },
-  {
-    profileImg: "/public/user2.png",
-    username: "광대하트",
-    like: 674,
-  },
-  {
-    profileImg: "/public/user3.png",
-    username: "희번덕",
-    like: 456,
-  },
-];
-
-const answerRankingUsers = [
-  {
-    profileImg: "/public/user1.png",
-    username: "명수옹",
-    level: 5,
-    like: 884,
-    comments: 223,
-  },
-  {
-    profileImg: "/public/user1.png",
-    username: "명수옹",
-    level: 5,
-    comments: 223,
-    like: 884,
-  },
-  {
-    profileImg: "/public/user1.png",
-    username: "명수옹",
-    level: 5,
-    like: 884,
-    comments: 223,
-  },
-];
+import {
+  answerRankingMockData,
+  favoriteRankingMockData,
+} from "../mocks/Ranking";
 
 function RankingMainPage() {
   // 프로필 정보
@@ -101,12 +62,12 @@ function RankingMainPage() {
     .slice(0, 3);
 
   // 답변수 높은 순 정렬해서 Top 3
-  const topAnswerUsers = [...integrationRankingData]
+  const topAnswerUsers = [...answerRankingMockData]
     .sort((a, b) => b.totalAnswerCount - a.totalAnswerCount)
     .slice(0, 3);
 
   // 좋아요수 높은 순 정렬해서 Top 3
-  const topFavoriteUsers = [...integrationRankingData]
+  const topFavoriteUsers = [...favoriteRankingMockData]
     .sort((a, b) => b.totalFavoriteCount - a.totalFavoriteCount)
     .slice(0, 3);
 
@@ -170,15 +131,9 @@ function RankingMainPage() {
           </Link>
         </div>
         <div className="answer-users">
-          {answerRankingUsers.map((user, index) => (
-            <div className="rank-profile-box" key={`answer-${index}`}>
-              <RankingProfile {...user} />
-            </div>
-          ))}
-
           {topAnswerUsers.map((user, index) => (
             <div className="rank-profile-box" key={`answer-${index}`}>
-              <RankingProfile2 {...user} />
+              <RankingProfile {...user} />
             </div>
           ))}
         </div>
@@ -193,14 +148,9 @@ function RankingMainPage() {
           </Link>
         </div>
         <div className="like-users">
-          {answerRankingUsers.map((user, index) => (
-            <div className="rank-profile-box" key={`like-${index}`}>
-              <RankingProfile {...user} />
-            </div>
-          ))}
           {topFavoriteUsers.map((user, index) => (
             <div className="rank-profile-box" key={`like-${index}`}>
-              <RankingProfile2 {...user} />
+              <RankingProfile {...user} />
             </div>
           ))}
         </div>

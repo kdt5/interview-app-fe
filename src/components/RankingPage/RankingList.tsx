@@ -1,10 +1,10 @@
 import React from "react";
 import RankingProfile from "../common/Profile/RankingProfile";
-import { RankingData } from "../../models/Ranking.model";
+import { RankingItem } from "../../models/Ranking.model";
 import styled from "styled-components";
 
 interface Props {
-  rankingData: RankingData[];
+  rankingData: RankingItem[];
   mode?: "main" | "more";
 }
 
@@ -21,18 +21,19 @@ const RankingList: React.FC<Props> = ({ rankingData, mode = "more" }) => {
     <RankingListStyle>
       {rankingData.map((user) => (
         <div
-          key={user.id}
-          className={`rank-profile-box rank-users-profile-box ${getRankClassName(user.ranking)}`}
+          key={user.rank} // rank를 고유 key로 사용
+          className={`rank-profile-box rank-users-profile-box ${getRankClassName(user.rank)}`}
         >
           <RankingProfile
-            profileImg="../public/user1.png"
-            username={user.username}
+            profileImageUrl={user.profileImageUrl}
+            nickname={user.nickname}
             level={user.level}
-            like={user.like}
-            comments={user.comments}
-            {...(mode === "more" && user.ranking && user.ranking <= 3
-              ? { ranking: user.ranking }
-              : { commonRanking: user.ranking })}
+            totalFavoriteCount={user.totalFavoriteCount}
+            totalAnswerCount={user.totalAnswerCount}
+            totalScore={user.totalScore}
+            {...(mode === "more" && user.rank && user.rank <= 3
+              ? { rank: user.rank }
+              : { commonRanking: user.rank })}
           />
         </div>
       ))}
