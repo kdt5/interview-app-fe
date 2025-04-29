@@ -1,10 +1,12 @@
 import styled from "styled-components";
-import HomeImg from "../assets/MainPageIcon.png";
-import { SlArrowRight } from "react-icons/sl";
+
 import { Link } from "react-router-dom";
 import { FRONTEND_URLS } from "../constants/Urls";
 import { replaceUrlParams } from "../utils/Url";
 import { useFetchWeeklyQuestion } from "../hooks/UseFetchWeeklyQuestion";
+import SectionTitle from "../components/common/SectionTitle";
+import EssentialQuestionList from "../components/MainPage/EssentialQuestionList";
+import EssentialQuestionListGroup from "../components/MainPage/EssentialQuestionListSection";
 
 function MainPage() {
   const { weeklyQuestion } = useFetchWeeklyQuestion();
@@ -12,21 +14,11 @@ function MainPage() {
   return (
     <>
       <MainPageStyle>
-        <div className="main-title">
-          <h1>
-            이번주 새로운
-            <br />
-            면접질문이 도착했어요
-          </h1>
-          <div>
-            <img src={HomeImg} alt="MainPage Image" />
-          </div>
-        </div>
-
         {weeklyQuestion ? (
           <Link
             to={replaceUrlParams(FRONTEND_URLS.ANSWER, {
-              questionId: weeklyQuestion.question.id?.toString(),
+              // questionId: weeklyQuestion.question.id?.toString(),
+              questionId: weeklyQuestion.question?.id?.toString() ?? "",
             })}
             className="weekly-question"
           >
@@ -40,43 +32,30 @@ function MainPage() {
             <p>이번 주 질문을 불러올 수 없습니다.</p>
           </div>
         )}
-
-        <div className="interview-essential-wrap">
-          <div className="contents-title">
-            <span>추천 질문</span>
-            <p>면접 필수 질문</p>
-          </div>
-          <div className="interview-essential">
-            <div className="essential-question-box">
-              <p>
-                프론트엔드 개발자
-                <br />
-                필수 질문 리스트
-              </p>
-              <span>
-                <LinkStyle to="/question-list/frontend">
-                  지금 답변하기 <SlArrowRight />
-                </LinkStyle>
-              </span>
-            </div>
-            <div className="essential-question-box">
-              <p>
-                백엔드 개발자
-                <br />
-                필수 질문 리스트
-              </p>
-              <span>
-                <LinkStyle to="/question-list/backend">
-                  지금 답변하기 <SlArrowRight />
-                </LinkStyle>
-              </span>
-            </div>
-          </div>
-        </div>
       </MainPageStyle>
+
+      <MainPageStyleNew>
+        <MainPageSectionStyle>
+          <SectionTitle to="/question-list/frontend">
+            면접 필수 질문
+          </SectionTitle>
+          <EssentialQuestionListGroup></EssentialQuestionListGroup>
+        </MainPageSectionStyle>
+        <MainPageSectionStyle>이미지</MainPageSectionStyle>
+        <MainPageSectionStyle>
+          <SectionTitle to="/mypage">실전 면접, 채용 공고</SectionTitle>
+        </MainPageSectionStyle>
+      </MainPageStyleNew>
     </>
   );
 }
+
+const MainPageStyleNew = styled.main`
+  width: 100%;
+  height: fit-content;
+`;
+
+const MainPageSectionStyle = styled.div``;
 
 const MainPageStyle = styled.main`
   width: 100%;
