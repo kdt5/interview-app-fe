@@ -4,14 +4,14 @@ import { useAnswer } from "../hooks/UseAnswer";
 import QuestionContainer from "../components/AnswerPage/QuestionContainer";
 import { SlOptionsVertical } from "react-icons/sl";
 import { useState } from "react";
-import EditDeletePopUp from "../components/QuestionDetailPage/EditDeletePopUp";
+import EditDeletePopUp from "../components/AnswerDetailPage/EditDeletePopUp";
 import ConfirmModal from "../components/common/ConfirmModal";
 import AlertModal from "../components/common/AlertModal";
 import { FRONTEND_URLS } from "../constants/Urls";
 import { Link } from "react-router-dom";
 import { replaceUrlParams } from "../utils/Url";
 
-function QuestionDetailPage() {
+function AnswerDetailPage() {
   const { questionId, answerId } = useParams<{
     questionId: string;
     answerId: string;
@@ -64,7 +64,7 @@ function QuestionDetailPage() {
   };
 
   return (
-    <QuestionDetailPageStyle>
+    <AnswerDetailPageStyle>
       <QuestionContainer
         title={question?.title || "질문이 없습니다."}
       ></QuestionContainer>
@@ -104,11 +104,11 @@ function QuestionDetailPage() {
           message="삭제되었습니다."
         />
       )}
-    </QuestionDetailPageStyle>
+    </AnswerDetailPageStyle>
   );
 }
 
-const QuestionDetailPageStyle = styled.div`
+const AnswerDetailPageStyle = styled.div`
   position: relative;
 `;
 
@@ -175,4 +175,4 @@ const OptionButton = styled(SlOptionsVertical)`
   font-size: 20px;
 `;
 
-export default QuestionDetailPage;
+export default AnswerDetailPage;
