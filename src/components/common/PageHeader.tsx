@@ -60,13 +60,13 @@ const getPageTitle = (pathname: string) => {
     [FRONTEND_URLS.RANKINGS.MORE]: "랭킹 더보기",
 
     [FRONTEND_URLS.COMMUNITY.HOME]: "커뮤니티",
-    "/answerdetail": "답변 상세보기",
     [FRONTEND_URLS.SIGNUP]: "회원가입",
     [FRONTEND_URLS.LOGIN]: " ",
   };
 
   const matchAnswer = matchPath(FRONTEND_URLS.ANSWER, pathname);
   const matchAnswerEdit = matchPath(FRONTEND_URLS.ANSWER_EDIT, pathname);
+  const matchAnswerDetail = matchPath(FRONTEND_URLS.ANSWER_DETAIL, pathname);
   const matchInterview = matchPath("/question-list/:position/*", pathname);
 
   if (matchInterview) return "면접 질문";
@@ -76,7 +76,11 @@ const getPageTitle = (pathname: string) => {
   }
 
   if (matchAnswerEdit) {
-    return "내 답변 편집하기";
+    return "답변 수정";
+  }
+
+  if (matchAnswerDetail) {
+    return "답변 상세보기";
   }
 
   return titles[pathname] || "페이지";

@@ -20,6 +20,7 @@ import PostWrite from "../pages/CommunityPost/PostWrite";
 import MoreRankingPage from "../pages/MoreRankingPage";
 import CommunityWeeklyAnswer from "../pages/Community/CommunityWeeklyAnswer";
 import SettingProfile from "../pages/Mypage/SettingsProfile";
+import AnswerDetailPage from "../pages/AnswerDetailPage";
 
 const requiredUrls = [
   FRONTEND_URLS.HOME,
@@ -104,6 +105,10 @@ export const routerObjects: RouteObject[] = [
   {
     path: FRONTEND_URLS.ANSWER,
     element: <RecordAnswerPage />,
+  },
+  {
+    path: FRONTEND_URLS.ANSWER_DETAIL,
+    element: <AnswerDetailPage />,
   },
   {
     path: FRONTEND_URLS.ANSWER_EDIT,
