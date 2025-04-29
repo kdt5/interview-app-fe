@@ -3,8 +3,10 @@ import { deletePost, fetchPostOwnership } from "../../../api/Post.api";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FRONTEND_URLS } from "../../../constants/Urls";
+import { fetchAnswerOwnership } from "../../../api/Answer.api";
 
 interface Props {
+  className?: string;
   onClose?: () => void;
   postId?: number;
   title?: string;
@@ -13,7 +15,7 @@ interface Props {
   message?: string;
 }
 
-function CommunityModal({ onClose, postId, title, content, postCategoryId }: Props) {
+function CommunityModal({ className, onClose, postId, title, content, postCategoryId }: Props) {
   const navigate = useNavigate();
 
   const [isMyData, setIsMyData] = useState<boolean>(false);
@@ -23,8 +25,13 @@ function CommunityModal({ onClose, postId, title, content, postCategoryId }: Pro
     const checkOwnership = async () => {
       if (postId !== undefined) {
         try {
-          const result = await fetchPostOwnership(postId);
-          setIsMyData(result);
+          if(className === "interview") {
+            const result = await fetchAnswerOwnership(postId);
+            setIsMyData(result);
+          } else {
+            const result = await fetchPostOwnership(postId);
+            setIsMyData(result);
+          }
         } catch {
           setIsMyData(false);
         }
@@ -34,7 +41,7 @@ function CommunityModal({ onClose, postId, title, content, postCategoryId }: Pro
   }, [postId]);
 
   const handleEdit = () => {
-    if (postId) {
+    if (postId && !className) {
       navigate(`${FRONTEND_URLS.COMMUNITY.POST_EDIT.replace(":postId", String(postId))}`, {
         state: {
           postId,
@@ -47,7 +54,7 @@ function CommunityModal({ onClose, postId, title, content, postCategoryId }: Pro
   };
 
   const handleDelete = async () => {
-    if(!postId) return;
+    if(!postId || !className) return;
     try {
       const result = await deletePost(postId);
       if(result) {

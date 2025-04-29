@@ -1,6 +1,6 @@
-import { HttpStatusCode } from "axios";
+import axios, { HttpStatusCode } from "axios";
 import { BACKEND_URLS } from "../constants/Urls";
-import { Answer, AnsweredQuestion } from "../models/Answer.model";
+import { AnsweredQuestion } from "../models/Answer.model";
 import { replaceUrlParams } from "../utils/Url";
 import { backendHttpClient } from "./BackendHttpClient.api";
 
@@ -88,9 +88,9 @@ export async function deleteAnswer(answerId: number): Promise<boolean> {
   return response;
 }
 
-export async function fetchAnswer(answerId: number): Promise<Answer> {
+export async function fetchAnswer(answerId: number): Promise<AnsweredQuestion> {
   const response = await backendHttpClient
-    .get<Answer>(
+    .get<AnsweredQuestion>(
       replaceUrlParams(BACKEND_URLS.ANSWERS.ANSWER_EDIT, {
         answerId: answerId.toString(),
       })
@@ -118,4 +118,20 @@ export async function fetchAnswers(
     });
 
   return response;
+}
+
+export async function fetchAnswerOwnership(answerId: number): Promise<boolean> {
+  try {
+    await backendHttpClient.get<boolean>(
+      replaceUrlParams(BACKEND_URLS.ANSWERS.OWNERSHIP, {
+        answerId: answerId.toString(),
+      })
+    );
+    return true;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response?.status === 403) {
+      return false;
+    }
+    throw error;
+  }
 }

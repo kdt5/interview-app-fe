@@ -79,6 +79,7 @@ function CommunityAnswer({
       </AnswerDetailProfile>
       {isModalOpen && (
         <CommunityModal
+          className={className}
           onClose={handleOptionClick}
           postId={id}
           title={title}

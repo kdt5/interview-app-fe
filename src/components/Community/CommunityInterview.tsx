@@ -61,7 +61,7 @@ function InterviewTab() {
     <>
       <WeeklyQuestionSection>
         <SectionTitle>위클리 답변 토론</SectionTitle>
-        <Link to="/weeklypost">
+        <Link to={FRONTEND_URLS.ANSWER.replace(":questionId", weeklyQuestion.questionId.toString())}>
           {weeklyQuestion && (
             <WeeklyQuestionCard
               category={

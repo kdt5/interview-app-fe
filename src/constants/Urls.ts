@@ -69,6 +69,7 @@ export const BACKEND_URLS = {
     ANSWER_LIST: "/api/questions/:questionId/answers",
     ANSWER_RECORD: "/api/answers/:questionId",
     ANSWER_EDIT: "/api/answers/:answerId",
+    OWNERSHIP: "/api/answers/:answerId/ownership",
   },
   FAVORITES: {
     MINE: "/api/favorites/mine",
