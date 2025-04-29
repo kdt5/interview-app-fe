@@ -11,9 +11,6 @@ function CommunityAnswerDetail() {
   const { answers } = useFetchAnswers(parseInt(questionId));
 
   if (!question || !answers) return null;
-  console.log(questionId);
-  console.log("question", question);
-  console.log("answers", answers);
   
   return (
     <>
