@@ -46,9 +46,9 @@ function InterviewTab() {
       if (!toggledQuestion) return;
 
       if (toggledQuestion.isFavorite) {
-        await removeFavorite(questionId);
+        await removeFavorite(questionId, "question");
       } else {
-        await addFavorite(questionId);
+        await addFavorite(questionId, "question");
       }
     } catch (error) {
       console.error("좋아요 토글 실패", error);
