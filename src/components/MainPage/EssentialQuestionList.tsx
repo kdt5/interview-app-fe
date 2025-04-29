@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import ReactIcon from "../../assets/ReactIcon.png";
-interface Porps {
+interface Props {
   category: string;
   questiontitle: string;
   to?: string;
@@ -14,7 +14,7 @@ function EssentialQuestionList({
   questiontitle,
   to = "/",
   imageSource = ReactIcon,
-}: Porps) {
+}: Props) {
   return (
     <>
       <EssentialQuestionListStyle to={to}>
