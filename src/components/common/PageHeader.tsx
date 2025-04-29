@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import logo from "../../assets/logo.png";
+import Notice from "../../assets/Notice.png";
+import NoticeActive from "../../assets/Notice_Active.png";
 import { matchPath, useLocation, useNavigate } from "react-router-dom";
 import { HiArrowSmLeft } from "react-icons/hi";
 import { FRONTEND_URLS } from "../../constants/Urls";
@@ -25,11 +27,18 @@ function Header() {
     return "#fff";
   };
 
+  const [hasNotice] = useState(true);
+
   return (
     <HeaderStyle $bgColor={getBackgroundColorByPath(location.pathname)}>
       {MainPage ? (
         <div className="logo">
-          <img src={logo} alt="interview it" />
+          <span>
+            <img src={logo} alt="interview it" />
+          </span>
+          <span>
+            <img src={hasNotice ? Notice : NoticeActive} alt="" />
+          </span>
         </div>
       ) : (
         <TitleWrapStyle>
@@ -91,6 +100,12 @@ const HeaderStyle = styled.header<{ $bgColor: string }>`
   background-color: ${({ $bgColor }) => $bgColor};
   z-index: 999;
   height: 85px;
+
+  .logo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 `;
 
 const TitleWrapStyle = styled.div`
