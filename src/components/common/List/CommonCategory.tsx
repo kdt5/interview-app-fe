@@ -12,17 +12,6 @@ function CommonCategory({ className, selectedCatId, setSelectedCatId }: Props) {
   const { postCategories } = usePostCategories();
   const categories = [{ id: 0, name: "전체" }, ...postCategories];
 
-  // const categories = [
-  //   "전체",
-  //   "HTML",
-  //   "CSS",
-  //   "JAVASCRIPT",
-  //   "REACT",
-  //   "VUE",
-  //   "NODE.JS",
-  //   "FFFF",
-  // ];
-
   return (
     <CommonCategoryStyle>
       <Swiper
