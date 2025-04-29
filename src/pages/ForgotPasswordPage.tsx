@@ -29,7 +29,7 @@ function ForgotPasswordPage() {
     formState: { errors },
   } = useForm<ForgotInputs>();
 
-  const onSubmit = (data: ForgotInputs) => {};
+  const onSubmit = () => {};
 
   return (
     <Wrapper>
