@@ -16,6 +16,7 @@ function AnswerDetail() {
         <CommunityAnswer key={answer.id}
           className="interview" 
           title={answer.question.title}
+          questionId={answer.question.id}
           postCategoryId={answer.question.categories[0].category.id}
           {...answer}
         />

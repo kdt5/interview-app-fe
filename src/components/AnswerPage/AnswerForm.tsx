@@ -9,6 +9,7 @@ import { recordAnswer } from "../../api/Answer.api";
 import GrayButton from "../common/Button/GrayButton";
 
 interface Props {
+  isEdit?: boolean;
   answer: string;
   handleAnswerChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   isOverLimit: boolean;
@@ -16,6 +17,7 @@ interface Props {
 }
 
 function AnswerForm({
+  isEdit,
   answer,
   handleAnswerChange,
   isOverLimit,
@@ -76,14 +78,16 @@ function AnswerForm({
         <p className={`character-count ${isOverLimit ? "over-limit" : ""}`}>
           {answer.length} / 500
         </p>
-        <GrayButton
+        {!isEdit && (
+          <GrayButton
           className="submit-button"
           type="button"
           onClick={handleSubmit}
           disabled={isSubmitDisabled}
-        >
-          완료
-        </GrayButton>
+          >
+            완료
+          </GrayButton>
+        )}
         {isModalsVisible.confirm && (
           <ConfirmModal
             onClose={() => toggleModal("confirm", false)}

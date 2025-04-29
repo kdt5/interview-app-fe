@@ -101,6 +101,7 @@ function EditAnswerPage() {
     <EditAnswerPageStyle $isSubmitDisabled={isSubmitDisabled}>
       <QuestionContainer title={question?.title || "질문이 없습니다."} />
       <AnswerForm
+        isEdit={true}
         answer={currentAnswer}
         handleAnswerChange={handleAnswerChange}
         isOverLimit={isOverLimit}

@@ -13,6 +13,7 @@ import { addFavorite, removeFavorite } from "../../api/Favorite.api";
 
 interface Props {
   className?: string;
+  questionId?: number;
   id: number;
   title: string;
   content: string;
@@ -30,13 +31,14 @@ interface Props {
 
 function CommunityAnswer({
   className,
+  questionId,
   id,
   title,
   content,
   postCategoryId,
   user,
   viewCount,
-  favoriteCount,
+  favoriteCount
 }: Props) {
   const { getCategoryName } = useCategory();
   const { isFavorite, setIsFavorite } = useFavorite(id, className === "interview" ? "ANSWER" : "POST");
@@ -102,6 +104,7 @@ function CommunityAnswer({
       {isModalOpen && (
         <CommunityModal
           className={className}
+          questionId = {questionId}
           onClose={handleOptionClick}
           postId={id}
           title={title}

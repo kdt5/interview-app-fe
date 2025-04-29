@@ -82,6 +82,8 @@ export const BACKEND_URLS = {
     OWNERSHIP: "/api/posts/:postId/ownership",
   },
   COMMENTS: "/api/comments",
+  COMMENT_OWNERSHIP: "/api/comments/:commentId/ownership",
+  COMMENTS_DETAIL: "/api/comments/:commentId",
   REPORTS: {
     ALL: "/api/reports",
     REPORT: "/api/reports/:reportId",

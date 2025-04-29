@@ -1,25 +1,28 @@
 import styled from "styled-components";
-import { deletePost, fetchPostOwnership } from "../../../api/Post.api";
+import { deleteComment, deletePost, fetchCommentOwnership, fetchPostOwnership } from "../../../api/Post.api";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FRONTEND_URLS } from "../../../constants/Urls";
-import { fetchAnswerOwnership } from "../../../api/Answer.api";
+import { deleteAnswer, fetchAnswerOwnership } from "../../../api/Answer.api";
 
 interface Props {
   className?: string;
+  questionId?: number;
   onClose?: () => void;
   postId?: number;
   title?: string;
   content?: string;
   postCategoryId?: number;
   message?: string;
+  setEditTarget?: (target: { id: number; content: string }) => void
 }
 
-function CommunityModal({ className, onClose, postId, title, content, postCategoryId }: Props) {
+function CommunityModal({ className, questionId, onClose, postId, title, content, postCategoryId, setEditTarget }: Props) {
   const navigate = useNavigate();
 
   const [isMyData, setIsMyData] = useState<boolean>(false);
   const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
+  const [successMessage, setSuccessMessage] = useState<string>("");
 
   useEffect(() => {
     const checkOwnership = async () => {
@@ -27,6 +30,9 @@ function CommunityModal({ className, onClose, postId, title, content, postCatego
         try {
           if(className === "interview") {
             const result = await fetchAnswerOwnership(postId);
+            setIsMyData(result);
+          } else if(className === "comment"){
+            const result = await fetchCommentOwnership(postId);
             setIsMyData(result);
           } else {
             const result = await fetchPostOwnership(postId);
@@ -41,35 +47,51 @@ function CommunityModal({ className, onClose, postId, title, content, postCatego
   }, [postId]);
 
   const handleEdit = () => {
-    if (postId && !className) {
-      navigate(`${FRONTEND_URLS.COMMUNITY.POST_EDIT.replace(":postId", String(postId))}`, {
-        state: {
-          postId,
-          currentTitle: title,
-          currentContent: content,
-          currentCategoryId: postCategoryId,
-        }
-      });
+    if(postId){
+      if(className === "comment") {
+        setEditTarget?.({id: postId, content: content || ""});
+        onClose?.();
+      } else if(className === "interview") {
+        navigate(`${FRONTEND_URLS.ANSWER_EDIT.replace(":questionId", String(questionId)).replace(":answerId", String(postId))}`);
+      } else {
+        navigate(`${FRONTEND_URLS.COMMUNITY.POST_EDIT.replace(":postId", String(postId))}`, {
+          state: {
+            postId,
+            currentTitle: title,
+            currentContent: content,
+            currentCategoryId: postCategoryId,
+          }
+        });
+      }
     }
   };
 
   const handleDelete = async () => {
-    if(!postId || !className) return;
+    if(!postId) return;
     try {
-      const result = await deletePost(postId);
-      if(result) {
-        setShowSuccessModal(true);
+      let result;
+      if(className === "interview") {
+        result = await deleteAnswer(postId);
+      } else if(className === "comment") {
+        result = await deleteComment(postId);
       } else {
-        alert("삭제에 실패했습니다.");
+        result = await deletePost(postId);
       }
+      if(result) {
+        setSuccessMessage("삭제에 성공했습니다.");
+      } else {
+        setSuccessMessage("삭제에 실패했습니다.");
+      }
+      setShowSuccessModal(true);
     } catch (error) {
-      console.error("게시글 삭제 오류:", error);
-      alert("게시글 삭제에 실패했습니다.");
+      console.error("삭제 오류:", error);
+      setSuccessMessage("삭제에 실패했습니다.");
+      setShowSuccessModal(true);
     }
   };
 
   const handleSuccessOk = () => {
-    navigate(FRONTEND_URLS.COMMUNITY.POST);
+    navigate(FRONTEND_URLS.COMMUNITY.MAIN);
   };
 
   return (
@@ -107,7 +129,7 @@ function CommunityModal({ className, onClose, postId, title, content, postCatego
         <CenterModalBackdrop>
           <CenterModalContainer onClick={(e) => e.stopPropagation()}>
             <p style={{ textAlign: "center", marginBottom: "16px" }}>
-              성공적으로 삭제되었습니다.
+              {successMessage}
             </p>
             <button className="action-button close" onClick={handleSuccessOk}>
               확인
@@ -119,7 +141,7 @@ function CommunityModal({ className, onClose, postId, title, content, postCatego
   );
 }
 
-const CenterModalBackdrop = styled.div`
+export const CenterModalBackdrop = styled.div`
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
@@ -129,7 +151,7 @@ const CenterModalBackdrop = styled.div`
   align-items: center;
 `;
 
-const CenterModalContainer = styled.div`
+export const CenterModalContainer = styled.div`
   background: #ffffff;
   padding: 30px 20px;
   border-radius: 10px;

@@ -5,10 +5,12 @@ import { backendHttpClient } from "./BackendHttpClient.api";
 import { replaceUrlParams } from "../utils/Url";
 import { Comment } from "../models/Comment.model";
 
-export async function fetchPosts(categoryId?: number): Promise<CommunityPost[]> {
+export async function fetchPosts(
+  categoryId?: number
+): Promise<CommunityPost[]> {
   const params = categoryId ? { categoryId } : {};
   const response = await backendHttpClient
-    .get<CommunityPost[]>(BACKEND_URLS.POSTS.ALL, {params})
+    .get<CommunityPost[]>(BACKEND_URLS.POSTS.ALL, { params })
     .then((response) => response.data)
     .catch((error) => {
       throw error;
@@ -48,6 +50,24 @@ export async function fetchPostOwnership(postId: number): Promise<boolean> {
   }
 }
 
+export async function fetchCommentOwnership(
+  commentId: number
+): Promise<boolean> {
+  try {
+    await backendHttpClient.get<boolean>(
+      replaceUrlParams(BACKEND_URLS.COMMENT_OWNERSHIP, {
+        commentId: commentId.toString(),
+      })
+    );
+    return true;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response?.status === 403) {
+      return false;
+    }
+    throw error;
+  }
+}
+
 export async function createPost(
   title: string,
   content: string,
@@ -57,7 +77,7 @@ export async function createPost(
     .post(BACKEND_URLS.POSTS.ALL, {
       title: title,
       content: content,
-      categoryId: categoryId
+      categoryId: categoryId,
     })
     .then((response) => response.status === HttpStatusCode.Created)
     .catch((error) => {
@@ -71,7 +91,7 @@ export async function editPost(
   postId: number,
   title: string,
   content: string,
-  categoryId: number,
+  categoryId: number
 ): Promise<boolean> {
   const response = await backendHttpClient
     .patch(
@@ -148,13 +168,14 @@ export async function createPostComment(
   parentId?: number
 ): Promise<boolean> {
   const response = await backendHttpClient
-    .post(`${BACKEND_URLS.COMMENTS}/${targetId}`, 
+    .post(
+      `${BACKEND_URLS.COMMENTS}/${targetId}`,
       { content },
       {
-        params: { 
+        params: {
           categoryName,
-          ...(parentId !== undefined && { parentId })
-         },
+          ...(parentId !== undefined && { parentId }),
+        },
       }
     )
     .then((response) => response.status === HttpStatusCode.Created)
@@ -165,8 +186,43 @@ export async function createPostComment(
   return response;
 }
 
-export async function fetchPostCategories(
-): Promise<PostCategory[]> {
+export async function editComment(
+  commentId: number,
+  content: string
+): Promise<boolean> {
+  const response = await backendHttpClient
+    .patch(
+      replaceUrlParams(BACKEND_URLS.COMMENTS_DETAIL, {
+        commentId: commentId.toString(),
+      }),
+      {
+        content: content,
+      }
+    )
+    .then((response) => response.status === HttpStatusCode.Ok)
+    .catch((error) => {
+      throw error;
+    });
+
+  return response;
+}
+
+export async function deleteComment(commentId: number): Promise<boolean> {
+  const response = await backendHttpClient
+    .delete(
+      replaceUrlParams(BACKEND_URLS.COMMENTS_DETAIL, {
+        commentId: commentId.toString(),
+      })
+    )
+    .then((response) => response.status === HttpStatusCode.NoContent)
+    .catch((error) => {
+      throw error;
+    });
+
+  return response;
+}
+
+export async function fetchPostCategories(): Promise<PostCategory[]> {
   const response = await backendHttpClient
     .get<PostCategory[]>(BACKEND_URLS.POSTS.CATEGORIES)
     .then((response) => response.data)

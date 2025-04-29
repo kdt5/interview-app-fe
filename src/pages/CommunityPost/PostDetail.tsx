@@ -4,47 +4,96 @@ import CommentContents from "../../components/common/Comment";
 import TextArea from "../../components/common/Community/Textarea";
 import ReplyInfo from "../../components/common/Community/ReplyInfo";
 import { useParams } from "react-router-dom";
-import { useCommunityPostComments, useCommunityPostDetail } from "../../hooks/UsePost";
+import {
+  useCommunityPostComments,
+  useCommunityPostDetail,
+} from "../../hooks/UsePost";
+import { useState } from "react";
+import { CenterModalBackdrop, CenterModalContainer } from "../../components/common/Community/CommunityModal";
 
 function PostDetail() {
   const { postId } = useParams();
   const { communityPostDetail } = useCommunityPostDetail(Number(postId));
-  const { communityPostComments, refetchComments } = useCommunityPostComments(Number(postId), "post");
+  const { communityPostComments, refetchComments } = useCommunityPostComments(
+    Number(postId),
+    "post"
+  );
 
-  const topLevelComments = communityPostComments?.filter((comment) => comment.parentId === null) || [];
-  const getReplies = (parentId: number) => (communityPostComments?.filter((comment) => comment.parentId === parentId) || []);
+  const [editTarget, setEditTarget] = useState<{
+    id: number;
+    content: string;
+  } | null>(null);
+
+  const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
+  const [successMessage, setSuccessMessage] = useState<string>("");
+
+  const handleSuccessOk = () => {
+    refetchComments?.();
+    setShowSuccessModal(false);
+  };
+
+  const topLevelComments =
+    communityPostComments?.filter((comment) => comment.parentId === null) || [];
+  const getReplies = (parentId: number) =>
+    communityPostComments?.filter((comment) => comment.parentId === parentId) ||
+    [];
 
   return (
     <>
-      {
-        communityPostDetail ? (
+      {communityPostDetail ? (
         <AnswerDetailStyle>
-          <CommunityAnswer key={communityPostDetail.id} {...communityPostDetail}/>
+          <CommunityAnswer
+            key={communityPostDetail.id}
+            {...communityPostDetail}
+          />
         </AnswerDetailStyle>
-        ) : (
-          <div>로딩중...</div>
-        )
-      }
-      {
-        topLevelComments ? (
-          (topLevelComments.length > 0) ? (
-            <>
+      ) : (
+        <div>로딩중...</div>
+      )}
+      {topLevelComments ? (
+        topLevelComments.length > 0 ? (
+          <>
             <ReplyInfo totalComments={communityPostComments.length} />
             <CommentStyle>
               {topLevelComments.map((item) => (
-                <CommentContents key={item.id} {...item} replies={getReplies(item.id)} depth={0} postId={Number(postId)} allComments={communityPostComments}/>
+                <CommentContents
+                  key={item.id}
+                  {...item}
+                  replies={getReplies(item.id)}
+                  depth={0}
+                  postId={Number(postId)}
+                  allComments={communityPostComments}
+                  setEditTarget={setEditTarget}
+                />
               ))}
             </CommentStyle>
           </>
-          ) : (
-            <ReplyInfo totalComments={0} />
-          )
-          
         ) : (
-          <div>로딩중...</div>
+          <ReplyInfo totalComments={0} />
         )
-      }
-      <TextArea targetId={postId ? Number(postId) : -1} categoryName="post" refetchComments={refetchComments}/>
+      ) : (
+        <div>로딩중...</div>
+      )}
+      <TextArea
+        targetId={postId ? Number(postId) : -1}
+        categoryName="post"
+        editTarget={editTarget}
+        setEditTarget={setEditTarget}
+        setShowSuccessModal={setShowSuccessModal}
+        setSuccessMessage={setSuccessMessage}
+      />
+      {showSuccessModal && (
+        <CenterModalBackdrop>
+          <CenterModalContainer onClick={(e) => e.stopPropagation()}>
+            <p style={{ textAlign: "center", marginBottom: "16px" }}>
+              {successMessage}
+            </p>
+            <button className="action-button close" onClick={handleSuccessOk}>
+              확인
+            </button>
+          </CenterModalContainer>
+        </CenterModalBackdrop>
+      )}
     </>
   );
 }

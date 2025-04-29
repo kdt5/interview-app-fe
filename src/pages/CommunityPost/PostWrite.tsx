@@ -64,7 +64,7 @@ function PostWrite({mode}: {
         console.error("게시글 모드 create/edit 만 가능합니다.");
         throw new Error("게시글 모드가 잘못되었습니다.");
       }
-      navigate(FRONTEND_URLS.COMMUNITY.POST);
+      navigate(FRONTEND_URLS.COMMUNITY.MAIN);
     } catch (error) {
       console.error("게시글 수정 오류:", error);
       alert("에러가 발생했습니다. 다시 시도해주세요.");

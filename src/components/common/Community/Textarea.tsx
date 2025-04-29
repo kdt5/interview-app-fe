@@ -1,33 +1,45 @@
 import styled from "styled-components";
 import Post from "../../../assets/ReplyPost.png";
 import PostActive from "../../../assets/ReplyPost_active.png";
-import { useState } from "react";
-import { createPostComment } from "../../../api/Post.api";
+import { useEffect, useState } from "react";
+import { createPostComment, editComment } from "../../../api/Post.api";
 
 interface Props {
   targetId: number;
   categoryName: "post" | "answer";
   parentId?: number;
-  refetchComments: () => void;
+  editTarget?: { id: number; content: string } | null;
+  setEditTarget?: (target: null) => void;
+  setSuccessMessage?: (message: string) => void;
+  setShowSuccessModal?: (show: boolean) => void;
 }
 
-function TextArea({ targetId, categoryName, parentId, refetchComments }: Props) {
+function TextArea({ targetId, categoryName, parentId, editTarget, setEditTarget, setShowSuccessModal, setSuccessMessage }: Props) {
   const [text, setText] = useState("");
+  
+  useEffect(() => {
+    if (editTarget) {
+      setText(editTarget.content);
+    }
+  }, [editTarget]);
 
   const handleClick = async () => {
     try {
       let response;
 
-      if(parentId){
+      if(editTarget) {
+        response = await editComment(editTarget.id, text);
+      } else if(parentId){
         response = await createPostComment(targetId, categoryName, text, parentId);
       } else {
         response = await createPostComment(targetId, categoryName, text);
       }
 
       if(response) {
-        alert("댓글이 등록되었습니다.");
+        setSuccessMessage?.(editTarget ? "댓글이 수정되었습니다." : "댓글이 등록되었습니다.");
+        setShowSuccessModal?.(true);
         setText("");
-        refetchComments?.();
+        setEditTarget?.(null);
       }
     } catch {
       alert("댓글 등록에 실패했습니다.");
@@ -43,6 +55,14 @@ function TextArea({ targetId, categoryName, parentId, refetchComments }: Props) 
           onChange={(e) => setText(e.target.value)}
         />
         <button onClick={handleClick}></button>
+        {editTarget && (
+          <button onClick={() => {
+            setEditTarget?.(null);
+            setText("");
+          }}>
+            취소
+          </button>
+        )}
       </CommentSection>
     </>
   );

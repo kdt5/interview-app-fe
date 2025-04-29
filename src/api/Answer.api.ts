@@ -80,7 +80,7 @@ export async function deleteAnswer(answerId: number): Promise<boolean> {
         answerId: answerId.toString(),
       })
     )
-    .then((response) => response.status === HttpStatusCode.Ok)
+    .then((response) => response.status === HttpStatusCode.NoContent)
     .catch((error) => {
       throw error;
     });

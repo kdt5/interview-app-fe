@@ -8,6 +8,8 @@ import { CommentStyle } from "../../pages/CommunityPost/PostDetail";
 import { FRONTEND_URLS } from "../../constants/Urls";
 import { MAX_COMMENT_DEPTH } from "../../constants/Post";
 import { countAllReplies } from "../../utils/commentCount";
+import { useState } from "react";
+import CommunityModal from "./Community/CommunityModal";
 
 interface Props {
   id: number;
@@ -24,6 +26,8 @@ interface Props {
   depth: number;
   postId?: number;
   allComments?: Comment[];
+  setEditTarget?: (target: { id: number; content: string }) => void
+  questionId?  : number;
 }
 
 function CommentContents({
@@ -35,7 +39,14 @@ function CommentContents({
   depth,
   postId,
   allComments,
+  setEditTarget,
 }: Props) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  const handleOptionClick = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
   const getReplies = (parentId: number) => (allComments?.filter((comment) => comment.parentId === parentId) || []);
 
   return (
@@ -49,7 +60,7 @@ function CommentContents({
               <Comments>누적 답변 {user.answerCount}개</Comments>
             </Username>
           </UserInfo>
-          <OptionButton></OptionButton>
+          <OptionButton onClick={handleOptionClick}></OptionButton>
         </FlexWrap>
         <Contents>{content}</Contents>
         <CommentInfo>
@@ -68,7 +79,7 @@ function CommentContents({
           depth < MAX_COMMENT_DEPTH && replies && replies.length > 0 ? (
             <CommentStyle>
               {replies.map((reply) => (
-                <CommentContents key={reply.id} {...reply} replies={getReplies(reply.id)} depth={depth + 1} postId={postId} allComments={allComments}/>
+                <CommentContents key={reply.id} {...reply} replies={getReplies(reply.id)} depth={depth + 1} postId={postId} allComments={allComments} setEditTarget={setEditTarget}/>
               ))}
             </CommentStyle>
           ) : (
@@ -76,6 +87,15 @@ function CommentContents({
           )
         }
       </ProfileSection>
+      {isModalOpen && (
+        <CommunityModal
+          className="comment"
+          setEditTarget={setEditTarget}
+          onClose={handleOptionClick}
+          postId={id}
+          content={content}
+        />
+      )}
     </>
   );
 }
