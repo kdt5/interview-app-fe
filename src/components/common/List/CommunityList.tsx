@@ -3,7 +3,7 @@ import CommonProfile from "../Profile/CommonProfile";
 import ViewerImg from "../../../assets/Viewer.png";
 
 interface Props {
-  title: string;
+  title?: string;
   content: string;
   user: {
     id: number;
@@ -21,7 +21,7 @@ function CommunityList({ title, content, user, viewCount, favoriteCount }: Props
     <>
       <CommunityListStyle>
         {<CommonProfile key={user.id} {...user} />}
-        <Title>{title}</Title>
+        {  title && <Title>{title}</Title> }
         <Content>{content}</Content>
         <Info>
           <span>

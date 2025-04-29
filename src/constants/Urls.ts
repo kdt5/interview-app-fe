@@ -17,6 +17,7 @@ export const FRONTEND_URLS = {
     },
   },
   ANSWER: "/questions/:questionId/answer",
+  ANSWER_DETAIL: "/questions/:questionId/answer/:answerId",
   ANSWER_EDIT: "/questions/:questionId/answer/:answerId/edit",
   RANKINGS: {
     MAIN: "/rankings",

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Question } from "../models/Question.model";
-import { fetchQuestions } from "../api/Question.api";
+import { fetchQuestion, fetchQuestions } from "../api/Question.api";
 import { ALL_CATEGORIES, Position } from "../constants/Question";
 
 export function useQuestions(position?: Position, categoryId?: number) {
@@ -32,5 +32,25 @@ export function useQuestions(position?: Position, categoryId?: number) {
     questions,
     setQuestions,
     updateQuestions,
+  };
+}
+
+export function useQuestion(questionId: number) {
+  const [question, setQuestion] = useState<Question>();
+
+  useEffect(() => {
+    try {
+      fetchQuestion(questionId)
+      .then((question) => {
+        setQuestion(question);
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }, [questionId]);
+
+  return {
+    question,
+    setQuestion,
   };
 }

@@ -45,10 +45,13 @@ export const routerObjects: RouteObject[] = [
   },
 
   {
-    path: "/answerdetail",
+    path: FRONTEND_URLS.ANSWER,
     element: <CommunityAnswerDetail />,
   },
-
+  // {
+  //   path: FRONTEND_URLS.ANSWER_DETAIL,
+  //   element: <AnswerDetail />,
+  // },
   {
     path: `${FRONTEND_URLS.COMMUNITY.POST_DETAIL}${FRONTEND_URLS.COMMUNITY.REPLIES}`,
     element: <CommunityReply />,

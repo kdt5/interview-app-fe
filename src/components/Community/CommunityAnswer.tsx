@@ -6,35 +6,42 @@ import LikeImg from "../../assets/Like.png";
 import OptionImg from "../../assets/Option.png";
 import CommunityModal from "../../components/common/Community/CommunityModal";
 import { useState } from "react";
+import { useCategory } from "../../hooks/UseCategory";
 
 interface Props {
+  className?: string;
   id: number;
   title: string;
   content: string;
   postCategoryId: number;
   user: {
-      id: number;
-      nickname: string;
-      profileImageUrl: string;
-      level: number;
-      answerCount: number;
-  }
+    id: number;
+    nickname: string;
+    profileImageUrl: string;
+    level: number;
+    answerCount: number;
+  };
   viewCount: number;
   favoriteCount: number;
 }
 
 function CommunityAnswer({
+  className,
   id,
   title,
   content,
   postCategoryId,
   user,
   viewCount,
-  favoriteCount
+  favoriteCount,
 }: Props) {
-  const postCategoryName = POST_CATEGORIES.find(
-    (category) => category.id === postCategoryId
-  )?.name;
+  const { getCategoryName } = useCategory();
+
+  const postCategoryName =
+    className === "interview"
+      ? getCategoryName(postCategoryId)
+      : POST_CATEGORIES.find((category) => category.id === postCategoryId)
+          ?.name;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -49,7 +56,11 @@ function CommunityAnswer({
           <AnswerCategory>{postCategoryName || "기타"}</AnswerCategory>
           <span>
             <img src={LikeImg} alt="Like Icon" />
-            <img src={OptionImg} alt="Option Icon" onClick={handleOptionClick}/>
+            <img
+              src={OptionImg}
+              alt="Option Icon"
+              onClick={handleOptionClick}
+            />
           </span>
         </AnswerInfo>
         <QuestionTitle>{title}</QuestionTitle>
@@ -66,7 +77,15 @@ function CommunityAnswer({
       <AnswerDetailProfile>
         {user && <CommonProfile key={user.id} {...user} />}
       </AnswerDetailProfile>
-      {isModalOpen && <CommunityModal onClose={handleOptionClick} postId={id} title={title} content={content} postCategoryId={postCategoryId}/>}
+      {isModalOpen && (
+        <CommunityModal
+          onClose={handleOptionClick}
+          postId={id}
+          title={title}
+          content={content}
+          postCategoryId={postCategoryId}
+        />
+      )}
     </>
   );
 }

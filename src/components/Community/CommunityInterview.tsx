@@ -12,6 +12,7 @@ import { useState } from "react";
 import { Question } from "../../models/Question.model";
 import { addFavorite, removeFavorite } from "../../api/Favorite.api";
 import { useQuestions } from "../../hooks/UseQuestions";
+import { FRONTEND_URLS } from "../../constants/Urls";
 
 function InterviewTab() {
   const navigate = useNavigate();
@@ -84,7 +85,7 @@ function InterviewTab() {
           setSelectedCatId={setSelectedCategoryId}
         ></CommonCategory>
         {questions.map((item) => (
-          <div key={item.id} onClick={() => navigate("/questiondetail")}>
+          <div key={item.id} onClick={() => navigate(FRONTEND_URLS.ANSWER.replace(":questionId", item.id.toString()))}>
             <CommonQuestionList
               category={getCategoryName(item.categories[0]?.category.id ?? 0)}
               questiontitle={item.title}
