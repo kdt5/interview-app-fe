@@ -5,9 +5,11 @@ import { Link } from "react-router-dom";
 import { FRONTEND_URLS } from "../constants/Urls";
 import { replaceUrlParams } from "../utils/Url";
 import { useFetchWeeklyQuestion } from "../hooks/UseFetchWeeklyQuestion";
+import { useCategory } from "../hooks/UseCategory";
 
 function MainPage() {
   const { weeklyQuestion } = useFetchWeeklyQuestion();
+  const { getCategoryName } = useCategory();
 
   return (
     <>
@@ -32,7 +34,11 @@ function MainPage() {
           >
             <p>{weeklyQuestion.question?.title}</p>
             <div>
-              <span>{weeklyQuestion.question?.categories[0]?.category.id}</span>
+              <span>
+                {getCategoryName(
+                  weeklyQuestion.question?.categories[0]?.category.id
+                )}
+              </span>
             </div>
           </Link>
         ) : (
