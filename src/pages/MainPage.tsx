@@ -13,8 +13,11 @@ import AnswerIcon from "../assets/Navigation/MyAnswer-Active.png";
 import CommunityIcon from "../assets/Navigation/Community-Active.png";
 import WeeklyQuestionCard from "../components/common/Card/WeeklyQuestionCard";
 import RecruitmentNotice from "../components/MainPage/RecruitmentNotice";
+import { useCategory } from "../hooks/UseCategory";
+
 function MainPage() {
   const { weeklyQuestion } = useFetchWeeklyQuestion();
+  const { getCategoryName } = useCategory();
 
   return (
     <>
@@ -27,7 +30,9 @@ function MainPage() {
             className="weekly-question"
           >
             <WeeklyQuestionCard
-              category={weeklyQuestion.question?.categories[0]?.category.id}
+              category={getCategoryName(
+                weeklyQuestion.question?.categories[0]?.category.id
+              )}
               title={weeklyQuestion.question?.title}
               date="3월 4주차"
               answercount={123}
@@ -37,7 +42,7 @@ function MainPage() {
         ) : (
           <>
             <WeeklyQuestionCard
-              category={0}
+              category="-"
               title="이번주 위클리 질문을 불러올 수 없습니다"
               date="3월 4주차"
               answercount={123}

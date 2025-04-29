@@ -2,6 +2,9 @@ export const FRONTEND_URLS = {
   HOME: "/",
   LOGIN: "/login",
   SIGNUP: "/signup",
+  ONBOARDING: "/onboarding",
+  FORGOT_PASSWORD: "/forgot-password",
+  RESET_PASSWORD: "/reset-password",
   SETTINGS: {
     PROFILE: "/settings/profile",
   },
@@ -17,7 +20,8 @@ export const FRONTEND_URLS = {
     },
   },
   ANSWER: "/questions/:questionId/answer",
-  ANSWER_EDIT: "/questions/:questionId/answer/:answerId/edit",
+  ANSWER_DETAIL: "/questions/:questionId/answers/:answerId/detail",
+  ANSWER_EDIT: "/questions/:questionId/answers/:answerId/edit",
   RANKINGS: {
     MAIN: "/rankings",
     MORE: "/rankings/more",
