@@ -22,6 +22,7 @@ import CommunityWeeklyAnswer from "../pages/Community/CommunityWeeklyAnswer";
 import SettingProfile from "../pages/Mypage/SettingsProfile";
 import OnBoardingPage from "../pages/OnBoardingPage";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage";
+import ResetPasswordPage from "../pages/ResetPasswordPage";
 
 const requiredUrls = [
   FRONTEND_URLS.HOME,
@@ -88,6 +89,10 @@ export const routerObjects: RouteObject[] = [
   {
     path: FRONTEND_URLS.FORGOT_PASSWORD,
     element: <ForgotPasswordPage />,
+  },
+  {
+    path: FRONTEND_URLS.RESET_PASSWORD,
+    element: <ResetPasswordPage />,
   },
   {
     path: FRONTEND_URLS.QUESTION_LIST,

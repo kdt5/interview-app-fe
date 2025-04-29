@@ -14,7 +14,7 @@ export interface FindInputs {
   password: string;
 }
 
-function FindPasswordPage() {
+function ResetPasswordPage() {
   const navigate = useNavigate();
   const [submitted, setSubmitted] = useState(false);
   const {
@@ -80,15 +80,15 @@ function FindPasswordPage() {
           <CheckButton type="submit">이메일 확인</CheckButton>
         </InputRow>
 
-        {errors.email ? (
-          <ErrorText>{errors.email.message}</ErrorText>
-        ) : submitted ? (
-          <SuccessText>비밀번호 재설정 이메일을 보냈습니다</SuccessText>
-        ) : emailValue && isValidEmail(emailValue) ? (
-          <SuccessText>이메일이 확인되었습니다</SuccessText>
-        ) : (
-          <div style={{ height: "18px" }}>&nbsp;</div>
-        )}
+        <FeedbackWrapper>
+          {errors.email ? (
+            <ErrorText>{errors.email.message}</ErrorText>
+          ) : submitted ? (
+            <SuccessText>비밀번호 재설정 이메일을 보냈습니다</SuccessText>
+          ) : emailValue && isValidEmail(emailValue) ? (
+            <SuccessText>사용가능한 비밀번호 입니다.</SuccessText>
+          ) : null}
+        </FeedbackWrapper>
 
         <Label>비밀번호 재입력</Label>
         <InputField
@@ -116,7 +116,7 @@ function FindPasswordPage() {
   );
 }
 
-export default FindPasswordPage;
+export default ResetPasswordPage;
 
 const Wrapper = styled.div`
   padding: 0px 30px;
@@ -162,7 +162,10 @@ const CheckButton = styled.button`
 `;
 
 const BottomFixed = styled.div`
-  margin-top: 550px;
+  position: absolute;
+  bottom: 150px;
+  left: 20px;
+  right: 20px;
 `;
 
 const LoginButton = styled.button`
@@ -179,6 +182,7 @@ const LoginButton = styled.button`
 
 const ErrorText = styled.div`
   margin-top: 15px;
+  margin-bottom: 30px;
   font-size: 13px;
   color: #f2624f;
   display: flex;
@@ -189,4 +193,13 @@ const SuccessText = styled.div`
   font-size: 13px;
   color: #6ca9ff;
   display: flex;
+`;
+
+const FeedbackWrapper = styled.div`
+  height: 15px;
+  margin-top: 10px;
+  margin-bottom: 30px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
 `;

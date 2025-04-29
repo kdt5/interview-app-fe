@@ -169,8 +169,8 @@ const LoginButton = styled.button`
   padding: 14px 0;
   height: 55px;
   border-radius: 8px;
-  background-color: #f5f5f5;
-  color: #ccc;
+  background-color: #6ea1ff;
+  color: white;
   font-weight: 600;
   font-size: 16px;
   border: 1px solid #eee;

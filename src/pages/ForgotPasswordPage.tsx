@@ -106,7 +106,7 @@ const InfoText = styled.p`
 
 const BottomFixed = styled.div`
   position: absolute;
-  bottom: 20px;
+  bottom: 150px;
   left: 20px;
   right: 20px;
 `;

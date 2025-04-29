@@ -17,6 +17,8 @@ function Layout({ children }: LayoutProps) {
     FRONTEND_URLS.ONBOARDING,
     FRONTEND_URLS.SIGNUP,
     FRONTEND_URLS.LOGIN,
+    FRONTEND_URLS.FORGOT_PASSWORD,
+    FRONTEND_URLS.RESET_PASSWORD,
   ];
 
   const isHeaderHidden = hiddenHeaderPaths.includes(location.pathname);
