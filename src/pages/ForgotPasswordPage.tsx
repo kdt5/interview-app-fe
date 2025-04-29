@@ -37,6 +37,7 @@ function ForgotPasswordPage() {
         <Label>이메일</Label>
         <InputRow>
           <InputField
+            autoComplete="off"
             type="email"
             placeholder="이메일 입력"
             {...register("email", checkEmail)}
