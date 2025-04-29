@@ -9,6 +9,7 @@ function ReportModal({ onClose }: { onClose?: () => void }) {
   const handleReport = () => {
     if (!isReported) {
       if (reason.trim() === "") {
+        alert("신고 사유를 입력해주세요.");
         return;
       }
       setIsReported(true);
@@ -26,7 +27,7 @@ function ReportModal({ onClose }: { onClose?: () => void }) {
             ) : (
               <>
                 <p>신고하기</p>
-                <button onClick={onClose}>
+                <button onClick={onClose} aria-label="닫기 버튼">
                   <GoX />
                 </button>
               </>

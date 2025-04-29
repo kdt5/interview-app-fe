@@ -13,11 +13,11 @@ function CommunityModal({ onClose, onEdit, onDelete }: Props) {
   const isMyData = true;
   const [showReportModal, setShowReportModal] = useState(false);
 
-  const handleOpenReport = () => {
+  const onOpenReport = () => {
     setShowReportModal(true);
   };
 
-  const handleCloseReport = () => {
+  const onCloseReport = () => {
     setShowReportModal(false);
   };
 
@@ -36,10 +36,7 @@ function CommunityModal({ onClose, onEdit, onDelete }: Props) {
             </>
           ) : (
             <>
-              <button
-                className="action-button report"
-                onClick={handleOpenReport}
-              >
+              <button className="action-button report" onClick={onOpenReport}>
                 신고
               </button>
               <button className="action-button close" onClick={onClose}>
@@ -50,7 +47,7 @@ function CommunityModal({ onClose, onEdit, onDelete }: Props) {
         </ModalContainer>
       </BackDrop>
 
-      {showReportModal && <ReportModal onClose={handleCloseReport} />}
+      {showReportModal && <ReportModal onClose={onCloseReport} />}
     </>
   );
 }
