@@ -4,12 +4,12 @@ import styled from "styled-components";
 import { login } from "../api/Auth.api";
 import { Link } from "react-router-dom";
 import { ErrorMessage } from "@hookform/error-message";
+import InputField from "../components/common/Input/Input";
 import {
   EMAIL_MAX_LENGTH,
   PASSWORD_MAX_LENGTH,
   PASSWORD_MIN_LENGTH,
 } from "../constants/Auth";
-import InputText from "../components/common/Input";
 
 export default LoginPage;
 
@@ -73,10 +73,10 @@ function LoginPage() {
         <LoginForm onSubmit={handleSubmit(onSubmit)} noValidate>
           <FormGroup>
             <InputWrapper>
-              <InputText
+              <InputField
+                type="email"
                 autoComplete="off"
                 placeholder="이메일 입력"
-                type="email"
                 {...register("email", checkEmail)}
               />
             </InputWrapper>
@@ -84,7 +84,7 @@ function LoginPage() {
 
           <FormGroup>
             <InputWrapper>
-              <InputText
+              <InputField
                 autoComplete="off"
                 placeholder="비밀번호 입력"
                 type="password"
@@ -130,15 +130,16 @@ const Content = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: 24px;
+  font-size: 30px;
   font-weight: bold;
 `;
 
 const Subtitle = styled.p`
-  font-size: 14px;
+  font-size: 16px;
   color: #888888;
   margin-top: 8px;
   margin-bottom: 40px;
+  font-weight: 400;
 `;
 
 const LoginForm = styled.form`
@@ -146,6 +147,7 @@ const LoginForm = styled.form`
   flex-direction: column;
   gap: 24px;
   width: 100%;
+  gap: 8px;
 `;
 
 const FormGroup = styled.div`
@@ -164,6 +166,7 @@ const ErrorText = styled.span`
   padding-left: 4px;
   min-height: 18px;
   display: block;
+  text-align: right;
 `;
 const LoginButton = styled.button`
   padding: 14px 0;
