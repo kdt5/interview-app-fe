@@ -35,7 +35,7 @@ function QuestionDetailPage() {
 
   if (questionId === undefined) {
     console.error("questionId 가 유효하지 않습니다.");
-    navigate(-1);
+    navigate(FRONTEND_URLS.QUESTION_LIST);
     return null;
   }
 

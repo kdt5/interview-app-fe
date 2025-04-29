@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 interface Props {
-  onEdit?: () => void;
-  onDelete?: () => void;
+  onEdit: () => void;
+  onDelete: () => void;
   onClose: () => void;
 }
 
