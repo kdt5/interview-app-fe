@@ -8,10 +8,10 @@ import { useCategory } from "../../hooks/UseCategory";
 import { useFetchWeeklyQuestion } from "../../hooks/UseFetchWeeklyQuestion";
 import { useMyUserData } from "../../hooks/UseMyUserData";
 import { formatToWeeklyLabel } from "../../utils/Date";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Question } from "../../models/Question.model";
-import { fetchQuestions } from "../../api/Question.api";
 import { addFavorite, removeFavorite } from "../../api/Favorite.api";
+import { useQuestions } from "../../hooks/UseQuestions";
 
 function InterviewTab() {
   const navigate = useNavigate();
@@ -21,20 +21,12 @@ function InterviewTab() {
 
   const { getCategoryName } = useCategory();
 
-  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
-    null
-  );
-  const [questionList, setQuestionList] = useState<Question[]>([]);
-
-  useEffect(() => {
-    fetchQuestions(undefined, selectedCategoryId ?? undefined).then(
-      setQuestionList
-    );
-  }, [selectedCategoryId]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number>(0);
+  const {questions, setQuestions} = useQuestions(undefined, selectedCategoryId === 0 ? undefined : selectedCategoryId);
 
   const handleToggleFavorite = async (questionId: number) => {
-    setQuestionList((prevList) =>
-      prevList.map((q) =>
+    setQuestions((prevList: Question[]) => {
+      const updatedList = prevList.map((q) =>
         q.id === questionId
           ? {
               ...q,
@@ -44,11 +36,12 @@ function InterviewTab() {
                 : q.favoriteCount + 1,
             }
           : q
-      )
-    );
+      );
+      return updatedList;
+    });
 
     try {
-      const toggledQuestion = questionList.find((q) => q.id === questionId);
+      const toggledQuestion = questions.find((q) => q.id === questionId);
       if (!toggledQuestion) return;
 
       if (toggledQuestion.isFavorite) {
@@ -61,7 +54,7 @@ function InterviewTab() {
     }
   };
 
-  if (!weeklyQuestion || !userData) return null;
+  if (!weeklyQuestion || !userData || !questions) return null;
 
   return (
     <>
@@ -72,7 +65,7 @@ function InterviewTab() {
             <WeeklyQuestionCard
               category={
                 getCategoryName(
-                  weeklyQuestion.question.categories[0]?.category.id ?? 0
+                  weeklyQuestion.question.categories?.[0]?.category.id ?? 0
                 ) || "기타"
               }
               title={weeklyQuestion.question.title}
@@ -86,9 +79,11 @@ function InterviewTab() {
 
       <CommonQuestionSection>
         <CommonCategory
-          onSelectCategory={setSelectedCategoryId}
+          className="interview"
+          selectedCatId={selectedCategoryId}
+          setSelectedCatId={setSelectedCategoryId}
         ></CommonCategory>
-        {questionList.map((item) => (
+        {questions.map((item) => (
           <div key={item.id} onClick={() => navigate("/questiondetail")}>
             <CommonQuestionList
               category={getCategoryName(item.categories[0]?.category.id ?? 0)}

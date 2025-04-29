@@ -2,6 +2,7 @@ import styled from "styled-components";
 import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { usePostCategories } from "../../../hooks/UsePost";
+import { useCategory } from "../../../hooks/UseCategory";
 
 interface Props {
   className?: string;
@@ -9,8 +10,13 @@ interface Props {
   setSelectedCatId: (catId: number) => void;
 }
 function CommonCategory({ className, selectedCatId, setSelectedCatId }: Props) {
+  const { categories } = useCategory();
   const { postCategories } = usePostCategories();
-  const categories = [{ id: 0, name: "전체" }, ...postCategories];
+
+  const categoryList = 
+    className === "interview"
+    ? [{ id: 0, name: "전체" }, ...categories]
+    : [{ id: 0, name: "전체" }, ...postCategories];
 
   return (
     <CommonCategoryStyle>
@@ -20,7 +26,7 @@ function CommonCategory({ className, selectedCatId, setSelectedCatId }: Props) {
         onSlideChange={() => console.log("slide changed")}
         onSwiper={(swiper) => console.log(swiper)}
       >
-        {categories.map((category) => (
+        {categoryList.map((category) => (
           <SwiperSlide
             key={category.id}
             className={className}
