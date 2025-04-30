@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
-import { FavoriteTargetType, fetchFavorite } from "../api/Favorite.api";
+import {
+  FavoriteTargetType,
+  fetchFavorite,
+  addFavorite as addFavoriteApi,
+  removeFavorite as removeFavoriteApi,
+} from "../api/Favorite.api";
 
 export function useFavorite(targetId: number, targetType: FavoriteTargetType) {
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const addFavorite = async () => {
     try {
-      await fetchFavorite(targetId, targetType);
+      await addFavoriteApi(targetId, targetType);
       setIsFavorite(true);
     } catch (error) {
       console.error("Error adding favorite:", error);
@@ -13,7 +18,7 @@ export function useFavorite(targetId: number, targetType: FavoriteTargetType) {
   };
   const removeFavorite = async () => {
     try {
-      await fetchFavorite(targetId, targetType);
+      await removeFavoriteApi(targetId, targetType);
       setIsFavorite(false);
     } catch (error) {
       console.error("Error removing favorite:", error);
