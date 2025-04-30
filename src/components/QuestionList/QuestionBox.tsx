@@ -7,6 +7,7 @@ import { Question } from "../../models/Question.model";
 import { Link } from "react-router-dom";
 import { SlArrowRight } from "react-icons/sl";
 import { useState } from "react";
+import WeeklyQuestionListItem from "./WeeklyQuestionListItem";
 
 interface Props {
   questions: Question[];
@@ -18,22 +19,42 @@ function QuestionBox({ questions, isWeekly = true }: Props) {
   const { getCategoryName } = useCategory();
   const [selectedCatId, setSelectedCatId] = useState(0);
 
-  return (
-    <CommonQuestionSection>
-      {isWeekly ?? (
+  if (isWeekly) {
+    return (
+      <CommonQuestionSection>
         <WeeklyAnswerPageLinkStyle to="/">
           <h1>
             <span>이번 주 위클리 질문</span>에 답변하지 않았어요
           </h1>
           <SlArrowRight />
         </WeeklyAnswerPageLinkStyle>
-      )}
-      {setSelectedCatId && (
-        <CommonCategory
-          selectedCatId={selectedCatId}
-          setSelectedCatId={setSelectedCatId}
-        />
-      )}
+        {questions.length === 0 ? null : (
+          <div onClick={() => navigate(`/questions/${questions[0].id}/answer`)}>
+            <WeeklyQuestionListItem
+              questionId={questions[0].id}
+              category={
+                getCategoryName(
+                  questions[0].categories[0]?.category?.id ?? 0
+                ) || "기타"
+              }
+              questionTitle={questions[0].title}
+              complete={questions[0].isAnswered ? "작성 완료" : "답변 미작성"}
+              comments={questions[0].answerCount ?? 0}
+              likes={questions[0].favoriteCount}
+              isFavorite={questions[0].isFavorite ?? false}
+            />
+          </div>
+        )}
+      </CommonQuestionSection>
+    );
+  }
+
+  return (
+    <CommonQuestionSection>
+      <CommonCategory
+        selectedCatId={selectedCatId}
+        setSelectedCatId={setSelectedCatId}
+      />
       {questions.length === 0
         ? null
         : questions.map((item) => (

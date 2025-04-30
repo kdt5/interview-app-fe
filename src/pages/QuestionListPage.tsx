@@ -40,12 +40,12 @@ function QuestionListPage(): JSX.Element {
       ></Tabs>
       <QuestionListPageStyle $isWeekly={isWeekly}>
         {isWeekly
-          ? (isLoadingWeeklyQuestions ?? (
+          ? !isLoadingWeeklyQuestions && (
               <QuestionBox questions={weeklyQuestions} isWeekly={isWeekly} />
-            ))
-          : (isLoadingBasicQuestions ?? (
+            )
+          : !isLoadingBasicQuestions && (
               <QuestionBox questions={basicQuestions} isWeekly={isWeekly} />
-            ))}
+            )}
       </QuestionListPageStyle>
     </>
   );
