@@ -24,7 +24,6 @@ import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
 import AnswerDetailPage from "../pages/AnswerDetailPage";
 
-
 const requiredUrls = [
   FRONTEND_URLS.HOME,
   FRONTEND_URLS.ONBOARDING,
@@ -46,12 +45,12 @@ const requiredUrls = [
 
 export const routerObjects: RouteObject[] = [
   {
-    path: FRONTEND_URLS.ANSWER,
-    element: <CommunityAnswerDetail />,
-  },
-  {
     path: FRONTEND_URLS.COMMUNITY.ANSWER_DETAIL,
     element: <AnswerDetail />,
+  },
+  {
+    path: FRONTEND_URLS.COMMUNITY.ANSWERS,
+    element: <CommunityAnswerDetail />,
   },
   {
     path: `${FRONTEND_URLS.COMMUNITY.POST_DETAIL}${FRONTEND_URLS.COMMUNITY.REPLIES}`,
@@ -70,7 +69,7 @@ export const routerObjects: RouteObject[] = [
 
   {
     path: FRONTEND_URLS.COMMUNITY.POST_EDIT,
-    element: <PostWrite mode="edit" />
+    element: <PostWrite mode="edit" />,
   },
 
   {
