@@ -22,14 +22,26 @@ export function useFavorite(targetId: number, targetType: string) {
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
 
   useEffect(() => {
-    try {
-      fetchFavorite(targetId, targetType).then((favorite) => {
-        setIsFavorite(favorite);
-      });
-    } catch (error) {
-      console.error(error);
+    if (targetId !== -1) {
+      try {
+        fetchFavorite(targetId, targetType).then((favorite) => {
+          setIsFavorite(favorite);
+        });
+      } catch (error) {
+        console.error(error);
+      }
     }
   }, [targetId, targetType]);
 
   return { isFavorite, setIsFavorite };
+}
+
+export async function fetchFavoriteStatus(targetId: number, targetType: string): Promise<boolean> {
+  try {
+    const result = await fetchFavorite(targetId, targetType);
+    return result;
+  } catch (error) {
+    console.error("fetchFavoriteStatus error:", error);
+    return false;
+  }
 }

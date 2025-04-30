@@ -14,13 +14,16 @@ import TextArea from "../../components/common/Community/Textarea";
 import { useCommunityPostComments } from "../../hooks/UsePost";
 import { useParams } from "react-router-dom";
 import LikeSmall from "../../assets/Link_Small.png";
+import ActiveLikeSmall from "../../assets/Link_Small_active.png";
 import ReplySmall from "../../assets/Reply_Small.png";
 import { countAllReplies } from "../../utils/commentCount";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CommunityModal, {
   CenterModalBackdrop,
   CenterModalContainer,
 } from "../../components/common/Community/CommunityModal";
+import { addFavorite, removeFavorite } from "../../api/Favorite.api";
+import { fetchFavoriteStatus } from "../../hooks/UseFavorite";
 
 function CommunityReply() {
   const { postId, commentId } = useParams();
@@ -38,6 +41,15 @@ function CommunityReply() {
   const getReplies = (parentId: number) =>
     communityPostComments?.filter((comment) => comment.parentId === parentId) ||
     [];
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [currFavoriteCount, setFavoriteCount] = useState(subComment?.favoriteCount || 0);
+
+  useEffect(() => {
+    if (subComment) {
+      fetchFavoriteStatus(subComment.id, "comment").then(setIsFavorite);
+      setFavoriteCount(subComment?.favoriteCount);
+    }
+  }, [subComment, subComment?.id, subComment?.favoriteCount]);
 
   const [editTarget, setEditTarget] = useState<{
     id: number;
@@ -46,16 +58,31 @@ function CommunityReply() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
+  const [successMessage, setSuccessMessage] = useState<string>("");
+
   const handleOptionClick = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
-  const [successMessage, setSuccessMessage] = useState<string>("");
-
   const handleSuccessOk = () => {
     refetchComments?.();
     setShowSuccessModal(false);
+  };
+
+  const handleToggleFavorite = async (commentId: number) => {
+    try {
+      if(!isFavorite) {
+        await addFavorite(commentId, "comment");
+      } else {
+        await removeFavorite(commentId, "comment");
+      }
+    } catch (error) {
+      console.error("좋아요 토글 실패", error);
+    }
+
+    setIsFavorite((prev: boolean) => !prev);
+    setFavoriteCount((prev) => (isFavorite ? prev - 1 : prev + 1));
   };
 
   if (!subComment || !subCommentTopLevelComments) return null;
@@ -79,8 +106,8 @@ function CommunityReply() {
         <Contents>{subComment?.content}</Contents>
         <CommentInfo>
           <span>
-            <img src={LikeSmall} alt="" />
-            좋아요 {subComment?.favoriteCount || ""}
+            <img src={isFavorite ? ActiveLikeSmall : LikeSmall} alt="" onClick={() => handleToggleFavorite(subComment.id)} style={{ cursor: "pointer" }}/>
+            좋아요 {currFavoriteCount === 0 ? "" : currFavoriteCount}
           </span>{" "}
           <span>
             <img src={ReplySmall} alt="" />
