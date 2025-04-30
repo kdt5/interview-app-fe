@@ -13,7 +13,7 @@ interface Props {
   handleAnswerChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   isOverLimit: boolean;
   isPublic?: boolean | null;
-  onSubmitSuccess: () => void;
+  onSubmitSuccess: (answerId: string) => void;
   buttonText: string;
   isSubmitDisabled: boolean;
 }
@@ -30,6 +30,7 @@ function AnswerForm({
     confirm: false,
     alert: false,
   });
+  const [newAnswerId, setNewAnswerId] = useState<string | null>(null);
 
   const { questionId } = useParams<{
     questionId: string;
@@ -56,7 +57,8 @@ function AnswerForm({
     }
 
     try {
-      await recordAnswer(answer, question.id);
+      const answerId = await recordAnswer(answer, question.id);
+      setNewAnswerId(answerId);
       toggleModal("confirm", false);
       toggleModal("alert", true);
     } catch (error) {
@@ -95,7 +97,9 @@ function AnswerForm({
           <AlertModal
             onClose={() => {
               toggleModal("alert", false);
-              onSubmitSuccess();
+              if (newAnswerId) {
+                onSubmitSuccess(newAnswerId);
+              }
             }}
             message="제출되었습니다."
           />
