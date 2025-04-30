@@ -118,8 +118,8 @@ function LoginPage() {
 }
 
 const Wrapper = styled.div`
-  height: 100vh;
-  padding: 32px 20px;
+  height: 100%;
+  padding: 30px;
   max-width: 400px;
   margin: 0 auto;
   background-color: white;
@@ -175,18 +175,18 @@ const LoginButton = styled.button`
   background-color: #6ea1ff;
   color: white;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 18px;
   border: 1px solid #eee;
   margin-top: 40px;
 `;
 
 const LinkGroup = styled.div`
   font-size: 13px;
-  color: #444;
   display: flex;
   justify-content: center;
   gap: 12px;
   margin-top: 20px;
+  font-weight: 500;
 `;
 
 const StyledLink = styled(Link)`
