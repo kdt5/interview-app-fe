@@ -91,7 +91,7 @@ function Nav() {
             </Link>
           </li>
           <li>
-            <Link to={FRONTEND_URLS.COMMUNITY.HOME}>
+            <Link to={FRONTEND_URLS.COMMUNITY.MAIN}>
               <span>
                 <img
                   src={

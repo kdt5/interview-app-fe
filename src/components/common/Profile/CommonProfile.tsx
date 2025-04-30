@@ -1,17 +1,17 @@
 import styled from "styled-components";
 
 interface Props {
-  profileImg: string;
-  username: string;
-  comments?: number;
+  nickname: string;
+  profileImageUrl: string;
+  answerCount: number;
   level: number;
   position?: string;
 }
 
 function CommonProfile({
-  profileImg,
-  username,
-  comments,
+  nickname,
+  profileImageUrl,
+  answerCount,
   level,
   position,
 }: Props) {
@@ -20,14 +20,14 @@ function CommonProfile({
   return (
     <>
       <ProfileSection>
-        <CommonProfileStyle src={profileImg} alt={`${username}의 프로필`} />
+        <CommonProfileStyle src={profileImageUrl} alt={`${nickname}의 프로필`} />
         <FlexWrap>
           <UserInfo>
-            <Username>{username}</Username>
+            <Username>{nickname}</Username>
             {position ? (
               <Position>{position}</Position>
             ) : (
-              <Comments>누적 답변 {comments}개</Comments>
+              <Comments>누적 답변 {answerCount}개</Comments>
             )}
           </UserInfo>
           <Level>

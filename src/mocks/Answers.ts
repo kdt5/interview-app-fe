@@ -2,12 +2,17 @@ import { http, HttpResponse } from "msw";
 import { BACKEND_URLS } from "../constants/Urls";
 import { Answer } from "../models/Answer.model";
 import { fakerKO as faker } from "@faker-js/faker";
-import { userInfoData } from "./User";
 
 const answersData: Answer[] = Array.from({ length: 20 }).map((_, index) => ({
   id: index,
   content: faker.lorem.paragraph(),
-  user: userInfoData,
+  user: {
+    id: 1,
+    nickname: "user",
+    profileImageUrl: faker.image.avatar(),
+    level: 1,
+    answerCount: 10,
+  },
   createdAt: faker.date.past().toString(),
   updatedAt: faker.date.recent().toString(),
   viewCount: faker.helpers.rangeToNumber({ min: 0, max: 1000 }),

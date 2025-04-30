@@ -20,16 +20,22 @@ export const FRONTEND_URLS = {
     },
   },
   ANSWER: "/questions/:questionId/answer",
-  ANSWER_DETAIL: "/questions/:questionId/answers/:answerId/detail",
-  ANSWER_EDIT: "/questions/:questionId/answers/:answerId/edit",
+  ANSWER_DETAIL: "/questions/:questionId/answer/:answerId",
+  ANSWER_EDIT: "/questions/:questionId/answer/:answerId/edit",
   RANKINGS: {
     MAIN: "/rankings",
     MORE: "/rankings/more",
   },
   COMMUNITY: {
-    HOME: "/community",
+    MAIN: "/community",
+    POST: "/community/posts",
+    POST_DETAIL: "/community/posts/:postId",
+    REPLIES: "/replies/:commentId",
+    POST_NEW: "/community/posts/new",
+    POST_EDIT: "/community/posts/:postId/edit",
     WEEKLY: "/community/weekly",
-  },
+    ANSWER_DETAIL: "/community/questions/:questionId/answer/:answerId",
+  }
 };
 
 export const BACKEND_URLS = {
@@ -67,10 +73,24 @@ export const BACKEND_URLS = {
     ANSWER_LIST: "/api/questions/:questionId/answers",
     ANSWER_RECORD: "/api/answers/:questionId",
     ANSWER_EDIT: "/api/answers/:answerId",
+    OWNERSHIP: "/api/answers/:answerId/ownership",
   },
   FAVORITES: {
     MINE: "/api/favorites/mine",
     FAVORITE: "/api/favorites/:targetType/:targetId",
+  },
+  POSTS: {
+    ALL: "/api/posts",
+    POST: "/api/posts/:postId",
+    CATEGORIES: "/api/posts/categories",
+    OWNERSHIP: "/api/posts/:postId/ownership",
+  },
+  COMMENTS: "/api/comments",
+  COMMENT_OWNERSHIP: "/api/comments/:commentId/ownership",
+  COMMENTS_DETAIL: "/api/comments/:commentId",
+  REPORTS: {
+    ALL: "/api/reports",
+    REPORT: "/api/reports/:reportId",
   },
   RANKINGS: {
     ALL: "/api/rankings",

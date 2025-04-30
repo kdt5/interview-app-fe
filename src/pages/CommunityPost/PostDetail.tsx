@@ -2,58 +2,101 @@ import styled from "styled-components";
 import CommunityAnswer from "../../components/Community/CommunityAnswer";
 import CommentContents from "../../components/common/Comment";
 import TextArea from "../../components/common/Community/Textarea";
-import Comment from "../../components/common/Community/ReplyInfo";
-
-const post = {
-  id: 1,
-  category: "취업",
-  title: "오늘 면접 보고 왔는데요",
-  content:
-    "오늘 에이전시 프론트 개발 포지션 면접을 보고 왔습니다. 질문을 받았는데 답변을 제대로 못했어요. 근데 나는 귀여우니까 괜찮다고 생각해요. 솔직히 회사 다니면서 귀여운거 봐야 스트레스 덜 받죠. 그러니깐 책꾸 같은거 하는거잖아요? ㅎㅎ 면접관님들도 다 귀여운거 보듯이 웃어줬어요. 출근 준비 할게요 ^^",
-  viewCount: 213,
-  favoriteCount: 26,
-};
-
-const comment = [
-  {
-    profileImg: "프로필이미지",
-    username: "정호붕",
-    contents: "답변 챗지피티가 달아준거 티나염",
-    comments: 24,
-    likes: 52,
-    reply: 12,
-    totalcomments: 24,
-  },
-];
-
-const relpyinfo = [
-  {
-    totalcomments: 24,
-  },
-];
+import ReplyInfo from "../../components/common/Community/ReplyInfo";
+import { useParams } from "react-router-dom";
+import {
+  useCommunityPostComments,
+  useCommunityPostDetail,
+} from "../../hooks/UsePost";
+import { useState } from "react";
+import {
+  CenterModalBackdrop,
+  CenterModalContainer,
+} from "../../components/common/Community/CommunityModal";
 
 function PostDetail() {
+  const { postId } = useParams();
+  const { communityPostDetail } = useCommunityPostDetail(Number(postId));
+  const { communityPostComments, refetchComments } = useCommunityPostComments(
+    Number(postId),
+    "post"
+  );
+
+  const [editTarget, setEditTarget] = useState<{
+    id: number;
+    content: string;
+  } | null>(null);
+
+  const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
+  const [successMessage, setSuccessMessage] = useState<string>("");
+
+  const topLevelComments =
+    communityPostComments?.filter((comment) => comment.parentId === null) || [];
+  const getReplies = (parentId: number) =>
+    communityPostComments?.filter((comment) => comment.parentId === parentId) ||
+    [];
+    
+  const handleSuccessOk = () => {
+    refetchComments?.();
+    setShowSuccessModal(false);
+  };
+
   return (
     <>
-      <AnswerDetailStyle>
-        <CommunityAnswer
-          key={post.id}
-          questiontitle={post.title}
-          category="React"
-          answer={post.content}
-          likescount={post.favoriteCount}
-          viewscount={post.viewCount}
-        />
-      </AnswerDetailStyle>
-      {relpyinfo.map((item, index) => (
-        <Comment key={index} {...item} />
-      ))}
-      <CommentStyle>
-        {comment.map((item, index) => (
-          <CommentContents key={index} {...item} />
-        ))}
-      </CommentStyle>
-      <TextArea></TextArea>
+      {communityPostDetail ? (
+        <AnswerDetailStyle>
+          <CommunityAnswer
+            key={communityPostDetail.id}
+            {...communityPostDetail}
+          />
+        </AnswerDetailStyle>
+      ) : (
+        <div>로딩중...</div>
+      )}
+      {topLevelComments ? (
+        topLevelComments.length > 0 ? (
+          <>
+            <ReplyInfo totalComments={communityPostComments.length} />
+            <CommentStyle>
+              {topLevelComments.map((item) => (
+                <CommentContents
+                  key={item.id}
+                  {...item}
+                  replies={getReplies(item.id)}
+                  depth={0}
+                  postId={Number(postId)}
+                  allComments={communityPostComments}
+                  setEditTarget={setEditTarget}
+                />
+              ))}
+            </CommentStyle>
+          </>
+        ) : (
+          <ReplyInfo totalComments={0} />
+        )
+      ) : (
+        <div>로딩중...</div>
+      )}
+      <TextArea
+        targetId={postId ? Number(postId) : -1}
+        categoryName="post"
+        editTarget={editTarget}
+        setEditTarget={setEditTarget}
+        setShowSuccessModal={setShowSuccessModal}
+        setSuccessMessage={setSuccessMessage}
+      />
+      {showSuccessModal && (
+        <CenterModalBackdrop>
+          <CenterModalContainer onClick={(e) => e.stopPropagation()}>
+            <p style={{ textAlign: "center", marginBottom: "16px" }}>
+              {successMessage}
+            </p>
+            <button className="action-button close" onClick={handleSuccessOk}>
+              확인
+            </button>
+          </CenterModalContainer>
+        </CenterModalBackdrop>
+      )}
     </>
   );
 }
@@ -63,7 +106,7 @@ const AnswerDetailStyle = styled.div`
   border-bottom: 5px solid #f5f5f5;
 `;
 
-const CommentStyle = styled.div`
+export const CommentStyle = styled.div`
   margin-top: 30px;
   padding: 0 30px;
 `;

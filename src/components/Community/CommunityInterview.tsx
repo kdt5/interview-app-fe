@@ -8,10 +8,11 @@ import { useCategory } from "../../hooks/UseCategory";
 import { useFetchWeeklyQuestion } from "../../hooks/UseFetchWeeklyQuestion";
 import { useMyUserData } from "../../hooks/UseMyUserData";
 import { formatToWeeklyLabel } from "../../utils/Date";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Question } from "../../models/Question.model";
-import { fetchQuestions } from "../../api/Question.api";
 import { addFavorite, removeFavorite } from "../../api/Favorite.api";
+import { useQuestions } from "../../hooks/UseQuestions";
+import { FRONTEND_URLS } from "../../constants/Urls";
 
 function InterviewTab() {
   const navigate = useNavigate();
@@ -21,20 +22,15 @@ function InterviewTab() {
 
   const { getCategoryName } = useCategory();
 
-  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
-    null
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number>(0);
+  const { questions, setQuestions } = useQuestions(
+    undefined,
+    selectedCategoryId === 0 ? undefined : selectedCategoryId
   );
-  const [questionList, setQuestionList] = useState<Question[]>([]);
-
-  useEffect(() => {
-    fetchQuestions(undefined, selectedCategoryId ?? undefined).then(
-      setQuestionList
-    );
-  }, [selectedCategoryId]);
 
   const handleToggleFavorite = async (questionId: number) => {
-    setQuestionList((prevList) =>
-      prevList.map((q) =>
+    setQuestions((prevList: Question[]) => {
+      const updatedList = prevList.map((q) =>
         q.id === questionId
           ? {
               ...q,
@@ -44,35 +40,41 @@ function InterviewTab() {
                 : q.favoriteCount + 1,
             }
           : q
-      )
-    );
+      );
+      return updatedList;
+    });
 
     try {
-      const toggledQuestion = questionList.find((q) => q.id === questionId);
+      const toggledQuestion = questions.find((q) => q.id === questionId);
       if (!toggledQuestion) return;
 
       if (toggledQuestion.isFavorite) {
-        await removeFavorite(questionId);
+        await removeFavorite(questionId, "question");
       } else {
-        await addFavorite(questionId);
+        await addFavorite(questionId, "question");
       }
     } catch (error) {
       console.error("좋아요 토글 실패", error);
     }
   };
 
-  if (!weeklyQuestion || !userData) return null;
+  if (!weeklyQuestion || !userData || !questions) return null;
 
   return (
     <>
       <WeeklyQuestionSection>
         <SectionTitle>위클리 답변 토론</SectionTitle>
-        <Link to="/weeklypost">
+        <Link
+          to={FRONTEND_URLS.ANSWER.replace(
+            ":questionId",
+            weeklyQuestion.questionId.toString()
+          )}
+        >
           {weeklyQuestion && (
             <WeeklyQuestionCard
               category={
                 getCategoryName(
-                  weeklyQuestion.question.categories[0]?.category.id ?? 0
+                  weeklyQuestion.question.categories?.[0]?.category.id ?? 0
                 ) || "기타"
               }
               title={weeklyQuestion.question.title}
@@ -86,10 +88,19 @@ function InterviewTab() {
 
       <CommonQuestionSection>
         <CommonCategory
-          onSelectCategory={setSelectedCategoryId}
+          className="interview"
+          selectedCatId={selectedCategoryId}
+          setSelectedCatId={setSelectedCategoryId}
         ></CommonCategory>
-        {questionList.map((item) => (
-          <div key={item.id} onClick={() => navigate("/questiondetail")}>
+        {questions.map((item) => (
+          <div
+            key={item.id}
+            onClick={() =>
+              navigate(
+                FRONTEND_URLS.ANSWER.replace(":questionId", item.id.toString())
+              )
+            }
+          >
             <CommonQuestionList
               category={getCategoryName(item.categories[0]?.category.id ?? 0)}
               questiontitle={item.title}
