@@ -38,7 +38,7 @@ function OnBoardingPage() {
 export default OnBoardingPage;
 
 const Wrapper = styled.div`
-  height: 100vh;
+  height: 100%;
   background: linear-gradient(to bottom, #eef4ff 0%, white 100%);
   display: flex;
   justify-content: center;
@@ -52,24 +52,25 @@ const Content = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 30px;
+  font-weight: 600;
   color: #333;
   line-height: 1.4;
   margin-bottom: 16px;
 `;
 
 const SubTitle = styled.span`
-  font-size: 20px;
-  font-weight: 700;
-  color: #4f7fff;
+  font-size: 30px;
+  font-weight: 600;
+  color: #6ea1ff;
 `;
 
 const SubText = styled.p`
-  font-size: 14px;
+  font-size: 16px;
   color: #888;
   line-height: 1.6;
   margin-bottom: 83px;
+  font-weight: 400;
 `;
 
 const ButtonGroup = styled.div`
@@ -79,23 +80,23 @@ const ButtonGroup = styled.div`
 `;
 
 const LoginButton = styled.button`
-  background-color: #4f7fff;
+  background-color: #6ea1ff;
   color: white;
-  font-size: 16px;
-  padding: 14px;
-  border-radius: 8px;
+  font-size: 18px;
+  padding: 20px;
+  border-radius: 5px;
   border: none;
-  font-weight: 600;
+  font-weight: 400;
   cursor: pointer;
 `;
 
 const SignUpButton = styled.button`
   background-color: white;
-  color: #4f7fff;
-  font-size: 16px;
-  padding: 14px;
-  border: 1.5px solid #4f7fff;
-  border-radius: 8px;
-  font-weight: 600;
+  color: #d4dcea;
+  font-size: 18px;
+  padding: 20px;
+  border: 1.5px solid #d4dcea;
+  border-radius: 5px;
+  font-weight: 400;
   cursor: pointer;
 `;
