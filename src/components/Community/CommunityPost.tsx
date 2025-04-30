@@ -37,10 +37,11 @@ const popularpost = [
   },
 ];
 
-
 function PostTab() {
-  const [ selectedCatId, setSelectedCatId ] = useState(0);
-  const { communityPosts } = useCommunityPosts(selectedCatId === 0 ? undefined : selectedCatId);
+  const [selectedCatId, setSelectedCatId] = useState(0);
+  const { communityPosts } = useCommunityPosts(
+    selectedCatId === 0 ? undefined : selectedCatId
+  );
 
   return (
     <>
@@ -68,7 +69,10 @@ function PostTab() {
       </PopularSlide>
 
       <PostList>
-        <CommonCategory selectedCatId={selectedCatId} setSelectedCatId={setSelectedCatId} />
+        <CommonCategory
+          selectedCatId={selectedCatId}
+          setSelectedCatId={setSelectedCatId}
+        />
         {communityPosts.map((item, index) => (
           <Link key={index} to={`${FRONTEND_URLS.COMMUNITY.POST}/${item.id}`}>
             <CommunityList {...item} />

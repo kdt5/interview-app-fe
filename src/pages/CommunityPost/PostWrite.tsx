@@ -9,9 +9,7 @@ import { PostCategory } from "../../models/CommunityPost.model";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FRONTEND_URLS } from "../../constants/Urls";
 
-function PostWrite({mode}: {
-  mode: "create" | "edit";
-}) {
+function PostWrite({ mode }: { mode: "create" | "edit" }) {
   const location = useLocation();
   const state = location.state as {
     postId?: number;
@@ -26,7 +24,11 @@ function PostWrite({mode}: {
   const [selectedCategory, setSelectedCategory] =
     useState("게시글의 주제를 선택해주세요.");
   useEffect(() => {
-    if (mode === "edit" && state?.currentCategoryId && postCategories.length > 0) {
+    if (
+      mode === "edit" &&
+      state?.currentCategoryId &&
+      postCategories.length > 0
+    ) {
       const foundCategory = postCategories.find(
         (cat) => cat.id === state.currentCategoryId
       );

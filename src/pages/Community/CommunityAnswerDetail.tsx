@@ -11,16 +11,20 @@ function CommunityAnswerDetail() {
   const { answers } = useFetchAnswers(parseInt(questionId));
 
   if (!question || !answers) return null;
-  
+
   return (
     <>
       <QuestionBox>
-        <QuestionText>Q. </QuestionText>{question.title}
+        <QuestionText>Q. </QuestionText>
+        {question.title}
       </QuestionBox>
 
       <AnswerListStyle>
         {answers.map((item) => (
-          <Link key={item.id} to={`${FRONTEND_URLS.COMMUNITY.ANSWER_DETAIL.replace(":questionId", questionId).replace(":answerId", item.id.toString())}}`}>
+          <Link
+            key={item.id}
+            to={`${FRONTEND_URLS.COMMUNITY.ANSWER_DETAIL.replace(":questionId", questionId).replace(":answerId", item.id.toString())}}`}
+          >
             <CommunityList {...item} />
           </Link>
         ))}
@@ -54,6 +58,5 @@ export const AnswerListStyle = styled.div`
   gap: 24px;
   margin: 0 16px;
 `;
-
 
 export default CommunityAnswerDetail;

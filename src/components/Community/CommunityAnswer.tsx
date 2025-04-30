@@ -38,10 +38,13 @@ function CommunityAnswer({
   postCategoryId,
   user,
   viewCount,
-  favoriteCount
+  favoriteCount,
 }: Props) {
   const { getCategoryName } = useCategory();
-  const { isFavorite, setIsFavorite } = useFavorite(id, className === "interview" ? "ANSWER" : "POST");
+  const { isFavorite, setIsFavorite } = useFavorite(
+    id,
+    className === "interview" ? "ANSWER" : "POST"
+  );
   const [currFavoriteCount, setFavoriteCount] = useState(favoriteCount);
 
   const postCategoryName =
@@ -58,10 +61,16 @@ function CommunityAnswer({
 
   const handleToggleFavorite = async (answerId: number) => {
     try {
-      if(!isFavorite) {
-        await addFavorite(answerId, className === "interview" ? "answer" : "post");
+      if (!isFavorite) {
+        await addFavorite(
+          answerId,
+          className === "interview" ? "answer" : "post"
+        );
       } else {
-        await removeFavorite(answerId, className === "interview" ? "answer" : "post");
+        await removeFavorite(
+          answerId,
+          className === "interview" ? "answer" : "post"
+        );
       }
     } catch (error) {
       console.error("좋아요 토글 실패", error);
@@ -77,9 +86,12 @@ function CommunityAnswer({
         <AnswerInfo>
           <AnswerCategory>{postCategoryName || "기타"}</AnswerCategory>
           <span>
-            <img src={isFavorite ? ActiveLikeImg : LikeImg} alt="Like Icon" 
+            <img
+              src={isFavorite ? ActiveLikeImg : LikeImg}
+              alt="Like Icon"
               onClick={() => handleToggleFavorite(id)}
-              style={{ cursor: "pointer" }}/>
+              style={{ cursor: "pointer" }}
+            />
             <img
               src={OptionImg}
               alt="Option Icon"
@@ -104,7 +116,7 @@ function CommunityAnswer({
       {isModalOpen && (
         <CommunityModal
           className={className}
-          questionId = {questionId}
+          questionId={questionId}
           onClose={handleOptionClick}
           postId={id}
           title={title}

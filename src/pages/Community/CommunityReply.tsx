@@ -41,8 +41,14 @@ function CommunityReply() {
   const getReplies = (parentId: number) =>
     communityPostComments?.filter((comment) => comment.parentId === parentId) ||
     [];
+  const [editTarget, setEditTarget] = useState<{
+    id: number;
+    content: string;
+  } | null>(null);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [currFavoriteCount, setFavoriteCount] = useState(subComment?.favoriteCount || 0);
+  const [currFavoriteCount, setFavoriteCount] = useState(
+    subComment?.favoriteCount || 0
+  );
 
   useEffect(() => {
     if (subComment) {
@@ -50,11 +56,6 @@ function CommunityReply() {
       setFavoriteCount(subComment?.favoriteCount);
     }
   }, [subComment, subComment?.id, subComment?.favoriteCount]);
-
-  const [editTarget, setEditTarget] = useState<{
-    id: number;
-    content: string;
-  } | null>(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -72,7 +73,7 @@ function CommunityReply() {
 
   const handleToggleFavorite = async (commentId: number) => {
     try {
-      if(!isFavorite) {
+      if (!isFavorite) {
         await addFavorite(commentId, "comment");
       } else {
         await removeFavorite(commentId, "comment");
@@ -106,7 +107,12 @@ function CommunityReply() {
         <Contents>{subComment?.content}</Contents>
         <CommentInfo>
           <span>
-            <img src={isFavorite ? ActiveLikeSmall : LikeSmall} alt="" onClick={() => handleToggleFavorite(subComment.id)} style={{ cursor: "pointer" }}/>
+            <img
+              src={isFavorite ? ActiveLikeSmall : LikeSmall}
+              alt=""
+              onClick={() => handleToggleFavorite(subComment.id)}
+              style={{ cursor: "pointer" }}
+            />
             좋아요 {currFavoriteCount === 0 ? "" : currFavoriteCount}
           </span>{" "}
           <span>

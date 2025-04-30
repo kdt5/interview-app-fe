@@ -8,13 +8,14 @@ function AnswerDetail() {
   const { answerId } = useParams() as { answerId: string };
   const { answer } = useFetchAnswer(parseInt(answerId));
 
-  if(!answer) return null;
+  if (!answer) return null;
 
   return (
     <>
       <AnswerDetailStyle>
-        <CommunityAnswer key={answer.id}
-          className="interview" 
+        <CommunityAnswer
+          key={answer.id}
+          className="interview"
           title={answer.question.title}
           questionId={answer.question.id}
           postCategoryId={answer.question.categories[0].category.id}

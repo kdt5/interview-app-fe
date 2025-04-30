@@ -23,7 +23,10 @@ function InterviewTab() {
   const { getCategoryName } = useCategory();
 
   const [selectedCategoryId, setSelectedCategoryId] = useState<number>(0);
-  const {questions, setQuestions} = useQuestions(undefined, selectedCategoryId === 0 ? undefined : selectedCategoryId);
+  const { questions, setQuestions } = useQuestions(
+    undefined,
+    selectedCategoryId === 0 ? undefined : selectedCategoryId
+  );
 
   const handleToggleFavorite = async (questionId: number) => {
     setQuestions((prevList: Question[]) => {
@@ -61,7 +64,12 @@ function InterviewTab() {
     <>
       <WeeklyQuestionSection>
         <SectionTitle>위클리 답변 토론</SectionTitle>
-        <Link to={FRONTEND_URLS.ANSWER.replace(":questionId", weeklyQuestion.questionId.toString())}>
+        <Link
+          to={FRONTEND_URLS.ANSWER.replace(
+            ":questionId",
+            weeklyQuestion.questionId.toString()
+          )}
+        >
           {weeklyQuestion && (
             <WeeklyQuestionCard
               category={
@@ -85,7 +93,14 @@ function InterviewTab() {
           setSelectedCatId={setSelectedCategoryId}
         ></CommonCategory>
         {questions.map((item) => (
-          <div key={item.id} onClick={() => navigate(FRONTEND_URLS.ANSWER.replace(":questionId", item.id.toString()))}>
+          <div
+            key={item.id}
+            onClick={() =>
+              navigate(
+                FRONTEND_URLS.ANSWER.replace(":questionId", item.id.toString())
+              )
+            }
+          >
             <CommonQuestionList
               category={getCategoryName(item.categories[0]?.category.id ?? 0)}
               questiontitle={item.title}

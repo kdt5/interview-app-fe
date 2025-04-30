@@ -29,8 +29,8 @@ interface Props {
   depth: number;
   postId?: number;
   allComments?: Comment[];
-  setEditTarget?: (target: { id: number; content: string }) => void
-  questionId?  : number;
+  setEditTarget?: (target: { id: number; content: string }) => void;
+  questionId?: number;
 }
 
 function CommentContents({
@@ -46,11 +46,8 @@ function CommentContents({
 }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const getReplies = (parentId: number) => (allComments?.filter((comment) => comment.parentId === parentId) || []);
-  
-  const handleOptionClick = () => {
-    setIsModalOpen(!isModalOpen);
-  };
+  const getReplies = (parentId: number) =>
+    allComments?.filter((comment) => comment.parentId === parentId) || [];
 
   const [isFavorite, setIsFavorite] = useState(false);
   const [currFavoriteCount, setFavoriteCount] = useState(favoriteCount);
@@ -62,7 +59,7 @@ function CommentContents({
 
   const handleToggleFavorite = async (commentId: number) => {
     try {
-      if(!isFavorite) {
+      if (!isFavorite) {
         await addFavorite(commentId, "comment");
       } else {
         await removeFavorite(commentId, "comment");
@@ -75,12 +72,20 @@ function CommentContents({
     setFavoriteCount((prev) => (isFavorite ? prev - 1 : prev + 1));
   };
 
+  const handleOptionClick = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
+
   return (
     <>
       <ProfileSection>
         <FlexWrap>
           <UserInfo>
-            <CommonProfileStyle src={user.profileImageUrl} alt={`${user.nickname}의 프로필`} />
+            <CommonProfileStyle
+              src={user.profileImageUrl}
+              alt={`${user.nickname}의 프로필`}
+            />
             <Username>
               <p>{user.nickname}</p>
               <Comments>누적 답변 {user.answerCount}개</Comments>
@@ -91,27 +96,43 @@ function CommentContents({
         <Contents>{content}</Contents>
         <CommentInfo>
           <span>
-            <img src={isFavorite ? ActiveLikeSmall : LikeSmall} alt="" onClick={() => handleToggleFavorite(id)} style={{ cursor: "pointer" }} />
+            <img
+              src={isFavorite ? ActiveLikeSmall : LikeSmall}
+              alt=""
+              onClick={() => handleToggleFavorite(id)}
+              style={{ cursor: "pointer" }}
+            />
             좋아요 {currFavoriteCount === 0 ? "" : currFavoriteCount}
           </span>{" "}
-          <Link to={`${FRONTEND_URLS.COMMUNITY.POST_DETAIL.replace(":postId", String(postId))}${FRONTEND_URLS.COMMUNITY.REPLIES.replace(":commentId", String(id))}`}>
+          <Link
+            to={`${FRONTEND_URLS.COMMUNITY.POST_DETAIL.replace(":postId", String(postId))}${FRONTEND_URLS.COMMUNITY.REPLIES.replace(":commentId", String(id))}`}
+          >
             <span>
               <img src={ReplySmall} alt="" />
-              답글 {countAllReplies(allComments || [], id) === 0 ? "쓰기" : countAllReplies(allComments || [], id)}
+              답글{" "}
+              {countAllReplies(allComments || [], id) === 0
+                ? "쓰기"
+                : countAllReplies(allComments || [], id)}
             </span>
           </Link>
         </CommentInfo>
-        {
-          depth < MAX_COMMENT_DEPTH && replies && replies.length > 0 ? (
-            <CommentStyle>
-              {replies.map((reply) => (
-                <CommentContents key={reply.id} {...reply} replies={getReplies(reply.id)} depth={depth + 1} postId={postId} allComments={allComments} setEditTarget={setEditTarget}/>
-              ))}
-            </CommentStyle>
-          ) : (
-            <div></div>
-          )
-        }
+        {depth < MAX_COMMENT_DEPTH && replies && replies.length > 0 ? (
+          <CommentStyle>
+            {replies.map((reply) => (
+              <CommentContents
+                key={reply.id}
+                {...reply}
+                replies={getReplies(reply.id)}
+                depth={depth + 1}
+                postId={postId}
+                allComments={allComments}
+                setEditTarget={setEditTarget}
+              />
+            ))}
+          </CommentStyle>
+        ) : (
+          <div></div>
+        )}
       </ProfileSection>
       {isModalOpen && (
         <CommunityModal

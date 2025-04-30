@@ -12,7 +12,6 @@ import MyPage from "../pages/MyPage";
 import FavoriteQuestionListPage from "../pages/FavoriteQuestionListPage";
 import EditAnswerPage from "../pages/EditAnswerPage";
 import Community from "../pages/Community";
-import CommunityQuestionDetail from "../pages/Community/CommunityQuestionDetail";
 import CommunityAnswerDetail from "../pages/Community/CommunityAnswerDetail";
 import CommunityReply from "../pages/Community/CommunityReply";
 import PostDetail from "../pages/CommunityPost/PostDetail";
@@ -47,11 +46,6 @@ const requiredUrls = [
 ];
 
 export const routerObjects: RouteObject[] = [
-  {
-    path: "/questiondetail",
-    element: <CommunityQuestionDetail />,
-  },
-
   {
     path: FRONTEND_URLS.ANSWER,
     element: <CommunityAnswerDetail />,

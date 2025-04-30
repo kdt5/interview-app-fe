@@ -9,7 +9,10 @@ import {
   useCommunityPostDetail,
 } from "../../hooks/UsePost";
 import { useState } from "react";
-import { CenterModalBackdrop, CenterModalContainer } from "../../components/common/Community/CommunityModal";
+import {
+  CenterModalBackdrop,
+  CenterModalContainer,
+} from "../../components/common/Community/CommunityModal";
 
 function PostDetail() {
   const { postId } = useParams();
@@ -27,16 +30,16 @@ function PostDetail() {
   const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
   const [successMessage, setSuccessMessage] = useState<string>("");
 
-  const handleSuccessOk = () => {
-    refetchComments?.();
-    setShowSuccessModal(false);
-  };
-
   const topLevelComments =
     communityPostComments?.filter((comment) => comment.parentId === null) || [];
   const getReplies = (parentId: number) =>
     communityPostComments?.filter((comment) => comment.parentId === parentId) ||
     [];
+    
+  const handleSuccessOk = () => {
+    refetchComments?.();
+    setShowSuccessModal(false);
+  };
 
   return (
     <>
