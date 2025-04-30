@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { CommunityPost, PostCategory } from "../models/CommunityPost.model";
 import { createPost, editPost, fetchPostCategories, fetchPostComments, fetchPostDetail, fetchPosts } from "../api/Post.api";
 import { Comment } from "../models/Comment.model";
@@ -92,7 +92,7 @@ export function useCommunityPostComments(targetId: number, categoryName: string)
   const [communityPostComments, setCommunityPostComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchComments = async () => {
+  const fetchComments = useCallback(async () => {
     setLoading(true);
     try {
       const result = await fetchPostComments(targetId, categoryName);
@@ -102,11 +102,11 @@ export function useCommunityPostComments(targetId: number, categoryName: string)
     } finally {
       setLoading(false);
     }
-  };
+  }, [targetId, categoryName]);
 
   useEffect(() => {
     fetchComments();
-  }, [targetId, categoryName]);
+  }, [fetchComments]);
 
   return {
     communityPostComments,

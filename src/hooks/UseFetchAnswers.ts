@@ -17,7 +17,7 @@ export function useFetchAnswers(questionId: number) {
         setError(error);
         setLoading(false);
       });
-  }, []);
+  }, [questionId]);
 
   return { answers, loading, error };
 }
@@ -37,7 +37,7 @@ export function useFetchAnswer(answerId: number) {
         setError(error);
         setLoading(false);
       });
-  }, []);
+  }, [answerId]);
 
   return { answer, loading, error };
 }

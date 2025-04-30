@@ -46,7 +46,7 @@ function CommunityModal({ className, questionId, onClose, postId, title, content
       }
     };
     checkOwnership();
-  }, [postId]);
+  }, [postId, className]);
 
   const handleEdit = () => {
     if(postId){

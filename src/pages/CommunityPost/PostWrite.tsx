@@ -36,7 +36,7 @@ function PostWrite({ mode }: { mode: "create" | "edit" }) {
         foundCategory ? foundCategory.name : "존재하지 않는 주제 입니다."
       );
     }
-  }, [state, postCategories]);
+  }, [mode, state, postCategories]);
 
   const { submitNewPost, updateExistingPost } = usePostMutation();
 
