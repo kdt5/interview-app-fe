@@ -4,12 +4,12 @@ import ConfirmModal from "../../components/common/ConfirmModal";
 import AlertModal from "../../components/common/AlertModal";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "../../hooks/UseUser";
 import { FRONTEND_URLS } from "../../constants/Urls";
 import MyProfileDefaultImg from "../../assets/mypage/MyProfileDefaultImage.png";
 import MyProfileAddBtn from "../../assets/mypage/MyProfileAddButton.png";
 import InputField from "../../components/common/Input/Input";
 import { ModalType } from "../RecordAnswerPage";
+import { useAuth } from "../../hooks/UseAuth";
 
 export interface SignUpInputs {
   password: string;
@@ -18,7 +18,9 @@ export interface SignUpInputs {
 
 function SettingProfile() {
   const navigate = useNavigate();
-  const { me, logout } = useUser();
+  const { me, handleLogout } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = () => {
     toggleModal("confirm", true);
@@ -37,11 +39,16 @@ function SettingProfile() {
   };
   const handleConfirmSubmit = async () => {
     try {
-      await logout();
+      setIsLoading(true);
+      setError(null);
+      await handleLogout();
       toggleModal("confirm", false);
       toggleModal("alert", true);
     } catch (error) {
-      console.log("로그아웃에 실패하였습니다.", error);
+      setError("로그아웃에 실패했습니다. 다시 시도해주세요.");
+      console.error("로그아웃 실패:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -91,8 +98,8 @@ function SettingProfile() {
           </PasswordChange>
         </ProfileWrap>
         <AccountStyle>
-          <button type="submit" onClick={handleSubmit}>
-            로그아웃
+          <button type="submit" onClick={handleSubmit} disabled={isLoading}>
+            {isLoading ? "로그아웃 중..." : "로그아웃"}
           </button>
           <span>|</span>
           <button type="submit">회원탈퇴</button>
@@ -111,6 +118,9 @@ function SettingProfile() {
               }}
               message="로그아웃 되었습니다."
             />
+          )}
+          {error && (
+            <AlertModal onClose={() => setError(null)} message={error} />
           )}
         </AccountStyle>
       </EditProfileStyle>
