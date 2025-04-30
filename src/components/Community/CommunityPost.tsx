@@ -7,41 +7,18 @@ import styled from "styled-components";
 import CommonCategory from "../common/List/CommonCategory";
 import CommunitySmallBtn from "../common/Button/CommunitySmallButton";
 import { Link } from "react-router-dom";
-import { useCommunityPosts } from "../../hooks/UsePost";
+import { useCommunityPosts, useTrendingPosts } from "../../hooks/UsePost";
 import { FRONTEND_URLS } from "../../constants/Urls";
 import { useState } from "react";
-
-const popularpost = [
-  {
-    title: "오늘 면접 보고 왔는데요",
-    contents:
-      "오늘 에이전시 프론트 개발 포지션 면접을 보고 왔습니다. 질문을 받았는데 답변을 제대로 못했어요. 근데 나는 귀여우니까 괜찮다고 생각",
-    comments: 23,
-    likes: 53,
-  },
-
-  {
-    title: "오늘 면접 보고 왔는데요",
-    contents:
-      "오늘 에이전시 프론트 개발 포지션 면접을 보고 왔습니다. 질문을 받았는데 답변을 제대로 못했어요. 근데 나는 귀여우니까 괜찮다고 생각",
-    comments: 23,
-    likes: 53,
-  },
-
-  {
-    title: "오늘 면접 보고 왔는데요",
-    contents:
-      "오늘 에이전시 프론트 개발 포지션 면접을 보고 왔습니다. 질문을 받았는데 답변을 제대로 못했어요. 근데 나는 귀여우니까 괜찮다고 생각",
-    comments: 23,
-    likes: 53,
-  },
-];
 
 function PostTab() {
   const [selectedCatId, setSelectedCatId] = useState(0);
   const { communityPosts } = useCommunityPosts(
     selectedCatId === 0 ? undefined : selectedCatId
   );
+  const { trendingPosts } = useTrendingPosts();
+
+  if(!communityPosts || !trendingPosts) return null;
 
   return (
     <>
@@ -60,9 +37,11 @@ function PostTab() {
               <Info>INTERVIEW IT</Info>
             </PopularSlideNotice>
           </SwiperSlide>
-          {popularpost.map((item, index) => (
+          {trendingPosts.map((item, index) => (
             <SwiperSlide key={index} style={{ width: "100%" }}>
-              <PopularPost {...item} />
+              <Link key={index} to={`${FRONTEND_URLS.COMMUNITY.POST}/${item.id}`}>
+                <PopularPost title={item.title} content={item.content} favoriteCount={item.favoriteCount} />
+              </Link>
             </SwiperSlide>
           ))}
         </Swiper>

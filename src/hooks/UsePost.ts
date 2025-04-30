@@ -1,7 +1,23 @@
 import { useCallback, useEffect, useState } from "react";
 import { CommunityPost, PostCategory } from "../models/CommunityPost.model";
-import { createPost, editPost, fetchPostCategories, fetchPostComments, fetchPostDetail, fetchPosts } from "../api/Post.api";
+import { createPost, editPost, fetchPostCategories, fetchPostComments, fetchPostDetail, fetchPosts, fetchTrendingPosts } from "../api/Post.api";
 import { Comment } from "../models/Comment.model";
+
+export function useTrendingPosts(categoryId?: number, limit?: number) {
+  const [trendingPosts, setTrendingPosts] = useState<CommunityPost[]>([]);
+
+  useEffect(() => {
+    try {
+      fetchTrendingPosts(categoryId, limit).then((posts) => {
+        setTrendingPosts(posts);
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }, [categoryId, limit]);
+
+  return { trendingPosts };
+}
 
 export function useCommunityPosts(categoryId?: number) {
   const [communityPosts, setCommunityPosts] = useState<CommunityPost[]>([]);

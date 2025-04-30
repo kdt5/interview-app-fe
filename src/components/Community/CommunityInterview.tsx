@@ -58,19 +58,19 @@ function InterviewTab() {
     }
   };
 
-  if (!weeklyQuestion || !userData || !questions) return null;
+  if (!weeklyQuestion || !userData) return null;
 
   return (
     <>
       <WeeklyQuestionSection>
         <SectionTitle>위클리 답변 토론</SectionTitle>
-        <Link
-          to={FRONTEND_URLS.ANSWER.replace(
-            ":questionId",
-            weeklyQuestion.questionId.toString()
-          )}
-        >
-          {weeklyQuestion && (
+        {weeklyQuestion && (
+          <Link
+            to={FRONTEND_URLS.ANSWER.replace(
+              ":questionId",
+              weeklyQuestion.questionId.toString()
+            )}
+          >
             <WeeklyQuestionCard
               category={
                 getCategoryName(
@@ -82,8 +82,8 @@ function InterviewTab() {
               answercount={weeklyQuestion.question.answerCount ?? 0}
               isComplete={weeklyQuestion.question.isAnswered}
             />
-          )}
-        </Link>
+          </Link>
+        )}
       </WeeklyQuestionSection>
 
       <CommonQuestionSection>

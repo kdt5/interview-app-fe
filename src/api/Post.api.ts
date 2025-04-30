@@ -19,6 +19,25 @@ export async function fetchPosts(
   return response;
 }
 
+export async function fetchTrendingPosts(
+  categoryId?: number,
+  limit?: number,
+): Promise<CommunityPost[]> {
+  const response = await backendHttpClient
+    .get<CommunityPost[]>(BACKEND_URLS.TRENDING.POSTS, {
+      params: {
+        ...(categoryId && { categoryId }),
+        ...(limit && { limit }),
+      }
+    })
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+
+  return response;
+}
+
 export async function fetchPostDetail(postId: number): Promise<CommunityPost> {
   const response = await backendHttpClient
     .get<CommunityPost>(
