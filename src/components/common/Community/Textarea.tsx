@@ -1,14 +1,50 @@
 import styled from "styled-components";
 import Post from "../../../assets/ReplyPost.png";
 import PostActive from "../../../assets/ReplyPost_active.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { createPostComment, editComment } from "../../../api/Post.api";
 
 interface Props {
-  hasText: boolean;
+  targetId: number;
+  categoryName: "post" | "answer";
+  parentId?: number;
+  editTarget?: { id: number; content: string } | null;
+  setEditTarget?: (target: null) => void;
+  setSuccessMessage?: (message: string) => void;
+  setShowSuccessModal?: (show: boolean) => void;
 }
 
-function TextArea() {
+function TextArea({ targetId, categoryName, parentId, editTarget, setEditTarget, setShowSuccessModal, setSuccessMessage }: Props) {
   const [text, setText] = useState("");
+  
+  useEffect(() => {
+    if (editTarget) {
+      setText(editTarget.content);
+    }
+  }, [editTarget]);
+
+  const handleClick = async () => {
+    try {
+      let response;
+
+      if(editTarget) {
+        response = await editComment(editTarget.id, text);
+      } else if(parentId){
+        response = await createPostComment(targetId, categoryName, text, parentId);
+      } else {
+        response = await createPostComment(targetId, categoryName, text);
+      }
+
+      if(response) {
+        setSuccessMessage?.(editTarget ? "댓글이 수정되었습니다." : "댓글이 등록되었습니다.");
+        setShowSuccessModal?.(true);
+        setText("");
+        setEditTarget?.(null);
+      }
+    } catch {
+      alert("댓글 등록에 실패했습니다.");
+    }
+  }
 
   return (
     <>
@@ -18,13 +54,25 @@ function TextArea() {
           value={text}
           onChange={(e) => setText(e.target.value)}
         />
-        <button></button>
+        <button onClick={handleClick}></button>
+        {editTarget && (
+          <button onClick={() => {
+            setEditTarget?.(null);
+            setText("");
+          }}>
+            취소
+          </button>
+        )}
       </CommentSection>
     </>
   );
 }
 
-const CommentSection = styled.div<Props>`
+interface CommentSectionProps {
+  hasText: boolean;
+}
+
+const CommentSection = styled.div<CommentSectionProps>`
   position: fixed;
   width: 100%;
   max-width: 380px;

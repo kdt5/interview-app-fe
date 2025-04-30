@@ -1,58 +1,153 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import LikeSmall from "../../assets/Link_Small.png";
+import ActiveLikeSmall from "../../assets/Link_Small_active.png";
 import ReplySmall from "../../assets/Reply_Small.png";
 import OptionSmall from "../../assets/Option.png";
+import { Comment } from "../../models/Comment.model";
+import { CommentStyle } from "../../pages/CommunityPost/PostDetail";
+import { FRONTEND_URLS } from "../../constants/Urls";
+import { MAX_COMMENT_DEPTH } from "../../constants/Post";
+import { countAllReplies } from "../../utils/commentCount";
+import { useEffect, useState } from "react";
+import CommunityModal from "./Community/CommunityModal";
+import { fetchFavoriteStatus } from "../../hooks/UseFavorite";
+import { addFavorite, removeFavorite } from "../../api/Favorite.api";
 
 interface Props {
-  profileImg: string;
-  username: string;
-  contents: string;
-  comments: number;
-  likes: number;
-  reply: number;
+  id: number;
+  content: string;
+  user: {
+    id: number;
+    nickname: string;
+    profileImageUrl: string;
+    level: number;
+    answerCount: number;
+  };
+  favoriteCount: number;
+  replies?: Comment[];
+  depth: number;
+  postId?: number;
+  allComments?: Comment[];
+  setEditTarget?: (target: { id: number; content: string }) => void;
+  questionId?: number;
 }
 
 function CommentContents({
-  profileImg,
-  username,
-  contents,
-  comments,
-  likes,
-  reply,
+  id,
+  content,
+  user,
+  favoriteCount,
+  replies,
+  depth,
+  postId,
+  allComments,
+  setEditTarget,
 }: Props) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const getReplies = (parentId: number) =>
+    allComments?.filter((comment) => comment.parentId === parentId) || [];
+
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [currFavoriteCount, setFavoriteCount] = useState(favoriteCount);
+
+  useEffect(() => {
+    fetchFavoriteStatus(id, "comment").then(setIsFavorite);
+    setFavoriteCount(favoriteCount);
+  }, [id, favoriteCount]);
+
+  const handleToggleFavorite = async (commentId: number) => {
+    try {
+      if (!isFavorite) {
+        await addFavorite(commentId, "comment");
+      } else {
+        await removeFavorite(commentId, "comment");
+      }
+    } catch (error) {
+      console.error("좋아요 토글 실패", error);
+    }
+
+    setIsFavorite((prev: boolean) => !prev);
+    setFavoriteCount((prev) => (isFavorite ? prev - 1 : prev + 1));
+  };
+
+  const handleOptionClick = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
+
   return (
     <>
       <ProfileSection>
         <FlexWrap>
           <UserInfo>
-            <CommonProfileStyle src={profileImg} alt={`${username}의 프로필`} />
+            <CommonProfileStyle
+              src={user.profileImageUrl}
+              alt={`${user.nickname}의 프로필`}
+            />
             <Username>
-              <p>{username}</p>
-              <Comments>누적 답변{comments}개</Comments>
+              <p>{user.nickname}</p>
+              <Comments>누적 답변 {user.answerCount}개</Comments>
             </Username>
           </UserInfo>
-          <OptionButton></OptionButton>
+          <OptionButton onClick={handleOptionClick}></OptionButton>
         </FlexWrap>
-        <Contents>{contents}</Contents>
+        <Contents>{content}</Contents>
         <CommentInfo>
           <span>
-            <img src={LikeSmall} alt="" />
-            좋아요 {likes}
+            <img
+              src={isFavorite ? ActiveLikeSmall : LikeSmall}
+              alt=""
+              onClick={() => handleToggleFavorite(id)}
+              style={{ cursor: "pointer" }}
+            />
+            좋아요 {currFavoriteCount === 0 ? "" : currFavoriteCount}
           </span>{" "}
-          <Link to="/reply">
+          <Link
+            to={`${FRONTEND_URLS.COMMUNITY.POST_DETAIL.replace(":postId", String(postId))}${FRONTEND_URLS.COMMUNITY.REPLIES.replace(":commentId", String(id))}`}
+          >
             <span>
               <img src={ReplySmall} alt="" />
-              답글 {reply}
+              답글{" "}
+              {countAllReplies(allComments || [], id) === 0
+                ? "쓰기"
+                : countAllReplies(allComments || [], id)}
             </span>
           </Link>
         </CommentInfo>
+        {depth < MAX_COMMENT_DEPTH && replies && replies.length > 0 ? (
+          <CommentStyle>
+            {replies.map((reply) => (
+              <CommentContents
+                key={reply.id}
+                {...reply}
+                replies={getReplies(reply.id)}
+                depth={depth + 1}
+                postId={postId}
+                allComments={allComments}
+                setEditTarget={setEditTarget}
+              />
+            ))}
+          </CommentStyle>
+        ) : (
+          <div></div>
+        )}
       </ProfileSection>
+      {isModalOpen && (
+        <CommunityModal
+          className="comment"
+          setEditTarget={setEditTarget}
+          onClose={handleOptionClick}
+          postId={id}
+          content={content}
+        />
+      )}
     </>
   );
 }
 
-const OptionButton = styled.button`
+export const OptionButton = styled.button`
   width: 10px;
   height: 30px;
   background-color: transparent;
@@ -61,7 +156,7 @@ const OptionButton = styled.button`
   padding: 0;
   border-radius: 0;
 `;
-const CommentInfo = styled.p`
+export const CommentInfo = styled.p`
   padding-left: 45px;
   span {
     color: #888;
@@ -76,7 +171,7 @@ const CommentInfo = styled.p`
     }
   }
 `;
-const CommonProfileStyle = styled.img`
+export const CommonProfileStyle = styled.img`
   width: 35px;
   height: 35px;
   background-color: #ccc;
@@ -84,23 +179,23 @@ const CommonProfileStyle = styled.img`
   display: block;
 `;
 
-const ProfileSection = styled.div`
+export const ProfileSection = styled.div`
   margin-top: 15px;
 `;
 
-const FlexWrap = styled.div`
+export const FlexWrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
 `;
 
-const UserInfo = styled.div`
+export const UserInfo = styled.div`
   display: flex;
   align-items: center;
   justify-content: left;
 `;
 
-const Username = styled.div`
+export const Username = styled.div`
   margin-left: 10px;
   p {
     font-weight: 600;
@@ -109,13 +204,13 @@ const Username = styled.div`
   }
 `;
 
-const Comments = styled.div`
+export const Comments = styled.div`
   font-weight: 300;
   font-size: 12px;
   color: #888888;
 `;
 
-const Contents = styled.div`
+export const Contents = styled.div`
   font-size: 14px;
   color: #333;
   border-radius: 20px;

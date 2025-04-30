@@ -1,10 +1,15 @@
 import { Question } from "./Question.model";
-import { UserBasicInfo } from "./User.model";
 
 export interface Answer {
   id: number;
   content: string;
-  user: UserBasicInfo;
+  user: {
+    id: number;
+    nickname: string;
+    profileImageUrl: string;
+    level: number;
+    answerCount: number;
+};
   createdAt: string;
   updatedAt: string;
   viewCount: number;

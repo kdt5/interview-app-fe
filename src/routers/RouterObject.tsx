@@ -12,14 +12,13 @@ import MyPage from "../pages/MyPage";
 import FavoriteQuestionListPage from "../pages/FavoriteQuestionListPage";
 import EditAnswerPage from "../pages/EditAnswerPage";
 import Community from "../pages/Community";
-import CommunityQuestionDetail from "../pages/Community/CommunityQuestionDetail";
 import CommunityAnswerDetail from "../pages/Community/CommunityAnswerDetail";
 import CommunityReply from "../pages/Community/CommunityReply";
 import PostDetail from "../pages/CommunityPost/PostDetail";
 import PostWrite from "../pages/CommunityPost/PostWrite";
 import MoreRankingPage from "../pages/MoreRankingPage";
-import CommunityWeeklyAnswer from "../pages/Community/CommunityWeeklyAnswer";
 import SettingProfile from "../pages/Mypage/SettingsProfile";
+import AnswerDetail from "../pages/Community/AnswerDetail";
 import OnBoardingPage from "../pages/OnBoardingPage";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
@@ -39,37 +38,39 @@ const requiredUrls = [
   FRONTEND_URLS.ANSWER_EDIT,
   FRONTEND_URLS.RANKINGS.MAIN,
   FRONTEND_URLS.RANKINGS.MORE,
+  FRONTEND_URLS.COMMUNITY.MAIN,
+  FRONTEND_URLS.COMMUNITY.POST_DETAIL,
+  FRONTEND_URLS.COMMUNITY.POST_NEW,
+  FRONTEND_URLS.COMMUNITY.POST_EDIT,
 ];
 
 export const routerObjects: RouteObject[] = [
   {
-    path: "/questiondetail",
-    element: <CommunityQuestionDetail />,
-  },
-
-  {
-    path: "/answerdetail",
+    path: FRONTEND_URLS.ANSWER,
     element: <CommunityAnswerDetail />,
   },
-
   {
-    path: "/reply",
+    path: FRONTEND_URLS.COMMUNITY.ANSWER_DETAIL,
+    element: <AnswerDetail />,
+  },
+  {
+    path: `${FRONTEND_URLS.COMMUNITY.POST_DETAIL}${FRONTEND_URLS.COMMUNITY.REPLIES}`,
     element: <CommunityReply />,
   },
 
   {
-    path: "/postdetail",
+    path: FRONTEND_URLS.COMMUNITY.POST_DETAIL,
     element: <PostDetail />,
   },
 
   {
-    path: "/postwrite",
-    element: <PostWrite />,
+    path: FRONTEND_URLS.COMMUNITY.POST_NEW,
+    element: <PostWrite mode="create" />,
   },
 
   {
-    path: FRONTEND_URLS.COMMUNITY.WEEKLY,
-    element: <CommunityWeeklyAnswer />,
+    path: FRONTEND_URLS.COMMUNITY.POST_EDIT,
+    element: <PostWrite mode="edit" />
   },
 
   {
@@ -101,7 +102,7 @@ export const routerObjects: RouteObject[] = [
     element: <QuestionListPage />,
   },
   {
-    path: FRONTEND_URLS.COMMUNITY.HOME,
+    path: FRONTEND_URLS.COMMUNITY.MAIN,
     element: <Community />,
   },
   {
