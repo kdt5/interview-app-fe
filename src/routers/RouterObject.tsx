@@ -17,7 +17,6 @@ import CommunityReply from "../pages/Community/CommunityReply";
 import PostDetail from "../pages/CommunityPost/PostDetail";
 import PostWrite from "../pages/CommunityPost/PostWrite";
 import MoreRankingPage from "../pages/MoreRankingPage";
-import CommunityWeeklyAnswer from "../pages/Community/CommunityWeeklyAnswer";
 import SettingProfile from "../pages/Mypage/SettingsProfile";
 import AnswerDetail from "../pages/Community/AnswerDetail";
 import OnBoardingPage from "../pages/OnBoardingPage";
@@ -72,11 +71,6 @@ export const routerObjects: RouteObject[] = [
   {
     path: FRONTEND_URLS.COMMUNITY.POST_EDIT,
     element: <PostWrite mode="edit" />
-  },
-
-  {
-    path: FRONTEND_URLS.COMMUNITY.WEEKLY,
-    element: <CommunityWeeklyAnswer />,
   },
 
   {

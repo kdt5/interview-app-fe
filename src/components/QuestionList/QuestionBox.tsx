@@ -29,9 +29,7 @@ function QuestionBox({ isWeekly = true }: Props) {
 
   const { getCategoryName } = useCategory();
 
-  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
-    null
-  );
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number>(0);
   const [questionList, setQuestionList] = useState<Question[]>([]);
 
   useEffect(() => {
@@ -105,7 +103,8 @@ function QuestionBox({ isWeekly = true }: Props) {
         </WeeklyAnswerPageLinkStyle>
       ) : (
         <CommonCategory
-          onSelectCategory={setSelectedCategoryId}
+          selectedCatId={selectedCategoryId ?? 0}
+          setSelectedCatId={setSelectedCategoryId}
         ></CommonCategory>
       )}
       {questionList.map((item) => (
