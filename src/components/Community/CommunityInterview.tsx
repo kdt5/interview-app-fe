@@ -97,7 +97,11 @@ function InterviewTab() {
             key={item.id}
             onClick={() =>
               navigate(
-                FRONTEND_URLS.ANSWER.replace(":questionId", item.id.toString())
+                "/" +
+                  FRONTEND_URLS.COMMUNITY.ANSWERS.replace(
+                    ":questionId",
+                    item.id.toString()
+                  )
               )
             }
           >

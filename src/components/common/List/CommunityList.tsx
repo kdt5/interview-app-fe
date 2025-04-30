@@ -11,17 +11,23 @@ interface Props {
     profileImageUrl: string;
     answerCount: number;
     level: number;
-  }
+  };
   viewCount: number;
   favoriteCount: number;
 }
 
-function CommunityList({ title, content, user, viewCount, favoriteCount }: Props) {
+function CommunityList({
+  title,
+  content,
+  user,
+  viewCount,
+  favoriteCount,
+}: Props) {
   return (
     <>
       <CommunityListStyle>
         {<CommonProfile key={user.id} {...user} />}
-        {  title && <Title>{title}</Title> }
+        {title && <Title>{title}</Title>}
         <Content>{content}</Content>
         <Info>
           <span>
@@ -49,8 +55,8 @@ const Title = styled.h3`
 
 const Content = styled.p`
   color: #888;
-  font-size: 14px;
-  font-weight: 300;
+  font-size: 12px;
+  font-weight: 400;
   margin-top: 5px;
 `;
 
@@ -59,12 +65,13 @@ const Info = styled.div`
   color: #888;
   margin: 15px 0 0;
   span {
-    font-weight: 300;
+    font-weight: 400;
     color: #888888;
 
     img {
       display: inline-block;
       margin-right: 3px;
+      width: 15px;
     }
   }
 `;
