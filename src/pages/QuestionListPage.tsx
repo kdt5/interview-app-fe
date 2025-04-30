@@ -12,11 +12,15 @@ export default QuestionListPage;
 function QuestionListPage(): JSX.Element {
   const { position } = useParams<{ position: Position }>();
   const [currentTab, setCurrentTab] = useState("위클리");
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number>(0);
   const tabs = [{ title: "위클리" }, { title: "필수 면접" }];
   const { weeklyQuestions, isLoading: isLoadingWeeklyQuestions } =
     useFetchWeeklyQuestions();
   const { questions: basicQuestions, isLoading: isLoadingBasicQuestions } =
-    useFetchQuestions(position);
+    useFetchQuestions(
+      position,
+      selectedCategoryId === 0 ? undefined : selectedCategoryId
+    );
 
   const handleClickTab = (title: string) => {
     setCurrentTab(title);
@@ -44,7 +48,12 @@ function QuestionListPage(): JSX.Element {
               <QuestionBox questions={weeklyQuestions} isWeekly={isWeekly} />
             )
           : !isLoadingBasicQuestions && (
-              <QuestionBox questions={basicQuestions} isWeekly={isWeekly} />
+              <QuestionBox
+                questions={basicQuestions}
+                isWeekly={isWeekly}
+                selectedCatId={selectedCategoryId}
+                setSelectedCatId={setSelectedCategoryId}
+              />
             )}
       </QuestionListPageStyle>
     </>

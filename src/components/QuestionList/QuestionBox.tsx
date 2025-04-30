@@ -6,18 +6,23 @@ import { useCategory } from "../../hooks/UseCategory";
 import { Question } from "../../models/Question.model";
 import { Link } from "react-router-dom";
 import { SlArrowRight } from "react-icons/sl";
-import { useState } from "react";
 import WeeklyQuestionListItem from "./WeeklyQuestionListItem";
 
 interface Props {
   questions: Question[];
   isWeekly?: boolean;
+  selectedCatId?: number;
+  setSelectedCatId?: (id: number) => void;
 }
 
-function QuestionBox({ questions, isWeekly = true }: Props) {
+function QuestionBox({
+  questions,
+  isWeekly = true,
+  selectedCatId,
+  setSelectedCatId,
+}: Props) {
   const navigate = useNavigate();
   const { getCategoryName } = useCategory();
-  const [selectedCatId, setSelectedCatId] = useState(0);
 
   if (isWeekly) {
     return (
@@ -47,6 +52,10 @@ function QuestionBox({ questions, isWeekly = true }: Props) {
         )}
       </CommonQuestionSection>
     );
+  }
+
+  if (selectedCatId === undefined || setSelectedCatId === undefined) {
+    throw new Error("selectedCatId and setSelectedCatId are required props");
   }
 
   return (
