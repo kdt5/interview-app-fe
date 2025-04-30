@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import EssentialQuestionList from "./EssentialQuestionList";
-import { fetchQuestions } from "../../api/Question.api";
+import { fetchBasicQuestions } from "../../api/Question.api";
 import { Question } from "../../models/Question.model";
 import { getPositionKeyById } from "../../utils/Positions";
 import { useMyUserData } from "../../hooks/UseMyUserData";
@@ -22,7 +22,7 @@ function EssentialQuestionListGroup() {
 
         if (!positionString) return;
 
-        const data = await fetchQuestions(
+        const data = await fetchBasicQuestions(
           positionString,
           selectedCategoryId ?? undefined
         );

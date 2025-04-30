@@ -58,7 +58,7 @@ export const BACKEND_URLS = {
     CHANGE_NICKNAME: "/api/users/change-nickname",
   },
   QUESTIONS: {
-    ALL: "/api/questions",
+    BASIC: "/api/questions",
     QUESTION: "/api/questions/:questionId",
     WEEKLY_CURRENT: "/api/questions/weekly/current",
     WEEKLY: "/api/questions/weekly",
