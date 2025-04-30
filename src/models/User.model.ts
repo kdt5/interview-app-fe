@@ -19,4 +19,9 @@ export interface UserStats {
   favoriteCount: number; // 받은 좋아요 합계
   communityPostCount: number; // 커뮤니티 게시글 수
   commentCount: number; // 댓글 수
+  levelUpProgress: {
+    currentPoints: number;
+    requiredPoints: number;
+    progressPercent: number;
+  };
 }

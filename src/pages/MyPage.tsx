@@ -4,10 +4,50 @@ import { FRONTEND_URLS } from "../constants/Urls";
 import MyPageSection from "../components/MyPage/MyPageSection";
 import { MyPageSectionStyle } from "../components/MyPage/MyPageSectionStyle";
 import { FaChevronRight } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/UseAuth";
+import { useEffect } from "react";
 
 function MyPage() {
-  const { me } = useUser();
+  const navigate = useNavigate();
+  const { isAuthenticated, me, isLoading: isAuthLoading } = useAuth();
+  const {
+    isLoading: isUserLoading,
+    userStats,
+    error,
+  } = useUser({ isAuthenticated });
+
+  useEffect(() => {
+    if (!isAuthLoading && !isAuthenticated) {
+      navigate(FRONTEND_URLS.LOGIN);
+    }
+  }, [isAuthenticated, isAuthLoading, navigate]);
+
+  // 로딩 상태 체크
+  if (isAuthLoading) {
+    return <div>인증 확인 중...</div>;
+  }
+
+  // 인증되지 않은 상태 체크
+  if (!isAuthenticated) {
+    return null;
+  }
+
+  // 사용자 데이터 로딩 상태 체크
+  if (isUserLoading) {
+    return <div>사용자 정보를 불러오는 중...</div>;
+  }
+
+  // 에러 상태 체크
+  if (error) {
+    return (
+      <NewMypageStyle>
+        <div style={{ textAlign: "center", padding: "20px", color: "#ff4d4d" }}>
+          사용자 정보를 불러오는데 실패했습니다.
+        </div>
+      </NewMypageStyle>
+    );
+  }
 
   return (
     <>
@@ -26,15 +66,15 @@ function MyPage() {
         <MyInfo>
           <MyInfoBox>
             <span>답변 질문 수</span>
-            <p>20개</p>
+            <p>{userStats?.answerCount}</p>
           </MyInfoBox>
           <MyInfoBox>
             <span>작성 게시글</span>
-            <p>20개</p>
+            <p>{userStats?.communityPostCount}</p>
           </MyInfoBox>
           <MyInfoBox>
             <span>누적 좋아요</span>
-            <p>20개</p>
+            <p>{userStats?.favoriteCount}</p>
           </MyInfoBox>
         </MyInfo>
         <MyPageSection></MyPageSection>
@@ -101,7 +141,6 @@ const MyProfileStyle = styled(Link)`
       span {
         color: #888;
         font-weight: 300;
-
         border-radius: 15px;
       }
     }
