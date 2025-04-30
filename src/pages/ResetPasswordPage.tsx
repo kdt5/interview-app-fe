@@ -68,19 +68,18 @@ function ResetPasswordPage() {
   return (
     <Wrapper>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Label>이메일</Label>
-        <InputRow>
-          <InputField
-            autoComplete="off"
-            placeholder="이메일을 입력하세요"
-            type="email"
-            maxLength={30}
-            {...register("email", checkEmail)}
-          />
-          <CheckButton type="submit">이메일 확인</CheckButton>
-        </InputRow>
-
-        <FeedbackWrapper>
+        <div className="input-container">
+          <Label>이메일</Label>
+          <InputRow>
+            <InputField
+              autoComplete="off"
+              placeholder="이메일을 입력하세요"
+              type="email"
+              maxLength={30}
+              {...register("email", checkEmail)}
+            />
+            <CheckButton type="submit">이메일 확인</CheckButton>
+          </InputRow>
           {errors.email ? (
             <ErrorText>{errors.email.message}</ErrorText>
           ) : submitted ? (
@@ -88,32 +87,30 @@ function ResetPasswordPage() {
           ) : emailValue && isValidEmail(emailValue) ? (
             <SuccessText>사용가능한 비밀번호 입니다.</SuccessText>
           ) : null}
-        </FeedbackWrapper>
-
-        <Label>비밀번호 재입력</Label>
-        <InputField
-          autoComplete="off"
-          placeholder="비밀번호를 입력하세요"
-          type="password"
-          maxLength={30}
-          {...register("password", checkPassword)}
-        />
-        {errors.password ? (
-          <ErrorText>{errors.password.message}</ErrorText>
-        ) : submitted ? (
-          <SuccessText>비밀번호 재설정 이메일을 보냈습니다</SuccessText>
-        ) : passwordValue && isValidPassword(passwordValue) ? (
-          <SuccessText>이메일이 확인되었습니다</SuccessText>
-        ) : (
-          <div style={{ height: "18px" }}>&nbsp;</div>
-        )}
+        </div>
+        <div className="input-container">
+          <Label>비밀번호 재입력</Label>
+          <InputField
+            autoComplete="off"
+            placeholder="비밀번호를 입력하세요"
+            type="password"
+            maxLength={30}
+            {...register("password", checkPassword)}
+          />
+          {errors.password ? (
+            <ErrorText>{errors.password.message}</ErrorText>
+          ) : submitted ? (
+            <SuccessText>비밀번호 재설정 이메일을 보냈습니다</SuccessText>
+          ) : passwordValue && isValidPassword(passwordValue) ? (
+            <SuccessText>이메일이 확인되었습니다</SuccessText>
+          ) : (
+            <div style={{ height: "18px" }}>&nbsp;</div>
+          )}
+        </div>
       </Form>
-
-      <BottomFixed>
-        <LoginButton onClick={() => navigate("/login")}>
-          비밀번호 재설정
-        </LoginButton>
-      </BottomFixed>
+      <ResetButton onClick={() => navigate("/login")}>
+        비밀번호 재설정
+      </ResetButton>
     </Wrapper>
   );
 }
@@ -121,29 +118,33 @@ function ResetPasswordPage() {
 export default ResetPasswordPage;
 
 const Wrapper = styled.div`
-  padding: 0px 30px;
+  padding: 10px 30px;
   max-width: 480px;
   margin: 0 auto;
   position: relative;
-  height: 100vh;
   box-sizing: border-box;
 `;
 
 const Form = styled.form`
   margin-top: 32px;
+
+  .input-container {
+    height: 115px;
+    margin-bottom: 30px;
+  }
 `;
 
 const Label = styled.label`
-  font-size: 14px;
+  font-size: 16px;
   color: #888888;
   margin-bottom: 8px;
   display: block;
+  font-weight: 600;
 `;
 
 const InputRow = styled.div`
   display: flex;
-  gap: 20px;
-  margin-bottom: 20px;
+  gap: 12px;
   align-items: end;
   & > div:first-child {
     flex: 1;
@@ -152,56 +153,40 @@ const InputRow = styled.div`
 
 const CheckButton = styled.button`
   height: 60px;
-  padding: 0 16px;
-  background-color: #6ca9ff;
+  padding: 0 24px;
+  background-color: #6ea1ff;
   color: white;
-  font-weight: 600;
-  font-size: 15px;
+  font-weight: 400;
+  font-size: 16px;
   border: none;
-  border-radius: 8px;
+  border-radius: 5px;
   cursor: pointer;
   white-space: nowrap;
 `;
 
-const BottomFixed = styled.div`
-  position: absolute;
-  bottom: 150px;
-  left: 20px;
-  right: 20px;
-`;
-
-const LoginButton = styled.button`
+const ResetButton = styled.button`
   width: 100%;
-  height: 48px;
-  background-color: #6ca9ff;
+  height: 55px;
+  background-color: #6ea1ff;
   color: white;
-  font-weight: 600;
-  font-size: 14px;
+  font-weight: 400;
+  font-size: 18px;
   border: none;
-  border-radius: 8px;
+  border-radius: 5px;
   cursor: pointer;
+  margin-top: 330px;
 `;
 
 const ErrorText = styled.div`
-  margin-top: 15px;
-  margin-bottom: 30px;
-  font-size: 13px;
+  font-size: 12px;
   color: #f2624f;
   display: flex;
+  margin-top: 10px;
 `;
 
 const SuccessText = styled.div`
-  margin-top: 15px;
-  font-size: 13px;
-  color: #6ca9ff;
+  margin: 10px 0 30px 0;
+  font-size: 12px;
+  color: #6ea1ff;
   display: flex;
-`;
-
-const FeedbackWrapper = styled.div`
-  height: 15px;
-  margin-top: 10px;
-  margin-bottom: 30px;
-  font-size: 13px;
-  display: flex;
-  align-items: center;
 `;
