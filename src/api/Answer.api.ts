@@ -4,6 +4,10 @@ import { AnsweredQuestion } from "../models/Answer.model";
 import { replaceUrlParams } from "../utils/Url";
 import { backendHttpClient } from "./BackendHttpClient.api";
 
+interface RecordAnswerResponse {
+  answerId: string;
+}
+
 export async function fetchBasicAnsweredQuestions(): Promise<
   AnsweredQuestion[]
 > {
@@ -33,9 +37,9 @@ export async function fetchWeeklyAnsweredQuestions(): Promise<
 export async function recordAnswer(
   answer: string,
   questionId: number
-): Promise<boolean> {
+): Promise<string> {
   const response = await backendHttpClient
-    .post(
+    .post<RecordAnswerResponse>(
       replaceUrlParams(BACKEND_URLS.ANSWERS.ANSWER_RECORD, {
         questionId: questionId.toString(),
       }),
@@ -44,7 +48,13 @@ export async function recordAnswer(
         content: answer,
       }
     )
-    .then((response) => response.status === HttpStatusCode.Created)
+    .then((response) => {
+      if (response.status === HttpStatusCode.Created) {
+        return response.data.answerId;
+      } else {
+        throw new Error("답변 생성 실패");
+      }
+    })
     .catch((error) => {
       throw error;
     });

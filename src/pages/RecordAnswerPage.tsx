@@ -13,17 +13,12 @@ export type ModalType = "confirm" | "alert";
 
 function RecordAnswerPage() {
   const navigate = useNavigate();
-  const { questionId, answerId } = useParams<{
+  const { questionId } = useParams<{
     questionId: string;
-    answerId: string;
   }>();
 
   const parsedQuestionId = parseInt(questionId as string);
-  const parsedAnswerId = parseInt(answerId as string);
-  const { question, answer, setAnswer } = useAnswer(
-    parsedQuestionId,
-    parsedAnswerId
-  );
+  const { question, answer, setAnswer } = useAnswer(parsedQuestionId);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPublic, setIsPublic] = useState<boolean | null>(null);
@@ -47,11 +42,11 @@ function RecordAnswerPage() {
   const isSubmitDisabled =
     answer.trim() === "" || answer.length < 0 || isPublic === null;
 
-  const handleSubmitSuccess = () => {
+  const handleSubmitSuccess = (answerId: string) => {
     navigate(
       replaceUrlParams(FRONTEND_URLS.ANSWER_DETAIL, {
         questionId: parsedQuestionId.toString(),
-        answerId: parsedAnswerId.toString(),
+        answerId: answerId.toString(),
       })
     );
   };
