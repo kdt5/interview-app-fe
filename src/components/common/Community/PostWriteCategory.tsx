@@ -2,19 +2,20 @@ import { useState } from "react";
 import styled from "styled-components";
 import { SlArrowRight } from "react-icons/sl";
 
-const categoryMap: Record<string, string[]> = {
-  취업: ["취업", "면접 후기"],
-  포지션: ["Front-End", "Back-End", "Full-Stack"],
-  자유: ["일상", "자유글", "반려동물"],
-};
+interface PostWriteCategoryProps {
+  selectedCategory: string;
+  setSelectedCategory: (name: string) => void;
+  postCategories: {
+    id: number;
+    name: string;
+  }[];
+}
 
-const PostWriteCategory = () => {
-  const [selectedCategory, setSelectedCategory] =
-    useState("게시글의 주제를 선택해주세요");
+const PostWriteCategory = ({selectedCategory, setSelectedCategory, postCategories}: PostWriteCategoryProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleCategorySelect = (category: string) => {
-    setSelectedCategory(category);
+  const handleSelect = (name: string) => {
+    setSelectedCategory(name);
     setIsModalOpen(false);
   };
 
@@ -31,21 +32,18 @@ const PostWriteCategory = () => {
         <ModalBackdrop onClick={() => setIsModalOpen(false)}>
           <Modal onClick={(e) => e.stopPropagation()}>
             <Title>게시글의 주제를 선택해주세요.</Title>
-            {Object.entries(categoryMap).map(
-              ([mainCategory, subCategories]) => (
-                <CategoryBlock key={mainCategory}>
-                  <MainCategory>{mainCategory}</MainCategory>
-                  {subCategories.map((subCategory) => (
-                    <SubCategory
-                      key={subCategory}
-                      onClick={() => handleCategorySelect(subCategory)}
+            <CategoryBlock>
+              {
+                postCategories.map((category) => (
+                  <SubCategory
+                      key={category.id}
+                      onClick={() => handleSelect(category.name)}
                     >
-                      {subCategory}
-                    </SubCategory>
-                  ))}
-                </CategoryBlock>
-              )
-            )}
+                      {category.name}
+                  </SubCategory>
+                ))
+              }
+            </CategoryBlock>
           </Modal>
         </ModalBackdrop>
       )}
@@ -111,12 +109,6 @@ const Title = styled.div`
 
 const CategoryBlock = styled.div`
   margin-bottom: 16px;
-`;
-
-const MainCategory = styled.div`
-  font-size: 14px;
-  font-weight: bold;
-  color: #888;
 `;
 
 const SubCategory = styled.div`

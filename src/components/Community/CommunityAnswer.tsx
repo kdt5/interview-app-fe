@@ -1,57 +1,148 @@
 import styled from "styled-components";
 import CommonProfile from "../../components/common/Profile/CommonProfile";
 import ViewerImg from "../../assets/Viewer.png";
+import { POST_CATEGORIES } from "../../constants/PostCategory";
+import LikeImg from "../../assets/Like.png";
+import ActiveLikeImg from "../../assets/Like_active.png";
+import OptionImg from "../../assets/Option.png";
+import CommunityModal from "../../components/common/Community/CommunityModal";
+import { useState } from "react";
+import { useCategory } from "../../hooks/UseCategory";
+import { useFavorite } from "../../hooks/UseFavorite";
+import { addFavorite, removeFavorite } from "../../api/Favorite.api";
 
 interface Props {
-  category: string;
-  questiontitle: string;
-  answer: string;
-  viewscount: number;
-  likescount: number;
+  className?: string;
+  questionId?: number;
+  id: number;
+  title: string;
+  content: string;
+  postCategoryId: number;
+  user: {
+    id: number;
+    nickname: string;
+    profileImageUrl: string;
+    level: number;
+    answerCount: number;
+  };
+  viewCount: number;
+  favoriteCount: number;
 }
 
-const ProfileData = [
-  {
-    profileImg: "https://via.placeholder.com/40",
-    username: "내가말하고있잖아",
-    comments: 25,
-    level: 5,
-  },
-];
-
 function CommunityAnswer({
-  category,
-  questiontitle,
-  answer,
-  viewscount,
-  likescount,
+  className,
+  questionId,
+  id,
+  title,
+  content,
+  postCategoryId,
+  user,
+  viewCount,
+  favoriteCount,
 }: Props) {
+  const { getCategoryName } = useCategory();
+  const { isFavorite, setIsFavorite } = useFavorite(
+    id,
+    className === "interview" ? "ANSWER" : "POST"
+  );
+  const [currFavoriteCount, setFavoriteCount] = useState(favoriteCount);
+
+  const postCategoryName =
+    className === "interview"
+      ? getCategoryName(postCategoryId)
+      : POST_CATEGORIES.find((category) => category.id === postCategoryId)
+          ?.name;
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOptionClick = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
+  const handleToggleFavorite = async (answerId: number) => {
+    try {
+      if (!isFavorite) {
+        await addFavorite(
+          answerId,
+          className === "interview" ? "answer" : "post"
+        );
+      } else {
+        await removeFavorite(
+          answerId,
+          className === "interview" ? "answer" : "post"
+        );
+      }
+    } catch (error) {
+      console.error("좋아요 토글 실패", error);
+    }
+
+    setIsFavorite((prev: boolean) => !prev);
+    setFavoriteCount((prev) => (isFavorite ? prev - 1 : prev + 1));
+  };
+
   return (
     <>
       <AnswerDetail>
-        <AnswerCategory>{category}</AnswerCategory>
-        <QuestionTitle>{questiontitle}</QuestionTitle>
-        <AnswerContents>{answer}</AnswerContents>
+        <AnswerInfo>
+          <AnswerCategory>{postCategoryName || "기타"}</AnswerCategory>
+          <span>
+            <img
+              src={isFavorite ? ActiveLikeImg : LikeImg}
+              alt="Like Icon"
+              onClick={() => handleToggleFavorite(id)}
+              style={{ cursor: "pointer" }}
+            />
+            <img
+              src={OptionImg}
+              alt="Option Icon"
+              onClick={handleOptionClick}
+            />
+          </span>
+        </AnswerInfo>
+        <QuestionTitle>{title}</QuestionTitle>
+        <AnswerContents>{content}</AnswerContents>
         <QuestionLike>
           <span>
             {" "}
             <img src={ViewerImg} alt="Viewer Icon" />
-            {viewscount}명이 봤어요
+            {viewCount}명이 봤어요
           </span>{" "}
-          | <span>좋아요 {likescount}</span>
+          | <span>좋아요 {currFavoriteCount}</span>
         </QuestionLike>
       </AnswerDetail>
       <AnswerDetailProfile>
-        {ProfileData.map((item, index) => (
-          <CommonProfile key={index} {...item} />
-        ))}
+        {user && <CommonProfile key={user.id} {...user} />}
       </AnswerDetailProfile>
+      {isModalOpen && (
+        <CommunityModal
+          className={className}
+          questionId={questionId}
+          onClose={handleOptionClick}
+          postId={id}
+          title={title}
+          content={content}
+          postCategoryId={postCategoryId}
+        />
+      )}
     </>
   );
 }
 
 const AnswerDetail = styled.div`
   margin-bottom: 15px;
+`;
+
+const AnswerInfo = styled.div`
+  margin-top: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  span {
+    img {
+      display: inline-block;
+      margin-right: 12px;
+    }
+  }
 `;
 
 const AnswerCategory = styled.div`

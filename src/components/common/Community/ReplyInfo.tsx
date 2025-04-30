@@ -1,14 +1,14 @@
 import styled from "styled-components";
 
 interface Props {
-  totalcomments: number;
+  totalComments: number;
 }
 
-function ReplyInfo({ totalcomments }: Props) {
+function ReplyInfo({ totalComments }: Props) {
   return (
     <>
       <ReplyInfoStyle>
-        <span>댓글 {totalcomments}</span>{" "}
+        <span>댓글 {totalComments}</span>{" "}
         <span>
           <b>최신순</b> 인기순
         </span>

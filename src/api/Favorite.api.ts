@@ -2,6 +2,7 @@ import { backendHttpClient } from "./BackendHttpClient.api";
 import { BACKEND_URLS } from "../constants/Urls";
 import { replaceUrlParams } from "../utils/Url";
 import { Question } from "../models/Question.model";
+import axios from "axios";
 
 export async function fetchFavoriteQuestions() {
   const response = await backendHttpClient
@@ -14,28 +15,32 @@ export async function fetchFavoriteQuestions() {
   return response;
 }
 
-export async function fetchFavorite(questionId: number) {
+export async function fetchFavorite(targetId: number, targetType: string) {
   const response = await backendHttpClient
     .get<boolean>(
       replaceUrlParams(BACKEND_URLS.FAVORITES.FAVORITE, {
-        targetType: "question",
-        targetId: questionId.toString(),
+        targetType,
+        targetId: targetId.toString(),
       })
     )
     .then((response) => response.data)
     .catch((error) => {
+      if(axios.isAxiosError(error) && error.response?.status === 404) {
+        return false;
+      }
+      
       throw error;
     });
 
   return response;
 }
 
-export async function addFavorite(questionId: number) {
+export async function addFavorite(targetId: number, targetType: string) {
   const response = await backendHttpClient
     .post(
       replaceUrlParams(BACKEND_URLS.FAVORITES.FAVORITE, {
-        targetType: "question",
-        targetId: questionId.toString(),
+        targetType,
+        targetId: targetId.toString(),
       })
     )
     .then((response) => response.data)
@@ -46,12 +51,12 @@ export async function addFavorite(questionId: number) {
   return response;
 }
 
-export async function removeFavorite(questionId: number) {
+export async function removeFavorite(targetId: number, targetType: string) {
   const response = await backendHttpClient
     .delete(
       replaceUrlParams(BACKEND_URLS.FAVORITES.FAVORITE, {
-        targetType: "question",
-        targetId: questionId.toString(),
+        targetType,
+        targetId: targetId.toString(),
       })
     )
     .then((response) => response.data)

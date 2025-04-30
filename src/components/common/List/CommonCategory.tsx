@@ -1,18 +1,22 @@
 import styled from "styled-components";
 import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { useState } from "react";
+import { usePostCategories } from "../../../hooks/UsePost";
 import { useCategory } from "../../../hooks/UseCategory";
 
 interface Props {
   className?: string;
-  onSelectCategory: (categoryId: number | null) => void;
+  selectedCatId: number;
+  setSelectedCatId: (catId: number) => void;
 }
+function CommonCategory({ className, selectedCatId, setSelectedCatId }: Props) {
+  const { categories } = useCategory();
+  const { postCategories } = usePostCategories();
 
-function CommonCategory({ className, onSelectCategory }: Props) {
-  const [selectedIndex, setSelectedIndex] = useState(0);
-
-  const { categories, getCategoryName } = useCategory();
+  const categoryList = 
+    className === "interview"
+    ? [{ id: 0, name: "전체" }, ...categories]
+    : [{ id: 0, name: "전체" }, ...postCategories];
 
   return (
     <CommonCategoryStyle>
@@ -22,37 +26,18 @@ function CommonCategory({ className, onSelectCategory }: Props) {
         onSlideChange={() => console.log("slide changed")}
         onSwiper={(swiper) => console.log(swiper)}
       >
-        <SwiperSlide
-          className={className}
-          style={{ width: "auto" }}
-          onClick={() => {
-            setSelectedIndex(0);
-            onSelectCategory(null);
-          }}
-        >
-          <CategoryName className={selectedIndex === 0 ? "active" : ""}>
-            전체
-          </CategoryName>
-        </SwiperSlide>
-        {categories
-          .filter((cat) => cat.id !== -1)
-          .map((cat, index) => (
-            <SwiperSlide
-              key={cat.id}
-              className={className}
-              style={{ width: "auto" }}
-              onClick={() => {
-                setSelectedIndex(index + 1);
-                onSelectCategory(cat.id);
-              }}
-            >
-              <CategoryName
-                className={selectedIndex === index + 1 ? "active" : ""}
-              >
-                {getCategoryName(cat.id)}
-              </CategoryName>
-            </SwiperSlide>
-          ))}
+        {categoryList.map((category) => (
+          <SwiperSlide
+            key={category.id}
+            className={className}
+            style={{ width: "auto" }}
+            onClick={() => setSelectedCatId(category.id)}
+          >
+            <CategoryName className={selectedCatId === category.id ? "active" : ""}>
+              {category.name}
+            </CategoryName>
+          </SwiperSlide>
+        ))}
       </Swiper>
     </CommonCategoryStyle>
   );

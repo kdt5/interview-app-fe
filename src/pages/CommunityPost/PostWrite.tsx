@@ -1,29 +1,94 @@
 import styled from "styled-components";
 import PostWriteCategory from "../../components/common/Community/PostWriteCategory";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PostTitleForm from "../../components/Community/PostTitleForm";
 import PostTextArea from "../../components/Community/PostTextArea";
 import GrayButton from "../../components/common/Button/GrayButton";
+import { usePostCategories, usePostMutation } from "../../hooks/UsePost";
+import { PostCategory } from "../../models/CommunityPost.model";
+import { useLocation, useNavigate } from "react-router-dom";
+import { FRONTEND_URLS } from "../../constants/Urls";
 
-function PostWrite() {
-  const [title, setTitle] = useState("");
-  const [answer, setAnswer] = useState("");
+function PostWrite({ mode }: { mode: "create" | "edit" }) {
+  const location = useLocation();
+  const state = location.state as {
+    postId?: number;
+    currentTitle?: string;
+    currentContent?: string;
+    currentCategoryId?: number;
+  };
+  const navigate = useNavigate();
+  const [title, setTitle] = useState<string>(state?.currentTitle || "");
+  const [content, setContent] = useState<string>(state?.currentContent || "");
+  const { postCategories } = usePostCategories();
+  const [selectedCategory, setSelectedCategory] =
+    useState("게시글의 주제를 선택해주세요.");
+  useEffect(() => {
+    if (
+      mode === "edit" &&
+      state?.currentCategoryId &&
+      postCategories.length > 0
+    ) {
+      const foundCategory = postCategories.find(
+        (cat) => cat.id === state.currentCategoryId
+      );
+      setSelectedCategory(
+        foundCategory ? foundCategory.name : "존재하지 않는 주제 입니다."
+      );
+    }
+  }, [mode, state, postCategories]);
+
+  const { submitNewPost, updateExistingPost } = usePostMutation();
+
+  const isButtonActive =
+    title.length > 0 &&
+    content.length >= 1 &&
+    selectedCategory !== "게시글의 주제를 선택해주세요.";
+
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
-  const handleAnswerChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setAnswer(e.target.value);
+  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setContent(e.target.value);
   };
-
-  const isButtonActive = title.length > 0 && answer.length >= 1;
+  const handleSubmit = async () => {
+    if (!isButtonActive) return;
+    const categoryId =
+      postCategories.find(
+        (category: PostCategory) => category.name === selectedCategory
+      )?.id ?? 1;
+    try {
+      if (mode === "create") {
+        await submitNewPost(title, content, categoryId);
+      } else if (mode === "edit" && state?.postId) {
+        await updateExistingPost(state?.postId, title, content, categoryId);
+      } else {
+        console.error("게시글 모드 create/edit 만 가능합니다.");
+        throw new Error("게시글 모드가 잘못되었습니다.");
+      }
+      navigate(FRONTEND_URLS.COMMUNITY.MAIN);
+    } catch (error) {
+      console.error("게시글 수정 오류:", error);
+      alert("에러가 발생했습니다. 다시 시도해주세요.");
+    }
+  };
 
   return (
     <PostWriteStyle>
-      <PostWriteCategory />
+      <PostWriteCategory
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+        postCategories={postCategories}
+      />
       <PostTitleForm title={title} handleTitleChange={handleTitleChange} />
-      <PostTextArea answer={answer} handleAnswerChange={handleAnswerChange} />
+      <PostTextArea answer={content} handleAnswerChange={handleContentChange} />
       <ConfirmButtonWrap>
-        <GrayButton width="100px" className={isButtonActive ? "check" : ""}>
+        <GrayButton
+          width="100px"
+          className={isButtonActive ? "check" : ""}
+          onClick={handleSubmit}
+          disabled={!isButtonActive}
+        >
           완료
         </GrayButton>
       </ConfirmButtonWrap>
