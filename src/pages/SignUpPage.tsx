@@ -323,7 +323,7 @@ interface SignUpPageStyleProps {
 
 const SignUpPageStyle = styled.div<SignUpPageStyleProps>`
   max-width: 380px;
-  height: 100dvh;
+  height: 100%;
   padding: 0 30px;
   background-color: #ffffff;
 

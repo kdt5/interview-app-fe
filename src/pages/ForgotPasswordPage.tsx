@@ -51,21 +51,17 @@ function ForgotPasswordPage() {
         </InputRow>
         <InfoText>비밀번호 재설정 이메일을 보냈습니다</InfoText>
       </Form>
-
-      <BottomFixed>
-        <LoginButton onClick={() => navigate("/login")}>로그인</LoginButton>
-      </BottomFixed>
+      <LoginButton onClick={() => navigate("/login")}>로그인</LoginButton>
     </Wrapper>
   );
 }
 export default ForgotPasswordPage;
 
 const Wrapper = styled.div`
-  padding: 20px;
+  padding: 10px 30px;
   max-width: 480px;
   margin: 0 auto;
   position: relative;
-  min-height: 100vh;
   box-sizing: border-box;
 `;
 
@@ -78,6 +74,7 @@ const Label = styled.label`
   color: #888888;
   margin-bottom: 8px;
   display: block;
+  font-weight: 600;
 `;
 
 const InputRow = styled.div`
@@ -88,41 +85,35 @@ const InputRow = styled.div`
 
 const CheckButton = styled.button`
   height: 60px;
-  padding: 0 16px;
+  padding: 0 24px;
   background-color: #6ca9ff;
   color: white;
-  font-weight: 600;
-  font-size: 15px;
+  font-weight: 400;
+  font-size: 16px;
   border: none;
-  border-radius: 8px;
+  border-radius: 5px;
   cursor: pointer;
   white-space: nowrap;
 `;
 
 const InfoText = styled.p`
-  margin-top: 12px;
-  font-size: 13px;
+  margin-top: 10px;
+  font-size: 12px;
   color: #6ca9ff;
   font-weight: 400;
 `;
 
-const BottomFixed = styled.div`
-  position: absolute;
-  bottom: 150px;
-  left: 20px;
-  right: 20px;
-`;
-
 const LoginButton = styled.button`
   width: 100%;
-  height: 48px;
+  height: 55px;
   background-color: #6ca9ff;
   color: white;
-  font-weight: 600;
-  font-size: 14px;
+  font-weight: 400;
+  font-size: 18px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  margin-top: 500px;
 `;
 const ErrorText = styled.span`
   font-size: 12px;
