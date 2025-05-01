@@ -11,6 +11,10 @@ import InputField from "../../components/common/Input/Input";
 import { ModalType } from "../RecordAnswerPage";
 import { useAuth } from "../../hooks/UseAuth";
 import { MAX_PROFILE_IMAGE_SIZE } from "../../constants/User";
+import InputWithCheckButton from "../../components/SignUpPage/InputWithCheckButton";
+import { RegisterOptions, useForm } from "react-hook-form";
+import { NICKNAME_MAX_LENGTH, NICKNAME_MIN_LENGTH } from "../../constants/Auth";
+import { checkNicknameExists } from "../../api/Auth.api";
 
 export interface SignUpInputs {
   password: string;
@@ -85,6 +89,76 @@ function SettingProfile() {
     }
   };
 
+  const {
+    register,
+    handleSubmit: onSubmit,
+    getValues,
+    trigger,
+    setError: setFormError,
+    clearErrors,
+    formState: { errors },
+  } = useForm<SignUpInputs>({ mode: "onChange" });
+
+  const [isNicknameUnique, setIsNicknameUnique] = useState(false);
+
+  const onClickNicknameCheck = async (nickname: string) => {
+    await trigger("nickname");
+
+    if (errors.nickname !== undefined) {
+      return;
+    }
+
+    try {
+      const isExists = await checkNicknameExists(nickname);
+
+      if (isExists) {
+        setFormError("nickname", {
+          type: "manual",
+          message: "중복된 닉네임입니다.",
+        });
+        setIsNicknameUnique(false);
+      } else {
+        setIsNicknameUnique(true);
+      }
+    } catch (error) {
+      console.error("Error during nickname check:", error);
+      setFormError("nickname", {
+        type: "manual",
+        message: "오류가 발생했습니다.",
+      });
+    }
+  };
+
+  const onChangeNickname = async () => {
+    if (isNicknameUnique) {
+      setIsNicknameUnique(false);
+      clearErrors("nickname");
+    } else {
+      await trigger("nickname");
+
+      if (errors.nickname !== undefined) return;
+
+      setFormError("nickname", {
+        type: "manual",
+        message: "닉네임 중복 검사를 해주세요.",
+      });
+    }
+  };
+
+  const checkNickname: RegisterOptions<SignUpInputs, "nickname"> = {
+    required: {
+      value: true,
+      message: "닉네임을 입력해주세요.",
+    },
+    pattern: {
+      value: new RegExp(
+        `^[가-힣a-zA-Z0-9]{${NICKNAME_MIN_LENGTH},${NICKNAME_MAX_LENGTH}}$`
+      ),
+      message: `한글, 영문, 숫자 ${NICKNAME_MIN_LENGTH} - ${NICKNAME_MAX_LENGTH}자`,
+    },
+    onChange: onChangeNickname,
+  };
+
   return (
     <>
       <EditProfileStyle>
@@ -121,6 +195,17 @@ function SettingProfile() {
               <h2>닉네임</h2>
               <p>{me?.nickname}</p>
             </ProfileDefaultInfo>
+            <InputWithCheckButton
+              label="닉네임"
+              name="nickname"
+              placeholder="닉네임을 입력하세요"
+              isUnique={isNicknameUnique}
+              onCheck={() => onClickNicknameCheck(getValues("nickname"))}
+              register={register("nickname", checkNickname)}
+              error={errors.nickname}
+              onChange={onChangeNickname}
+              successMessage="사용 가능한 닉네임입니다."
+            />
           </ProfileInfo>
 
           <PasswordChange>
@@ -142,6 +227,10 @@ function SettingProfile() {
               type="password"
               maxLength={30}
             />
+
+            <PasswordChangeConfirmButton>
+              회원 정보 수정
+            </PasswordChangeConfirmButton>
           </PasswordChange>
         </ProfileWrap>
         <AccountStyle>
@@ -209,8 +298,8 @@ const ProfileImageSetting = styled.div`
   margin: 0 auto 10px;
 
   img {
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
     object-fit: cover;
     border-radius: 50%;
   }
@@ -218,12 +307,12 @@ const ProfileImageSetting = styled.div`
 
 const ProfileImgAddBtn = styled.div`
   position: absolute;
-  top: -0.5em;
-  right: -0.5em;
+  top: 0;
+  right: 0;
   width: 2em;
   height: 2em;
   cursor: pointer;
-  background-color: white;
+  background-color: #6ea1ff;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -268,6 +357,18 @@ const PasswordChange = styled.div`
   .password-input {
     margin: 15px 0;
   }
+`;
+
+const PasswordChangeConfirmButton = styled.button`
+  width: 100%;
+  height: 50px;
+  border: solid 1px #d4dcea;
+  background-color: #fff;
+  text-align: center;
+  font-size: 16px;
+  color: #d4dcea;
+  border-radius: 5px;
+  margin-top: 25px;
 `;
 
 export default SettingProfile;
