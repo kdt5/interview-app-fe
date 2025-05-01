@@ -80,7 +80,7 @@ function SettingProfile() {
 
       setIsLoading(true);
       await handleChangeProfileImage(file);
-      setError("프로필 이미지가 성공적으로 업데이트되었습니다.");
+      setError("프로필 이미지가 업데이트되었습니다.");
     } catch (error) {
       console.error("프로필 업로드 실패:", error);
       setError("프로필 업로드에 실패했습니다.");
