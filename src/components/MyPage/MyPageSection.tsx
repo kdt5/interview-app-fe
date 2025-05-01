@@ -20,11 +20,13 @@ function MyPageSection() {
           iconSource={MenuIcon01}
           menu="위클리 내 답변"
           to={FRONTEND_URLS.MY_PAGE.ANSWERS}
+          tabType="위클리"
         />
         <MyPageSectionList
           iconSource={MenuIcon02}
           menu="필수 질문 내 답변"
           to={FRONTEND_URLS.MY_PAGE.ANSWERS}
+          tabType="필수 질문"
         />
         <MyPageSectionList
           iconSource={MenuIcon03}

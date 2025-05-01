@@ -3,6 +3,7 @@ import Post from "../../../assets/ReplyPost.png";
 import PostActive from "../../../assets/ReplyPost_active.png";
 import { useEffect, useState } from "react";
 import { createPostComment, editComment } from "../../../api/Post.api";
+import { FiPlus } from "react-icons/fi";
 
 interface Props {
   targetId: number;
@@ -54,14 +55,14 @@ function TextArea({ targetId, categoryName, parentId, editTarget, setEditTarget,
           value={text}
           onChange={(e) => setText(e.target.value)}
         />
-        <button onClick={handleClick}></button>
+        <button className="submit" onClick={handleClick}></button>
         {editTarget && (
-          <button onClick={() => {
+          <CancelButton onClick={() => {
             setEditTarget?.(null);
             setText("");
           }}>
-            취소
-          </button>
+            <FiPlus />
+          </CancelButton>
         )}
       </CommentSection>
     </>
@@ -97,7 +98,7 @@ const CommentSection = styled.div<CommentSectionProps>`
     width: 85%;
   }
 
-  button {
+  .submit {
     width: 40px;
     height: 40px;
     background-color: transparent;
@@ -106,6 +107,23 @@ const CommentSection = styled.div<CommentSectionProps>`
     background-repeat: no-repeat;
     border: none;
     padding: 0;
+  }
+`;
+
+const CancelButton = styled.button`
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    transform: rotate(45deg);
+    font-size: 20px;
+    color: #888;
   }
 `;
 

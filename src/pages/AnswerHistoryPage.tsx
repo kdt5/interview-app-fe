@@ -2,20 +2,21 @@ import styled from "styled-components";
 import Tabs from "../components/common/Tabs";
 import { useState } from "react";
 import AnsweredQuestions from "../components/AnswerHistory/AnsweredQuestions";
-import { useCategory } from "../hooks/UseCategory";
 import { useAnsweredHistory } from "../hooks/UseAnsweredHistory";
+import { useLocation } from "react-router-dom";
 
 export default AnswerHistoryPage;
 
-type TabType = "위클리" | "기본";
+type TabType = "위클리" | "필수 질문";
 
 function AnswerHistoryPage() {
-  const { getCategoryName } = useCategory();
+  const location = useLocation();
+  const initialTab = location.state?.tabType ?? "필수 질문";
   const { basicAnsweredQuestions, weeklyAnsweredQuestions } =
     useAnsweredHistory();
-  const [currentTab, setCurrentTab] = useState<TabType>("기본");
+  const [currentTab, setCurrentTab] = useState<TabType>(initialTab);
 
-  const tabs = [{ title: "기본" }, { title: "위클리" }];
+  const tabs = [{ title: "필수 질문" }, { title: "위클리" }];
 
   const handleClickTab = (title: string) => {
     setCurrentTab(title as TabType);
@@ -31,7 +32,6 @@ function AnswerHistoryPage() {
             ? weeklyAnsweredQuestions
             : basicAnsweredQuestions
         }
-        getCategoryName={getCategoryName}
       />
     </AnswerHistoryStyle>
   );

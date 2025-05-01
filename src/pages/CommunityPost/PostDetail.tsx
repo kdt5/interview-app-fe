@@ -122,9 +122,10 @@ const AnswerDetailStyle = styled.div`
 
 export const CommentStyle = styled.div`
   margin-top: 30px;
+  padding: 0 0 0 30px;
 `;
 const CommentSectionWrapper = styled.div`
-  padding: 0 30px;
+  padding: 0 30px 0 0;
 `;
 
 export default PostDetail;

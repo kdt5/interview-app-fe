@@ -68,10 +68,7 @@ export const BACKEND_URLS = {
     ALL: "/api/categories",
   },
   ANSWERS: {
-    MINE: {
-      BASIC: "/api/answers/mine/basic",
-      WEEKLY: "/api/answers/mine/weekly",
-    },
+    MINE: "/api/answers/mine",
     ANSWER_LIST: "/api/questions/:questionId/answers",
     ANSWER_RECORD: "/api/answers/:questionId",
     ANSWER_EDIT: "/api/answers/:answerId",

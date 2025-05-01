@@ -9,7 +9,7 @@ export interface Answer {
     profileImageUrl: string;
     level: number;
     answerCount: number;
-};
+  };
   createdAt: string;
   updatedAt: string;
   viewCount: number;
