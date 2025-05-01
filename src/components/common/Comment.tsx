@@ -76,7 +76,6 @@ function CommentContents({
     setIsModalOpen(!isModalOpen);
   };
 
-
   return (
     <>
       <ProfileSection>
@@ -161,7 +160,7 @@ export const CommentInfo = styled.p`
   span {
     color: #888;
     font-size: 12px;
-    font-weight: 300;
+    font-weight: 400;
     display: inline-block;
     margin-right: 6px;
 
