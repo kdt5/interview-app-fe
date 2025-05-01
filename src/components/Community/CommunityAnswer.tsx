@@ -49,7 +49,7 @@ function CommunityAnswer({
           ?.name;
 
   const handleToggleLike = (isFavorite: boolean) => {
-    setCurrentFavoriteCount((prev) => (isFavorite ? prev - 1 : prev + 1));
+    setCurrentFavoriteCount((prev) => (isFavorite ? prev + 1 : prev - 1));
   };
 
   const handleOptionClick = () => {
