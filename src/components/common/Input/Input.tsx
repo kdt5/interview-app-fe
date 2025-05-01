@@ -23,7 +23,7 @@ const InputField = ({ placeholder, type, ...rest }: Props) => {
       {type === "password" && (
         <ToggleButton type="button" onClick={togglePasswordVisibility}>
           <img
-            src={showPassword ? "../public/Eye.png" : "../public/Invisible.png"}
+            src={showPassword ? "/Eye.png" : "/Invisible.png"}
             alt={showPassword ? "Hide password" : "Show Password"}
           />
         </ToggleButton>
