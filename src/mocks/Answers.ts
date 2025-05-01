@@ -20,16 +20,30 @@ const answersData: Answer[] = Array.from({ length: 20 }).map((_, index) => ({
 }));
 
 export const basicAnsweredQuestions = http.get(
-  `${import.meta.env.VITE_BACKEND_BASE_URL}${BACKEND_URLS.ANSWERS.MINE.BASIC}`,
-  () => {
-    return HttpResponse.json(answersData, { status: 200 });
+  `${import.meta.env.VITE_BACKEND_BASE_URL}${BACKEND_URLS.ANSWERS.MINE}`,
+  ({request}) => {
+    const url = new URL(request.url);
+    const filter = url.searchParams.get("filter");
+
+    if (filter === "basic") {
+      return HttpResponse.json(answersData, { status: 200 });
+    }
+
+    return HttpResponse.json({error: "Not matched filter basic"}, { status: 404 });
   }
 );
 
 export const weeklyAnsweredQuestions = http.get(
-  `${import.meta.env.VITE_BACKEND_BASE_URL}${BACKEND_URLS.ANSWERS.MINE.WEEKLY}`,
-  () => {
-    return HttpResponse.json(answersData, { status: 200 });
+  `${import.meta.env.VITE_BACKEND_BASE_URL}${BACKEND_URLS.ANSWERS.MINE}`,
+  ({request}) => {
+    const url = new URL(request.url);
+    const filter = url.searchParams.get("filter");
+
+    if (filter === "weekly") {
+      return HttpResponse.json(answersData, { status: 200 });
+    }
+
+    return HttpResponse.json({error: "Not matched filter weekly"}, { status: 404 });
   }
 );
 
