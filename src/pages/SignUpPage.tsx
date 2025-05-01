@@ -19,13 +19,17 @@ import InputField from "../components/common/Input/Input";
 import GrayButton from "../components/common/Button/GrayButton";
 import LightGrayButton from "../components/common/Button/LightGrayButton";
 import InputWithCheckButton from "../components/SignUpPage/InputWithCheckButton";
-import { SignUpInputs } from "../models/User.model";
-
 export default SignUpPage;
+
+export interface SignUpInputs {
+  email: string;
+  password: string;
+  nickname: string;
+  positionId: number;
+}
 
 function SignUpPage() {
   const navigate = useNavigate();
-
   const {
     register,
     handleSubmit,
@@ -42,20 +46,16 @@ function SignUpPage() {
     confirm: false,
     alert: false,
   });
-  const [selectedPosition, setSelectedPostion] = useState<number>(1);
+  const [selectedPosition, setSelectedPostion] = useState<string | null>(null);
 
   const canSubmit =
     isValid && isEmailUnique && isNicknameUnique && selectedPosition !== null;
 
   const positions = [
-    { positionId: 1, value: "front-end", label: "Front-End" },
-    { positionId: 2, value: "back-end", label: "Back-End" },
-    {
-      positionId: 3,
-      value: "full-stack-developer",
-      label: "Full-Stack-Developer",
-    },
-    { positionId: 4, value: "designer", label: "UI/UX Designer" },
+    { value: "front-end", label: "Front-End" },
+    { value: "back-end", label: "Back-End" },
+    { value: "full-stack-developer", label: "Full-Stack-Developer" },
+    { value: "designer", label: "UI/UX Designer" },
   ];
 
   const onClickEmailCheck = async (email: string) => {
@@ -168,12 +168,7 @@ function SignUpPage() {
       return;
     }
 
-    const signUpData = {
-      ...data,
-      positionId: selectedPosition !== null ? selectedPosition : 1,
-    };
-
-    signUp(signUpData).then(() => {
+    signUp(data).then(() => {
       setIsModalVisible({ confirm: false, alert: true });
     });
   };
@@ -278,10 +273,10 @@ function SignUpPage() {
             <div className="position-button-wrap">
               {positions.map((pos) => (
                 <LightGrayButton
-                  key={pos.positionId}
-                  className={selectedPosition === pos.positionId ? "check" : ""}
+                  key={pos.value}
+                  className={selectedPosition === pos.value ? "check" : ""}
                   type="button"
-                  onClick={() => setSelectedPostion(pos.positionId)}
+                  onClick={() => setSelectedPostion(pos.value)}
                 >
                   {pos.label}
                 </LightGrayButton>

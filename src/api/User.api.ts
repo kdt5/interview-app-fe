@@ -25,24 +25,6 @@ export async function fetchUserStats(): Promise<UserStats> {
   return response;
 }
 
-export async function uploadProfile(file: File): Promise<string> {
-  const formData = new FormData();
-  formData.append("profile", file);
-
-  const response = await backendHttpClient
-    .post(BACKEND_URLS.USERS.UPLOAD_PROFILE, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    })
-    .then((response) => response.data)
-    .catch((error) => {
-      throw error;
-    });
-
-  return response.profileImageUrl;
-}
-
 export async function changeNickname(nickname: string): Promise<boolean> {
   const response = await backendHttpClient
     .post(BACKEND_URLS.USERS.CHANGE_NICKNAME, { nickname })

@@ -7,7 +7,7 @@ export interface UserBasicInfo {
   profileImageUrl?: string;
 }
 
-export interface SignUpInputs {
+export interface SignUpData {
   email: string;
   password: string;
   nickname: string;

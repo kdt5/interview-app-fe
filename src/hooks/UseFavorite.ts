@@ -1,29 +1,25 @@
 import { useEffect, useState } from "react";
-import {
-  FavoriteTargetType,
-  fetchFavorite,
-  addFavorite as addFavoriteApi,
-  removeFavorite as removeFavoriteApi,
-} from "../api/Favorite.api";
+import { Question } from "../models/Question.model";
+import { fetchFavorite, fetchFavoriteQuestions } from "../api/Favorite.api";
 
-export function useFavorite(targetId: number, targetType: FavoriteTargetType) {
+export function useFavoriteQuestions() {
+  const [favoriteQuestions, setFavoriteQuestions] = useState<Question[]>([]);
+
+  useEffect(() => {
+    try {
+      fetchFavoriteQuestions().then((questions) => {
+        setFavoriteQuestions(questions);
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
+
+  return { favoriteQuestions };
+}
+
+export function useFavorite(targetId: number, targetType: string) {
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
-  const addFavorite = async () => {
-    try {
-      await addFavoriteApi(targetId, targetType);
-      setIsFavorite(true);
-    } catch (error) {
-      console.error("Error adding favorite:", error);
-    }
-  };
-  const removeFavorite = async () => {
-    try {
-      await removeFavoriteApi(targetId, targetType);
-      setIsFavorite(false);
-    } catch (error) {
-      console.error("Error removing favorite:", error);
-    }
-  };
 
   useEffect(() => {
     if (targetId !== -1) {
@@ -37,5 +33,15 @@ export function useFavorite(targetId: number, targetType: FavoriteTargetType) {
     }
   }, [targetId, targetType]);
 
-  return { isFavorite, setIsFavorite, addFavorite, removeFavorite };
+  return { isFavorite, setIsFavorite };
+}
+
+export async function fetchFavoriteStatus(targetId: number, targetType: string): Promise<boolean> {
+  try {
+    const result = await fetchFavorite(targetId, targetType);
+    return result;
+  } catch (error) {
+    console.error("fetchFavoriteStatus error:", error);
+    return false;
+  }
 }

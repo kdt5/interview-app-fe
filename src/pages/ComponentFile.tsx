@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import CommunityList from "../components/common/List/CommunityList";
-import QuestionListItem from "../components/common/List/QuestionListItem";
+import CommonQuestionList from "../components/common/List/CommonQuestionList";
 import CommonProfile from "../components/common/Profile/CommonProfile";
 import RankingProfile from "../components/common/Profile/RankingProfile";
 import CommunitySmallBtn from "../components/common/Button/CommunitySmallButton";
@@ -13,8 +13,7 @@ import GrayButton from "../components/common/Button/GrayButton";
 const mockData = [
   {
     title: "오늘 면접 보고 왔는데요",
-    content:
-      "오늘 에이전시 프론트 개발 포지션 면접을 보고 왔습니다. 질문을 받았는데 답변을 제대로 못했어요. 근데 나는 귀여우니까 괜찮다고 생각...",
+    content: "오늘 에이전시 프론트 개발 포지션 면접을 보고 왔습니다. 질문을 받았는데 답변을 제대로 못했어요. 근데 나는 귀여우니까 괜찮다고 생각...",
     user: {
       id: 1,
       nickname: "내가말하고있잖아",
@@ -48,11 +47,14 @@ const ProfileData = [
 
 const RankData = [
   {
-    profileImg: "https://via.placeholder.com/40",
-    username: "내가말하고있잖아",
-    comments: 345,
-    level: 25,
-    like: 225,
+    profileImageUrl: "https://via.placeholder.com/40",
+    nickname: "내가말하고있잖아",
+    level: 5,
+    totalFavoriteCount: 225,
+    totalAnswerCount: 345,
+    totalScore: 7,
+    rank: 1,
+    commonRanking: 21654,
   },
 ];
 
@@ -93,16 +95,16 @@ function Component() {
         ))}
 
         {questionData.map((item, index) => (
-          <QuestionListItem
-            questionId={1}
+          <CommonQuestionList
             key={index}
             {...item}
             isFavorite={false}
+            toggleFavorite={() => {}}
             category="dd"
             comments={2}
             complete="s"
             likes={1}
-            questionTitle="adfd"
+            questiontitle="adfd"
           />
         ))}
 

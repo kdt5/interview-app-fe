@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import WeeklyQuestionCard from "../common/Card/WeeklyQuestionCard";
 import CommonCategory from "../common/List/CommonCategory";
-import QuestionListItem from "../common/List/QuestionListItem";
+import CommonQuestionList from "../common/List/CommonQuestionList";
 import SectionTitle from "../common/SectionTitle";
 import { Link, useNavigate } from "react-router-dom";
 import { useCategory } from "../../hooks/UseCategory";
@@ -9,8 +9,10 @@ import { useFetchWeeklyQuestion } from "../../hooks/UseFetchWeeklyQuestion";
 import { useMyUserData } from "../../hooks/UseMyUserData";
 import { formatToWeeklyLabel } from "../../utils/Date";
 import { useState } from "react";
+import { Question } from "../../models/Question.model";
+import { addFavorite, removeFavorite } from "../../api/Favorite.api";
+import { useQuestions } from "../../hooks/UseQuestions";
 import { FRONTEND_URLS } from "../../constants/Urls";
-import { useFetchQuestions } from "../../hooks/UseFetchQuestions";
 
 function InterviewTab() {
   const navigate = useNavigate();
@@ -21,10 +23,40 @@ function InterviewTab() {
   const { getCategoryName } = useCategory();
 
   const [selectedCategoryId, setSelectedCategoryId] = useState<number>(0);
-  const { questions } = useFetchQuestions(
+  const { questions, setQuestions } = useQuestions(
     undefined,
     selectedCategoryId === 0 ? undefined : selectedCategoryId
   );
+
+  const handleToggleFavorite = async (questionId: number) => {
+    setQuestions((prevList: Question[]) => {
+      const updatedList = prevList.map((q) =>
+        q.id === questionId
+          ? {
+              ...q,
+              isFavorite: !q.isFavorite,
+              favoriteCount: q.isFavorite
+                ? q.favoriteCount - 1
+                : q.favoriteCount + 1,
+            }
+          : q
+      );
+      return updatedList;
+    });
+
+    try {
+      const toggledQuestion = questions.find((q) => q.id === questionId);
+      if (!toggledQuestion) return;
+
+      if (toggledQuestion.isFavorite) {
+        await removeFavorite(questionId, "question");
+      } else {
+        await addFavorite(questionId, "question");
+      }
+    } catch (error) {
+      console.error("좋아요 토글 실패", error);
+    }
+  };
 
   if (!weeklyQuestion || !userData || !questions) return null;
 
@@ -47,7 +79,7 @@ function InterviewTab() {
               }
               title={weeklyQuestion.question.title}
               date={formatToWeeklyLabel(weeklyQuestion.startDate)}
-              answerCount={weeklyQuestion.question.answerCount ?? 0}
+              answercount={weeklyQuestion.question.answerCount ?? 0}
               isComplete={weeklyQuestion.question.isAnswered}
             />
           )}
@@ -73,14 +105,14 @@ function InterviewTab() {
               )
             }
           >
-            <QuestionListItem
-              questionId={item.id}
+            <CommonQuestionList
               category={getCategoryName(item.categories[0]?.category.id ?? 0)}
-              questionTitle={item.title}
+              questiontitle={item.title}
               complete={item.isAnswered ? "작성 완료" : "답변 미작성"}
               comments={item.answerCount ?? 0}
               likes={item.favoriteCount}
               isFavorite={item.isFavorite ?? false}
+              toggleFavorite={() => handleToggleFavorite(item.id)}
             />
           </div>
         ))}

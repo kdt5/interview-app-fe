@@ -1,104 +1,127 @@
 import styled from "styled-components";
 import CommonCategory from "../common/List/CommonCategory";
-import QuestionListItem from "../common/List/QuestionListItem";
+import CommonQuestionList from "../common/List/CommonQuestionList";
 import { useNavigate } from "react-router-dom";
 import { useCategory } from "../../hooks/UseCategory";
+import { useFetchWeeklyQuestion } from "../../hooks/UseFetchWeeklyQuestion";
+import { useMyUserData } from "../../hooks/UseMyUserData";
+import { useEffect, useState } from "react";
 import { Question } from "../../models/Question.model";
+import {
+  fetchQuestions,
+  fetchWeeklyQuestions,
+  WeeklyQuestionResponse,
+} from "../../api/Question.api";
+import { addFavorite, removeFavorite } from "../../api/Favorite.api";
 import { Link } from "react-router-dom";
 import { SlArrowRight } from "react-icons/sl";
-import WeeklyQuestionListItem from "./WeeklyQuestionListItem";
-import { Position } from "../../constants/Question";
+import { getPositionKeyById } from "../../utils/Positions";
 
 interface Props {
-  questions: Question[];
   isWeekly?: boolean;
-  position?: Position;
-  selectedCatId?: number;
-  setSelectedCatId?: (id: number) => void;
 }
 
-function QuestionBox({
-  questions,
-  isWeekly = true,
-  position,
-  selectedCatId,
-  setSelectedCatId,
-}: Props) {
+function QuestionBox({ isWeekly = true }: Props) {
   const navigate = useNavigate();
+  const { weeklyQuestion } = useFetchWeeklyQuestion();
+  const { data: userData } = useMyUserData();
   const { getCategoryName } = useCategory();
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number>(0);
+  const [questionList, setQuestionList] = useState<Question[]>([]);
 
-  if (isWeekly) {
-    const mainWeeklyQuestion = questions[0];
-    const isPushedDown =
-      !mainWeeklyQuestion || mainWeeklyQuestion.isAnswered === true;
+  useEffect(() => {
+    const loadQuestions = async () => {
+      try {
+        if (isWeekly) {
+          const data: WeeklyQuestionResponse[] = await fetchWeeklyQuestions();
+          const questions = data.map((item) => item.question);
+          setQuestionList(questions);
+        } else {
+          const positionString =
+            userData?.positionId !== undefined
+              ? getPositionKeyById(userData.positionId)
+              : undefined;
 
-    return (
-      <CommonQuestionSection>
-        {mainWeeklyQuestion && !mainWeeklyQuestion.isAnswered && (
-          <WeeklyAnswerPageLinkStyle to="/">
-            <h1>
-              <span>이번 주 위클리 질문</span>에 답변하지 않았어요
-            </h1>
-            <SlArrowRight />
-          </WeeklyAnswerPageLinkStyle>
-        )}
-        {mainWeeklyQuestion && (
-          <WeeklyQuestionWrapper
-            $isPushedDown={isPushedDown}
-            onClick={() => navigate(`/questions/${questions[0].id}/answer`)}
-          >
-            <WeeklyQuestionListItem
-              questionId={questions[0].id}
-              category={
-                getCategoryName(
-                  questions[0].categories[0]?.category?.id ?? 0
-                ) || "기타"
-              }
-              questionTitle={questions[0].title}
-              complete={questions[0].isAnswered ? "작성 완료" : "답변 미작성"}
-              comments={questions[0].answerCount ?? 0}
-              likes={questions[0].favoriteCount}
-              isFavorite={questions[0].isFavorite ?? false}
-            />
-          </WeeklyQuestionWrapper>
-        )}
-      </CommonQuestionSection>
+          if (!positionString) return;
+
+          const data = await fetchQuestions(
+            positionString,
+            selectedCategoryId ?? undefined
+          );
+          setQuestionList(data);
+        }
+      } catch (error) {
+        console.error("질문 불러오기 실패", error);
+      }
+    };
+
+    loadQuestions();
+  }, [isWeekly, userData?.positionId, selectedCategoryId]);
+
+  const handleToggleFavorite = async (questionId: number) => {
+    setQuestionList((prevList) =>
+      prevList.map((q) =>
+        q.id === questionId
+          ? {
+              ...q,
+              isFavorite: !q.isFavorite,
+              favoriteCount: q.isFavorite
+                ? q.favoriteCount - 1
+                : q.favoriteCount + 1,
+            }
+          : q
+      )
     );
-  }
 
-  if (selectedCatId === undefined || setSelectedCatId === undefined) {
-    throw new Error("selectedCatId and setSelectedCatId are required props");
-  }
+    try {
+      const toggledQuestion = questionList.find((q) => q.id === questionId);
+      if (!toggledQuestion) return;
+
+      if (toggledQuestion.isFavorite) {
+        await removeFavorite(questionId, "question");
+      } else {
+        await addFavorite(questionId, "question");
+      }
+    } catch (error) {
+      console.error("좋아요 토글 실패", error);
+    }
+  };
+
+  if (!weeklyQuestion || !userData) return null;
 
   return (
     <CommonQuestionSection>
-      <CommonCategory
-        className="interview"
-        selectedCatId={selectedCatId}
-        setSelectedCatId={setSelectedCatId}
-        position={position}
-      />
-      {questions.length === 0
-        ? null
-        : questions.map((item) => (
-            <div
-              key={item.id}
-              onClick={() => navigate(`/questions/${item.id}/answer`)}
-            >
-              <QuestionListItem
-                questionId={item.id}
-                category={
-                  getCategoryName(item.categories[0]?.category?.id ?? 0) ||
-                  "기타"
-                }
-                questionTitle={item.title}
-                complete={item.isAnswered ? "작성 완료" : "답변 미작성"}
-                comments={item.answerCount ?? 0}
-                likes={item.favoriteCount}
-                isFavorite={item.isFavorite ?? false}
-              />
-            </div>
-          ))}
+      {isWeekly ? (
+        <WeeklyAnswerPageLinkStyle to="/">
+          <h1>
+            <span>이번 주 위클리 질문</span>에 답변하지 않았어요
+          </h1>
+          <SlArrowRight />
+        </WeeklyAnswerPageLinkStyle>
+      ) : (
+        <CommonCategory
+          selectedCatId={selectedCategoryId ?? 0}
+          setSelectedCatId={setSelectedCategoryId}
+        ></CommonCategory>
+      )}
+      {questionList.map((item) => (
+        <div
+          key={item.id}
+          onClick={() => navigate(`/questions/${item.id}/answer`)}
+        >
+          <CommonQuestionList
+            category={
+              getCategoryName(item.categories[0]?.category?.id ?? 0) || "기타"
+            }
+            questiontitle={item.title}
+            complete={item.isAnswered ? "작성 완료" : "답변 미작성"}
+            comments={item.answerCount ?? 0}
+            likes={item.favoriteCount}
+            isFavorite={item.isFavorite ?? false}
+            toggleFavorite={() => handleToggleFavorite(item.id)}
+          />
+        </div>
+      ))}
     </CommonQuestionSection>
   );
 }

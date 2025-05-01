@@ -1,6 +1,6 @@
 export const Positions = [
-  "backend",
   "frontend",
+  "backend",
   "fullStack",
   "designer",
 ] as const;

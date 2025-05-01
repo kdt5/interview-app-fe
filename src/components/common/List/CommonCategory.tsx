@@ -3,27 +3,20 @@ import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { usePostCategories } from "../../../hooks/UsePost";
 import { useCategory } from "../../../hooks/UseCategory";
-import { Position } from "../../../constants/Question";
 
 interface Props {
   className?: string;
   selectedCatId: number;
   setSelectedCatId: (catId: number) => void;
-  position?: Position;
 }
-function CommonCategory({
-  className,
-  selectedCatId,
-  setSelectedCatId,
-  position,
-}: Props) {
-  const { categories } = useCategory(position);
+function CommonCategory({ className, selectedCatId, setSelectedCatId }: Props) {
+  const { categories } = useCategory();
   const { postCategories } = usePostCategories();
 
-  const categoryList =
+  const categoryList = 
     className === "interview"
-      ? [{ id: 0, name: "전체" }, ...categories]
-      : [{ id: 0, name: "전체" }, ...postCategories];
+    ? [{ id: 0, name: "전체" }, ...categories]
+    : [{ id: 0, name: "전체" }, ...postCategories];
 
   return (
     <CommonCategoryStyle>
@@ -31,6 +24,7 @@ function CommonCategory({
         spaceBetween={5}
         slidesPerView="auto"
         onSlideChange={() => console.log("slide changed")}
+        onSwiper={(swiper) => console.log(swiper)}
       >
         {categoryList.map((category) => (
           <SwiperSlide
@@ -39,9 +33,7 @@ function CommonCategory({
             style={{ width: "auto" }}
             onClick={() => setSelectedCatId(category.id)}
           >
-            <CategoryName
-              className={selectedCatId === category.id ? "active" : ""}
-            >
+            <CategoryName className={selectedCatId === category.id ? "active" : ""}>
               {category.name}
             </CategoryName>
           </SwiperSlide>

@@ -7,11 +7,8 @@ import { backendHttpClient } from "./BackendHttpClient.api";
 export async function fetchCategories(
   position?: Position
 ): Promise<Category[]> {
-  const params: { positionId?: number } = {};
-
-  if (position !== undefined) {
-    params.positionId = getPositionIdByKey(position);
-  }
+  const positionId: number | undefined = getPositionIdByKey(position);
+  const params = positionId ? { positionId } : {};
 
   const response = await backendHttpClient
     .get<Category[]>(BACKEND_URLS.CATEGORIES.ALL, {

@@ -3,7 +3,11 @@ import Tabs from "../components/common/Tabs";
 import { useState } from "react";
 import RankingProfile from "../components/common/Profile/RankingProfile";
 import RankingList from "../components/RankingPage/RankingList";
-import { RankingData } from "../models/Ranking.model";
+import {
+  useIntegrationRanking,
+  useAnswerRanking,
+  useFavoriteRanking,
+} from "../hooks/UseRanking";
 
 function MoreRankingPage() {
   const [currentTab, setCurrentTab] = useState("통합랭킹");
@@ -18,199 +22,59 @@ function MoreRankingPage() {
     setCurrentTab(title);
   };
 
-  const rankingData: Record<string, RankingData[]> = {
-    통합랭킹: [
-      {
-        id: 1,
-        username: "통합옹",
-        level: 5,
-        like: 132,
-        comments: 423,
-        ranking: 1,
-      },
-      {
-        id: 2,
-        username: "통합옹",
-        level: 5,
-        like: 132,
-        comments: 423,
-        ranking: 2,
-      },
-      {
-        id: 3,
-        username: "통합옹",
-        level: 5,
-        like: 132,
-        comments: 423,
-        ranking: 3,
-      },
-      {
-        id: 4,
-        username: "통합옹",
-        level: 5,
-        like: 132,
-        comments: 423,
-        ranking: 4,
-      },
-      {
-        id: 5,
-        username: "통합옹",
-        level: 5,
-        like: 132,
-        comments: 423,
-        ranking: 5,
-      },
-      {
-        id: 6,
-        username: "통합옹",
-        level: 5,
-        like: 132,
-        comments: 423,
-        ranking: 6,
-      },
-      {
-        id: 7,
-        username: "통합옹",
-        level: 5,
-        like: 132,
-        comments: 423,
-        ranking: 7,
-      },
-    ],
-    답변랭킹: [
-      {
-        id: 1,
-        username: "답변옹",
-        level: 5,
-        like: 132,
-        comments: 423,
-        ranking: 1,
-      },
-      {
-        id: 2,
-        username: "답변옹",
-        level: 5,
-        like: 132,
-        comments: 423,
-        ranking: 2,
-      },
-      {
-        id: 3,
-        username: "답변옹",
-        level: 5,
-        like: 132,
-        comments: 423,
-        ranking: 3,
-      },
-      {
-        id: 4,
-        username: "답변옹",
-        level: 5,
-        like: 132,
-        comments: 423,
-        ranking: 4,
-      },
-      {
-        id: 5,
-        username: "답변옹",
-        level: 5,
-        like: 132,
-        comments: 423,
-        ranking: 5,
-      },
-      {
-        id: 6,
-        username: "답변옹",
-        level: 5,
-        like: 132,
-        comments: 423,
-        ranking: 6,
-      },
-      {
-        id: 7,
-        username: "답변옹",
-        level: 5,
-        like: 132,
-        comments: 423,
-        ranking: 7,
-      },
-    ],
-    좋아요랭킹: [
-      {
-        id: 1,
-        username: "좋아요옹",
-        level: 5,
-        like: 132,
-        comments: 423,
-        ranking: 1,
-      },
-      {
-        id: 2,
-        username: "좋아요옹",
-        level: 5,
-        like: 132,
-        comments: 423,
-        ranking: 2,
-      },
-      {
-        id: 3,
-        username: "좋아요옹",
-        level: 5,
-        like: 132,
-        comments: 423,
-        ranking: 3,
-      },
-      {
-        id: 4,
-        username: "좋아요옹",
-        level: 5,
-        like: 132,
-        comments: 423,
-        ranking: 4,
-      },
-      {
-        id: 5,
-        username: "좋아요옹",
-        level: 5,
-        like: 132,
-        comments: 423,
-        ranking: 5,
-      },
-      {
-        id: 6,
-        username: "좋아요옹",
-        level: 5,
-        like: 132,
-        comments: 423,
-        ranking: 6,
-      },
-      {
-        id: 7,
-        username: "좋아요옹",
-        level: 5,
-        like: 132,
-        comments: 423,
-        ranking: 7,
-      },
-    ],
-  };
+  const {
+    data: integrationRanking,
+    isLoading: isIntegrationLoading,
+    error: integrationError,
+  } = useIntegrationRanking();
+
+  const {
+    data: answerRanking,
+    isLoading: isAnswerLoading,
+    error: answerError,
+  } = useAnswerRanking();
+
+  const {
+    data: favoriteRanking,
+    isLoading: isFavoriteLoading,
+    error: favoriteError,
+  } = useFavoriteRanking();
+
+  if (isIntegrationLoading || isAnswerLoading || isFavoriteLoading) {
+    return <div>로딩중...</div>;
+  }
+
+  if (integrationError || answerError || favoriteError) {
+    return <div>에러가 발생했습니다.</div>;
+  }
+
+  const selectedRanking = {
+    통합랭킹: integrationRanking,
+    답변랭킹: answerRanking,
+    좋아요랭킹: favoriteRanking,
+  }[currentTab];
+
+  const topUser = selectedRanking?.find((user) => Number(user.rank) === 1);
 
   return (
     <MoreRankingPageStyle>
       <Tabs tabs={tabs} onClickTab={handleClickTab} currentTab={currentTab} />
       <div>
-        <div className="my-profile-box">
-          <RankingProfile
-            profileImg="/user1.png"
-            username="내계정이다옹"
-            level={5}
-            like={132}
-            comments={423}
-            commonRanking={32165498}
-          />
-        </div>
+        {topUser?.user && (
+          <div className="my-profile-box">
+            <RankingProfile
+              user={topUser.user}
+              totalFavoriteCount={topUser.totalFavoriteCount}
+              totalAnswerCount={topUser.totalAnswerCount}
+              totalScore={topUser.totalScore}
+              rank={topUser.rank}
+            />
+          </div>
+        )}
         <div className="mid-line"></div>
-        <RankingList rankingData={rankingData[currentTab]} />
+        {selectedRanking && (
+          <RankingList rankingData={selectedRanking} mode="more" />
+        )}
       </div>
     </MoreRankingPageStyle>
   );

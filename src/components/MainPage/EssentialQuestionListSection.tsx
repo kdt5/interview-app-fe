@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import EssentialQuestionList from "./EssentialQuestionList";
-import { fetchBasicQuestions } from "../../api/Question.api";
+import { fetchQuestions } from "../../api/Question.api";
 import { Question } from "../../models/Question.model";
 import { getPositionKeyById } from "../../utils/Positions";
 import { useMyUserData } from "../../hooks/UseMyUserData";
@@ -8,25 +8,21 @@ import { useCategory } from "../../hooks/UseCategory";
 
 function EssentialQuestionListGroup() {
   const [questionsList, setQuestionList] = useState<Question[]>([]);
-  const { data: userData, isLoading } = useMyUserData();
+  const { data: userData } = useMyUserData();
   const { getCategoryName } = useCategory();
   const [selectedCategoryId] = useState<number | null>(null);
 
   useEffect(() => {
     const loadQuestion = async () => {
-      if (isLoading) {
-        return;
-      }
-
       try {
         const positionString =
           userData?.positionId !== undefined
-            ? getPositionKeyById(userData?.positionId)
+            ? getPositionKeyById(userData.positionId)
             : undefined;
 
         if (!positionString) return;
 
-        const data = await fetchBasicQuestions(
+        const data = await fetchQuestions(
           positionString,
           selectedCategoryId ?? undefined
         );
@@ -37,7 +33,7 @@ function EssentialQuestionListGroup() {
     };
 
     loadQuestion();
-  }, [userData?.positionId, selectedCategoryId, isLoading]);
+  }, [userData?.positionId, selectedCategoryId]);
 
   if (!userData) return null;
 

@@ -1,65 +1,60 @@
 import styled from "styled-components";
+import { RankingItem } from "../../../models/Ranking.model";
 
-interface Props {
-  profileImg: string;
-  username: string;
-  comments: number;
-  level: number;
-  like: number;
+interface Props extends RankingItem {
   commonRanking?: number;
-  ranking?: number;
 }
-
 function RankingProfile({
-  profileImg,
-  username,
-  comments,
-  level,
-  like,
+  user,
+  totalAnswerCount,
+  totalFavoriteCount,
   commonRanking,
-  ranking,
+  rank,
 }: Props) {
+  const { nickname, level, profileImageUrl } = user;
   const displayLevel = String(level).padStart(2, "0");
 
   return (
-    <>
-      <RankingProfileStyle>
-        {commonRanking !== undefined && (
-          <CommonRankingNumber className="my-ranking-number">
-            <p>{commonRanking > 100 ? "..." : commonRanking}</p>
-          </CommonRankingNumber>
-        )}
-        {ranking !== undefined && (
-          <RankingNumber className="ranking-number">
-            <p>{ranking}</p>
-            <span>RANK</span>
-          </RankingNumber>
-        )}
-        <RankingProfileimg src={profileImg} alt={`${username}의 프로필`} />
-        <FlexWrap>
-          <UserInfo>
-            <Username>{username}</Username>
-            <Level className="level">
-              LV. <b className="level">{displayLevel}</b>
-            </Level>
-          </UserInfo>
-          <UserData>
-            <p>
-              <LikeComment>
-                <b className="label-like">누적 좋아요</b>
-              </LikeComment>
-              <LikeComment className="count-number">{like}개</LikeComment>
-            </p>
-            <p>
-              <LikeComment>
-                <b className="label-comment">누적 답변</b>
-              </LikeComment>
-              <LikeComment className="count-number">{comments}개</LikeComment>
-            </p>
-          </UserData>
-        </FlexWrap>
-      </RankingProfileStyle>
-    </>
+    <RankingProfileStyle>
+      {commonRanking !== undefined && (
+        <CommonRankingNumber>
+          <p>{commonRanking > 100 ? "..." : commonRanking}</p>
+        </CommonRankingNumber>
+      )}
+      {rank !== undefined && (
+        <RankingNumber>
+          <p>{rank}</p>
+          <span>RANK</span>
+        </RankingNumber>
+      )}
+      <RankingProfileimg src={profileImageUrl} alt={`${nickname}의 프로필`} />
+      <FlexWrap>
+        <UserInfo>
+          <Username>{nickname}</Username>
+          <Level>
+            LV. <b>{displayLevel}</b>
+          </Level>
+        </UserInfo>
+        <UserData>
+          <p>
+            <LikeComment>
+              <b>누적 좋아요</b>
+            </LikeComment>
+            <LikeComment className="count-number">
+              {totalFavoriteCount}개
+            </LikeComment>
+          </p>
+          <p>
+            <LikeComment>
+              <b>누적 답변</b>
+            </LikeComment>
+            <LikeComment className="count-number">
+              {totalAnswerCount}개
+            </LikeComment>
+          </p>
+        </UserData>
+      </FlexWrap>
+    </RankingProfileStyle>
   );
 }
 

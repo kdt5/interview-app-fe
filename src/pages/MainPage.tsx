@@ -1,4 +1,7 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { FRONTEND_URLS } from "../constants/Urls";
+import { replaceUrlParams } from "../utils/Url";
 import { useFetchWeeklyQuestion } from "../hooks/UseFetchWeeklyQuestion";
 import SectionTitle from "../components/common/SectionTitle";
 import EssentialQuestionListGroup from "../components/MainPage/EssentialQuestionListSection";
@@ -11,35 +14,38 @@ import CommunityIcon from "../assets/Navigation/Community-Active.png";
 import WeeklyQuestionCard from "../components/common/Card/WeeklyQuestionCard";
 import RecruitmentNotice from "../components/MainPage/RecruitmentNotice";
 import { useCategory } from "../hooks/UseCategory";
-import { formatToWeeklyLabel } from "../utils/Date";
 
 function MainPage() {
   const { weeklyQuestion } = useFetchWeeklyQuestion();
   const { getCategoryName } = useCategory();
 
-  const categoryName = getCategoryName(
-    weeklyQuestion?.question?.categories[0]?.category?.id ?? 0
-  );
-  const isComplete = weeklyQuestion?.question?.isAnswered;
-
   return (
     <>
       <MainPageStyle>
         {weeklyQuestion ? (
-          <WeeklyQuestionCard
-            category={categoryName}
-            title={weeklyQuestion.question?.title}
-            date={formatToWeeklyLabel(weeklyQuestion.startDate)}
-            answerCount={123}
-            isComplete={isComplete}
-          ></WeeklyQuestionCard>
+          <Link
+            to={replaceUrlParams(FRONTEND_URLS.ANSWER, {
+              questionId: weeklyQuestion.question.id?.toString(),
+            })}
+            className="weekly-question"
+          >
+            <WeeklyQuestionCard
+              category={getCategoryName(
+                weeklyQuestion.question?.categories[0]?.category.id
+              )}
+              title={weeklyQuestion.question?.title}
+              date="3월 4주차"
+              answercount={123}
+              isComplete={true}
+            ></WeeklyQuestionCard>
+          </Link>
         ) : (
           <>
             <WeeklyQuestionCard
               category="-"
               title="이번주 위클리 질문을 불러올 수 없습니다"
-              date=""
-              answerCount={0}
+              date="3월 4주차"
+              answercount={123}
               isComplete={true}
             ></WeeklyQuestionCard>
           </>

@@ -2,13 +2,12 @@ import styled from "styled-components";
 import Tabs from "../components/common/Tabs";
 import { useState } from "react";
 import QuestionBox from "../components/QuestionList/QuestionBox";
-import { useFetchQuestions } from "../hooks/UseFetchQuestions";
 
 export default FavoriteQuestionListPage;
 
 function FavoriteQuestionListPage() {
   const [currentTab, setCurrentTab] = useState("위클리");
-  const { questions: questions } = useFetchQuestions();
+
   const tabs = [{ title: "위클리" }, { title: "기본" }];
 
   const handleClickTab = (title: string) => {
@@ -20,7 +19,7 @@ function FavoriteQuestionListPage() {
   return (
     <FavoriteQuestionListStyle>
       <Tabs tabs={tabs} onClickTab={handleClickTab} currentTab={currentTab} />
-      <QuestionBox questions={questions} isWeekly={isWeekly} />
+      <QuestionBox isWeekly={isWeekly} />
     </FavoriteQuestionListStyle>
   );
 }

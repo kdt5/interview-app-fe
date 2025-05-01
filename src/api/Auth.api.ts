@@ -1,8 +1,9 @@
 import { HttpStatusCode } from "axios";
 import { BACKEND_URLS } from "../constants/Urls";
 import { LoginInputs } from "../pages/LoginPage";
+import { SignUpInputs } from "../pages/SignUpPage";
 import { backendHttpClient } from "./BackendHttpClient.api";
-import { UserBasicInfo, SignUpInputs } from "../models/User.model";
+import { UserBasicInfo } from "../models/User.model";
 
 export async function signUp(userData: SignUpInputs): Promise<boolean> {
   const response = await backendHttpClient

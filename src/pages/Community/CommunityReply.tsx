@@ -13,6 +13,8 @@ import CommentContents, {
 import TextArea from "../../components/common/Community/Textarea";
 import { useCommunityPostComments } from "../../hooks/UsePost";
 import { useParams } from "react-router-dom";
+import LikeSmall from "../../assets/Link_Small.png";
+import ActiveLikeSmall from "../../assets/Link_Small_active.png";
 import ReplySmall from "../../assets/Reply_Small.png";
 import { countAllReplies } from "../../utils/commentCount";
 import { useEffect, useState } from "react";
@@ -20,27 +22,21 @@ import CommunityModal, {
   CenterModalBackdrop,
   CenterModalContainer,
 } from "../../components/common/Community/CommunityModal";
-import { LikeIcon } from "../../components/common/LikeIcon";
+import { addFavorite, removeFavorite } from "../../api/Favorite.api";
+import { fetchFavoriteStatus } from "../../hooks/UseFavorite";
 
 function CommunityReply() {
   const { postId, commentId } = useParams();
-  if (postId === undefined || commentId === undefined) {
-    throw new Error("postId or commentId is undefined");
-  }
-
-  const parsedPostId = parseInt(postId);
-  const parsedCommentId = parseInt(commentId);
-
   const { communityPostComments, refetchComments } = useCommunityPostComments(
-    parsedPostId,
+    Number(postId),
     "post"
   );
   const subComment = communityPostComments?.find(
-    (comment) => comment.id === parsedCommentId
+    (comment) => comment.id === Number(commentId)
   );
   const subCommentTopLevelComments =
     communityPostComments?.filter(
-      (comment) => comment.parentId === parsedCommentId
+      (comment) => comment.parentId === Number(commentId)
     ) || [];
   const getReplies = (parentId: number) =>
     communityPostComments?.filter((comment) => comment.parentId === parentId) ||
@@ -49,12 +45,14 @@ function CommunityReply() {
     id: number;
     content: string;
   } | null>(null);
+  const [isFavorite, setIsFavorite] = useState(false);
   const [currFavoriteCount, setFavoriteCount] = useState(
     subComment?.favoriteCount || 0
   );
 
   useEffect(() => {
     if (subComment) {
+      fetchFavoriteStatus(subComment.id, "comment").then(setIsFavorite);
       setFavoriteCount(subComment?.favoriteCount);
     }
   }, [subComment, subComment?.id, subComment?.favoriteCount]);
@@ -73,7 +71,18 @@ function CommunityReply() {
     setShowSuccessModal(false);
   };
 
-  const handleToggleLike = (isFavorite: boolean) => {
+  const handleToggleFavorite = async (commentId: number) => {
+    try {
+      if (!isFavorite) {
+        await addFavorite(commentId, "comment");
+      } else {
+        await removeFavorite(commentId, "comment");
+      }
+    } catch (error) {
+      console.error("좋아요 토글 실패", error);
+    }
+
+    setIsFavorite((prev: boolean) => !prev);
     setFavoriteCount((prev) => (isFavorite ? prev - 1 : prev + 1));
   };
 
@@ -98,17 +107,17 @@ function CommunityReply() {
         <Contents>{subComment?.content}</Contents>
         <CommentInfo>
           <span>
-            <LikeIcon
-              likeId={parseInt(commentId)}
-              targetType="comment"
+            <img
+              src={isFavorite ? ActiveLikeSmall : LikeSmall}
               alt=""
-              handleToggleLike={handleToggleLike}
+              onClick={() => handleToggleFavorite(subComment.id)}
+              style={{ cursor: "pointer" }}
             />
             좋아요 {currFavoriteCount === 0 ? "" : currFavoriteCount}
           </span>{" "}
           <span>
             <img src={ReplySmall} alt="" />
-            답글 {countAllReplies(communityPostComments, parsedCommentId)}
+            답글 {countAllReplies(communityPostComments, Number(commentId))}
           </span>
         </CommentInfo>
         {subCommentTopLevelComments ? (
@@ -121,7 +130,7 @@ function CommunityReply() {
                     {...item}
                     replies={getReplies(item.id)}
                     depth={0}
-                    postId={parsedPostId}
+                    postId={Number(postId)}
                     allComments={communityPostComments}
                     setEditTarget={setEditTarget}
                   />
@@ -135,9 +144,9 @@ function CommunityReply() {
           <div>로딩중...</div>
         )}
         <TextArea
-          targetId={postId ? parsedPostId : -1}
+          targetId={postId ? Number(postId) : -1}
           categoryName="post"
-          parentId={commentId ? parsedCommentId : undefined}
+          parentId={commentId ? Number(commentId) : undefined}
           editTarget={editTarget}
           setEditTarget={setEditTarget}
           setShowSuccessModal={setShowSuccessModal}

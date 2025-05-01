@@ -18,6 +18,6 @@ export const positionKeyToId = {
   designer: 4,
 } as const;
 
-export function getPositionIdByKey(key: string): number {
-  return positionKeyToId[key as keyof typeof positionKeyToId];
+export function getPositionIdByKey(key?: string): number | undefined {
+  return key ? positionKeyToId[key as keyof typeof positionKeyToId] : undefined;
 }

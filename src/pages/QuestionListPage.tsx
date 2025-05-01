@@ -1,30 +1,46 @@
-import { JSX, useState } from "react";
+import { JSX, useEffect, useState } from "react";
 import { Position, Positions } from "../constants/Question.ts";
 import { useParams } from "react-router-dom";
 import Tabs from "../components/common/Tabs.tsx";
 import QuestionBox from "../components/QuestionList/QuestionBox.tsx";
 import styled from "styled-components";
-import { useFetchWeeklyQuestions } from "../hooks/UseFetchWeeklyQuestions.ts";
-import { useFetchQuestions } from "../hooks/UseFetchQuestions.ts";
+import { fetchQuestions, fetchWeeklyQuestions } from "../api/Question.api.ts";
 
 export default QuestionListPage;
 
 function QuestionListPage(): JSX.Element {
   const { position } = useParams<{ position: Position }>();
+
   const [currentTab, setCurrentTab] = useState("위클리");
-  const [selectedCategoryId, setSelectedCategoryId] = useState<number>(0);
-  const tabs = [{ title: "위클리" }, { title: "필수 면접" }];
-  const { weeklyQuestions, isLoading: isLoadingWeeklyQuestions } =
-    useFetchWeeklyQuestions();
-  const { questions: basicQuestions, isLoading: isLoadingBasicQuestions } =
-    useFetchQuestions(
-      position,
-      selectedCategoryId === 0 ? undefined : selectedCategoryId
-    );
+  const [weeklyCount, setWeeklyCount] = useState<number>(0);
+  const [requiredCount, setRequiredCount] = useState<number>(0);
+
+  const tabs = [
+    { title: "위클리", count: weeklyCount },
+    { title: "필수 면접", count: requiredCount },
+  ];
 
   const handleClickTab = (title: string) => {
     setCurrentTab(title);
   };
+
+  useEffect(() => {
+    const loadCounts = async () => {
+      try {
+        const weeklyData = await fetchWeeklyQuestions();
+        setWeeklyCount(weeklyData.length);
+
+        if (position) {
+          const requiredData = await fetchQuestions(position);
+          setRequiredCount(requiredData.length);
+        }
+      } catch (e) {
+        console.error("질문 개수 로딩 실패", e);
+      }
+    };
+
+    loadCounts();
+  }, [position]);
 
   if (
     currentTab === "필수 면접" &&
@@ -43,19 +59,7 @@ function QuestionListPage(): JSX.Element {
         currentTab={currentTab}
       ></Tabs>
       <QuestionListPageStyle $isWeekly={isWeekly}>
-        {isWeekly
-          ? !isLoadingWeeklyQuestions && (
-              <QuestionBox questions={weeklyQuestions} isWeekly={isWeekly} />
-            )
-          : !isLoadingBasicQuestions && (
-              <QuestionBox
-                questions={basicQuestions}
-                isWeekly={isWeekly}
-                position={position}
-                selectedCatId={selectedCategoryId}
-                setSelectedCatId={setSelectedCategoryId}
-              />
-            )}
+        <QuestionBox isWeekly={isWeekly} />
       </QuestionListPageStyle>
     </>
   );

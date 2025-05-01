@@ -32,7 +32,7 @@ export const weeklyQuestion = http.get(
 );
 
 export const questions = http.get(
-  `${import.meta.env.VITE_BACKEND_BASE_URL}${BACKEND_URLS.QUESTIONS.BASIC}`,
+  `${import.meta.env.VITE_BACKEND_BASE_URL}${BACKEND_URLS.QUESTIONS.ALL}`,
   () => {
     return HttpResponse.json(questionsData, { status: 200 });
   }

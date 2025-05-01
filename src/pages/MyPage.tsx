@@ -49,9 +49,7 @@ function MyPage() {
       <NewMypageStyle>
         <MyProfileStyle to={FRONTEND_URLS.MY_PAGE.EDIT.PROFILE}>
           <div className="profile-wrap">
-            <div className="profile-icon">
-              <img src={me?.profileImageUrl} alt="profile" />
-            </div>
+            <div className="profile-icon"></div>
             <div>
               <h2>{me?.nickname}</h2>
               <span>Front-End</span>
@@ -128,13 +126,6 @@ const MyProfileStyle = styled(Link)`
       border-radius: 50px;
       background-color: #ccc;
       margin-right: 10px;
-    }
-
-    .profile-icon img {
-      width: 100%;
-      height: 100%;
-      border-radius: 50px;
-      object-fit: cover;
     }
 
     div {

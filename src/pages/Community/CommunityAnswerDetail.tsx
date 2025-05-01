@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useQuestion } from "../../hooks/UseFetchQuestion";
+import { useQuestion } from "../../hooks/UseQuestions";
 import { Link, useParams } from "react-router-dom";
 import { useFetchAnswers } from "../../hooks/UseFetchAnswers";
 import { FRONTEND_URLS } from "../../constants/Urls";
