@@ -67,6 +67,7 @@ function AnswerDetailPage() {
     <AnswerDetailPageStyle>
       <QuestionContainer
         title={question?.title || "질문이 없습니다."}
+        categoryId={question?.categories[0].category.id || 0}
       ></QuestionContainer>
       <VisibilityLabel>
         <p>
