@@ -136,9 +136,6 @@ export const OptionButton = styled.button`
   background-repeat: no-repeat;
   padding: 0;
   border-radius: 0;
-  position: absolute;
-  top: 0;
-  right: 0;
 `;
 export const CommentInfo = styled.p`
   padding-left: 45px;

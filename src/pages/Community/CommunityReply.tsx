@@ -82,19 +82,21 @@ function CommunityReply() {
   return (
     <>
       <ProfileSection>
-        <FlexWrap>
-          <UserInfo>
-            <CommonProfileStyle
-              src={subComment?.user.profileImageUrl}
-              alt={`${subComment?.user.nickname}의 프로필`}
-            />
-            <Username>
-              <p>{subComment?.user.nickname}</p>
-              <Comments>누적 답변{subComment?.user.answerCount}개</Comments>
-            </Username>
-          </UserInfo>
-          <OptionButton onClick={handleOptionClick}></OptionButton>
-        </FlexWrap>
+        <CommunityReplyStyle>
+          <FlexWrap>
+            <UserInfo>
+              <CommonProfileStyle
+                src={subComment?.user.profileImageUrl}
+                alt={`${subComment?.user.nickname}의 프로필`}
+              />
+              <Username>
+                <p>{subComment?.user.nickname}</p>
+                <Comments>누적 답변{subComment?.user.answerCount}개</Comments>
+              </Username>
+            </UserInfo>
+            <OptionButton onClick={handleOptionClick}></OptionButton>
+          </FlexWrap>
+        </CommunityReplyStyle>
         <Contents>{subComment?.content}</Contents>
         <CommentInfo>
           <span>
