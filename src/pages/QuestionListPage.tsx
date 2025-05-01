@@ -51,6 +51,7 @@ function QuestionListPage(): JSX.Element {
               <QuestionBox
                 questions={basicQuestions}
                 isWeekly={isWeekly}
+                position={position}
                 selectedCatId={selectedCategoryId}
                 setSelectedCatId={setSelectedCategoryId}
               />

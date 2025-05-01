@@ -7,10 +7,12 @@ import { Question } from "../../models/Question.model";
 import { Link } from "react-router-dom";
 import { SlArrowRight } from "react-icons/sl";
 import WeeklyQuestionListItem from "./WeeklyQuestionListItem";
+import { Position } from "../../constants/Question";
 
 interface Props {
   questions: Question[];
   isWeekly?: boolean;
+  position?: Position;
   selectedCatId?: number;
   setSelectedCatId?: (id: number) => void;
 }
@@ -18,6 +20,7 @@ interface Props {
 function QuestionBox({
   questions,
   isWeekly = true,
+  position,
   selectedCatId,
   setSelectedCatId,
 }: Props) {
@@ -61,8 +64,10 @@ function QuestionBox({
   return (
     <CommonQuestionSection>
       <CommonCategory
+        className="interview"
         selectedCatId={selectedCatId}
         setSelectedCatId={setSelectedCatId}
+        position={position}
       />
       {questions.length === 0
         ? null
