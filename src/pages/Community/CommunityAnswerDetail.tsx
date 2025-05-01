@@ -25,7 +25,7 @@ function CommunityAnswerDetail() {
         {answers.map((item) => (
           <Link
             key={item.id}
-            to={`${FRONTEND_URLS.COMMUNITY.ANSWER_DETAIL.replace(":questionId", questionId).replace(":answerId", item.id.toString())}}`}
+            to={`${FRONTEND_URLS.COMMUNITY.ANSWER_DETAIL.replace(":questionId", questionId).replace(":answerId", item.id.toString())}`}
           >
             <CommunityList {...item} />
           </Link>
