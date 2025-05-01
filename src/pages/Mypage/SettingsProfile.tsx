@@ -19,7 +19,7 @@ export interface SignUpInputs {
 
 function SettingProfile() {
   const navigate = useNavigate();
-  const { me, handleLogout } = useAuth();
+  const { me, setMe, handleLogout } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -76,15 +76,15 @@ function SettingProfile() {
       setIsLoading(true);
       const profileUrl = await uploadProfile(file);
       // 프로필 이미지 업데이트
-      if (me) {
-        me.profileImageUrl = profileUrl;
+      if (me && setMe) {
+        setMe({ ...me, profileImageUrl: profileUrl });
       }
 
       // 성공 메시지 표시
       setError("프로필 이미지가 성공적으로 업데이트되었습니다.");
     } catch (error) {
       console.error("프로필 업로드 실패:", error);
-      setError("프로필 업로드에 실패했습니다. 다시 시도해주세요.");
+      setError("프로필 업로드에 실패했습니다.");
     } finally {
       setIsLoading(false);
     }
@@ -223,10 +223,10 @@ const ProfileImageSetting = styled.div`
 
 const ProfileImgAddBtn = styled.div`
   position: absolute;
-  top: -8px;
-  right: -8px;
-  width: 32px;
-  height: 32px;
+  top: -0.5em;
+  right: -0.5em;
+  width: 2em;
+  height: 2em;
   cursor: pointer;
   background-color: white;
   border-radius: 50%;
@@ -236,8 +236,8 @@ const ProfileImgAddBtn = styled.div`
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
   img {
-    width: 20px;
-    height: 20px;
+    width: 1em;
+    height: 1em;
     display: block;
   }
 

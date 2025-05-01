@@ -14,6 +14,7 @@ interface UseAuthReturn {
   isLoading: boolean;
   error: string | null;
   me: UserBasicInfo | null;
+  setMe: (me: UserBasicInfo) => void;
   handleLogin: (email: string, password: string) => Promise<void>;
   handleLogout: () => Promise<void>;
   handleChangeNickname: (nickname: string) => Promise<void>;
@@ -146,6 +147,7 @@ export function useAuth(): UseAuthReturn {
     isLoading,
     error,
     me,
+    setMe,
     handleLogin,
     handleLogout,
     handleChangeNickname,
