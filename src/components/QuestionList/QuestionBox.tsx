@@ -140,5 +140,9 @@ const WeeklyQuestionWrapper = styled.div<{ $isPushedDown?: boolean }>`
 
 const CommonQuestionSection = styled.div`
   margin-bottom: 50px;
+
+  .interview {
+    margin-top: 20px;
+  }
 `;
 export default QuestionBox;
