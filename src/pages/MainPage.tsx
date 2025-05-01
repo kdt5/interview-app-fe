@@ -96,7 +96,7 @@ function MainPage() {
           </SectionTitle>
           <EssentialQuestionListGroup></EssentialQuestionListGroup>
         </div>
-        <EssentialQuestionListGroup></EssentialQuestionListGroup>
+
         <MainSlideBanner></MainSlideBanner>
         <div>
           <SectionTitle to="/">실전 면접, 채용 공고</SectionTitle>
