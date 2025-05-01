@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { MyPageSectionStyle } from "../../components/MyPage/MyPageSectionStyle";
 import ConfirmModal from "../../components/common/ConfirmModal";
 import AlertModal from "../../components/common/AlertModal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FRONTEND_URLS } from "../../constants/Urls";
 import MyProfileDefaultImg from "../../assets/mypage/MyProfileDefaultImage.png";
@@ -23,18 +23,42 @@ export interface SignUpInputs {
 
 function SettingProfile() {
   const navigate = useNavigate();
-  const { me, handleLogout, handleChangeProfileImage } = useAuth();
+  const {
+    me,
+    handleLogout,
+    handleChangeProfileImage,
+    handleChangeNickname,
+    handleChangePassword,
+  } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  const handleSubmit = () => {
-    toggleModal("confirm", true);
-  };
 
   const [isModalsVisible, setIsModalsVisible] = useState({
     confirm: false,
     alert: false,
   });
+  const [modalMessage, setModalMessage] = useState("");
+  const [currentNickname, setCurrentNickname] = useState("");
+
+  useEffect(() => {
+    if (me?.nickname) {
+      setCurrentNickname(me.nickname);
+    }
+  }, [me?.nickname]);
+
+  const {
+    register,
+    getValues,
+    trigger,
+    setError: setFormError,
+    clearErrors,
+    formState: { errors },
+    setValue,
+  } = useForm<SignUpInputs>({ mode: "onChange" });
+
+  const [isNicknameUnique, setIsNicknameUnique] = useState(false);
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
 
   const toggleModal = (type: ModalType, state: boolean) => {
     setIsModalsVisible((prev) => ({
@@ -43,16 +67,45 @@ function SettingProfile() {
     }));
   };
 
+  const handleLogoutClick = () => {
+    toggleModal("confirm", true);
+  };
+
   const handleConfirmSubmit = async () => {
     try {
       setIsLoading(true);
       setError(null);
-      await handleLogout();
+
+      if (modalMessage.includes("닉네임")) {
+        const success = await handleChangeNickname(getValues("nickname"));
+        if (!success) {
+          throw new Error("닉네임 변경에 실패했습니다.");
+        }
+        setCurrentNickname(getValues("nickname"));
+        setValue("nickname", "");
+        setIsNicknameUnique(false);
+      } else if (modalMessage.includes("비밀번호")) {
+        const success = await handleChangePassword(oldPassword, newPassword);
+        if (!success) {
+          throw new Error("비밀번호 변경에 실패했습니다.");
+        }
+        setOldPassword("");
+        setNewPassword("");
+      } else {
+        await handleLogout();
+        navigate(FRONTEND_URLS.LOGIN);
+      }
+
       toggleModal("confirm", false);
       toggleModal("alert", true);
     } catch (error) {
-      setError("로그아웃에 실패했습니다. 다시 시도해주세요.");
-      console.error("로그아웃 실패:", error);
+      setError(
+        error instanceof Error
+          ? error.message
+          : "변경에 실패했습니다. 다시 시도해주세요."
+      );
+      console.error("변경 실패:", error);
+      toggleModal("confirm", false);
     } finally {
       setIsLoading(false);
     }
@@ -65,7 +118,6 @@ function SettingProfile() {
       const file = event.target.files?.[0];
       if (!file) return;
 
-      // 파일 크기 검증
       if (file.size > MAX_PROFILE_IMAGE_SIZE) {
         setError(
           `파일 크기는 ${MAX_PROFILE_IMAGE_SIZE}MB를 초과할 수 없습니다.`
@@ -88,18 +140,6 @@ function SettingProfile() {
       setIsLoading(false);
     }
   };
-
-  const {
-    register,
-    handleSubmit: onSubmit,
-    getValues,
-    trigger,
-    setError: setFormError,
-    clearErrors,
-    formState: { errors },
-  } = useForm<SignUpInputs>({ mode: "onChange" });
-
-  const [isNicknameUnique, setIsNicknameUnique] = useState(false);
 
   const onClickNicknameCheck = async (nickname: string) => {
     await trigger("nickname");
@@ -159,6 +199,46 @@ function SettingProfile() {
     onChange: onChangeNickname,
   };
 
+  const onSubmitNickname = async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+
+      if (!isNicknameUnique) {
+        setError("닉네임 중복 검사를 해주세요.");
+        return;
+      }
+
+      setModalMessage("닉네임을 변경하시겠습니까?");
+      toggleModal("confirm", true);
+    } catch (error) {
+      setError("닉네임 변경에 실패했습니다.");
+      console.error("닉네임 변경 실패:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const onSubmitPassword = async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+
+      if (!oldPassword || !newPassword) {
+        setError("현재 비밀번호와 새로운 비밀번호를 모두 입력해주세요.");
+        return;
+      }
+
+      setModalMessage("비밀번호를 변경하시겠습니까?");
+      toggleModal("confirm", true);
+    } catch (error) {
+      setError("비밀번호 변경에 실패했습니다.");
+      console.error("비밀번호 변경 실패:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <>
       <EditProfileStyle>
@@ -193,10 +273,9 @@ function SettingProfile() {
           <ProfileInfo>
             <ProfileDefaultInfo>
               <h2>닉네임</h2>
-              <p>{me?.nickname}</p>
+              <p>{currentNickname}</p>
             </ProfileDefaultInfo>
             <InputWithCheckButton
-              label="닉네임"
               name="nickname"
               placeholder="닉네임을 입력하세요"
               isUnique={isNicknameUnique}
@@ -206,6 +285,12 @@ function SettingProfile() {
               onChange={onChangeNickname}
               successMessage="사용 가능한 닉네임입니다."
             />
+            <NicknameChangeConfirmButton
+              onClick={onSubmitNickname}
+              disabled={!isNicknameUnique || isLoading}
+            >
+              {isLoading ? "수정 중..." : "닉네임 변경"}
+            </NicknameChangeConfirmButton>
           </ProfileInfo>
 
           <PasswordChange>
@@ -218,6 +303,8 @@ function SettingProfile() {
               placeholder="현재 비밀번호 입력"
               type="password"
               maxLength={30}
+              value={oldPassword}
+              onChange={(e) => setOldPassword(e.target.value)}
             />
 
             <InputField
@@ -226,33 +313,50 @@ function SettingProfile() {
               placeholder="새로운 비밀번호 입력"
               type="password"
               maxLength={30}
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
             />
 
-            <PasswordChangeConfirmButton>
-              회원 정보 수정
+            <PasswordChangeConfirmButton
+              onClick={onSubmitPassword}
+              disabled={!oldPassword || !newPassword || isLoading}
+            >
+              {isLoading ? "수정 중..." : "비밀번호 변경"}
             </PasswordChangeConfirmButton>
           </PasswordChange>
         </ProfileWrap>
         <AccountStyle>
-          <button type="submit" onClick={handleSubmit} disabled={isLoading}>
+          <button
+            type="button"
+            onClick={handleLogoutClick}
+            disabled={isLoading}
+          >
             {isLoading ? "로그아웃 중..." : "로그아웃"}
           </button>
           <span>|</span>
-          <button type="submit">회원탈퇴</button>
+          <button type="button">회원탈퇴</button>
           {isModalsVisible.confirm && (
             <ConfirmModal
               onClose={() => toggleModal("confirm", false)}
               onConfirm={handleConfirmSubmit}
-              message="로그아웃 하시겠습니까?"
+              message={modalMessage}
             />
           )}
           {isModalsVisible.alert && (
             <AlertModal
               onClose={() => {
                 toggleModal("alert", false);
-                navigate(FRONTEND_URLS.LOGIN);
+                if (modalMessage.includes("로그아웃")) {
+                  navigate(FRONTEND_URLS.LOGIN);
+                }
               }}
-              message="로그아웃 되었습니다."
+              message={
+                modalMessage.includes("닉네임")
+                  ? "닉네임이 변경되었습니다."
+                  : modalMessage.includes("비밀번호")
+                    ? "비밀번호가 변경되었습니다."
+                    : "로그아웃 되었습니다."
+              }
             />
           )}
           {error && (
@@ -359,6 +463,24 @@ const PasswordChange = styled.div`
   }
 `;
 
+const NicknameChangeConfirmButton = styled.button`
+  width: 100%;
+  height: 50px;
+  border: solid 1px #d4dcea;
+  background-color: #fff;
+  text-align: center;
+  font-size: 16px;
+  color: #d4dcea;
+  border-radius: 5px;
+  margin-top: 10px;
+
+  &:not(:disabled) {
+    border: none;
+    background-color: #6ea1ff;
+    color: #ffffff;
+  }
+`;
+
 const PasswordChangeConfirmButton = styled.button`
   width: 100%;
   height: 50px;
@@ -369,6 +491,12 @@ const PasswordChangeConfirmButton = styled.button`
   color: #d4dcea;
   border-radius: 5px;
   margin-top: 25px;
+
+  &:not(:disabled) {
+    border: none;
+    background-color: #6ea1ff;
+    color: #ffffff;
+  }
 `;
 
 export default SettingProfile;
