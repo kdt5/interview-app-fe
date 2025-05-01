@@ -86,6 +86,7 @@ function RankingMainPage() {
   return (
     <RankingMainPageStyle>
       <div className="profile">
+        <p className="my-profile-text">내 프로필</p>
         <div className="profile-box">
           {myUserData && (
             <CommonProfile
@@ -190,6 +191,10 @@ const RankingMainPageStyle = styled.div`
   .profile {
     padding: 0 30px;
 
+    .my-profile-text {
+      margin: 30px 0 10px 0;
+    }
+
     .profile-box {
       width: 100%;
       height: 80px;
@@ -202,6 +207,7 @@ const RankingMainPageStyle = styled.div`
       display: flex;
       justify-content: space-around;
       text-align: center;
+      margin-top: 10px;
 
       .post-count {
         width: 110px;
@@ -342,6 +348,7 @@ const RankingMainPageStyle = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: 30px;
 
     .ranking-title {
       font-size: 16px;
