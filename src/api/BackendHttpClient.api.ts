@@ -10,3 +10,14 @@ export const backendHttpClient = axios.create({
   },
   withCredentials: true,
 });
+
+backendHttpClient.interceptors.response.use(
+  (response) => {
+    return response.data;
+  },
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      window.location.href = "/login";
+    }
+  }
+);
