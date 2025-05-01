@@ -20,5 +20,6 @@ backendHttpClient.interceptors.response.use(
     if (error.response && error.response.status === 401) {
       window.location.href = FRONTEND_URLS.LOGIN;
     }
+    throw error;
   }
 );

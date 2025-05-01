@@ -3,6 +3,7 @@ import { BACKEND_URLS } from "../constants/Urls";
 import { LoginInputs } from "../pages/LoginPage";
 import { backendHttpClient } from "./BackendHttpClient.api";
 import { UserBasicInfo, SignUpInputs } from "../models/User.model";
+import axios from "axios";
 
 export async function signUp(userData: SignUpInputs): Promise<boolean> {
   const response = await backendHttpClient
@@ -38,25 +39,39 @@ export async function logout(): Promise<boolean> {
 }
 
 export async function checkEmailExists(email: string): Promise<boolean> {
-  const response = await backendHttpClient
-    .post(BACKEND_URLS.AUTH.CHECK_EMAIL, { email })
-    .then((response) => response.status !== HttpStatusCode.Ok)
-    .catch((error) => {
-      throw error;
-    });
-
-  return response;
+  try {
+    const response = await backendHttpClient.post(
+      BACKEND_URLS.AUTH.CHECK_EMAIL,
+      { email }
+    );
+    return response.status !== HttpStatusCode.Ok;
+  } catch (error) {
+    if (
+      axios.isAxiosError(error) &&
+      error.response?.status === HttpStatusCode.Conflict
+    ) {
+      return true;
+    }
+    throw error;
+  }
 }
 
 export async function checkNicknameExists(nickname: string): Promise<boolean> {
-  const response = await backendHttpClient
-    .post(BACKEND_URLS.AUTH.CHECK_NICKNAME, { nickname })
-    .then((response) => response.status !== HttpStatusCode.Ok)
-    .catch((error) => {
-      throw error;
-    });
-
-  return response;
+  try {
+    const response = await backendHttpClient.post(
+      BACKEND_URLS.AUTH.CHECK_NICKNAME,
+      { nickname }
+    );
+    return response.status !== HttpStatusCode.Ok;
+  } catch (error) {
+    if (
+      axios.isAxiosError(error) &&
+      error.response?.status === HttpStatusCode.Conflict
+    ) {
+      return true;
+    }
+    throw error;
+  }
 }
 
 export async function refreshToken(): Promise<boolean> {
