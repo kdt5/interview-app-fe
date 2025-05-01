@@ -87,7 +87,7 @@ export async function refreshToken(): Promise<boolean> {
 
 export async function recoverPassword(email: string): Promise<boolean> {
   const response = await backendHttpClient
-    .post(BACKEND_URLS.AUTH.RECOVER_PASSWORD, { email })
+    .post(BACKEND_URLS.USERS.RECOVER_PASSWORD, { email })
     .then((response) => response.status === HttpStatusCode.Ok)
     .catch((error) => {
       throw error;

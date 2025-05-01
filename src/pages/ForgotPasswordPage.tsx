@@ -1,12 +1,12 @@
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { RegisterOptions, useForm } from "react-hook-form";
 import { EMAIL_MAX_LENGTH } from "../constants/Auth";
 import { ErrorMessage } from "@hookform/error-message";
 import InputField from "../components/common/Input/Input";
+import { useState } from "react";
+import { recoverPassword } from "../api/Auth.api";
 
 function ForgotPasswordPage() {
-  const navigate = useNavigate();
 
   interface ForgotInputs {
     email: string;
@@ -29,7 +29,16 @@ function ForgotPasswordPage() {
     formState: { errors },
   } = useForm<ForgotInputs>();
 
-  const onSubmit = () => {};
+  const [submitMessage, setSubmitMessage] = useState("");
+
+  const onSubmit = async (data: ForgotInputs) => {
+    try {
+      await recoverPassword(data.email);
+      setSubmitMessage("비밀번호 재설정 이메일을 보냈습니다.");
+    } catch {
+      setSubmitMessage("이메일 전송에 실패했습니다. 다시 시도해주세요.");
+    }
+  };
 
   return (
     <Wrapper>
@@ -42,16 +51,15 @@ function ForgotPasswordPage() {
             placeholder="이메일 입력"
             {...register("email", checkEmail)}
           />
-          <ErrorMessage
-            errors={errors}
-            name="email"
-            render={({ message }) => <ErrorText>{message}</ErrorText>}
-          />
-          <CheckButton>이메일 확인</CheckButton>
+          <CheckButton type="submit">이메일 확인</CheckButton>
         </InputRow>
-        <InfoText>비밀번호 재설정 이메일을 보냈습니다</InfoText>
+          <ErrorMessage
+              errors={errors}
+              name="email"
+              render={({ message }) => <ErrorText>{message}</ErrorText>}
+            />
+          {!errors.email && <InfoText>{submitMessage}</InfoText>}
       </Form>
-      <LoginButton onClick={() => navigate("/login")}>로그인</LoginButton>
     </Wrapper>
   );
 }
@@ -65,7 +73,7 @@ const Wrapper = styled.div`
   box-sizing: border-box;
 `;
 
-const Form = styled.div`
+const Form = styled.form`
   margin-top: 32px;
 `;
 
@@ -103,18 +111,6 @@ const InfoText = styled.p`
   font-weight: 400;
 `;
 
-const LoginButton = styled.button`
-  width: 100%;
-  height: 55px;
-  background-color: #6ca9ff;
-  color: white;
-  font-weight: 400;
-  font-size: 18px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-top: 500px;
-`;
 const ErrorText = styled.span`
   font-size: 12px;
   color: #e74c3c;

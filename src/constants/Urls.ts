@@ -49,7 +49,6 @@ export const BACKEND_URLS = {
     SIGNUP: "/api/auth/signup",
     CHECK_EMAIL: "/api/auth/check-email",
     CHECK_NICKNAME: "/api/auth/check-nickname",
-    RECOVER_PASSWORD: "/api/auth/recover-password",
     RESET_PASSWORD: "/api/auth/reset-password",
   },
   USERS: {
@@ -58,6 +57,7 @@ export const BACKEND_URLS = {
     USER: "/api/users/:userId",
     CHANGE_PASSWORD: "/api/users/change-password",
     CHANGE_NICKNAME: "/api/users/change-nickname",
+    RECOVER_PASSWORD: "/api/users/recover-password",
     UPLOAD_PROFILE: "/api/uploads/profile",
   },
   QUESTIONS: {
