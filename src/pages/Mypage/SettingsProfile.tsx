@@ -11,6 +11,7 @@ import InputField from "../../components/common/Input/Input";
 import { ModalType } from "../RecordAnswerPage";
 import { useAuth } from "../../hooks/UseAuth";
 import { uploadProfile } from "../../api/User.api";
+import { MAX_PROFILE_IMAGE_SIZE } from "../../constants/User";
 
 export interface SignUpInputs {
   password: string;
@@ -62,8 +63,7 @@ function SettingProfile() {
       if (!file) return;
 
       // 파일 크기 검증 (5MB)
-      const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
-      if (file.size > MAX_FILE_SIZE) {
+      if (file.size > MAX_PROFILE_IMAGE_SIZE) {
         setError("파일 크기는 5MB를 초과할 수 없습니다.");
         return;
       }
