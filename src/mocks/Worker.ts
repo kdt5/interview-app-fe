@@ -8,11 +8,6 @@ import {
   basicAnsweredQuestions,
   weeklyAnsweredQuestions,
 } from "./Answers";
-import {
-  getAnswerRanking,
-  getFavoriteRanking,
-  getIntegrationRanking,
-} from "./Ranking";
 
 const handlers: Array<RequestHandler | WebSocketHandler> = [
   categories,
@@ -24,9 +19,6 @@ const handlers: Array<RequestHandler | WebSocketHandler> = [
   weeklyAnsweredQuestions,
   myUserInfo,
   answer,
-  getIntegrationRanking,
-  getAnswerRanking,
-  getFavoriteRanking,
 ];
 
 export const worker = setupWorker(...handlers);
