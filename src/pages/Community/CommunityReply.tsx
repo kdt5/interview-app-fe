@@ -183,7 +183,7 @@ const CommunityReplyWrapper = styled.div`
 `;
 
 const CommentWrapper = styled.div`
-  padding: 0 0 0 30px;
+  padding: 0 0 70px 30px;
   box-sizing: border-box;
 `;
 
