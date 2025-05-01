@@ -14,7 +14,6 @@ import {
 import { useState } from "react";
 import ConfirmModal from "../components/common/ConfirmModal";
 import AlertModal from "../components/common/AlertModal";
-import { AxiosError, HttpStatusCode } from "axios";
 import InputField from "../components/common/Input/Input";
 import GrayButton from "../components/common/Button/GrayButton";
 import LightGrayButton from "../components/common/Button/LightGrayButton";
@@ -65,31 +64,25 @@ function SignUpPage() {
       return;
     }
 
-    checkEmailExists(email)
-      .then((isExists) => {
-        if (isExists) {
-          return;
-        }
+    try {
+      const isExists = await checkEmailExists(email);
 
-        setIsEmailUnique(true);
-      })
-      .catch((error) => {
-        if (error instanceof AxiosError) {
-          if (error.status === HttpStatusCode.Conflict) {
-            setError("email", {
-              type: "manual",
-              message: "중복된 이메일입니다.",
-            });
-
-            return;
-          }
-        }
-        console.error(error);
+      if (isExists) {
         setError("email", {
           type: "manual",
-          message: "오류가 발생했습니다.",
+          message: "중복된 이메일입니다.",
         });
+        setIsEmailUnique(false);
+      } else {
+        setIsEmailUnique(true);
+      }
+    } catch (error) {
+      console.error("Error during email check:", error);
+      setError("email", {
+        type: "manual",
+        message: "오류가 발생했습니다.",
       });
+    }
   };
 
   const onClickNicknameCheck = async (nickname: string) => {
@@ -99,31 +92,25 @@ function SignUpPage() {
       return;
     }
 
-    checkNicknameExists(nickname)
-      .then((isExists) => {
-        if (isExists) {
-          return;
-        }
+    try {
+      const isExists = await checkNicknameExists(nickname);
 
-        setIsNicknameUnique(true);
-      })
-      .catch((error) => {
-        if (error instanceof AxiosError) {
-          if (error.status === HttpStatusCode.Conflict) {
-            setError("nickname", {
-              type: "manual",
-              message: "중복된 닉네임입니다.",
-            });
-
-            return;
-          }
-        }
-        console.error(error);
+      if (isExists) {
         setError("nickname", {
           type: "manual",
-          message: "오류가 발생했습니다.",
+          message: "중복된 닉네임입니다.",
         });
+        setIsNicknameUnique(false);
+      } else {
+        setIsNicknameUnique(true);
+      }
+    } catch (error) {
+      console.error("Error during nickname check:", error);
+      setError("nickname", {
+        type: "manual",
+        message: "오류가 발생했습니다.",
       });
+    }
   };
 
   const onChangeEmail = async () => {
