@@ -66,6 +66,7 @@ const getPageTitle = (pathname: string) => {
     [frontend]: "프론트엔드 면접 질문",
     [backend]: "백엔드 면접 질문",
     [FRONTEND_URLS.MY_PAGE.HOME]: "마이페이지",
+    [FRONTEND_URLS.MY_PAGE.EDIT.PROFILE]: "내 정보 수정",
     [FRONTEND_URLS.MY_PAGE.ANSWERS]: "내 답변 모아보기",
     [FRONTEND_URLS.MY_PAGE.FAVORITES.QUESTIONS]: "즐겨찾기 질문 모아보기",
     [FRONTEND_URLS.FORGOT_PASSWORD]: "비밀번호 찾기",

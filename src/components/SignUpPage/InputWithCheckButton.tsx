@@ -5,7 +5,7 @@ import GrayButton from "../common/Button/GrayButton";
 import styled from "styled-components";
 
 interface InputWithCheckButtonProps {
-  label: string;
+  label?: string;
   name: string;
   placeholder: string;
   isUnique: boolean;
@@ -31,7 +31,7 @@ const InputWithCheckButton: React.FC<InputWithCheckButtonProps> = ({
   return (
     <InputWithCheckButtonStyle>
       <div className={`${name}-container`}>
-        <p className="title">{label}</p>
+        {label && <p className="title">{label}</p>}
         <div className={`${name}-input-button-wrap`}>
           <InputField
             autoComplete="off"
