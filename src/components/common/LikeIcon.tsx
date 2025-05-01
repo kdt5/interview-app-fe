@@ -22,17 +22,22 @@ export function LikeIcon({
 
   const onClick = async () => {
     try {
-      if (isFavorite) {
-        await removeFavorite();
-      } else {
+      const isAddingLike = !isFavorite;
+
+      if (isAddingLike) {
         await addFavorite();
+        setIsFavorite(true);
+      } else {
+        await removeFavorite();
+        setIsFavorite(false);
       }
-      setIsFavorite((prev) => !prev);
+
       if (handleToggleLike) {
-        handleToggleLike(isFavorite);
+        handleToggleLike(targetType === "post" ? isAddingLike : !isAddingLike);
       }
     } catch (error) {
       console.error("Error toggling favorite:", error);
+      setIsFavorite((prev) => !prev);
     }
   };
 
