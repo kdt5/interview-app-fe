@@ -42,7 +42,7 @@ function SignUpPage() {
     confirm: false,
     alert: false,
   });
-  const [selectedPosition, setSelectedPostion] = useState<number | null>(null);
+  const [selectedPosition, setSelectedPostion] = useState<number>(1);
 
   const canSubmit =
     isValid && isEmailUnique && isNicknameUnique && selectedPosition !== null;
