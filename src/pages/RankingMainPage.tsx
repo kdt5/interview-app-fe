@@ -11,6 +11,7 @@ import {
   useFavoriteRanking,
   useIntegrationRanking,
 } from "../hooks/UseRanking";
+import { getPositionKeyById } from "../utils/Positions";
 
 function RankingMainPage() {
   const { isAuthenticated } = useAuth();
@@ -94,7 +95,7 @@ function RankingMainPage() {
                 myUserData.profileImageUrl ?? "../public/profile-image.png"
               }
               nickname={myUserData.nickname}
-              position={myUserData.positionId === 1 ? "Front-End" : "Back-End"}
+              position={getPositionKeyById(myUserData.positionId)}
               level={myUserData.level}
               answerCount={myUserData.level}
             />

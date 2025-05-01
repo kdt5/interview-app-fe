@@ -1,10 +1,10 @@
 import { Position } from "../constants/Question";
 
 const positionMap = new Map<number, Position>([
-  [1, "backend"],
-  [2, "frontend"],
-  [3, "fullStack"],
-  [4, "designer"],
+  [1, "Back-end"],
+  [2, "Front-end"],
+  [3, "Full-Stack"],
+  [4, "Designer"],
 ]);
 
 export function getPositionKeyById(id: number): Position | undefined {
@@ -14,7 +14,7 @@ export function getPositionKeyById(id: number): Position | undefined {
 export const positionKeyToId = {
   backend: 1,
   frontend: 2,
-  fullStack: 3,
+  fullstack: 3,
   designer: 4,
 } as const;
 

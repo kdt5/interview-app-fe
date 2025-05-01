@@ -7,6 +7,7 @@ import { MyPageSectionStyle } from "../components/MyPage/MyPageSectionStyle";
 import { FaChevronRight } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { getPositionKeyById } from "../utils/Positions";
 
 function MyPage() {
   const navigate = useNavigate();
@@ -40,7 +41,7 @@ function MyPage() {
   }
 
   // 인증되지 않은 상태 체크
-  if (!isAuthenticated) {
+  if (!isAuthenticated || !me) {
     return null;
   }
 
@@ -54,7 +55,7 @@ function MyPage() {
             </div>
             <div>
               <h2>{me?.nickname}</h2>
-              <span>Front-End</span>
+              <span>{getPositionKeyById(me.positionId)}</span>
             </div>
           </div>
           <FaChevronRight></FaChevronRight>
