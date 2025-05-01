@@ -147,6 +147,7 @@ const NavStyle = styled.nav`
   bottom: 0;
   text-align: center;
   display: grid;
+  z-index: 1;
   box-shadow: 0 -1px 16px #a7a7a752;
 
   .category {
