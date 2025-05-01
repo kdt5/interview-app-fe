@@ -48,11 +48,15 @@ const ProfileData = [
 
 const RankData = [
   {
-    profileImg: "https://via.placeholder.com/40",
-    username: "내가말하고있잖아",
-    comments: 345,
-    level: 25,
-    like: 225,
+    user: {
+      nickname: "내가말하고있잖아",
+      level: 25,
+      profileImageUrl: "https://via.placeholder.com/40",
+    },
+    rank: 2,
+    totalFavoriteCount: 25,
+    totalAnswerCount: 2,
+    totalScore: 3,
   },
 ];
 

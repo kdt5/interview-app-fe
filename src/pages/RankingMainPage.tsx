@@ -4,80 +4,113 @@ import RankingProfile from "../components/common/Profile/RankingProfile";
 import CommonProfile from "../components/common/Profile/CommonProfile";
 import { FRONTEND_URLS } from "../constants/Urls";
 import { useMyUserData } from "../hooks/UseMyUserData";
-
-const hotRankingUsers = [
-  {
-    profileImg: "/public/user1.png",
-    username: "명수옹",
-    like: 884,
-  },
-  {
-    profileImg: "/public/user2.png",
-    username: "광대하트",
-    like: 674,
-  },
-  {
-    profileImg: "/public/user3.png",
-    username: "희번덕",
-    like: 456,
-  },
-];
-
-const answerRankingUsers = [
-  {
-    profileImg: "/public/user1.png",
-    username: "명수옹",
-    level: 5,
-    like: 884,
-    comments: 223,
-  },
-  {
-    profileImg: "/public/user1.png",
-    username: "명수옹",
-    level: 5,
-    like: 884,
-    comments: 223,
-  },
-  {
-    profileImg: "/public/user1.png",
-    username: "명수옹",
-    level: 5,
-    like: 884,
-    comments: 223,
-  },
-];
+import { useUser } from "../hooks/UseUser";
+import { useAuth } from "../hooks/UseAuth";
+import {
+  useAnswerRanking,
+  useFavoriteRanking,
+  useIntegrationRanking,
+} from "../hooks/UseRanking";
 
 function RankingMainPage() {
-  const { data, isLoading, error } = useMyUserData();
+  const { isAuthenticated } = useAuth();
+  const {
+    userStats,
+    isLoading: isUserStatsLoading,
+    error: userStatsError,
+  } = useUser({ isAuthenticated });
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
-  if (!data) return <div>No data available. Please try again later.</div>;
+  // 프로필 정보
+  const {
+    data: myUserData,
+    isLoading: isUserLoading,
+    error: userError,
+  } = useMyUserData();
+
+  // 랭킹 정보
+  const {
+    data: integrationRankingData,
+    isLoading: isIntegrationLoading,
+    error: integrationError,
+  } = useIntegrationRanking();
+  const {
+    data: answerRankingData,
+    isLoading: isAnswerLoading,
+    error: answerError,
+  } = useAnswerRanking();
+  const {
+    data: favoriteRankingData,
+    isLoading: isFavoriteLoading,
+    error: favoriteError,
+  } = useFavoriteRanking();
+
+  if (
+    isUserStatsLoading ||
+    isUserLoading ||
+    isIntegrationLoading ||
+    isAnswerLoading ||
+    isFavoriteLoading
+  ) {
+    return <div>Loading...</div>;
+  }
+
+  if (
+    userStatsError ||
+    userError ||
+    integrationError ||
+    answerError ||
+    favoriteError
+  ) {
+    return <div>Something went wrong.</div>;
+  }
+
+  if (!integrationRankingData || !answerRankingData || !favoriteRankingData) {
+    return <div>No ranking data available.</div>;
+  }
+
+  // 답변수 높은 순 정렬해서 Top 3
+  const topIntegrationUsers = [...integrationRankingData]
+    .sort((a, b) => b.totalScore - a.totalScore)
+    .slice(0, 3);
+
+  // 답변수 높은 순 정렬해서 Top 3
+  const topAnswerUsers = [...answerRankingData]
+    .sort((a, b) => b.totalAnswerCount - a.totalAnswerCount)
+    .slice(0, 3);
+
+  // 좋아요수 높은 순 정렬해서 Top 3
+  const topFavoriteUsers = [...favoriteRankingData]
+    .sort((a, b) => b.totalFavoriteCount - a.totalFavoriteCount)
+    .slice(0, 3);
 
   return (
     <RankingMainPageStyle>
       <div className="profile">
         <div className="profile-box">
-          <CommonProfile
-            profileImageUrl="/profile-image.png"
-            nickname={data.nickname}
-            answerCount={data.answerCount}
-            position="Front-End"
-            level={5}
-          />
+          {myUserData && (
+            <CommonProfile
+              profileImageUrl={
+                myUserData.profileImageUrl ?? "../public/profile-image.png"
+              }
+              nickname={myUserData.nickname}
+              position={myUserData.positionId === 1 ? "Front-End" : "Back-End"}
+              level={myUserData.level}
+              answerCount={myUserData.level}
+            />
+          )}
         </div>
         <div className="counts">
           <div className="answer-count">
             <span className="count-title">답변 질문 수</span>
-            <p className="count">20개</p>
+            <p className="count">{userStats?.answerCount}</p>
           </div>
           <div className="post-count">
             <span className="count-title">작성 게시글</span>
-            <p className="count">3개</p>
+            <p className="count">{userStats?.communityPostCount}</p>
           </div>
           <div className="like-count">
             <span className="count-title">누적 좋아요</span>
-            <p className="count">204개</p>
+            <p className="count">{userStats?.favoriteCount}</p>
           </div>
         </div>
       </div>
@@ -88,11 +121,14 @@ function RankingMainPage() {
           완전 <span className="hot-text">HOT한 </span>뷰잇러
         </h1>
         <div className="hot-users">
-          {hotRankingUsers.map((user, index) => (
-            <div className="hot-user" key={index}>
-              <img src={user.profileImg} alt={user.username} />
-              <p>{user.username}</p>
-              <span>누적 좋아요 {user.like}개</span>
+          {topIntegrationUsers.map((user, index) => (
+            <div
+              className="hot-user"
+              key={`hot-${user.user.nickname}-${index}`}
+            >
+              <img src={user.user.profileImageUrl} alt={user.user.nickname} />
+              <p>{user.user.nickname}</p>
+              <span>누적 좋아요 {user.totalFavoriteCount}개</span>
             </div>
           ))}
         </div>
@@ -113,8 +149,11 @@ function RankingMainPage() {
           </Link>
         </div>
         <div className="answer-users">
-          {answerRankingUsers.map((user, index) => (
-            <div className="rank-profile-box" key={`answer-${index}`}>
+          {topAnswerUsers.map((user, index) => (
+            <div
+              className="rank-profile-box"
+              key={`answer-${user.user.nickname}-${index}`}
+            >
               <RankingProfile {...user} />
             </div>
           ))}
@@ -130,8 +169,11 @@ function RankingMainPage() {
           </Link>
         </div>
         <div className="like-users">
-          {answerRankingUsers.map((user, index) => (
-            <div className="rank-profile-box" key={`like-${index}`}>
+          {topFavoriteUsers.map((user, index) => (
+            <div
+              className="rank-profile-box"
+              key={`like-${user.user.nickname}-${index}`}
+            >
               <RankingProfile {...user} />
             </div>
           ))}
@@ -248,6 +290,13 @@ const RankingMainPageStyle = styled.div`
         font-size: 12px;
         font-weight: 300;
         color: #888888;
+      }
+      .hot-user > img {
+        width: 35px;
+        height: 35px;
+        background-color: #ccc;
+        border-radius: 30px;
+        display: block;
       }
     }
 
