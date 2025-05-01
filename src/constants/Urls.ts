@@ -100,4 +100,7 @@ export const BACKEND_URLS = {
     LIKES: "/api/rankings/likes",
     ME: "/api/rankings/me",
   },
+  TRENDING: {
+    POSTS: "/api/trending/posts",
+  }
 };

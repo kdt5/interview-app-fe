@@ -13,9 +13,7 @@ export const backendHttpClient = axios.create({
 });
 
 backendHttpClient.interceptors.response.use(
-  (response) => {
-    return response;
-  },
+  (response) => ( response ),
   (error) => {
     if (error.response && error.response.status === 401) {
       window.location.href = FRONTEND_URLS.LOGIN;

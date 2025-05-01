@@ -16,10 +16,14 @@ import {
 
 function PostDetail() {
   const { postId } = useParams();
+  const [sortType, setSortType] = useState<"createdAt" | "favoriteCount">(
+    "favoriteCount"
+  );
   const { communityPostDetail } = useCommunityPostDetail(Number(postId));
   const { communityPostComments, refetchComments } = useCommunityPostComments(
     Number(postId),
-    "post"
+    "post",
+    sortType
   );
 
   const [editTarget, setEditTarget] = useState<{
@@ -56,23 +60,33 @@ function PostDetail() {
       {topLevelComments ? (
         topLevelComments.length > 0 ? (
           <>
-            <ReplyInfo totalComments={communityPostComments.length} />
-            <CommentStyle>
-              {topLevelComments.map((item) => (
-                <CommentContents
-                  key={item.id}
-                  {...item}
-                  replies={getReplies(item.id)}
-                  depth={0}
-                  postId={Number(postId)}
-                  allComments={communityPostComments}
-                  setEditTarget={setEditTarget}
-                />
-              ))}
-            </CommentStyle>
+            <ReplyInfo
+              totalComments={communityPostComments.length}
+              sortType={sortType}
+              onChangeSort={setSortType}
+            />
+            <CommentSectionWrapper>
+              <CommentStyle>
+                {topLevelComments.map((item) => (
+                  <CommentContents
+                    key={item.id}
+                    {...item}
+                    replies={getReplies(item.id)}
+                    depth={0}
+                    postId={Number(postId)}
+                    allComments={communityPostComments}
+                    setEditTarget={setEditTarget}
+                  />
+                ))}
+              </CommentStyle>
+            </CommentSectionWrapper>
           </>
         ) : (
-          <ReplyInfo totalComments={0} />
+          <ReplyInfo
+            totalComments={0}
+            sortType={sortType}
+            onChangeSort={setSortType}
+          />
         )
       ) : (
         <div>로딩중...</div>
@@ -108,6 +122,8 @@ const AnswerDetailStyle = styled.div`
 
 export const CommentStyle = styled.div`
   margin-top: 30px;
+`;
+const CommentSectionWrapper = styled.div`
   padding: 0 30px;
 `;
 

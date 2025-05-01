@@ -27,13 +27,16 @@ export function useFavorite(targetId: number, targetType: FavoriteTargetType) {
 
   useEffect(() => {
     if (targetId !== -1) {
-      try {
-        fetchFavorite(targetId, targetType).then((favorite) => {
-          setIsFavorite(favorite);
-        });
-      } catch (error) {
-        console.error(error);
+      const loadFavorite = async () => {
+        try {
+          fetchFavorite(targetId, targetType).then((favorite) => {
+            setIsFavorite(favorite);
+          });
+        } catch (error) {
+          console.error(error);
+        }
       }
+      loadFavorite();
     }
   }, [targetId, targetType]);
 

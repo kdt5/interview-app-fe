@@ -53,7 +53,10 @@ function RecordAnswerPage() {
 
   return (
     <>
-      <QuestionContainer title={question?.title || "질문이 없습니다."} />
+      <QuestionContainer
+        title={question?.title || "질문이 없습니다."}
+        categoryId={question?.categories[0].category.id || 0}
+      />
       <ToggleVisibilityButton onClick={() => setIsModalOpen(true)}>
         <Label>
           답변 공개 설정

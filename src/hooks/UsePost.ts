@@ -1,7 +1,23 @@
 import { useCallback, useEffect, useState } from "react";
 import { CommunityPost, PostCategory } from "../models/CommunityPost.model";
-import { createPost, editPost, fetchPostCategories, fetchPostComments, fetchPostDetail, fetchPosts } from "../api/Post.api";
+import { createPost, editPost, fetchPostCategories, fetchPostComments, fetchPostDetail, fetchPosts, fetchTrendingPosts } from "../api/Post.api";
 import { Comment } from "../models/Comment.model";
+
+export function useTrendingPosts(categoryId?: number, limit?: number) {
+  const [trendingPosts, setTrendingPosts] = useState<CommunityPost[]>([]);
+
+  useEffect(() => {
+    try {
+      fetchTrendingPosts(categoryId, limit).then((posts) => {
+        setTrendingPosts(posts);
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }, [categoryId, limit]);
+
+  return { trendingPosts };
+}
 
 export function useCommunityPosts(categoryId?: number) {
   const [communityPosts, setCommunityPosts] = useState<CommunityPost[]>([]);
@@ -88,21 +104,21 @@ export function usePostMutation() {
   };
 }
 
-export function useCommunityPostComments(targetId: number, categoryName: string) {
+export function useCommunityPostComments(targetId: number, categoryName: string, sortType?: "createdAt" | "favoriteCount") {
   const [communityPostComments, setCommunityPostComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchComments = useCallback(async () => {
     setLoading(true);
     try {
-      const result = await fetchPostComments(targetId, categoryName);
+      const result = await fetchPostComments(targetId, categoryName, sortType);
       setCommunityPostComments(result);
     } catch (err) {
       console.error("댓글 불러오기 실패", err);
     } finally {
       setLoading(false);
     }
-  }, [targetId, categoryName]);
+  }, [targetId, categoryName, sortType]);
 
   useEffect(() => {
     fetchComments();

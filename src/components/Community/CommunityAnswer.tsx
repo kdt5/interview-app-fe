@@ -62,13 +62,16 @@ function CommunityAnswer({
         <AnswerInfo>
           <AnswerCategory>{postCategoryName || "기타"}</AnswerCategory>
           <span>
-            <LikeIcon
-              likeId={id}
-              targetType="post"
-              handleToggleLike={handleToggleLike}
-              alt="Like Icon"
-            />
+            <span className="like-icon">
+              <LikeIcon
+                likeId={id}
+                targetType="post"
+                handleToggleLike={handleToggleLike}
+                alt="Like Icon"
+              />
+            </span>
             <img
+              className="option"
               src={OptionImg}
               alt="Option Icon"
               onClick={handleOptionClick}
@@ -114,9 +117,12 @@ const AnswerInfo = styled.div`
   align-items: center;
   justify-content: space-between;
   span {
-    img {
+    .like-icon {
       display: inline-block;
       margin-right: 12px;
+    }
+    .option {
+      display: inline-block;
     }
   }
 `;

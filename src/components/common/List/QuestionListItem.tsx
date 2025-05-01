@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { FaStar } from "react-icons/fa6";
 import { useFavorite } from "../../../hooks/UseFavorite";
+import { useState } from "react";
 
 interface Props {
   questionId: number;
@@ -18,19 +19,24 @@ function QuestionListItem({
   questionTitle,
   comments,
   complete,
-  likes,
-  isFavorite,
+  likes: initLikes,
+  isFavorite: initFavorite,
 }: Props) {
   const { addFavorite, removeFavorite } = useFavorite(questionId, "question");
+  const [isFavorite, setIsFavorite] = useState(initFavorite);
+  const [likes, setLikes] = useState(initLikes);
 
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
 
     if (isFavorite) {
       removeFavorite();
+      setLikes(likes - 1);
     } else {
       addFavorite();
+      setLikes(likes + 1);
     }
+    setIsFavorite(!isFavorite);
   };
 
   const isComplete = complete === "작성 완료";

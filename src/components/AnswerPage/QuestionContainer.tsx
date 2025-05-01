@@ -1,13 +1,17 @@
 import styled from "styled-components";
+import { useCategory } from "../../hooks/UseCategory";
 
 interface Props {
   title: string;
+  categoryId: number;
 }
 
-function QuestionContainer({ title }: Props) {
+function QuestionContainer({ title, categoryId }: Props) {
+  const { getCategoryName } = useCategory();
+
   return (
     <QuestionContainerStyle>
-      <p className="date-box">25년 3월 4주차 질문</p>
+      <p className="category-box">{getCategoryName(categoryId)}</p>
       <h2 className="question-title">{title}</h2>
     </QuestionContainerStyle>
   );
@@ -17,7 +21,7 @@ const QuestionContainerStyle = styled.div`
   margin: 0 auto;
   text-align: center;
 
-  .date-box {
+  .category-box {
     margin: 20px 0;
     font-weight: 500;
     color: #888888;

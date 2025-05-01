@@ -128,7 +128,6 @@ function CommentContents({
     </>
   );
 }
-
 export const OptionButton = styled.button`
   width: 10px;
   height: 30px;
@@ -137,6 +136,9 @@ export const OptionButton = styled.button`
   background-repeat: no-repeat;
   padding: 0;
   border-radius: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
 `;
 export const CommentInfo = styled.p`
   padding-left: 45px;
@@ -163,6 +165,7 @@ export const CommonProfileStyle = styled.img`
 
 export const ProfileSection = styled.div`
   margin-top: 15px;
+  position: relative;
 `;
 
 export const FlexWrap = styled.div`

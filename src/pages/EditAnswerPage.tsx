@@ -91,7 +91,7 @@ function EditAnswerPage() {
 
   return (
     <EditAnswerPageStyle $isSubmitDisabled={isSubmitDisabled}>
-      <QuestionContainer title={question?.title || "질문이 없습니다."} />
+      <QuestionContainer title={question?.title || "질문이 없습니다."} categoryId={question?.categories[0].category.id || 0}/>
       <AnswerForm
         answer={currentAnswer}
         handleAnswerChange={handleAnswerChange}

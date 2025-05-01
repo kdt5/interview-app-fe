@@ -1,30 +1,23 @@
 import styled from "styled-components";
 import LikesIcon from "../../../assets/Popular_Like.png";
-import ReplysIcon from "../../../assets/Popular_reply.png";
 
 interface Props {
   title: string;
-  contents: string;
-  likes: number;
-  comments: number;
+  content: string;
+  favoriteCount: number;
 }
 
-function PopularPost({ title, contents, comments, likes }: Props) {
+function PopularPost({ title, content, favoriteCount }: Props) {
   return (
     <>
       <PopularPostStyle>
         <span>인기글</span>
         <Title>{title}</Title>
-        <Content>{contents}</Content>
+        <Content>{content}</Content>
         <Info>
           <CountInfo>
             <img src={LikesIcon} alt="" />
-            <span> {likes}</span>
-          </CountInfo>
-
-          <CountInfo>
-            <img src={ReplysIcon} alt="" />
-            <span>{comments}</span>
+            <span> {favoriteCount}</span>
           </CountInfo>
         </Info>
       </PopularPostStyle>
