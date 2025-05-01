@@ -23,6 +23,10 @@ export function useCategory(position?: Position): UseCategoryReturn {
   }, [position]);
 
   const getCategoryName = (categoryId: number) => {
+    if (categories === undefined || categories.length === 0) {
+      return "";
+    }
+
     return (
       categories.find((category) => category.id === categoryId)?.name ?? ""
     );
