@@ -70,6 +70,7 @@ function QuestionListItem({
 const QuestionListItemStyle = styled.div`
   border-bottom: 3px solid #f5f5f5;
   padding: 25px 30px;
+  cursor: pointer;
 `;
 
 const QuestionHeader = styled.div`

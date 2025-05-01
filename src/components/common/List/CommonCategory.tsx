@@ -64,6 +64,7 @@ const CategoryName = styled.div`
   padding: 5px 15px;
   font-size: 14px;
   width: fit-content;
+  cursor: pointer;
 
   &.active {
     border: solid 1px #6ea1ff;
