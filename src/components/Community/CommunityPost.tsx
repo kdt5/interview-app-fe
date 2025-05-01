@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { useCommunityPosts, useTrendingPosts } from "../../hooks/UsePost";
 import { FRONTEND_URLS } from "../../constants/Urls";
 import { useState } from "react";
+import { Autoplay, Pagination } from "swiper/modules";
 
 function PostTab() {
   const [selectedCatId, setSelectedCatId] = useState(0);
@@ -22,9 +23,16 @@ function PostTab() {
 
   return (
     <>
-      <SectionTitle to="/">인기글</SectionTitle>
+      <SectionTitle>인기글</SectionTitle>
       <PopularSlide>
-        <Swiper spaceBetween={15} slidesPerView="auto">
+        <Swiper
+          modules={[Autoplay, Pagination]}
+          spaceBetween={15}
+          slidesPerView={"auto"}
+          loop={true}
+          autoplay={{ delay: 3000, disableOnInteraction: false }}
+          pagination={{ type: "fraction" }}
+        >
           <SwiperSlide style={{ width: "150px" }}>
             <PopularSlideNotice>
               <div>
@@ -99,6 +107,22 @@ const Info = styled.div`
 
 const PopularSlide = styled.div`
   padding: 0 30px;
+
+  .swiper-pagination-fraction {
+    background: #00000052;
+    color: #fff;
+    font-size: 12px;
+    border-radius: 8px;
+    position: relative;
+    bottom: 25px;
+    width: 32px;
+    float: right;
+    margin-right: 8px;
+
+    span {
+      color: #fff;
+      font-weight: 400;
+    }
 `;
 
 const MidLine = styled.div`
