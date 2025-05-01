@@ -68,7 +68,7 @@ const getPageTitle = (pathname: string) => {
     [FRONTEND_URLS.MY_PAGE.HOME]: "마이페이지",
     [FRONTEND_URLS.MY_PAGE.EDIT.PROFILE]: "내 정보 수정",
     [FRONTEND_URLS.MY_PAGE.ANSWERS]: "내 답변 모아보기",
-    [FRONTEND_URLS.MY_PAGE.FAVORITES.QUESTIONS]: "즐겨찾기 질문 모아보기",
+    [FRONTEND_URLS.MY_PAGE.FAVORITES.QUESTIONS]: "질문 즐겨찾기",
     [FRONTEND_URLS.FORGOT_PASSWORD]: "비밀번호 찾기",
     [FRONTEND_URLS.RESET_PASSWORD]: "비밀번호 재설정",
     [FRONTEND_URLS.RANKINGS.MAIN]: "랭킹",
