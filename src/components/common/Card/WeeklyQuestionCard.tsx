@@ -23,37 +23,38 @@ function WeeklyQuestionCard({
 }: Props) {
   return (
     <>
-      <WeeklyQuestionCardStyle>
+      <WeeklyQuestionCardStyle to={linkTo}>
         <WeeklyQuestionCategory>{category}</WeeklyQuestionCategory>
         <WeeklyQuestionTitle>{title}</WeeklyQuestionTitle>
-        <WeeklyQuestionInfo>
+        <>
           {
-            <>
-              <WeeklyQuestionDate>
-                <img src={Clock} alt="" />
-                <p>{date}</p>
-              </WeeklyQuestionDate>
-              <AnswerCount>
-                <img src={AnswerCountProfile} alt="" />
-                <p>{answerCount}명 답변</p>
-              </AnswerCount>
+            <BottomWrap>
+              <BottomLeftWrap>
+                <WeeklyQuestionDate>
+                  <img src={Clock} alt="" />
+                  <p>{date}</p>
+                </WeeklyQuestionDate>
+                <AnswerCount>
+                  <img src={AnswerCountProfile} alt="" />
+                  <p>{answerCount}명 답변</p>
+                </AnswerCount>
+              </BottomLeftWrap>
               {!isComplete && (
                 <WeeklyQuestionAnswer>
-                  <Link to={linkTo} className="go-to-answer-button">
-                    지금 답변하기
-                  </Link>
+                  <p className="go-to-answer-button">지금 답변하기</p>
                   <SlArrowRight />
                 </WeeklyQuestionAnswer>
               )}
-            </>
+            </BottomWrap>
           }
-        </WeeklyQuestionInfo>
+        </>
       </WeeklyQuestionCardStyle>
     </>
   );
 }
 
-const WeeklyQuestionCardStyle = styled.div`
+const WeeklyQuestionCardStyle = styled(Link)`
+  display: inline-block;
   width: auto;
   height: fit-content;
   padding: 15px 20px;
@@ -87,10 +88,14 @@ const WeeklyQuestionTitle = styled.h3`
   word-break: keep-all;
 `;
 
-const WeeklyQuestionInfo = styled.div`
+const BottomWrap = styled.div`
   display: flex;
-  align-items: center;
   justify-content: space-between;
+`;
+
+const BottomLeftWrap = styled.div`
+  display: flex;
+  gap: 8px;
 `;
 
 const WeeklyQuestionDate = styled.div`
@@ -101,12 +106,12 @@ const WeeklyQuestionDate = styled.div`
   p {
     color: #fff;
     font-weight: 400;
-    font-size: 14px;
+    font-size: 12px;
   }
 
   img {
-    width: 17px;
-    height: 17px;
+    width: 15px;
+    height: 15px;
     margin-right: 5px;
   }
 `;
@@ -118,7 +123,7 @@ const WeeklyQuestionAnswer = styled.div`
   .go-to-answer-button {
     color: #fff;
     font-weight: 400;
-    font-size: 14px;
+    font-size: 12px;
   }
 `;
 
@@ -130,12 +135,12 @@ const AnswerCount = styled.div`
   p {
     color: #fff;
     font-weight: 400;
-    font-size: 14px;
+    font-size: 12px;
   }
 
   img {
-    width: 17px;
-    height: 17px;
+    width: 15px;
+    height: 15px;
     margin-right: 5px;
   }
 `;
@@ -144,8 +149,8 @@ const SlArrowRight = styled(ArrowIcon)`
   stroke: #fff;
   stroke-width: 40;
   fill: #fff;
-  font-size: 12px;
-  margin-left: 10px;
+  font-size: 10px;
+  margin-left: 5px;
 `;
 
 export default WeeklyQuestionCard;
