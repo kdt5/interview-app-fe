@@ -6,7 +6,7 @@ import axios from "axios";
 
 export async function fetchFavoriteQuestions() {
   const response = await backendHttpClient
-    .get<Question[]>(BACKEND_URLS.FAVORITES.MINE)
+    .get<Question[]>(`${BACKEND_URLS.FAVORITES.MINE}/question`)
     .then((response) => response.data)
     .catch((error) => {
       throw error;
