@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 // Naming convention because the axios library uses complicated names
 import axios from "axios";
+import { FRONTEND_URLS } from "../constants/Urls";
 
 export const backendHttpClient = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_BASE_URL,
@@ -17,7 +18,7 @@ backendHttpClient.interceptors.response.use(
   },
   (error) => {
     if (error.response && error.response.status === 401) {
-      window.location.href = "/login";
+      window.location.href = FRONTEND_URLS.LOGIN;
     }
   }
 );
