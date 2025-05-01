@@ -16,6 +16,7 @@ import { FRONTEND_URLS } from "../constants/Urls";
 import { replaceUrlParams } from "../utils/Url";
 import { getPositionKeyById } from "../utils/Positions";
 import { useMyUserData } from "../hooks/UseMyUserData";
+import { getAnsweredQuestionUrl } from "../utils/Question";
 
 function MainPage() {
   const { weeklyQuestion } = useFetchWeeklyQuestion();
@@ -40,7 +41,10 @@ function MainPage() {
             date={formatToWeeklyLabel(weeklyQuestion.startDate)}
             answerCount={weeklyQuestion.question.answerCount}
             isComplete={isComplete}
-            linkTo={`/questions/${weeklyQuestion.question.id}/answer`}
+            linkTo={getAnsweredQuestionUrl(
+              weeklyQuestion.question.id,
+              weeklyQuestion.question.answerId
+            )}
           ></WeeklyQuestionCard>
         ) : (
           <>

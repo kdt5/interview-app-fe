@@ -11,6 +11,7 @@ import { formatToWeeklyLabel } from "../../utils/Date";
 import { useState } from "react";
 import { FRONTEND_URLS } from "../../constants/Urls";
 import { useFetchQuestions } from "../../hooks/UseFetchQuestions";
+import { getAnsweredQuestionUrl } from "../../utils/Question";
 
 function InterviewTab() {
   const navigate = useNavigate();
@@ -31,7 +32,6 @@ function InterviewTab() {
   const categoryName = getCategoryName(
     weeklyQuestion?.question?.categories[0]?.category?.id ?? 0
   );
-  const isComplete = weeklyQuestion?.question?.isAnswered;
 
   return (
     <>
@@ -43,8 +43,11 @@ function InterviewTab() {
             title={weeklyQuestion.question.title}
             date={formatToWeeklyLabel(weeklyQuestion.startDate)}
             answerCount={weeklyQuestion.question.answerCount}
-            isComplete={isComplete}
-            linkTo={`/questions/${weeklyQuestion.question.id}/answer`}
+            isComplete={weeklyQuestion.question.isAnswered}
+            linkTo={getAnsweredQuestionUrl(
+              weeklyQuestion.question.id,
+              weeklyQuestion.question.answerId
+            )}
           ></WeeklyQuestionCard>
         ) : (
           <>
