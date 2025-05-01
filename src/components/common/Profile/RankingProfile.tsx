@@ -3,6 +3,7 @@ import { RankingItem } from "../../../models/Ranking.model";
 
 interface Props extends RankingItem {
   commonRanking?: number;
+  isTopRankStyle?: boolean;
 }
 function RankingProfile({
   user,
@@ -10,6 +11,7 @@ function RankingProfile({
   totalFavoriteCount,
   commonRanking,
   rank,
+  isTopRankStyle,
 }: Props) {
   const { nickname, level, profileImageUrl } = user;
   const displayLevel = String(level).padStart(2, "0");
@@ -31,13 +33,13 @@ function RankingProfile({
       <FlexWrap>
         <UserInfo>
           <Username>{nickname}</Username>
-          <Level>
+          <Level isTopRank={isTopRankStyle && !!rank && rank <= 3}>
             LV. <b>{displayLevel}</b>
           </Level>
         </UserInfo>
         <UserData>
           <p>
-            <LikeComment>
+            <LikeComment isTopRank={isTopRankStyle && !!rank && rank <= 3}>
               <b>누적 좋아요</b>
             </LikeComment>
             <LikeComment className="count-number">
@@ -45,7 +47,7 @@ function RankingProfile({
             </LikeComment>
           </p>
           <p>
-            <LikeComment>
+            <LikeComment isTopRank={isTopRankStyle && !!rank && rank <= 3}>
               <b>누적 답변</b>
             </LikeComment>
             <LikeComment className="count-number">
@@ -129,25 +131,25 @@ const UserData = styled.div`
   }
 `;
 
-const LikeComment = styled.span`
+const LikeComment = styled.span<{ isTopRank?: boolean }>`
   font-weight: 300;
   font-size: 12px;
   color: #888;
 
   b {
     font-weight: 600;
-    color: #888;
+    color: ${({ isTopRank }) => (isTopRank ? "#fff" : "#888")};
   }
 `;
 
-const Level = styled.div`
+const Level = styled.div<{ isTopRank?: boolean }>`
   font-size: 12px;
-  color: #888;
+  color: ${({ isTopRank }) => (isTopRank ? "#fff" : "#888")};
 
   font-weight: 100;
 
   b {
-    color: #888;
+    color: ${({ isTopRank }) => (isTopRank ? "#fff" : "#888")};
     font-weight: 600;
   }
 `;

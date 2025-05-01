@@ -45,7 +45,7 @@ export async function uploadProfile(file: File): Promise<string> {
 
 export async function changeNickname(nickname: string): Promise<boolean> {
   const response = await backendHttpClient
-    .post(BACKEND_URLS.USERS.CHANGE_NICKNAME, { nickname })
+    .patch(BACKEND_URLS.USERS.CHANGE_NICKNAME, { nickname })
     .then((response) => response.status === HttpStatusCode.Ok)
     .catch((error) => {
       throw error;
@@ -62,7 +62,7 @@ export async function changePassword(
     throw new Error("Missing required parameters");
   }
   const response = await backendHttpClient
-    .post(BACKEND_URLS.USERS.CHANGE_PASSWORD, { oldPassword, newPassword })
+    .patch(BACKEND_URLS.USERS.CHANGE_PASSWORD, { oldPassword, newPassword })
     .then((response) => response.status === HttpStatusCode.Ok)
     .catch((error) => {
       throw error;

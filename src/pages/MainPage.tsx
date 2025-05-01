@@ -20,6 +20,7 @@ import { useMyUserData } from "../hooks/UseMyUserData";
 function MainPage() {
   const { weeklyQuestion } = useFetchWeeklyQuestion();
   const { getCategoryName } = useCategory();
+
   const { data: userData } = useMyUserData();
 
   if (!userData) return null;
@@ -39,6 +40,7 @@ function MainPage() {
             date={formatToWeeklyLabel(weeklyQuestion.startDate)}
             answerCount={123}
             isComplete={isComplete}
+            linkTo={`/questions/${weeklyQuestion.question?.id}/answer`}
           ></WeeklyQuestionCard>
         ) : (
           <>
@@ -48,6 +50,7 @@ function MainPage() {
               date=""
               answerCount={0}
               isComplete={true}
+              linkTo="/"
             ></WeeklyQuestionCard>
           </>
         )}
@@ -79,7 +82,7 @@ function MainPage() {
             menu="커뮤니티"
           ></MainPageIconNavigation>
         </MainPageNavigation>
-        <MainPageSectionStyle>
+        <div>
           <SectionTitle
             to={
               weeklyQuestion
@@ -92,12 +95,14 @@ function MainPage() {
             면접 필수 질문
           </SectionTitle>
           <EssentialQuestionListGroup></EssentialQuestionListGroup>
-        </MainPageSectionStyle>
+        </div>
+        <EssentialQuestionListGroup></EssentialQuestionListGroup>
         <MainSlideBanner></MainSlideBanner>
-        <MainPageSectionStyle>
+        <div>
           <SectionTitle to="/">실전 면접, 채용 공고</SectionTitle>
           <RecruitmentNotice></RecruitmentNotice>
-        </MainPageSectionStyle>
+        </div>
+        <RecruitmentNotice></RecruitmentNotice>
       </MainPageStyle>
     </>
   );
@@ -109,7 +114,6 @@ const MainPageStyle = styled.main`
   padding: 20px 0;
 `;
 
-const MainPageSectionStyle = styled.div``;
 const MainPageNavigation = styled.div`
   padding: 30px;
   display: flex;
