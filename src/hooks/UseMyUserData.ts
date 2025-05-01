@@ -4,7 +4,7 @@ import { fetchMyUserData } from "../api/User.api";
 export function useMyUserData() {
   return useQuery({
     queryKey: ["myUserData"],
-    queryFn: fetchMyUserData,
+    queryFn: () => fetchMyUserData,
     staleTime: 1000 * 60 * 5,
   });
 }
