@@ -59,7 +59,7 @@ export const BACKEND_URLS = {
     UPLOAD_PROFILE: "/api/uploads/profile",
   },
   QUESTIONS: {
-    ALL: "/api/questions",
+    BASIC: "/api/questions",
     QUESTION: "/api/questions/:questionId",
     WEEKLY_CURRENT: "/api/questions/weekly/current",
     WEEKLY: "/api/questions/weekly",

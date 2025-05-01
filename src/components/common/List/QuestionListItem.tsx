@@ -1,45 +1,53 @@
 import styled from "styled-components";
 import { FaStar } from "react-icons/fa6";
+import { useFavorite } from "../../../hooks/UseFavorite";
 
 interface Props {
+  questionId: number;
   category: string;
-  questiontitle: string;
+  questionTitle: string;
   complete: string;
   comments: number;
   likes: number;
   isFavorite: boolean;
-  toggleFavorite: () => void;
 }
 
-function CommonQuestionList({
+function QuestionListItem({
+  questionId,
   category,
-  questiontitle,
+  questionTitle,
   comments,
   complete,
   likes,
   isFavorite,
-  toggleFavorite,
 }: Props) {
+  const { addFavorite, removeFavorite } = useFavorite(questionId, "question");
+
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    toggleFavorite();
+
+    if (isFavorite) {
+      removeFavorite();
+    } else {
+      addFavorite();
+    }
   };
 
   const isComplete = complete === "작성 완료";
 
   return (
     <>
-      <CommonQuestionListStyle>
-        <Questionheader>
+      <QuestionListItemStyle>
+        <QuestionHeader>
           <div>
             <QuestionCategory>{category}</QuestionCategory>
-            <QuestionTitle>{questiontitle}</QuestionTitle>
+            <QuestionTitle>{questionTitle}</QuestionTitle>
           </div>
           <FavoriteIcon
             onClick={handleFavoriteClick}
             $isFavorite={isFavorite}
           ></FavoriteIcon>
-        </Questionheader>
+        </QuestionHeader>
         <QuestionInfo>
           <QuestionComplete $isComplete={isComplete}>
             {complete}
@@ -48,17 +56,17 @@ function CommonQuestionList({
             <span>답변 수 {comments}</span> | <span>좋아요 {likes}</span>
           </QuestionLike>
         </QuestionInfo>
-      </CommonQuestionListStyle>
+      </QuestionListItemStyle>
     </>
   );
 }
 
-const CommonQuestionListStyle = styled.div`
+const QuestionListItemStyle = styled.div`
   border-bottom: 3px solid #f5f5f5;
   padding: 25px 30px;
 `;
 
-const Questionheader = styled.div`
+const QuestionHeader = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
@@ -127,4 +135,4 @@ const QuestionLike = styled.div`
   }
 `;
 
-export default CommonQuestionList;
+export default QuestionListItem;
