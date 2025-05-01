@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { SlArrowRight } from "react-icons/sl";
 import WeeklyQuestionListItem from "./WeeklyQuestionListItem";
 import { Position } from "../../constants/Question";
+import { getAnsweredQuestionUrl } from "../../utils/Question";
 
 interface Props {
   questions: Question[];
@@ -29,8 +30,6 @@ function QuestionBox({
 
   if (isWeekly) {
     const mainWeeklyQuestion = questions[0];
-    const isPushedDown =
-      !mainWeeklyQuestion || mainWeeklyQuestion.isAnswered === true;
 
     return (
       <CommonQuestionSection>
@@ -42,26 +41,34 @@ function QuestionBox({
             <SlArrowRight />
           </WeeklyAnswerPageLinkStyle>
         )}
-        {mainWeeklyQuestion && (
-          <WeeklyQuestionWrapper
-            $isPushedDown={isPushedDown}
-            onClick={() => navigate(`/questions/${questions[0].id}/answer`)}
-          >
-            <WeeklyQuestionListItem
-              questionId={questions[0].id}
-              category={
-                getCategoryName(
-                  questions[0].categories[0]?.category?.id ?? 0
-                ) || "기타"
-              }
-              questionTitle={questions[0].title}
-              complete={questions[0].isAnswered ? "작성 완료" : "답변 미작성"}
-              comments={questions[0].answerCount ?? 0}
-              likes={questions[0].favoriteCount}
-              isFavorite={questions[0].isFavorite ?? false}
-            />
-          </WeeklyQuestionWrapper>
-        )}
+        {questions.length === 0
+          ? null
+          : questions.map((item, index) => {
+              const url = getAnsweredQuestionUrl(item.id, item.answerId);
+
+              return (
+                <WeeklyQuestionWrapper
+                  $isPushedDown={index === 0}
+                  key={item.id}
+                >
+                  <div key={item.id} onClick={() => navigate(url)}>
+                    <WeeklyQuestionListItem
+                      questionId={item.id}
+                      category={
+                        getCategoryName(
+                          item.categories[0]?.category?.id ?? 0
+                        ) || "기타"
+                      }
+                      questionTitle={item.title}
+                      complete={item.isAnswered ? "작성 완료" : "답변 미작성"}
+                      comments={item.answerCount ?? 0}
+                      likes={item.favoriteCount}
+                      isFavorite={item.isFavorite ?? false}
+                    />
+                  </div>
+                </WeeklyQuestionWrapper>
+              );
+            })}
       </CommonQuestionSection>
     );
   }
@@ -80,25 +87,26 @@ function QuestionBox({
       />
       {questions.length === 0
         ? null
-        : questions.map((item) => (
-            <div
-              key={item.id}
-              onClick={() => navigate(`/questions/${item.id}/answer`)}
-            >
-              <QuestionListItem
-                questionId={item.id}
-                category={
-                  getCategoryName(item.categories[0]?.category?.id ?? 0) ||
-                  "기타"
-                }
-                questionTitle={item.title}
-                complete={item.isAnswered ? "작성 완료" : "답변 미작성"}
-                comments={item.answerCount ?? 0}
-                likes={item.favoriteCount}
-                isFavorite={item.isFavorite ?? false}
-              />
-            </div>
-          ))}
+        : questions.map((item) => {
+            const url = getAnsweredQuestionUrl(item.id, item.answerId);
+
+            return (
+              <div key={item.id} onClick={() => navigate(url)}>
+                <QuestionListItem
+                  questionId={item.id}
+                  category={
+                    getCategoryName(item.categories[0]?.category?.id ?? 0) ||
+                    "기타"
+                  }
+                  questionTitle={item.title}
+                  complete={item.isAnswered ? "작성 완료" : "답변 미작성"}
+                  comments={item.answerCount ?? 0}
+                  likes={item.favoriteCount}
+                  isFavorite={item.isFavorite ?? false}
+                />
+              </div>
+            );
+          })}
     </CommonQuestionSection>
   );
 }
@@ -145,4 +153,5 @@ const CommonQuestionSection = styled.div`
     margin-top: 20px;
   }
 `;
+
 export default QuestionBox;
