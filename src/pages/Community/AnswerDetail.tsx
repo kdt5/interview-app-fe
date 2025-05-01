@@ -3,10 +3,12 @@ import CommunityAnswer from "../../components/Community/CommunityAnswer";
 import ReplyInfo from "../../components/common/Community/ReplyInfo";
 import { useParams } from "react-router-dom";
 import { useFetchAnswer } from "../../hooks/UseFetchAnswers";
+import { useState } from "react";
 
 function AnswerDetail() {
   const { answerId } = useParams() as { answerId: string };
   const { answer } = useFetchAnswer(parseInt(answerId));
+  const [sortType, setSortType] = useState<"createdAt" | "favoriteCount">("favoriteCount");
 
   if (!answer) return null;
 
@@ -22,7 +24,7 @@ function AnswerDetail() {
           {...answer}
         />
       </AnswerDetailStyle>
-      <ReplyInfo totalComments={0} />
+      <ReplyInfo totalComments={0} sortType={sortType} onChangeSort={setSortType}/>
     </>
   );
 }

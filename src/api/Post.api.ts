@@ -166,11 +166,12 @@ export async function reportPost(
 
 export async function fetchPostComments(
   targetId: number,
-  categoryName: string
+  categoryName: string,
+  sortType?: "createdAt" | "favoriteCount"
 ): Promise<Comment[]> {
   const response = await backendHttpClient
     .get<Comment[]>(`${BACKEND_URLS.COMMENTS}/${targetId}`, {
-      params: { categoryName },
+      params: { categoryName, orderBy: sortType },
     })
     .then((response) => response.data)
     .catch((error) => {

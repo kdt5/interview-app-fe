@@ -16,10 +16,12 @@ import {
 
 function PostDetail() {
   const { postId } = useParams();
+  const [sortType, setSortType] = useState<"createdAt" | "favoriteCount">("favoriteCount");
   const { communityPostDetail } = useCommunityPostDetail(Number(postId));
   const { communityPostComments, refetchComments } = useCommunityPostComments(
     Number(postId),
-    "post"
+    "post",
+    sortType,
   );
 
   const [editTarget, setEditTarget] = useState<{
@@ -56,7 +58,7 @@ function PostDetail() {
       {topLevelComments ? (
         topLevelComments.length > 0 ? (
           <>
-            <ReplyInfo totalComments={communityPostComments.length} />
+            <ReplyInfo totalComments={communityPostComments.length} sortType={sortType} onChangeSort={setSortType}/>
             <CommentStyle>
               {topLevelComments.map((item) => (
                 <CommentContents
@@ -72,7 +74,7 @@ function PostDetail() {
             </CommentStyle>
           </>
         ) : (
-          <ReplyInfo totalComments={0} />
+          <ReplyInfo totalComments={0} sortType={sortType} onChangeSort={setSortType}/>
         )
       ) : (
         <div>로딩중...</div>

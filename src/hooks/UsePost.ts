@@ -104,21 +104,21 @@ export function usePostMutation() {
   };
 }
 
-export function useCommunityPostComments(targetId: number, categoryName: string) {
+export function useCommunityPostComments(targetId: number, categoryName: string, sortType?: "createdAt" | "favoriteCount") {
   const [communityPostComments, setCommunityPostComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchComments = useCallback(async () => {
     setLoading(true);
     try {
-      const result = await fetchPostComments(targetId, categoryName);
+      const result = await fetchPostComments(targetId, categoryName, sortType);
       setCommunityPostComments(result);
     } catch (err) {
       console.error("댓글 불러오기 실패", err);
     } finally {
       setLoading(false);
     }
-  }, [targetId, categoryName]);
+  }, [targetId, categoryName, sortType]);
 
   useEffect(() => {
     fetchComments();
