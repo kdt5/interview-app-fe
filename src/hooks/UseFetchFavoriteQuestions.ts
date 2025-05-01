@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Question } from "../models/Question.model";
-import { fetchFavoriteQuestions } from "../api/Favorite.api";
+import { fetchFavoritePosts, fetchFavoriteQuestions } from "../api/Favorite.api";
+import { CommunityPost } from "../models/CommunityPost.model";
 
 export function useFavoriteQuestions() {
   const [favoriteQuestions, setFavoriteQuestions] = useState<Question[]>([]);
@@ -16,4 +17,20 @@ export function useFavoriteQuestions() {
   }, []);
 
   return { favoriteQuestions };
+}
+
+export function useFavoritePosts() {
+  const [favoritePosts, setFavoritePosts] = useState<CommunityPost[]>([]);
+
+  useEffect(() => {
+    try {
+      fetchFavoritePosts().then((post) => {
+        setFavoritePosts(post);
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
+
+  return { favoritePosts };
 }
