@@ -13,7 +13,7 @@ function QuestionListPage(): JSX.Element {
   const { position } = useParams<{ position: Position }>();
   const [currentTab, setCurrentTab] = useState("위클리");
   const [selectedCategoryId, setSelectedCategoryId] = useState<number>(0);
-  const tabs = [{ title: "위클리" }, { title: "필수 면접" }];
+  const tabs = [{ title: "위클리" }, { title: "필수 질문" }];
   const { weeklyQuestions, isLoading: isLoadingWeeklyQuestions } =
     useFetchWeeklyQuestions();
   const { questions: basicQuestions, isLoading: isLoadingBasicQuestions } =
@@ -61,7 +61,7 @@ function QuestionListPage(): JSX.Element {
   );
 }
 
-const QuestionListPageStyle = styled.div<{ $isWeekly: boolean }>`
+export const QuestionListPageStyle = styled.div<{ $isWeekly: boolean }>`
   margin-top: ${({ $isWeekly }) => ($isWeekly ? "30px" : "60px")};
   height: fit-content;
   position: relative;
