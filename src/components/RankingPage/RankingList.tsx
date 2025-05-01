@@ -25,7 +25,7 @@ const RankingList: React.FC<Props> = ({ rankingData, mode = "more" }) => {
           className={`rank-profile-box rank-users-profile-box ${getRankClassName(user.ranking)}`}
         >
           <RankingProfile
-            profileImg="../public/user1.png"
+            profileImg="/user1.png"
             username={user.username}
             level={user.level}
             like={user.like}
