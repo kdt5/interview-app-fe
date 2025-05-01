@@ -48,10 +48,14 @@ function SignUpPage() {
     isValid && isEmailUnique && isNicknameUnique && selectedPosition !== null;
 
   const positions = [
-    { id: 1, value: "front-end", label: "Front-End" },
-    { id: 2, value: "back-end", label: "Back-End" },
-    { id: 3, value: "full-stack-developer", label: "Full-Stack-Developer" },
-    { id: 4, value: "designer", label: "UI/UX Designer" },
+    { positionId: 1, value: "front-end", label: "Front-End" },
+    { positionId: 2, value: "back-end", label: "Back-End" },
+    {
+      positionId: 3,
+      value: "full-stack-developer",
+      label: "Full-Stack-Developer",
+    },
+    { positionId: 4, value: "designer", label: "UI/UX Designer" },
   ];
 
   const onClickEmailCheck = async (email: string) => {
@@ -166,7 +170,7 @@ function SignUpPage() {
 
     const signUpData = {
       ...data,
-      positionId: selectedPosition as number,
+      positionId: selectedPosition !== null ? selectedPosition : 1,
     };
 
     signUp(signUpData).then(() => {
@@ -274,10 +278,10 @@ function SignUpPage() {
             <div className="position-button-wrap">
               {positions.map((pos) => (
                 <LightGrayButton
-                  key={pos.id}
-                  className={selectedPosition === pos.id ? "check" : ""}
+                  key={pos.positionId}
+                  className={selectedPosition === pos.positionId ? "check" : ""}
                   type="button"
-                  onClick={() => setSelectedPostion(pos.id)}
+                  onClick={() => setSelectedPostion(pos.positionId)}
                 >
                   {pos.label}
                 </LightGrayButton>
