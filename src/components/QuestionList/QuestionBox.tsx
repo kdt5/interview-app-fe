@@ -142,6 +142,7 @@ const WeeklyAnswerPageLinkStyle = styled(Link)`
 `;
 
 const WeeklyQuestionWrapper = styled.div<{ $isPushedDown?: boolean }>`
+  margin-top: ${({ $isPushedDown }) => ($isPushedDown ? "60px" : "0px")};
   cursor: pointer;
 `;
 

@@ -28,7 +28,7 @@ function PostTab() {
         <Swiper
           modules={[Autoplay, Pagination]}
           spaceBetween={15}
-          slidesPerView={"auto"}
+          slidesPerView={1}
           loop={true}
           autoplay={{ delay: 3000, disableOnInteraction: false }}
           pagination={{ type: "fraction" }}
