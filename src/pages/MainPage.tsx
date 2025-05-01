@@ -12,10 +12,18 @@ import WeeklyQuestionCard from "../components/common/Card/WeeklyQuestionCard";
 import RecruitmentNotice from "../components/MainPage/RecruitmentNotice";
 import { useCategory } from "../hooks/UseCategory";
 import { formatToWeeklyLabel } from "../utils/Date";
+import { FRONTEND_URLS } from "../constants/Urls";
+import { replaceUrlParams } from "../utils/Url";
+import { getPositionKeyById } from "../utils/Positions";
+import { useMyUserData } from "../hooks/UseMyUserData";
 
 function MainPage() {
   const { weeklyQuestion } = useFetchWeeklyQuestion();
   const { getCategoryName } = useCategory();
+
+  const { data: userData } = useMyUserData();
+
+  if (!userData) return null;
 
   const categoryName = getCategoryName(
     weeklyQuestion?.question?.categories[0]?.category?.id ?? 0
@@ -48,30 +56,52 @@ function MainPage() {
         )}
         <MainPageNavigation>
           <MainPageIconNavigation
-            to="/"
+            to={
+              weeklyQuestion
+                ? replaceUrlParams(FRONTEND_URLS.QUESTION_LIST, {
+                    position: getPositionKeyById(userData.positionId) || "",
+                  })
+                : ""
+            }
             iconSource={QuestionIcon}
             menu="필수질문"
           ></MainPageIconNavigation>
           <MainPageIconNavigation
-            to="/"
+            to={FRONTEND_URLS.RANKINGS.MAIN}
             iconSource={RankingIcon}
             menu="뷰잇랭킹"
           ></MainPageIconNavigation>
           <MainPageIconNavigation
-            to="/"
+            to={FRONTEND_URLS.MY_PAGE.ANSWERS}
             iconSource={AnswerIcon}
             menu="내 답변"
           ></MainPageIconNavigation>
           <MainPageIconNavigation
-            to="/"
+            to={FRONTEND_URLS.COMMUNITY.MAIN}
             iconSource={CommunityIcon}
             menu="커뮤니티"
           ></MainPageIconNavigation>
         </MainPageNavigation>
-        <SectionTitle to="/question-list/frontend">면접 필수 질문</SectionTitle>
+        <div>
+          <SectionTitle
+            to={
+              weeklyQuestion
+                ? replaceUrlParams(FRONTEND_URLS.QUESTION_LIST, {
+                    position: getPositionKeyById(userData.positionId) || "",
+                  })
+                : ""
+            }
+          >
+            면접 필수 질문
+          </SectionTitle>
+          <EssentialQuestionListGroup></EssentialQuestionListGroup>
+        </div>
         <EssentialQuestionListGroup></EssentialQuestionListGroup>
         <MainSlideBanner></MainSlideBanner>
-        <SectionTitle to="/mypage">실전 면접, 채용 공고</SectionTitle>
+        <div>
+          <SectionTitle to="/">실전 면접, 채용 공고</SectionTitle>
+          <RecruitmentNotice></RecruitmentNotice>
+        </div>
         <RecruitmentNotice></RecruitmentNotice>
       </MainPageStyle>
     </>
