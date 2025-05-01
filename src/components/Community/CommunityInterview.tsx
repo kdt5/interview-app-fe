@@ -3,7 +3,7 @@ import WeeklyQuestionCard from "../common/Card/WeeklyQuestionCard";
 import CommonCategory from "../common/List/CommonCategory";
 import QuestionListItem from "../common/List/QuestionListItem";
 import SectionTitle from "../common/SectionTitle";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useCategory } from "../../hooks/UseCategory";
 import { useFetchWeeklyQuestion } from "../../hooks/UseFetchWeeklyQuestion";
 import { useMyUserData } from "../../hooks/UseMyUserData";
@@ -28,29 +28,35 @@ function InterviewTab() {
 
   if (!weeklyQuestion || !userData) return null;
 
+  const categoryName = getCategoryName(
+    weeklyQuestion?.question?.categories[0]?.category?.id ?? 0
+  );
+  const isComplete = weeklyQuestion?.question?.isAnswered;
+
   return (
     <>
       <WeeklyQuestionSection>
         <SectionTitle>위클리 답변 토론</SectionTitle>
-        {weeklyQuestion && (
-          <Link
-            to={FRONTEND_URLS.ANSWER.replace(
-              ":questionId",
-              weeklyQuestion.questionId.toString()
-            )}
-          >
+        {weeklyQuestion ? (
+          <WeeklyQuestionCard
+            category={categoryName}
+            title={weeklyQuestion.question.title}
+            date={formatToWeeklyLabel(weeklyQuestion.startDate)}
+            answerCount={weeklyQuestion.question.answerCount}
+            isComplete={isComplete}
+            linkTo={`/questions/${weeklyQuestion.question.id}/answer`}
+          ></WeeklyQuestionCard>
+        ) : (
+          <>
             <WeeklyQuestionCard
-              category={
-                getCategoryName(
-                  weeklyQuestion.question.categories?.[0]?.category.id ?? 0
-                ) || "기타"
-              }
-              title={weeklyQuestion.question.title}
-              date={formatToWeeklyLabel(weeklyQuestion.startDate)}
-              answerCount={weeklyQuestion.question.answerCount ?? 0}
-              isComplete={weeklyQuestion.question.isAnswered}
-            />
-          </Link>
+              category=""
+              title="이번주 위클리 질문을 불러올 수 없습니다"
+              date=""
+              answerCount={0}
+              isComplete={true}
+              linkTo="/"
+            ></WeeklyQuestionCard>
+          </>
         )}
       </WeeklyQuestionSection>
 
