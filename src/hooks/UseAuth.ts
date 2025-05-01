@@ -6,6 +6,7 @@ import {
   changeNickname,
   changePassword,
   fetchMyUserData,
+  uploadProfile,
 } from "../api/User.api";
 import { UserBasicInfo } from "../models/User.model";
 
@@ -22,6 +23,7 @@ interface UseAuthReturn {
     oldPassword: string,
     newPassword: string
   ) => Promise<void>;
+  handleChangeProfileImage: (file: File) => Promise<void>;
 }
 
 export function useAuth(): UseAuthReturn {
@@ -142,6 +144,22 @@ export function useAuth(): UseAuthReturn {
     [isAuthenticated, me, updateAuthState, handleError]
   );
 
+  const handleChangeProfileImage = useCallback(
+    async (file: File): Promise<void> => {
+      try {
+        updateAuthState(isAuthenticated, me, true);
+        const profileImageUrl = await uploadProfile(file);
+        if (me) {
+          updateAuthState(isAuthenticated, { ...me, profileImageUrl }, false);
+        }
+      } catch (err: unknown) {
+        handleError(err, "프로필 이미지 변경에 실패했습니다.");
+        updateAuthState(isAuthenticated, me, false);
+      }
+    },
+    [isAuthenticated, me, updateAuthState, handleError]
+  );
+
   return {
     isAuthenticated,
     isLoading,
@@ -152,5 +170,6 @@ export function useAuth(): UseAuthReturn {
     handleLogout,
     handleChangeNickname,
     handleChangePassword,
+    handleChangeProfileImage,
   };
 }
