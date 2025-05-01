@@ -21,13 +21,11 @@ const RankingList: React.FC<Props> = ({ rankingData, mode = "more" }) => {
     <RankingListStyle>
       {rankingData.map((user) => (
         <div
-          key={user.rank} // rank를 고유 key로 사용
+          key={`ranking-${user.user.nickname}-${user.rank ?? "no-rank"}`}
           className={`rank-profile-box rank-users-profile-box ${getRankClassName(user.rank)}`}
         >
           <RankingProfile
-            profileImageUrl={user.profileImageUrl}
-            nickname={user.nickname}
-            level={user.level}
+            user={user.user}
             totalFavoriteCount={user.totalFavoriteCount}
             totalAnswerCount={user.totalAnswerCount}
             totalScore={user.totalScore}

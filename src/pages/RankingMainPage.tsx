@@ -10,6 +10,7 @@ import {
   useIntegrationRanking,
 } from "../hooks/UseRanking";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import {
   answerRankingMockData,
   favoriteRankingMockData,
@@ -59,8 +60,15 @@ const answerRankingUsers = [
   },
 ];
 >>>>>>> ad7bcf1 (feature/랭킹페이지 통합,답변,좋아요  api 구현)
+=======
+import { useUser } from "../hooks/UseUser";
+import { useAuth } from "../hooks/UseAuth";
+>>>>>>> d3abfb3 (fix/ranking페이지 api 백엔드 연결)
 
 function RankingMainPage() {
+  const { isAuthenticated } = useAuth();
+  const { userStats, isLoading, error } = useUser({ isAuthenticated });
+
   // 프로필 정보
   const {
     data: myUserData,
@@ -108,12 +116,20 @@ function RankingMainPage() {
     .slice(0, 3);
 
   // 답변수 높은 순 정렬해서 Top 3
+<<<<<<< HEAD
   const topAnswerUsers = [...integrationRankingData]
+=======
+  const topAnswerUsers = [...answerRankingData]
+>>>>>>> d3abfb3 (fix/ranking페이지 api 백엔드 연결)
     .sort((a, b) => b.totalAnswerCount - a.totalAnswerCount)
     .slice(0, 3);
 
   // 좋아요수 높은 순 정렬해서 Top 3
+<<<<<<< HEAD
   const topFavoriteUsers = [...integrationRankingData]
+=======
+  const topFavoriteUsers = [...favoriteRankingData]
+>>>>>>> d3abfb3 (fix/ranking페이지 api 백엔드 연결)
     .sort((a, b) => b.totalFavoriteCount - a.totalFavoriteCount)
     .slice(0, 3);
 
@@ -123,9 +139,11 @@ function RankingMainPage() {
         <div className="profile-box">
           {myUserData && (
             <CommonProfile
-              profileImageUrl="../public/profile-image.png"
+              profileImageUrl={
+                myUserData.profileImageUrl ?? "../public/profile-image.png"
+              }
               nickname={myUserData.nickname}
-              position="Front-End"
+              position={myUserData.positionId === 1 ? "Front-End" : "Back-End"}
               level={myUserData.level}
               answerCount={myUserData.level}
             />
@@ -134,15 +152,15 @@ function RankingMainPage() {
         <div className="counts">
           <div className="answer-count">
             <span className="count-title">답변 질문 수</span>
-            <p className="count">20개</p>
+            <p className="count">{userStats?.answerCount}</p>
           </div>
           <div className="post-count">
             <span className="count-title">작성 게시글</span>
-            <p className="count">3개</p>
+            <p className="count">{userStats?.communityPostCount}</p>
           </div>
           <div className="like-count">
             <span className="count-title">누적 좋아요</span>
-            <p className="count">204개</p>
+            <p className="count">{userStats?.favoriteCount}</p>
           </div>
         </div>
       </div>
@@ -154,9 +172,12 @@ function RankingMainPage() {
         </h1>
         <div className="hot-users">
           {topIntegrationUsers.map((user, index) => (
-            <div className="hot-user" key={index}>
-              <img src="/public/user1.png" alt={user.nickname} />
-              <p>{user.nickname}</p>
+            <div
+              className="hot-user"
+              key={`hot-${user.user.nickname}-${index}`}
+            >
+              <img src={user.user.profileImageUrl} alt={user.user.nickname} />
+              <p>{user.user.nickname}</p>
               <span>누적 좋아요 {user.totalFavoriteCount}개</span>
             </div>
           ))}
@@ -179,7 +200,10 @@ function RankingMainPage() {
         </div>
         <div className="answer-users">
           {topAnswerUsers.map((user, index) => (
-            <div className="rank-profile-box" key={`answer-${index}`}>
+            <div
+              className="rank-profile-box"
+              key={`answer-${user.user.nickname}-${index}`}
+            >
               <RankingProfile {...user} />
             </div>
           ))}
@@ -202,7 +226,10 @@ function RankingMainPage() {
         </div>
         <div className="like-users">
           {topFavoriteUsers.map((user, index) => (
-            <div className="rank-profile-box" key={`like-${index}`}>
+            <div
+              className="rank-profile-box"
+              key={`like-${user.user.nickname}-${index}`}
+            >
               <RankingProfile {...user} />
             </div>
           ))}
@@ -324,6 +351,13 @@ const RankingMainPageStyle = styled.div`
         font-size: 12px;
         font-weight: 300;
         color: #888888;
+      }
+      .hot-user > img {
+        width: 35px;
+        height: 35px;
+        background-color: #ccc;
+        border-radius: 30px;
+        display: block;
       }
     }
 

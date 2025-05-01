@@ -54,18 +54,16 @@ function MoreRankingPage() {
     좋아요랭킹: favoriteRanking,
   }[currentTab];
 
-  const topUser = selectedRanking?.find((user) => user.rank === 1);
+  const topUser = selectedRanking?.find((user) => Number(user.rank) === 1);
 
   return (
     <MoreRankingPageStyle>
       <Tabs tabs={tabs} onClickTab={handleClickTab} currentTab={currentTab} />
       <div>
-        {topUser && (
+        {topUser?.user && (
           <div className="my-profile-box">
             <RankingProfile
-              profileImageUrl={topUser.profileImageUrl}
-              nickname={topUser.nickname}
-              level={topUser.level}
+              user={topUser.user}
               totalFavoriteCount={topUser.totalFavoriteCount}
               totalAnswerCount={topUser.totalAnswerCount}
               totalScore={topUser.totalScore}
@@ -74,7 +72,9 @@ function MoreRankingPage() {
           </div>
         )}
         <div className="mid-line"></div>
-        {selectedRanking && <RankingList rankingData={selectedRanking} />}
+        {selectedRanking && (
+          <RankingList rankingData={selectedRanking} mode="more" />
+        )}
       </div>
     </MoreRankingPageStyle>
   );

@@ -25,6 +25,7 @@ export interface SignUpInputs {
   email: string;
   password: string;
   nickname: string;
+  positionId: number;
 }
 
 function SignUpPage() {

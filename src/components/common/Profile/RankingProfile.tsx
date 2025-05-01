@@ -5,17 +5,14 @@ interface Props extends RankingItem {
   commonRanking?: number;
 }
 function RankingProfile({
-  profileImageUrl,
-  nickname,
+  user,
   totalAnswerCount,
-  level,
   totalFavoriteCount,
   commonRanking,
   rank,
 }: Props) {
+  const { nickname, level, profileImageUrl } = user;
   const displayLevel = String(level).padStart(2, "0");
-
-  profileImageUrl = "../public/user1.png";
 
   return (
     <RankingProfileStyle>
