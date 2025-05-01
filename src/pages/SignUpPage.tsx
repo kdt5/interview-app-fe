@@ -77,7 +77,7 @@ function SignUpPage() {
         setIsEmailUnique(true);
       }
     } catch (error) {
-      console.log("error", error);
+      console.error("Error during email check:", error);
       setError("email", {
         type: "manual",
         message: "오류가 발생했습니다.",
@@ -105,7 +105,7 @@ function SignUpPage() {
         setIsNicknameUnique(true);
       }
     } catch (error) {
-      console.log("error", error);
+      console.error("Error during nickname check:", error);
       setError("nickname", {
         type: "manual",
         message: "오류가 발생했습니다.",
