@@ -59,13 +59,15 @@ function Nav() {
               <span>
                 <img
                   src={
-                    pathname.includes("answer")
+                    pathname.includes("question-list")
                       ? QuestionImageActive
                       : QuestionImage
                   }
                   alt="면접질문"
                 />
-                <span className={pathname.includes("answer") ? "active" : ""}>
+                <span
+                  className={pathname.includes("question-list") ? "active" : ""}
+                >
                   면접질문
                 </span>
               </span>
