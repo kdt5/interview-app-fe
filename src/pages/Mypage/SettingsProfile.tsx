@@ -10,7 +10,6 @@ import MyProfileAddBtn from "../../assets/mypage/MyProfileAddButton.png";
 import InputField from "../../components/common/Input/Input";
 import { ModalType } from "../RecordAnswerPage";
 import { useAuth } from "../../hooks/UseAuth";
-import { uploadProfile } from "../../api/User.api";
 import { MAX_PROFILE_IMAGE_SIZE } from "../../constants/User";
 
 export interface SignUpInputs {
@@ -20,7 +19,7 @@ export interface SignUpInputs {
 
 function SettingProfile() {
   const navigate = useNavigate();
-  const { me, setMe, handleLogout } = useAuth();
+  const { me, handleLogout, handleChangeProfileImage } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -76,13 +75,7 @@ function SettingProfile() {
       }
 
       setIsLoading(true);
-      const profileUrl = await uploadProfile(file);
-      // 프로필 이미지 업데이트
-      if (me && setMe) {
-        setMe({ ...me, profileImageUrl: profileUrl });
-      }
-
-      // 성공 메시지 표시
+      await handleChangeProfileImage(file);
       setError("프로필 이미지가 성공적으로 업데이트되었습니다.");
     } catch (error) {
       console.error("프로필 업로드 실패:", error);
