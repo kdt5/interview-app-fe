@@ -7,15 +7,13 @@ import {
   changePassword,
   fetchMyUserData,
 } from "../api/User.api";
-import { UserBasicInfo, UserStats } from "../models/User.model";
-import { useUser } from "./UseUser";
+import { UserBasicInfo } from "../models/User.model";
 
 interface UseAuthReturn {
   isAuthenticated: boolean;
   isLoading: boolean;
   error: string | null;
   me: UserBasicInfo | null;
-  userStats: UserStats | null;
   handleLogin: (email: string, password: string) => Promise<void>;
   handleLogout: () => Promise<void>;
   handleChangeNickname: (nickname: string) => Promise<void>;
@@ -23,7 +21,6 @@ interface UseAuthReturn {
     oldPassword: string,
     newPassword: string
   ) => Promise<void>;
-  fetchUserStats: () => Promise<void>;
 }
 
 export function useAuth(): UseAuthReturn {
@@ -32,10 +29,6 @@ export function useAuth(): UseAuthReturn {
   const [error, setError] = useState<string | null>(null);
   const [me, setMe] = useState<UserBasicInfo | null>(null);
   const navigate = useNavigate();
-
-  const { userStats, fetchStats: fetchUserStats } = useUser({
-    isAuthenticated,
-  });
 
   const updateAuthState = useCallback(
     (
@@ -153,11 +146,9 @@ export function useAuth(): UseAuthReturn {
     isLoading,
     error,
     me,
-    userStats,
     handleLogin,
     handleLogout,
     handleChangeNickname,
     handleChangePassword,
-    fetchUserStats,
   };
 }

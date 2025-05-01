@@ -1,19 +1,19 @@
 import styled from "styled-components";
+import { useAuth } from "../hooks/UseAuth";
 import { useUser } from "../hooks/UseUser";
 import { FRONTEND_URLS } from "../constants/Urls";
 import MyPageSection from "../components/MyPage/MyPageSection";
 import { MyPageSectionStyle } from "../components/MyPage/MyPageSectionStyle";
 import { FaChevronRight } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../hooks/UseAuth";
 import { useEffect } from "react";
 
 function MyPage() {
   const navigate = useNavigate();
   const { isAuthenticated, me, isLoading: isAuthLoading } = useAuth();
   const {
-    isLoading: isUserLoading,
     userStats,
+    isLoading: isUserLoading,
     error,
   } = useUser({ isAuthenticated });
 
@@ -24,18 +24,8 @@ function MyPage() {
   }, [isAuthenticated, isAuthLoading, navigate]);
 
   // 로딩 상태 체크
-  if (isAuthLoading) {
-    return <div>인증 확인 중...</div>;
-  }
-
-  // 인증되지 않은 상태 체크
-  if (!isAuthenticated) {
-    return null;
-  }
-
-  // 사용자 데이터 로딩 상태 체크
-  if (isUserLoading) {
-    return <div>사용자 정보를 불러오는 중...</div>;
+  if (isAuthLoading || isUserLoading) {
+    return <div>로딩 중...</div>;
   }
 
   // 에러 상태 체크
@@ -47,6 +37,11 @@ function MyPage() {
         </div>
       </NewMypageStyle>
     );
+  }
+
+  // 인증되지 않은 상태 체크
+  if (!isAuthenticated) {
+    return null;
   }
 
   return (
