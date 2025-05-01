@@ -1,4 +1,3 @@
-import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Clock from "../../../assets/Clock.png";
 import AnswerCountProfile from "../../../assets/Profile_Small.png";
@@ -9,66 +8,45 @@ interface Props {
   category: string;
   title: string;
   date: string;
-  answercount?: number;
+  answerCount?: number;
   isComplete?: boolean;
+  linkTo?: string;
 }
 
 function WeeklyQuestionCard({
   category,
   title,
   date,
-  answercount,
-  isComplete = false,
+  answerCount,
+  isComplete = true,
+  linkTo = "/",
 }: Props) {
-  const location = useLocation();
-  const inWeeklyAnswer = location.pathname === "/community";
-
   return (
     <>
       <WeeklyQuestionCardStyle>
         <WeeklyQuestionCategory>{category}</WeeklyQuestionCategory>
         <WeeklyQuestionTitle>{title}</WeeklyQuestionTitle>
         <WeeklyQuestionInfo>
-          {inWeeklyAnswer ? (
-            isComplete ? (
-              <>
-                <WeeklyQuestionDate>
-                  <img src={Clock} alt="" />
-                  <p>{date}</p>
-                </WeeklyQuestionDate>
-                <AnswerCount>
-                  <img src={AnswerCountProfile} alt="" />
-                  <p>{answercount}명 답변</p>
-                </AnswerCount>
-              </>
-            ) : (
-              <>
-                <WeeklyQuestionDate>
-                  <img src={Clock} alt="" />
-                  <p>{date}</p>
-                </WeeklyQuestionDate>
-                <WeeklyQuestionAnswer>
-                  <Link to="/" className="go-to-answer-button">
-                    지금 답변하기
-                  </Link>
-                  <SlArrowRight />
-                </WeeklyQuestionAnswer>
-              </>
-            )
-          ) : (
+          {
             <>
               <WeeklyQuestionDate>
                 <img src={Clock} alt="" />
                 <p>{date}</p>
               </WeeklyQuestionDate>
-              <WeeklyQuestionAnswer>
-                <Link to="/" className="go-to-answer-button">
-                  지금 답변하기
-                </Link>
-                <SlArrowRight />
-              </WeeklyQuestionAnswer>
+              <AnswerCount>
+                <img src={AnswerCountProfile} alt="" />
+                <p>{answerCount}명 답변</p>
+              </AnswerCount>
+              {!isComplete && (
+                <WeeklyQuestionAnswer>
+                  <Link to={linkTo} className="go-to-answer-button">
+                    지금 답변하기
+                  </Link>
+                  <SlArrowRight />
+                </WeeklyQuestionAnswer>
+              )}
             </>
-          )}
+          }
         </WeeklyQuestionInfo>
       </WeeklyQuestionCardStyle>
     </>

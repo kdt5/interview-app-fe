@@ -34,8 +34,9 @@ export const FRONTEND_URLS = {
     POST_NEW: "/community/posts/new",
     POST_EDIT: "/community/posts/:postId/edit",
     WEEKLY: "/community/weekly",
-    ANSWER_DETAIL: "/community/questions/:questionId/answer/:answerId",
-  }
+    ANSWERS: "community/questions/:questionId/answers",
+    ANSWER_DETAIL: "/community/questions/:questionId/answers/:answerId",
+  },
 };
 
 export const BACKEND_URLS = {
@@ -55,9 +56,10 @@ export const BACKEND_URLS = {
     USER: "/api/users/:userId",
     CHANGE_PASSWORD: "/api/users/change-password",
     CHANGE_NICKNAME: "/api/users/change-nickname",
+    UPLOAD_PROFILE: "/api/uploads/profile",
   },
   QUESTIONS: {
-    ALL: "/api/questions",
+    BASIC: "/api/questions",
     QUESTION: "/api/questions/:questionId",
     WEEKLY_CURRENT: "/api/questions/weekly/current",
     WEEKLY: "/api/questions/weekly",

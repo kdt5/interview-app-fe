@@ -15,3 +15,7 @@ export interface Question {
   isFavorite?: boolean;
   answerCount?: number;
 }
+
+export interface WeeklyQuestion extends Question {
+  weekLabel: string;
+}

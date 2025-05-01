@@ -59,7 +59,7 @@ function RankingMainPage() {
       <div className="profile">
         <div className="profile-box">
           <CommonProfile
-            profileImageUrl="../public/profile-image.png"
+            profileImageUrl="/profile-image.png"
             nickname={data.nickname}
             answerCount={data.answerCount}
             position="Front-End"

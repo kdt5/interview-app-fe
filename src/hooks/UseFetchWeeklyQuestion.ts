@@ -9,9 +9,21 @@ export function useFetchWeeklyQuestion() {
     useState<WeeklyQuestionResponse | null>(null);
 
   useEffect(() => {
-    fetchWeeklyQuestion().then((response) => {
-      setWeeklyQuestion(response);
-    });
+    let isMounted = true;
+
+    fetchWeeklyQuestion()
+      .then((response) => {
+        if(isMounted && response) {
+          setWeeklyQuestion(response);
+        }
+      })
+      .catch((error) => {
+        console.error("Weekly question fetch error:", error);
+      });
+  
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return { weeklyQuestion };

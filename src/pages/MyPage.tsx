@@ -1,20 +1,57 @@
 import styled from "styled-components";
+import { useAuth } from "../hooks/UseAuth";
 import { useUser } from "../hooks/UseUser";
 import { FRONTEND_URLS } from "../constants/Urls";
 import MyPageSection from "../components/MyPage/MyPageSection";
 import { MyPageSectionStyle } from "../components/MyPage/MyPageSectionStyle";
 import { FaChevronRight } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 function MyPage() {
-  const { me } = useUser();
+  const navigate = useNavigate();
+  const { isAuthenticated, me, isLoading: isAuthLoading } = useAuth();
+  const {
+    userStats,
+    isLoading: isUserLoading,
+    error,
+  } = useUser({ isAuthenticated });
+
+  useEffect(() => {
+    if (!isAuthLoading && !isAuthenticated) {
+      navigate(FRONTEND_URLS.LOGIN);
+    }
+  }, [isAuthenticated, isAuthLoading, navigate]);
+
+  // 로딩 상태 체크
+  if (isAuthLoading || isUserLoading) {
+    return <div>로딩 중...</div>;
+  }
+
+  // 에러 상태 체크
+  if (error) {
+    return (
+      <NewMypageStyle>
+        <div style={{ textAlign: "center", padding: "20px", color: "#ff4d4d" }}>
+          사용자 정보를 불러오는데 실패했습니다.
+        </div>
+      </NewMypageStyle>
+    );
+  }
+
+  // 인증되지 않은 상태 체크
+  if (!isAuthenticated) {
+    return null;
+  }
 
   return (
     <>
       <NewMypageStyle>
         <MyProfileStyle to={FRONTEND_URLS.MY_PAGE.EDIT.PROFILE}>
           <div className="profile-wrap">
-            <div className="profile-icon"></div>
+            <div className="profile-icon">
+              <img src={me?.profileImageUrl} alt="profile" />
+            </div>
             <div>
               <h2>{me?.nickname}</h2>
               <span>Front-End</span>
@@ -26,15 +63,15 @@ function MyPage() {
         <MyInfo>
           <MyInfoBox>
             <span>답변 질문 수</span>
-            <p>20개</p>
+            <p>{userStats?.answerCount}</p>
           </MyInfoBox>
           <MyInfoBox>
             <span>작성 게시글</span>
-            <p>20개</p>
+            <p>{userStats?.communityPostCount}</p>
           </MyInfoBox>
           <MyInfoBox>
             <span>누적 좋아요</span>
-            <p>20개</p>
+            <p>{userStats?.favoriteCount}</p>
           </MyInfoBox>
         </MyInfo>
         <MyPageSection></MyPageSection>
@@ -93,6 +130,13 @@ const MyProfileStyle = styled(Link)`
       margin-right: 10px;
     }
 
+    .profile-icon img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50px;
+      object-fit: cover;
+    }
+
     div {
       h2 {
         font-weight: 600;
@@ -101,7 +145,6 @@ const MyProfileStyle = styled(Link)`
       span {
         color: #888;
         font-weight: 300;
-
         border-radius: 15px;
       }
     }

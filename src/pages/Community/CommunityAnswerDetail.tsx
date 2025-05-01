@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useQuestion } from "../../hooks/UseQuestions";
+import { useQuestion } from "../../hooks/UseFetchQuestion";
 import { Link, useParams } from "react-router-dom";
 import { useFetchAnswers } from "../../hooks/UseFetchAnswers";
 import { FRONTEND_URLS } from "../../constants/Urls";
@@ -15,8 +15,10 @@ function CommunityAnswerDetail() {
   return (
     <>
       <QuestionBox>
-        <QuestionText>Q. </QuestionText>
-        {question.title}
+        <QuestionTextWrap>
+          <QuestionTextIcon>Q. </QuestionTextIcon>
+          <QuestionText>{question.title}</QuestionText>
+        </QuestionTextWrap>
       </QuestionBox>
 
       <AnswerListStyle>
@@ -34,10 +36,10 @@ function CommunityAnswerDetail() {
 }
 
 export const QuestionBox = styled.div`
-  background-color: #f5f6f8;
+  background-color: #f9f9f9;
   padding: 20px 16px;
   border-radius: 12px;
-  margin: 0 16px 24px 16px;
+  margin: 24px 30px 16px 30px;
   font-size: 16px;
   font-weight: 600;
   line-height: 1.5;
@@ -46,10 +48,29 @@ export const QuestionBox = styled.div`
   white-space: pre-line;
 `;
 
-export const QuestionText = styled.span`
-  color: #2563eb;
-  font-weight: 700;
-  margin-right: 6px;
+export const QuestionTextWrap = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+export const QuestionTextIcon = styled.p`
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 16px;
+  text-align: center;
+  width: 24px;
+  height: 24px;
+  background: #6ea1ff;
+  border-radius: 50%;
+  margin-right: 10px;
+`;
+
+export const QuestionText = styled.p`
+  font-weight: 600;
+  font-size: 16px;
+  width: 250px;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 `;
 
 export const AnswerListStyle = styled.div`

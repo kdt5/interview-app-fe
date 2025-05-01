@@ -1,40 +1,48 @@
-import { useEffect, useState } from "react";
-import { fetchMyUserData } from "../api/User.api";
-import { UserBasicInfo } from "../models/User.model";
-import { logout as logoutApi } from "../api/Auth.api";
+import { useState, useEffect } from "react";
+import { fetchUserStats } from "../api/User.api";
+import { UserStats } from "../models/User.model";
 
-export function useUser() {
-  const [me, setMe] = useState<UserBasicInfo | null>(null);
+interface UseUserReturn {
+  userStats: UserStats | null;
+  isLoading: boolean;
+  error: Error | null;
+  fetchStats: () => Promise<void>;
+}
 
-  useEffect(() => {
-    fetchMyUserData()
-      .then((data) => {
-        setMe(data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
+interface UseUserProps {
+  isAuthenticated: boolean;
+}
 
-  const updateNickname = (nickname: string) => {
-    setMe((prev) => {
-      if (prev) {
-        return { ...prev, nickname };
-      }
-      return prev;
-    });
-  };
+export function useUser({ isAuthenticated }: UseUserProps): UseUserReturn {
+  const [userStats, setUserStats] = useState<UserStats | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<Error | null>(null);
 
-  const logout = async () => {
+  const fetchStats = async () => {
     try {
-      const success = await logoutApi();
-      if (success) {
-        setMe(null);
-      }
-    } catch (error) {
-      console.log("로그아웃 실패", error);
+      setIsLoading(true);
+      setError(null);
+      const stats = await fetchUserStats();
+      setUserStats(stats);
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err
+          : new Error("사용자 통계를 불러오는데 실패했습니다.")
+      );
+      setUserStats(null);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  return { me, updateNickname, logout };
+  useEffect(() => {
+    if (isAuthenticated) {
+      fetchStats();
+    } else {
+      setUserStats(null);
+    }
+  }, [isAuthenticated]);
+
+  return { userStats, isLoading, error, fetchStats };
 }

@@ -201,7 +201,7 @@ function MoreRankingPage() {
       <div>
         <div className="my-profile-box">
           <RankingProfile
-            profileImg="../public/user1.png"
+            profileImg="/user1.png"
             username="내계정이다옹"
             level={5}
             like={132}

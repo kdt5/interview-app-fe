@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import CommunityList from "../components/common/List/CommunityList";
-import CommonQuestionList from "../components/common/List/CommonQuestionList";
+import QuestionListItem from "../components/common/List/QuestionListItem";
 import CommonProfile from "../components/common/Profile/CommonProfile";
 import RankingProfile from "../components/common/Profile/RankingProfile";
 import CommunitySmallBtn from "../components/common/Button/CommunitySmallButton";
@@ -13,7 +13,8 @@ import GrayButton from "../components/common/Button/GrayButton";
 const mockData = [
   {
     title: "오늘 면접 보고 왔는데요",
-    content: "오늘 에이전시 프론트 개발 포지션 면접을 보고 왔습니다. 질문을 받았는데 답변을 제대로 못했어요. 근데 나는 귀여우니까 괜찮다고 생각...",
+    content:
+      "오늘 에이전시 프론트 개발 포지션 면접을 보고 왔습니다. 질문을 받았는데 답변을 제대로 못했어요. 근데 나는 귀여우니까 괜찮다고 생각...",
     user: {
       id: 1,
       nickname: "내가말하고있잖아",
@@ -92,16 +93,16 @@ function Component() {
         ))}
 
         {questionData.map((item, index) => (
-          <CommonQuestionList
+          <QuestionListItem
+            questionId={1}
             key={index}
             {...item}
             isFavorite={false}
-            toggleFavorite={() => {}}
             category="dd"
             comments={2}
             complete="s"
             likes={1}
-            questiontitle="adfd"
+            questionTitle="adfd"
           />
         ))}
 

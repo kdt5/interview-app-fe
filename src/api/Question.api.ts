@@ -1,15 +1,15 @@
 import { BACKEND_URLS } from "../constants/Urls";
-import { Question } from "../models/Question.model";
+import { Question, WeeklyQuestion } from "../models/Question.model";
 import { backendHttpClient } from "./BackendHttpClient.api";
 import { replaceUrlParams } from "../utils/Url";
 import { Position } from "../constants/Question";
 
-export async function fetchQuestions(
+export async function fetchBasicQuestions(
   position?: Position,
   categoryId?: number
 ): Promise<Question[]> {
   const response = await backendHttpClient
-    .get<Question[]>(BACKEND_URLS.QUESTIONS.ALL, {
+    .get<Question[]>(BACKEND_URLS.QUESTIONS.BASIC, {
       params: {
         position,
         categoryId,
@@ -41,7 +41,7 @@ export async function fetchQuestion(questionId: number): Promise<Question> {
 export interface WeeklyQuestionResponse {
   questionId: number;
   startDate: string;
-  question: Question;
+  question: WeeklyQuestion;
 }
 
 export async function fetchWeeklyQuestion(): Promise<WeeklyQuestionResponse> {

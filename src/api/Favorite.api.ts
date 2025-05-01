@@ -15,7 +15,12 @@ export async function fetchFavoriteQuestions() {
   return response;
 }
 
-export async function fetchFavorite(targetId: number, targetType: string) {
+export type FavoriteTargetType = "question" | "post" | "answer" | "comment";
+
+export async function fetchFavorite(
+  targetId: number,
+  targetType: FavoriteTargetType
+) {
   const response = await backendHttpClient
     .get<boolean>(
       replaceUrlParams(BACKEND_URLS.FAVORITES.FAVORITE, {
@@ -25,17 +30,20 @@ export async function fetchFavorite(targetId: number, targetType: string) {
     )
     .then((response) => response.data)
     .catch((error) => {
-      if(axios.isAxiosError(error) && error.response?.status === 404) {
+      if (axios.isAxiosError(error) && error.response?.status === 404) {
         return false;
       }
-      
+
       throw error;
     });
 
   return response;
 }
 
-export async function addFavorite(targetId: number, targetType: string) {
+export async function addFavorite(
+  targetId: number,
+  targetType: FavoriteTargetType
+) {
   const response = await backendHttpClient
     .post(
       replaceUrlParams(BACKEND_URLS.FAVORITES.FAVORITE, {
@@ -51,7 +59,10 @@ export async function addFavorite(targetId: number, targetType: string) {
   return response;
 }
 
-export async function removeFavorite(targetId: number, targetType: string) {
+export async function removeFavorite(
+  targetId: number,
+  targetType: FavoriteTargetType
+) {
   const response = await backendHttpClient
     .delete(
       replaceUrlParams(BACKEND_URLS.FAVORITES.FAVORITE, {

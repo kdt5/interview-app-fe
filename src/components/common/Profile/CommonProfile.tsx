@@ -20,7 +20,10 @@ function CommonProfile({
   return (
     <>
       <ProfileSection>
-        <CommonProfileStyle src={profileImageUrl} alt={`${nickname}의 프로필`} />
+        <CommonProfileStyle
+          src={profileImageUrl}
+          alt={`${nickname}의 프로필`}
+        />
         <FlexWrap>
           <UserInfo>
             <Username>{nickname}</Username>

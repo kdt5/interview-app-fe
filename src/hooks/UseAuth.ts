@@ -1,16 +1,13 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { FRONTEND_URLS } from "../constants/Urls";
-import { logout, refreshToken, login } from "../api/Auth.api";
+import { logout, login } from "../api/Auth.api";
 import {
   changeNickname,
   changePassword,
   fetchMyUserData,
+  uploadProfile,
 } from "../api/User.api";
-import {
-  REFRESH_TOKEN_LIFETIME,
-  REFRESH_TOKEN_THRESHOLD,
-} from "../constants/Auth";
 import { UserBasicInfo } from "../models/User.model";
 
 interface UseAuthReturn {
@@ -18,6 +15,7 @@ interface UseAuthReturn {
   isLoading: boolean;
   error: string | null;
   me: UserBasicInfo | null;
+  setMe: (me: UserBasicInfo) => void;
   handleLogin: (email: string, password: string) => Promise<void>;
   handleLogout: () => Promise<void>;
   handleChangeNickname: (nickname: string) => Promise<void>;
@@ -25,42 +23,7 @@ interface UseAuthReturn {
     oldPassword: string,
     newPassword: string
   ) => Promise<void>;
-}
-
-function getCookieValue(name: string): string | null {
-  const match = document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`));
-  return match ? match[2] : null;
-}
-
-function hasAuthToken(): boolean {
-  return !!getCookieValue("accessToken");
-}
-
-function getTokenExpiration(tokenName: string): number | null {
-  const cookies = document.cookie.split(";");
-  for (const cookie of cookies) {
-    const [name, value] = cookie.trim().split("=");
-    if (name === tokenName) {
-      try {
-        const payload = JSON.parse(atob(value.split(".")[1]));
-        return payload.exp * 1000;
-      } catch {
-        return null;
-      }
-    }
-  }
-  return null;
-}
-
-function shouldRefreshToken(): boolean {
-  const refreshTokenExp = getTokenExpiration("refreshToken");
-  if (!refreshTokenExp) return false;
-
-  const now = Date.now();
-  const tokenAge = now - (refreshTokenExp - REFRESH_TOKEN_LIFETIME);
-  const usageRatio = tokenAge / REFRESH_TOKEN_LIFETIME;
-
-  return usageRatio >= REFRESH_TOKEN_THRESHOLD;
+  handleChangeProfileImage: (file: File) => Promise<void>;
 }
 
 export function useAuth(): UseAuthReturn {
@@ -92,49 +55,18 @@ export function useAuth(): UseAuthReturn {
     setError(message);
   }, []);
 
-  const handleLogout = useCallback(async (): Promise<void> => {
-    try {
-      updateAuthState(false, null, true);
-      const success = await logout();
-      if (success) {
-        updateAuthState(false, null, false);
-        navigate(FRONTEND_URLS.LOGIN);
-      }
-    } catch (err: unknown) {
-      handleError(err, "로그아웃에 실패했습니다.");
-      updateAuthState(false, null, false);
-    }
-  }, [navigate, updateAuthState, handleError]);
-
-  const refreshAuthToken = useCallback(async (): Promise<void> => {
-    try {
-      const success = await refreshToken();
-      if (!success) {
-        throw new Error("토큰 갱신 실패");
-      }
-    } catch (err: unknown) {
-      handleError(err, "토큰 갱신 실패");
-      await handleLogout();
-    }
-  }, [handleLogout, handleError]);
-
   const checkAuthStatus = useCallback(async () => {
     try {
-      if (hasAuthToken()) {
-        if (shouldRefreshToken()) {
-          await refreshAuthToken();
-        }
-
-        const userData = await fetchMyUserData();
-        updateAuthState(true, userData, false);
-      } else {
-        updateAuthState(false, null, false);
-      }
+      setIsLoading(true);
+      const userData = await fetchMyUserData();
+      updateAuthState(true, userData, false);
     } catch (err: unknown) {
-      handleError(err, "인증 상태 확인에 실패했습니다.");
+      console.error("인증 상태 확인 중 오류:", err);
       updateAuthState(false, null, false);
+    } finally {
+      setIsLoading(false);
     }
-  }, [refreshAuthToken, updateAuthState, handleError]);
+  }, [updateAuthState]);
 
   useEffect(() => {
     checkAuthStatus();
@@ -168,6 +100,20 @@ export function useAuth(): UseAuthReturn {
     [navigate, updateAuthState, handleError]
   );
 
+  const handleLogout = useCallback(async (): Promise<void> => {
+    try {
+      updateAuthState(false, null, true);
+      const success = await logout();
+      if (success) {
+        updateAuthState(false, null, false);
+        navigate(FRONTEND_URLS.LOGIN);
+      }
+    } catch (err: unknown) {
+      handleError(err, "로그아웃에 실패했습니다.");
+      updateAuthState(false, null, false);
+    }
+  }, [navigate, updateAuthState, handleError]);
+
   const handleChangeNickname = useCallback(
     async (nickname: string): Promise<void> => {
       try {
@@ -198,14 +144,32 @@ export function useAuth(): UseAuthReturn {
     [isAuthenticated, me, updateAuthState, handleError]
   );
 
+  const handleChangeProfileImage = useCallback(
+    async (file: File): Promise<void> => {
+      try {
+        updateAuthState(isAuthenticated, me, true);
+        const profileImageUrl = await uploadProfile(file);
+        if (me) {
+          updateAuthState(isAuthenticated, { ...me, profileImageUrl }, false);
+        }
+      } catch (err: unknown) {
+        handleError(err, "프로필 이미지 변경에 실패했습니다.");
+        updateAuthState(isAuthenticated, me, false);
+      }
+    },
+    [isAuthenticated, me, updateAuthState, handleError]
+  );
+
   return {
     isAuthenticated,
     isLoading,
     error,
     me,
+    setMe,
     handleLogin,
     handleLogout,
     handleChangeNickname,
     handleChangePassword,
+    handleChangeProfileImage,
   };
 }

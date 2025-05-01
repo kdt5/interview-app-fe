@@ -4,12 +4,13 @@ import ConfirmModal from "../../components/common/ConfirmModal";
 import AlertModal from "../../components/common/AlertModal";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "../../hooks/UseUser";
 import { FRONTEND_URLS } from "../../constants/Urls";
 import MyProfileDefaultImg from "../../assets/mypage/MyProfileDefaultImage.png";
 import MyProfileAddBtn from "../../assets/mypage/MyProfileAddButton.png";
 import InputField from "../../components/common/Input/Input";
 import { ModalType } from "../RecordAnswerPage";
+import { useAuth } from "../../hooks/UseAuth";
+import { MAX_PROFILE_IMAGE_SIZE } from "../../constants/User";
 
 export interface SignUpInputs {
   password: string;
@@ -18,7 +19,9 @@ export interface SignUpInputs {
 
 function SettingProfile() {
   const navigate = useNavigate();
-  const { me, logout } = useUser();
+  const { me, handleLogout, handleChangeProfileImage } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = () => {
     toggleModal("confirm", true);
@@ -35,13 +38,50 @@ function SettingProfile() {
       [type]: state,
     }));
   };
+
   const handleConfirmSubmit = async () => {
     try {
-      await logout();
+      setIsLoading(true);
+      setError(null);
+      await handleLogout();
       toggleModal("confirm", false);
       toggleModal("alert", true);
     } catch (error) {
-      console.log("로그아웃에 실패하였습니다.", error);
+      setError("로그아웃에 실패했습니다. 다시 시도해주세요.");
+      console.error("로그아웃 실패:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleUploadProfile = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    try {
+      const file = event.target.files?.[0];
+      if (!file) return;
+
+      // 파일 크기 검증
+      if (file.size > MAX_PROFILE_IMAGE_SIZE) {
+        setError(
+          `파일 크기는 ${MAX_PROFILE_IMAGE_SIZE}MB를 초과할 수 없습니다.`
+        );
+        return;
+      }
+
+      if (!file.type.match(/^image\/(jpeg|jpg|png)$/)) {
+        setError("jpg, jpeg, png 형식의 이미지만 업로드 가능합니다.");
+        return;
+      }
+
+      setIsLoading(true);
+      await handleChangeProfileImage(file);
+      setError("프로필 이미지가 성공적으로 업데이트되었습니다.");
+    } catch (error) {
+      console.error("프로필 업로드 실패:", error);
+      setError("프로필 업로드에 실패했습니다.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -50,9 +90,23 @@ function SettingProfile() {
       <EditProfileStyle>
         <ProfileWrap>
           <ProfileImageSetting>
-            <img src={MyProfileDefaultImg} alt="" />
-            <ProfileImgAddBtn>
-              <img src={MyProfileAddBtn} alt="" />
+            <img
+              src={me?.profileImageUrl || MyProfileDefaultImg}
+              alt="프로필 이미지"
+            />
+            <ProfileImgAddBtn
+              onClick={() =>
+                !isLoading && document.getElementById("profile-upload")?.click()
+              }
+            >
+              <img src={MyProfileAddBtn} alt="프로필 이미지 추가" />
+              <input
+                id="profile-upload"
+                type="file"
+                accept="image/jpeg,image/jpg,image/png"
+                onChange={handleUploadProfile}
+                disabled={isLoading}
+              />
             </ProfileImgAddBtn>
           </ProfileImageSetting>
           <ProfileInfo>
@@ -91,8 +145,8 @@ function SettingProfile() {
           </PasswordChange>
         </ProfileWrap>
         <AccountStyle>
-          <button type="submit" onClick={handleSubmit}>
-            로그아웃
+          <button type="submit" onClick={handleSubmit} disabled={isLoading}>
+            {isLoading ? "로그아웃 중..." : "로그아웃"}
           </button>
           <span>|</span>
           <button type="submit">회원탈퇴</button>
@@ -111,6 +165,9 @@ function SettingProfile() {
               }}
               message="로그아웃 되었습니다."
             />
+          )}
+          {error && (
+            <AlertModal onClose={() => setError(null)} message={error} />
           )}
         </AccountStyle>
       </EditProfileStyle>
@@ -149,19 +206,38 @@ const ProfileImageSetting = styled.div`
   position: relative;
   width: fit-content;
   height: fit-content;
-
   margin: 0 auto 10px;
+
+  img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
 `;
 
 const ProfileImgAddBtn = styled.div`
   position: absolute;
-  top: 0;
-  right: 0;
-  width: fit-content;
-  height: fit-content;
+  top: -0.5em;
+  right: -0.5em;
+  width: 2em;
+  height: 2em;
+  cursor: pointer;
+  background-color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
   img {
+    width: 1em;
+    height: 1em;
     display: block;
+  }
+
+  input {
+    display: none;
   }
 `;
 
