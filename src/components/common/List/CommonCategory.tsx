@@ -53,7 +53,6 @@ function CommonCategory({
 
 const CommonCategoryStyle = styled.div`
   padding: 0 30px;
-  margin-top: 70px;
 `;
 
 const CategoryName = styled.div`
