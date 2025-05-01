@@ -62,9 +62,11 @@ function SettingProfile() {
       const file = event.target.files?.[0];
       if (!file) return;
 
-      // 파일 크기 검증 (5MB)
+      // 파일 크기 검증
       if (file.size > MAX_PROFILE_IMAGE_SIZE) {
-        setError("파일 크기는 5MB를 초과할 수 없습니다.");
+        setError(
+          `파일 크기는 ${MAX_PROFILE_IMAGE_SIZE}MB를 초과할 수 없습니다.`
+        );
         return;
       }
 
