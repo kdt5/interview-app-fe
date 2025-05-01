@@ -29,7 +29,7 @@ export function LikeIcon({
         await addFavorite();
       }
       if (handleToggleLike) {
-        handleToggleLike(targetType === "post" ? !isFavorite : isFavorite);
+        handleToggleLike(!isFavorite);
       }
     } catch (error) {
       console.error("Error toggling favorite:", error);
