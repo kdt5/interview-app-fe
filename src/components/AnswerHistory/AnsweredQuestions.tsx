@@ -24,8 +24,14 @@ function AnsweredQuestions({
     slidesPerView: "auto",
     spaceBetween: 8,
     direction: "vertical",
-    mousewheel: true,
-    freeMode: true,
+    mousewheel: {
+      forceToAxis: true,
+      releaseOnEdges: true,
+    },
+    freeMode: {
+      enabled: true,
+      sticky: false,
+    },
     modules: [FreeMode, Mousewheel],
   };
 
