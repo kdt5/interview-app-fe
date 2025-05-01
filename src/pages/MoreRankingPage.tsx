@@ -68,6 +68,7 @@ function MoreRankingPage() {
               totalAnswerCount={topUser.totalAnswerCount}
               totalScore={topUser.totalScore}
               rank={topUser.rank}
+              isTopRankStyle={false}
             />
           </div>
         )}
@@ -89,7 +90,7 @@ const MoreRankingPageStyle = styled.div`
     border-radius: 10px;
     background: #fbfbfb;
     padding: 17.5px 15px;
-    margin: 50px auto 20px auto;
+    margin: 70px auto 20px auto;
 
     .count-number {
       color: #6ea1ff;

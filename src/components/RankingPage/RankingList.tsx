@@ -29,6 +29,7 @@ const RankingList: React.FC<Props> = ({ rankingData, mode = "more" }) => {
             totalFavoriteCount={user.totalFavoriteCount}
             totalAnswerCount={user.totalAnswerCount}
             totalScore={user.totalScore}
+            isTopRankStyle={true}
             {...(mode === "more" && user.rank && user.rank <= 3
               ? { rank: user.rank }
               : { commonRanking: user.rank })}
