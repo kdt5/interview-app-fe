@@ -3,7 +3,7 @@ import PlaceHolderUserImg from "../../../assets/user.png"
 
 interface Props {
   nickname: string;
-  profileImageUrl: string;
+  profileImageUrl?: string;
   answerCount: number;
   level: number;
   position?: string;

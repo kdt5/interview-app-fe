@@ -11,6 +11,7 @@ import {
   useFavoriteRanking,
   useIntegrationRanking,
 } from "../hooks/UseRanking";
+import PlaceHolderUserImg from "../assets/user.png";
 
 function RankingMainPage() {
   const { isAuthenticated } = useAuth();
@@ -91,7 +92,7 @@ function RankingMainPage() {
           {myUserData && (
             <CommonProfile
               profileImageUrl={
-                myUserData.profileImageUrl ?? "../public/profile-image.png"
+                myUserData.profileImageUrl
               }
               nickname={myUserData.nickname}
               position={myUserData.positionId === 1 ? "Front-End" : "Back-End"}
@@ -127,7 +128,7 @@ function RankingMainPage() {
               className="hot-user"
               key={`hot-${user.user.nickname}-${index}`}
             >
-              <img src={user.user.profileImageUrl} alt={user.user.nickname} />
+              <img src={user.user.profileImageUrl ?? PlaceHolderUserImg} alt={user.user.nickname} />
               <p>{user.user.nickname}</p>
               <span>누적 좋아요 {user.totalFavoriteCount}개</span>
             </div>

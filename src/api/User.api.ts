@@ -10,6 +10,7 @@ export async function fetchMyUserData(): Promise<UserBasicInfo> {
     .catch((error) => {
       throw error;
     });
+    console.log(response);
 
   return response;
 }
