@@ -35,7 +35,7 @@ function PostDetail() {
   const getReplies = (parentId: number) =>
     communityPostComments?.filter((comment) => comment.parentId === parentId) ||
     [];
-    
+
   const handleSuccessOk = () => {
     refetchComments?.();
     setShowSuccessModal(false);

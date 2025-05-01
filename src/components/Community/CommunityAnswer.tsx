@@ -107,7 +107,7 @@ function CommunityAnswer({
             <img src={ViewerImg} alt="Viewer Icon" />
             {viewCount}명이 봤어요
           </span>{" "}
-          | <span>좋아요 {currFavoriteCount}</span>
+          <span>|</span> <span>좋아요 {currFavoriteCount}</span>
         </QuestionLike>
       </AnswerDetail>
       <AnswerDetailProfile>
@@ -133,7 +133,7 @@ const AnswerDetail = styled.div`
 `;
 
 const AnswerInfo = styled.div`
-  margin-top: 50px;
+  margin-top: 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -159,14 +159,14 @@ const AnswerCategory = styled.div`
 const QuestionTitle = styled.h3`
   font-size: 18px;
   color: #333;
-  font-weight: 600px;
+  font-weight: 600;
   margin-top: 20px;
 `;
 
 const AnswerContents = styled.p`
   color: #888;
   font-size: 14px;
-  font-weight: 300;
+  font-weight: 400;
   margin-top: 10px;
   line-height: 1.5;
 `;
@@ -177,7 +177,7 @@ const QuestionLike = styled.div`
   span {
     color: #888;
     font-size: 12px;
-    font-weight: 300px;
+    font-weight: 400;
 
     img {
       display: inline-block;

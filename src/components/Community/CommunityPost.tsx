@@ -56,7 +56,6 @@ function PostTab() {
                   뷰잇러들의 <br /> 지금, 인기글
                 </Title>
               </div>
-
               <Info>INTERVIEW IT</Info>
             </PopularSlideNotice>
           </SwiperSlide>
@@ -67,7 +66,7 @@ function PostTab() {
           ))}
         </Swiper>
       </PopularSlide>
-
+      <MidLine></MidLine>
       <PostList>
         <CommonCategory
           selectedCatId={selectedCatId}
@@ -123,8 +122,14 @@ const PopularSlide = styled.div`
   padding: 0 30px;
 `;
 
-const PostList = styled.div`
+const MidLine = styled.div`
+  width: 100%;
+  height: 5px;
+  background: #f5f5f5;
   margin-top: 50px;
+`;
+const PostList = styled.div`
+  margin-top: 30px;
 `;
 
 const FixedWrite = styled.div`
