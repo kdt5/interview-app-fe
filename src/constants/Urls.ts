@@ -56,6 +56,7 @@ export const BACKEND_URLS = {
     USER: "/api/users/:userId",
     CHANGE_PASSWORD: "/api/users/change-password",
     CHANGE_NICKNAME: "/api/users/change-nickname",
+    UPLOAD_PROFILE: "/api/uploads/profile",
   },
   QUESTIONS: {
     ALL: "/api/questions",

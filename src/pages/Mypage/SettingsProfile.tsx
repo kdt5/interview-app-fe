@@ -10,6 +10,7 @@ import MyProfileAddBtn from "../../assets/mypage/MyProfileAddButton.png";
 import InputField from "../../components/common/Input/Input";
 import { ModalType } from "../RecordAnswerPage";
 import { useAuth } from "../../hooks/UseAuth";
+import { uploadProfile } from "../../api/User.api";
 
 export interface SignUpInputs {
   password: string;
@@ -37,6 +38,7 @@ function SettingProfile() {
       [type]: state,
     }));
   };
+
   const handleConfirmSubmit = async () => {
     try {
       setIsLoading(true);
@@ -52,14 +54,64 @@ function SettingProfile() {
     }
   };
 
+  const handleUploadProfile = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    try {
+      const file = event.target.files?.[0];
+      if (!file) return;
+
+      // 파일 크기 검증 (5MB)
+      const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+      if (file.size > MAX_FILE_SIZE) {
+        setError("파일 크기는 5MB를 초과할 수 없습니다.");
+        return;
+      }
+
+      if (!file.type.match(/^image\/(jpeg|jpg|png)$/)) {
+        setError("jpg, jpeg, png 형식의 이미지만 업로드 가능합니다.");
+        return;
+      }
+
+      setIsLoading(true);
+      const profileUrl = await uploadProfile(file);
+      // 프로필 이미지 업데이트
+      if (me) {
+        me.profileImageUrl = profileUrl;
+      }
+
+      // 성공 메시지 표시
+      setError("프로필 이미지가 성공적으로 업데이트되었습니다.");
+    } catch (error) {
+      console.error("프로필 업로드 실패:", error);
+      setError("프로필 업로드에 실패했습니다. 다시 시도해주세요.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <>
       <EditProfileStyle>
         <ProfileWrap>
           <ProfileImageSetting>
-            <img src={MyProfileDefaultImg} alt="" />
-            <ProfileImgAddBtn>
-              <img src={MyProfileAddBtn} alt="" />
+            <img
+              src={me?.profileImageUrl || MyProfileDefaultImg}
+              alt="프로필 이미지"
+            />
+            <ProfileImgAddBtn
+              onClick={() =>
+                !isLoading && document.getElementById("profile-upload")?.click()
+              }
+            >
+              <img src={MyProfileAddBtn} alt="프로필 이미지 추가" />
+              <input
+                id="profile-upload"
+                type="file"
+                accept="image/jpeg,image/jpg,image/png"
+                onChange={handleUploadProfile}
+                disabled={isLoading}
+              />
             </ProfileImgAddBtn>
           </ProfileImageSetting>
           <ProfileInfo>
@@ -159,19 +211,38 @@ const ProfileImageSetting = styled.div`
   position: relative;
   width: fit-content;
   height: fit-content;
-
   margin: 0 auto 10px;
+
+  img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
 `;
 
 const ProfileImgAddBtn = styled.div`
   position: absolute;
-  top: 0;
-  right: 0;
-  width: fit-content;
-  height: fit-content;
+  top: -8px;
+  right: -8px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  background-color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
   img {
+    width: 20px;
+    height: 20px;
     display: block;
+  }
+
+  input {
+    display: none;
   }
 `;
 
