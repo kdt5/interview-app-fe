@@ -23,6 +23,7 @@ import OnBoardingPage from "../pages/OnBoardingPage";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
 import AnswerDetailPage from "../pages/AnswerDetailPage";
+import PostHistoryPage from "../pages/Mypage/PostHistoryPage";
 
 const requiredUrls = [
   FRONTEND_URLS.HOME,
@@ -32,6 +33,7 @@ const requiredUrls = [
   FRONTEND_URLS.FORGOT_PASSWORD,
   FRONTEND_URLS.MY_PAGE.HOME,
   FRONTEND_URLS.MY_PAGE.ANSWERS,
+  FRONTEND_URLS.MY_PAGE.POSTS,
   FRONTEND_URLS.MY_PAGE.FAVORITES.QUESTIONS,
   FRONTEND_URLS.ANSWER,
   FRONTEND_URLS.ANSWER_EDIT,
@@ -107,6 +109,10 @@ export const routerObjects: RouteObject[] = [
   {
     path: FRONTEND_URLS.MY_PAGE.HOME,
     element: <MyPage />,
+  },
+  {
+    path: FRONTEND_URLS.MY_PAGE.POSTS,
+    element: <PostHistoryPage />,
   },
   {
     path: FRONTEND_URLS.MY_PAGE.ANSWERS,

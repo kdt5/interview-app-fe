@@ -12,8 +12,10 @@ export const FRONTEND_URLS = {
   MY_PAGE: {
     HOME: "/my-page",
     ANSWERS: "/my-page/answers",
+    POSTS: "/my-page/posts",
     FAVORITES: {
       QUESTIONS: "/my-page/favorite-questions",
+      POSTS: "/my-page/favorite-posts",
     },
     EDIT: {
       PROFILE: "/my-page/edit-my-profile",
@@ -79,6 +81,7 @@ export const BACKEND_URLS = {
     FAVORITE: "/api/favorites/:targetType/:targetId",
   },
   POSTS: {
+    MINE: "/api/posts/mine",
     ALL: "/api/posts",
     POST: "/api/posts/:postId",
     CATEGORIES: "/api/posts/categories",
