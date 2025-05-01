@@ -2,6 +2,8 @@ import { FavoriteTargetType } from "../../api/Favorite.api";
 import { useFavorite } from "../../hooks/UseFavorite";
 import LikeImg from "../../assets/Like.png";
 import ActiveLikeImg from "../../assets/Like_active.png";
+import SmallLikeImg from "../../assets/Link_Small.png";
+import ActiveSmallLikeImg from "../../assets/Link_Small_active.png";
 
 interface LikeIconProps {
   likeId: number;
@@ -36,7 +38,15 @@ export function LikeIcon({
 
   return (
     <img
-      src={isFavorite ? ActiveLikeImg : LikeImg}
+      src={
+        isFavorite
+          ? targetType === "comment"
+            ? ActiveSmallLikeImg
+            : ActiveLikeImg
+          : targetType === "comment"
+            ? SmallLikeImg
+            : LikeImg
+      }
       alt={alt}
       onClick={onClick}
       style={{ cursor: "pointer" }}
