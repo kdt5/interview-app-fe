@@ -19,7 +19,7 @@ function MyPageSection() {
         <MyPageSectionList
           iconSource={MenuIcon01}
           menu="위클리 내 답변"
-          to=""
+          to={FRONTEND_URLS.MY_PAGE.ANSWERS}
         />
         <MyPageSectionList
           iconSource={MenuIcon02}
