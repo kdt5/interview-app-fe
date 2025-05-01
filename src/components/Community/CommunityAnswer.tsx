@@ -87,12 +87,14 @@ function CommunityAnswer({
           <AnswerCategory>{postCategoryName || "기타"}</AnswerCategory>
           <span>
             <img
+              className="like"
               src={isFavorite ? ActiveLikeImg : LikeImg}
               alt="Like Icon"
               onClick={() => handleToggleFavorite(id)}
               style={{ cursor: "pointer" }}
             />
             <img
+              className="option"
               src={OptionImg}
               alt="Option Icon"
               onClick={handleOptionClick}
@@ -138,9 +140,12 @@ const AnswerInfo = styled.div`
   align-items: center;
   justify-content: space-between;
   span {
-    img {
+    .like {
       display: inline-block;
       margin-right: 12px;
+    }
+    .option {
+      display: inline-block;
     }
   }
 `;
