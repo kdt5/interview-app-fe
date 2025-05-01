@@ -1,7 +1,5 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import LikeSmall from "../../assets/Link_Small.png";
-import ActiveLikeSmall from "../../assets/Link_Small_active.png";
 import ReplySmall from "../../assets/Reply_Small.png";
 import OptionSmall from "../../assets/Option.png";
 import { Comment } from "../../models/Comment.model";
@@ -11,8 +9,7 @@ import { MAX_COMMENT_DEPTH } from "../../constants/Post";
 import { countAllReplies } from "../../utils/commentCount";
 import { useEffect, useState } from "react";
 import CommunityModal from "./Community/CommunityModal";
-import { fetchFavoriteStatus } from "../../hooks/UseFavorite";
-import { addFavorite, removeFavorite } from "../../api/Favorite.api";
+import { LikeIcon } from "./LikeIcon";
 
 interface Props {
   id: number;
@@ -45,30 +42,16 @@ function CommentContents({
   setEditTarget,
 }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currFavoriteCount, setFavoriteCount] = useState(favoriteCount);
 
   const getReplies = (parentId: number) =>
     allComments?.filter((comment) => comment.parentId === parentId) || [];
 
-  const [isFavorite, setIsFavorite] = useState(false);
-  const [currFavoriteCount, setFavoriteCount] = useState(favoriteCount);
-
   useEffect(() => {
-    fetchFavoriteStatus(id, "comment").then(setIsFavorite);
     setFavoriteCount(favoriteCount);
   }, [id, favoriteCount]);
 
-  const handleToggleFavorite = async (commentId: number) => {
-    try {
-      if (!isFavorite) {
-        await addFavorite(commentId, "comment");
-      } else {
-        await removeFavorite(commentId, "comment");
-      }
-    } catch (error) {
-      console.error("좋아요 토글 실패", error);
-    }
-
-    setIsFavorite((prev: boolean) => !prev);
+  const handleToggleLike = (isFavorite: boolean) => {
     setFavoriteCount((prev) => (isFavorite ? prev - 1 : prev + 1));
   };
 
@@ -95,11 +78,11 @@ function CommentContents({
         <Contents>{content}</Contents>
         <CommentInfo>
           <span>
-            <img
-              src={isFavorite ? ActiveLikeSmall : LikeSmall}
+            <LikeIcon
+              likeId={id}
+              targetType="comment"
+              handleToggleLike={handleToggleLike}
               alt=""
-              onClick={() => handleToggleFavorite(id)}
-              style={{ cursor: "pointer" }}
             />
             좋아요 {currFavoriteCount === 0 ? "" : currFavoriteCount}
           </span>{" "}

@@ -2,14 +2,11 @@ import styled from "styled-components";
 import CommonProfile from "../../components/common/Profile/CommonProfile";
 import ViewerImg from "../../assets/Viewer.png";
 import { POST_CATEGORIES } from "../../constants/PostCategory";
-import LikeImg from "../../assets/Like.png";
-import ActiveLikeImg from "../../assets/Like_active.png";
 import OptionImg from "../../assets/Option.png";
 import CommunityModal from "../../components/common/Community/CommunityModal";
 import { useState } from "react";
 import { useCategory } from "../../hooks/UseCategory";
-import { useFavorite } from "../../hooks/UseFavorite";
-import { addFavorite, removeFavorite } from "../../api/Favorite.api";
+import { LikeIcon } from "../common/LikeIcon";
 
 interface Props {
   className?: string;
@@ -41,43 +38,22 @@ function CommunityAnswer({
   favoriteCount,
 }: Props) {
   const { getCategoryName } = useCategory();
-  const { isFavorite, setIsFavorite } = useFavorite(
-    id,
-    className === "interview" ? "ANSWER" : "POST"
-  );
-  const [currFavoriteCount, setFavoriteCount] = useState(favoriteCount);
-
+  const [currentFavoriteCount, setCurrentFavoriteCount] =
+    useState(favoriteCount);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const targetType = className === "interview" ? "answer" : "post";
   const postCategoryName =
-    className === "interview"
+    targetType === "answer"
       ? getCategoryName(postCategoryId)
       : POST_CATEGORIES.find((category) => category.id === postCategoryId)
           ?.name;
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleToggleLike = (isFavorite: boolean) => {
+    setCurrentFavoriteCount((prev) => (isFavorite ? prev - 1 : prev + 1));
+  };
 
   const handleOptionClick = () => {
     setIsModalOpen(!isModalOpen);
-  };
-
-  const handleToggleFavorite = async (answerId: number) => {
-    try {
-      if (!isFavorite) {
-        await addFavorite(
-          answerId,
-          className === "interview" ? "answer" : "post"
-        );
-      } else {
-        await removeFavorite(
-          answerId,
-          className === "interview" ? "answer" : "post"
-        );
-      }
-    } catch (error) {
-      console.error("좋아요 토글 실패", error);
-    }
-
-    setIsFavorite((prev: boolean) => !prev);
-    setFavoriteCount((prev) => (isFavorite ? prev - 1 : prev + 1));
   };
 
   return (
@@ -86,11 +62,11 @@ function CommunityAnswer({
         <AnswerInfo>
           <AnswerCategory>{postCategoryName || "기타"}</AnswerCategory>
           <span>
-            <img
-              src={isFavorite ? ActiveLikeImg : LikeImg}
+            <LikeIcon
+              likeId={id}
+              targetType="post"
+              handleToggleLike={handleToggleLike}
               alt="Like Icon"
-              onClick={() => handleToggleFavorite(id)}
-              style={{ cursor: "pointer" }}
             />
             <img
               src={OptionImg}
@@ -107,7 +83,7 @@ function CommunityAnswer({
             <img src={ViewerImg} alt="Viewer Icon" />
             {viewCount}명이 봤어요
           </span>{" "}
-          <span>|</span> <span>좋아요 {currFavoriteCount}</span>
+          <span>|</span> <span>좋아요 {currentFavoriteCount}</span>
         </QuestionLike>
       </AnswerDetail>
       <AnswerDetailProfile>

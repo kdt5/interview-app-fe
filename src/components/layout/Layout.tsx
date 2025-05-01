@@ -29,7 +29,7 @@ function Layout({ children }: LayoutProps) {
       <GlobalStyle />
       <LayoutStyle>
         {!isHeaderHidden && <Header />}
-        <LayoutPadding isHeaderHidden={isHeaderHidden}>
+        <LayoutPadding $isHeaderHidden={isHeaderHidden}>
           {children}
         </LayoutPadding>
         {!isNavHidden && <Nav />}
@@ -47,8 +47,8 @@ const LayoutStyle = styled.div`
   background-color: #fff;
 `;
 
-const LayoutPadding = styled.div<{ isHeaderHidden: boolean }>`
-  padding: ${({ isHeaderHidden }) =>
+const LayoutPadding = styled.div<{ $isHeaderHidden: boolean }>`
+  padding: ${({ $isHeaderHidden: isHeaderHidden }) =>
     isHeaderHidden ? "0 0 80px" : "85px 0 80px"};
   height: fit-content;
   box-sizing: border-box;
