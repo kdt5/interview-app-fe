@@ -28,16 +28,25 @@ function QuestionBox({
   const { getCategoryName } = useCategory();
 
   if (isWeekly) {
+    const mainWeeklyQuestion = questions[0];
+    const isPushedDown =
+      !mainWeeklyQuestion || mainWeeklyQuestion.isAnswered === true;
+
     return (
       <CommonQuestionSection>
-        <WeeklyAnswerPageLinkStyle to="/">
-          <h1>
-            <span>이번 주 위클리 질문</span>에 답변하지 않았어요
-          </h1>
-          <SlArrowRight />
-        </WeeklyAnswerPageLinkStyle>
-        {questions.length === 0 ? null : (
-          <div onClick={() => navigate(`/questions/${questions[0].id}/answer`)}>
+        {mainWeeklyQuestion && !mainWeeklyQuestion.isAnswered && (
+          <WeeklyAnswerPageLinkStyle to="/">
+            <h1>
+              <span>이번 주 위클리 질문</span>에 답변하지 않았어요
+            </h1>
+            <SlArrowRight />
+          </WeeklyAnswerPageLinkStyle>
+        )}
+        {mainWeeklyQuestion && (
+          <WeeklyQuestionWrapper
+            $isPushedDown={isPushedDown}
+            onClick={() => navigate(`/questions/${questions[0].id}/answer`)}
+          >
             <WeeklyQuestionListItem
               questionId={questions[0].id}
               category={
@@ -51,7 +60,7 @@ function QuestionBox({
               likes={questions[0].favoriteCount}
               isFavorite={questions[0].isFavorite ?? false}
             />
-          </div>
+          </WeeklyQuestionWrapper>
         )}
       </CommonQuestionSection>
     );
@@ -97,7 +106,7 @@ function QuestionBox({
 const WeeklyAnswerPageLinkStyle = styled(Link)`
   position: relative;
   margin: 0 30px;
-  margin-top: 60px;
+  margin-top: 80px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -124,7 +133,16 @@ const WeeklyAnswerPageLinkStyle = styled(Link)`
   }
 `;
 
+const WeeklyQuestionWrapper = styled.div<{ $isPushedDown?: boolean }>`
+  margin-top: ${({ $isPushedDown }) => ($isPushedDown ? "60px" : "0px")};
+  cursor: pointer;
+`;
+
 const CommonQuestionSection = styled.div`
   margin-bottom: 50px;
+
+  .interview {
+    margin-top: 20px;
+  }
 `;
 export default QuestionBox;
