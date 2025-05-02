@@ -15,9 +15,17 @@ interface Props {
   setShowSuccessModal?: (show: boolean) => void;
 }
 
-function TextArea({ targetId, categoryName, parentId, editTarget, setEditTarget, setShowSuccessModal, setSuccessMessage }: Props) {
+function TextArea({
+  targetId,
+  categoryName,
+  parentId,
+  editTarget,
+  setEditTarget,
+  setShowSuccessModal,
+  setSuccessMessage,
+}: Props) {
   const [text, setText] = useState("");
-  
+
   useEffect(() => {
     if (editTarget) {
       setText(editTarget.content);
@@ -28,16 +36,23 @@ function TextArea({ targetId, categoryName, parentId, editTarget, setEditTarget,
     try {
       let response;
 
-      if(editTarget) {
+      if (editTarget) {
         response = await editComment(editTarget.id, text);
-      } else if(parentId){
-        response = await createPostComment(targetId, categoryName, text, parentId);
+      } else if (parentId) {
+        response = await createPostComment(
+          targetId,
+          categoryName,
+          text,
+          parentId
+        );
       } else {
         response = await createPostComment(targetId, categoryName, text);
       }
 
-      if(response) {
-        setSuccessMessage?.(editTarget ? "댓글이 수정되었습니다." : "댓글이 등록되었습니다.");
+      if (response) {
+        setSuccessMessage?.(
+          editTarget ? "댓글이 수정되었습니다." : "댓글이 등록되었습니다."
+        );
         setShowSuccessModal?.(true);
         setText("");
         setEditTarget?.(null);
@@ -45,7 +60,7 @@ function TextArea({ targetId, categoryName, parentId, editTarget, setEditTarget,
     } catch {
       alert("댓글 등록에 실패했습니다.");
     }
-  }
+  };
 
   return (
     <>
@@ -57,10 +72,12 @@ function TextArea({ targetId, categoryName, parentId, editTarget, setEditTarget,
         />
         <button className="submit" onClick={handleClick}></button>
         {editTarget && (
-          <CancelButton onClick={() => {
-            setEditTarget?.(null);
-            setText("");
-          }}>
+          <CancelButton
+            onClick={() => {
+              setEditTarget?.(null);
+              setText("");
+            }}
+          >
             <FiPlus />
           </CancelButton>
         )}
@@ -99,12 +116,13 @@ const CommentSection = styled.div<CommentSectionProps>`
   }
 
   .submit {
-    width: 40px;
+    width: 32px;
     height: 40px;
     background-color: transparent;
     background-image: url(${(props) => (props.hasText ? PostActive : Post)});
     background-position: center center;
     background-repeat: no-repeat;
+    background-size: contain;
     border: none;
     padding: 0;
   }
