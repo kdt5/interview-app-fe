@@ -20,32 +20,16 @@ const MainSlideBanner = () => {
         pagination={{ type: "fraction" }}
       >
         <SwiperSlide>
-          <img
-            src={MainBannerImage01}
-            alt="배너 1"
-            style={{ width: "100%", height: "auto" }}
-          />
+          <img className="slidebanner" src={MainBannerImage01} alt="배너 1" />
         </SwiperSlide>
         <SwiperSlide>
-          <img
-            src={MainBannerImage02}
-            alt="배너 2"
-            style={{ width: "100%", height: "auto" }}
-          />
+          <img className="slidebanner" src={MainBannerImage02} alt="배너 2" />
         </SwiperSlide>
         <SwiperSlide>
-          <img
-            src={MainBannerImage03}
-            alt="배너 3"
-            style={{ width: "100%", height: "auto" }}
-          />
+          <img className="slidebanner" src={MainBannerImage03} alt="배너 3" />
         </SwiperSlide>
         <SwiperSlide>
-          <img
-            src={MainBannerImage04}
-            alt="배너 4"
-            style={{ width: "100%", height: "auto" }}
-          />
+          <img className="slidebanner" src={MainBannerImage04} alt="배너 4" />
         </SwiperSlide>
       </Swiper>
     </MainSlideBannerStyle>
@@ -53,7 +37,6 @@ const MainSlideBanner = () => {
 };
 
 const MainSlideBannerStyle = styled.div`
-  padding: 0 30px;
   box-sizing: border-box;
   width: 100%;
   max-width: 380px;
@@ -75,6 +58,12 @@ const MainSlideBannerStyle = styled.div`
       color: #fff;
       font-weight: 400;
     }
+  }
+
+  .slidebanner {
+    width: 100%;
+    min-width: 320px;
+    height: auto;
   }
 `;
 
