@@ -403,16 +403,16 @@ const ProfileImageSetting = styled.div`
   margin: 0 auto 10px;
 
   img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
+    width: 75px;
+    height: 75px;
+    object-fit: contain;
     border-radius: 50%;
   }
 `;
 
 const ProfileImgAddBtn = styled.div`
   position: absolute;
-  top: 0;
+  top: -3px;
   right: 0;
   width: 2em;
   height: 2em;
