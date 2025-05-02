@@ -36,9 +36,6 @@ function PostDetail() {
 
   const topLevelComments =
     communityPostComments?.filter((comment) => comment.parentId === null) || [];
-  const getReplies = (parentId: number) =>
-    communityPostComments?.filter((comment) => comment.parentId === parentId) ||
-    [];
 
   const handleSuccessOk = () => {
     refetchComments?.();
@@ -71,7 +68,6 @@ function PostDetail() {
                   <CommentContents
                     key={item.id}
                     {...item}
-                    replies={getReplies(item.id)}
                     depth={0}
                     postId={Number(postId)}
                     allComments={communityPostComments}
@@ -125,7 +121,8 @@ export const CommentStyle = styled.div`
   padding: 0 0 0 30px;
 `;
 const CommentSectionWrapper = styled.div`
-  padding: 0 30px 70px 0;
+  padding: 0 30px 0 0;
+  margin-bottom: 60px;
 `;
 
 export default PostDetail;
