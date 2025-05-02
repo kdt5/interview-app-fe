@@ -1,8 +1,9 @@
 import styled from "styled-components";
+import PlaceHolderUserImg from "../../../assets/user.png"
 
 interface Props {
   nickname: string;
-  profileImageUrl: string;
+  profileImageUrl?: string;
   answerCount: number;
   level: number;
   position?: string;
@@ -21,7 +22,7 @@ function CommonProfile({
     <>
       <ProfileSection>
         <CommonProfileStyle
-          src={profileImageUrl}
+          src={profileImageUrl ? profileImageUrl : PlaceHolderUserImg}
           alt={`${nickname}의 프로필`}
         />
         <FlexWrap>

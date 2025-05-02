@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { useCommunityPosts, useTrendingPosts } from "../../hooks/UsePost";
 import { FRONTEND_URLS } from "../../constants/Urls";
 import { useState } from "react";
+import { Autoplay, Pagination } from "swiper/modules";
 
 function PostTab() {
   const [selectedCatId, setSelectedCatId] = useState(0);
@@ -18,13 +19,20 @@ function PostTab() {
   );
   const { trendingPosts } = useTrendingPosts();
 
-  if(!communityPosts || !trendingPosts) return null;
+  if (!communityPosts || !trendingPosts) return null;
 
   return (
     <>
-      <SectionTitle to="/">인기글</SectionTitle>
+      <SectionTitle>인기글</SectionTitle>
       <PopularSlide>
-        <Swiper spaceBetween={15} slidesPerView="auto">
+        <Swiper
+          modules={[Autoplay, Pagination]}
+          spaceBetween={15}
+          slidesPerView={1}
+          loop={true}
+          autoplay={{ delay: 3000, disableOnInteraction: false }}
+          pagination={{ type: "fraction" }}
+        >
           <SwiperSlide style={{ width: "150px" }}>
             <PopularSlideNotice>
               <div>
@@ -38,8 +46,15 @@ function PostTab() {
           </SwiperSlide>
           {trendingPosts.map((item, index) => (
             <SwiperSlide key={index} style={{ width: "100%" }}>
-              <Link key={index} to={`${FRONTEND_URLS.COMMUNITY.POST}/${item.id}`}>
-                <PopularPost title={item.title} content={item.content} favoriteCount={item.favoriteCount} />
+              <Link
+                key={index}
+                to={`${FRONTEND_URLS.COMMUNITY.POST}/${item.id}`}
+              >
+                <PopularPost
+                  title={item.title}
+                  content={item.content}
+                  favoriteCount={item.favoriteCount}
+                />
               </Link>
             </SwiperSlide>
           ))}
@@ -99,6 +114,23 @@ const Info = styled.div`
 
 const PopularSlide = styled.div`
   padding: 0 30px;
+
+  .swiper-pagination-fraction {
+    background: #00000052;
+    color: #fff;
+    font-size: 12px;
+    border-radius: 8px;
+    position: relative;
+    bottom: 25px;
+    width: 32px;
+    float: right;
+    margin-right: 8px;
+
+    span {
+      color: #fff;
+      font-weight: 400;
+    }
+  }
 `;
 
 const MidLine = styled.div`

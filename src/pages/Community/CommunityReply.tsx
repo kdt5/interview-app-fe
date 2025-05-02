@@ -5,7 +5,6 @@ import CommentContents, {
   CommonProfileStyle,
   Contents,
   FlexWrap,
-  OptionButton,
   ProfileSection,
   UserInfo,
   Username,
@@ -21,6 +20,7 @@ import CommunityModal, {
   CenterModalContainer,
 } from "../../components/common/Community/CommunityModal";
 import { LikeIcon } from "../../components/common/LikeIcon";
+import OptionSmall from "../../assets/Option.png";
 
 function CommunityReply() {
   const { postId, commentId } = useParams();
@@ -82,7 +82,7 @@ function CommunityReply() {
   return (
     <>
       <ProfileSection>
-        <CommunityReplyStyle>
+        <CommentWrapper>
           <FlexWrap>
             <UserInfo>
               <CommonProfileStyle
@@ -96,46 +96,48 @@ function CommunityReply() {
             </UserInfo>
             <OptionButton onClick={handleOptionClick}></OptionButton>
           </FlexWrap>
-        </CommunityReplyStyle>
-        <Contents>{subComment?.content}</Contents>
-        <CommentInfo>
-          <span>
-            <LikeIcon
-              likeId={parseInt(commentId)}
-              targetType="comment"
-              alt=""
-              handleToggleLike={handleToggleLike}
-            />
-            좋아요 {currFavoriteCount === 0 ? "" : currFavoriteCount}
-          </span>{" "}
-          <span>
-            <img src={ReplySmall} alt="" />
-            답글 {countAllReplies(communityPostComments, parsedCommentId)}
-          </span>
-        </CommentInfo>
-        {subCommentTopLevelComments ? (
-          subCommentTopLevelComments.length > 0 ? (
-            <>
-              <CommunityReplyStyle>
-                {subCommentTopLevelComments.map((item) => (
-                  <CommentContents
-                    key={item.id}
-                    {...item}
-                    replies={getReplies(item.id)}
-                    depth={0}
-                    postId={parsedPostId}
-                    allComments={communityPostComments}
-                    setEditTarget={setEditTarget}
-                  />
-                ))}
-              </CommunityReplyStyle>
-            </>
+          <Contents>{subComment?.content}</Contents>
+          <CommentInfo>
+            <span>
+              <LikeIcon
+                likeId={parseInt(commentId)}
+                targetType="comment"
+                alt=""
+                handleToggleLike={handleToggleLike}
+              />
+              좋아요 {currFavoriteCount === 0 ? "" : currFavoriteCount}
+            </span>{" "}
+            <span>
+              <img src={ReplySmall} alt="" />
+              답글 {countAllReplies(communityPostComments, parsedCommentId)}
+            </span>
+          </CommentInfo>
+          {subCommentTopLevelComments ? (
+            subCommentTopLevelComments.length > 0 ? (
+              <>
+                <CommunityReplyWrapper>
+                  <CommunityReplyStyle>
+                    {subCommentTopLevelComments.map((item) => (
+                      <CommentContents
+                        key={item.id}
+                        {...item}
+                        replies={getReplies(item.id)}
+                        depth={0}
+                        postId={parsedPostId}
+                        allComments={communityPostComments}
+                        setEditTarget={setEditTarget}
+                      />
+                    ))}
+                  </CommunityReplyStyle>
+                </CommunityReplyWrapper>
+              </>
+            ) : (
+              <div></div>
+            )
           ) : (
-            <div></div>
-          )
-        ) : (
-          <div>로딩중...</div>
-        )}
+            <div>로딩중...</div>
+          )}
+        </CommentWrapper>
         <TextArea
           targetId={postId ? parsedPostId : -1}
           categoryName="post"
@@ -172,7 +174,28 @@ function CommunityReply() {
 }
 
 const CommunityReplyStyle = styled.div`
-  padding: 0 30px;
+  margin-top: 30px;
+  padding: 0 0 0 30px;
+`;
+
+const CommunityReplyWrapper = styled.div`
+  padding: 0 30px 0 0;
+`;
+
+const CommentWrapper = styled.div`
+  padding: 0 0 70px 30px;
+  box-sizing: border-box;
+`;
+
+const OptionButton = styled.div`
+  margin-right: 30px;
+  width: 10px;
+  height: 30px;
+  background-color: transparent;
+  background-image: url(${OptionSmall});
+  background-repeat: no-repeat;
+  padding: 0;
+  border-radius: 0;
 `;
 
 export default CommunityReply;

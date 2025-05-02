@@ -1,17 +1,28 @@
 import { FaChevronRight } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 interface Props {
   iconSource: string;
   menu: string;
   to?: string;
+  tabType?: "위클리" | "필수 질문";
 }
 
-function MyPageSectionList({ iconSource, menu, to }: Props) {
+function MyPageSectionList({ iconSource, menu, to, tabType }: Props) {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    if (to) {
+      navigate(to, {
+        state: tabType ? { tabType } : undefined,
+      });
+    }
+  };
+
   return (
     <>
-      <MyPageSectionListStyle to={to || "/"}>
+      <MyPageSectionListStyle onClick={handleClick}>
         <LeftSection>
           <IconImage src={iconSource} alt={`${menu} 아이콘`} />
           <MyPageSectionMenu>{menu}</MyPageSectionMenu>
@@ -22,7 +33,7 @@ function MyPageSectionList({ iconSource, menu, to }: Props) {
   );
 }
 
-const MyPageSectionListStyle = styled(Link)`
+const MyPageSectionListStyle = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -30,6 +41,7 @@ const MyPageSectionListStyle = styled(Link)`
   color: #333;
   margin: 15px 0;
   transition: background-color 0.2s ease;
+  cursor: pointer;
 `;
 
 const LeftSection = styled.div`
@@ -39,6 +51,7 @@ const LeftSection = styled.div`
 
 const IconImage = styled.img`
   margin-right: 10px;
+  width: 16px;
 `;
 
 const MyPageSectionMenu = styled.span`

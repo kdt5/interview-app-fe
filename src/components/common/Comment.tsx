@@ -128,6 +128,7 @@ function CommentContents({
     </>
   );
 }
+
 export const OptionButton = styled.button`
   width: 10px;
   height: 30px;
@@ -139,16 +140,23 @@ export const OptionButton = styled.button`
 `;
 export const CommentInfo = styled.p`
   padding-left: 45px;
+  display: flex;
+  align-items: center;
+
   span {
     color: #888;
     font-size: 12px;
     font-weight: 400;
     display: inline-block;
-    margin-right: 6px;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
 
     img {
       display: inline-block;
       margin-right: 3px;
+      vertical-align: middle;
+      width: 16px;
     }
   }
 `;
@@ -163,6 +171,8 @@ export const CommonProfileStyle = styled.img`
 export const ProfileSection = styled.div`
   margin-top: 15px;
   position: relative;
+  width: 100%;
+  box-sizing: border-box;
 `;
 
 export const FlexWrap = styled.div`

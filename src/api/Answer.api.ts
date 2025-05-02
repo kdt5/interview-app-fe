@@ -12,7 +12,11 @@ export async function fetchBasicAnsweredQuestions(): Promise<
   AnsweredQuestion[]
 > {
   const response = await backendHttpClient
-    .get<AnsweredQuestion[]>(BACKEND_URLS.ANSWERS.MINE.BASIC)
+    .get<AnsweredQuestion[]>(BACKEND_URLS.ANSWERS.MINE, {
+      params: {
+        filter: "basic",
+      }
+    })
     .then((response) => response.data)
     .catch((error) => {
       throw error;
@@ -25,7 +29,11 @@ export async function fetchWeeklyAnsweredQuestions(): Promise<
   AnsweredQuestion[]
 > {
   const response = await backendHttpClient
-    .get<AnsweredQuestion[]>(BACKEND_URLS.ANSWERS.MINE.WEEKLY)
+    .get<AnsweredQuestion[]>(BACKEND_URLS.ANSWERS.MINE, {
+      params: {
+        filter: "weekly",
+      }
+    })
     .then((response) => response.data)
     .catch((error) => {
       throw error;

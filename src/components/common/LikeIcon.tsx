@@ -2,6 +2,8 @@ import { FavoriteTargetType } from "../../api/Favorite.api";
 import { useFavorite } from "../../hooks/UseFavorite";
 import LikeImg from "../../assets/Like.png";
 import ActiveLikeImg from "../../assets/Like_active.png";
+import SmallLikeImg from "../../assets/Link_Small.png";
+import ActiveSmallLikeImg from "../../assets/Link_Small_active.png";
 
 interface LikeIconProps {
   likeId: number;
@@ -20,23 +22,36 @@ export function LikeIcon({
 
   const onClick = async () => {
     try {
-      if (isFavorite) {
-        await removeFavorite();
-      } else {
+      const isAddingLike = !isFavorite;
+
+      if (isAddingLike) {
         await addFavorite();
+        setIsFavorite(true);
+      } else {
+        await removeFavorite();
+        setIsFavorite(false);
       }
-      setIsFavorite((prev) => !prev);
+
       if (handleToggleLike) {
-        handleToggleLike(isFavorite);
+        handleToggleLike(targetType === "post" ? isAddingLike : !isAddingLike);
       }
     } catch (error) {
       console.error("Error toggling favorite:", error);
+      setIsFavorite((prev) => !prev);
     }
   };
 
   return (
     <img
-      src={isFavorite ? ActiveLikeImg : LikeImg}
+      src={
+        isFavorite
+          ? targetType === "comment"
+            ? ActiveSmallLikeImg
+            : ActiveLikeImg
+          : targetType === "comment"
+            ? SmallLikeImg
+            : LikeImg
+      }
       alt={alt}
       onClick={onClick}
       style={{ cursor: "pointer" }}

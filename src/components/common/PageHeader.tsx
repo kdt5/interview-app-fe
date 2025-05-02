@@ -36,7 +36,7 @@ function Header() {
           <span>
             <img src={logo} alt="interview it" />
           </span>
-          <span>
+          <span className="notice">
             <img src={hasNotice ? Notice : NoticeActive} alt="" />
           </span>
         </div>
@@ -66,8 +66,11 @@ const getPageTitle = (pathname: string) => {
     [frontend]: "프론트엔드 면접 질문",
     [backend]: "백엔드 면접 질문",
     [FRONTEND_URLS.MY_PAGE.HOME]: "마이페이지",
+    [FRONTEND_URLS.MY_PAGE.EDIT.PROFILE]: "내 정보 수정",
     [FRONTEND_URLS.MY_PAGE.ANSWERS]: "내 답변 모아보기",
-    [FRONTEND_URLS.MY_PAGE.FAVORITES.QUESTIONS]: "즐겨찾기 질문 모아보기",
+    [FRONTEND_URLS.MY_PAGE.POSTS]: "내가 쓴 게시글",
+    [FRONTEND_URLS.MY_PAGE.FAVORITES.POSTS]: "좋아요한 게시글",
+    [FRONTEND_URLS.MY_PAGE.FAVORITES.QUESTIONS]: "질문 즐겨찾기",
     [FRONTEND_URLS.FORGOT_PASSWORD]: "비밀번호 찾기",
     [FRONTEND_URLS.RESET_PASSWORD]: "비밀번호 재설정",
     [FRONTEND_URLS.RANKINGS.MAIN]: "랭킹",
@@ -77,6 +80,8 @@ const getPageTitle = (pathname: string) => {
     [FRONTEND_URLS.ANSWER]: "답변 보기",
     [FRONTEND_URLS.SIGNUP]: "회원가입",
     [FRONTEND_URLS.LOGIN]: " ",
+
+    [FRONTEND_URLS.NOT_READY]: "준비중인 페이지",
   };
 
   const matchAnswer = matchPath(FRONTEND_URLS.ANSWER, pathname);
@@ -115,6 +120,10 @@ const HeaderStyle = styled.header<{ $bgColor: string }>`
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    .notice img {
+      width: 32px;
+    }
   }
 `;
 

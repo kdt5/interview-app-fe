@@ -14,6 +14,7 @@ export interface Question {
   isAnswered?: boolean;
   isFavorite?: boolean;
   answerCount?: number;
+  answerId?: number;
 }
 
 export interface WeeklyQuestion extends Question {

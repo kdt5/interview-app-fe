@@ -19,6 +19,23 @@ export async function fetchPosts(
   return response;
 }
 
+export async function fetchMyPosts(
+  categoryId?: number
+): Promise<CommunityPost[]> {
+  const response = await backendHttpClient
+    .get<CommunityPost[]>(BACKEND_URLS.POSTS.MINE, { 
+      params: {
+        categoryId,
+      }
+    })
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+
+  return response;
+}
+
 export async function fetchTrendingPosts(
   categoryId?: number,
   limit?: number,

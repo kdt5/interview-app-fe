@@ -16,6 +16,7 @@ import { FRONTEND_URLS } from "../constants/Urls";
 import { replaceUrlParams } from "../utils/Url";
 import { getPositionKeyById } from "../utils/Positions";
 import { useMyUserData } from "../hooks/UseMyUserData";
+import { getAnsweredQuestionUrl } from "../utils/Question";
 
 function MainPage() {
   const { weeklyQuestion } = useFetchWeeklyQuestion();
@@ -36,16 +37,19 @@ function MainPage() {
         {weeklyQuestion ? (
           <WeeklyQuestionCard
             category={categoryName}
-            title={weeklyQuestion.question?.title}
+            title={weeklyQuestion.question.title}
             date={formatToWeeklyLabel(weeklyQuestion.startDate)}
-            answerCount={123}
+            answerCount={weeklyQuestion.question.answerCount}
             isComplete={isComplete}
-            linkTo={`/questions/${weeklyQuestion.question?.id}/answer`}
+            linkTo={getAnsweredQuestionUrl(
+              weeklyQuestion.question.id,
+              weeklyQuestion.question.answerId
+            )}
           ></WeeklyQuestionCard>
         ) : (
           <>
             <WeeklyQuestionCard
-              category="-"
+              category=""
               title="이번주 위클리 질문을 불러올 수 없습니다"
               date=""
               answerCount={0}

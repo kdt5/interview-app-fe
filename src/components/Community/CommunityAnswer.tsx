@@ -48,8 +48,8 @@ function CommunityAnswer({
       : POST_CATEGORIES.find((category) => category.id === postCategoryId)
           ?.name;
 
-  const handleToggleLike = (isFavorite: boolean) => {
-    setCurrentFavoriteCount((prev) => (isFavorite ? prev - 1 : prev + 1));
+  const handleToggleLike = (isAddingLike: boolean) => {
+    setCurrentFavoriteCount((prev) => (isAddingLike ? prev + 1 : prev - 1));
   };
 
   const handleOptionClick = () => {
@@ -120,6 +120,10 @@ const AnswerInfo = styled.div`
     .like-icon {
       display: inline-block;
       margin-right: 12px;
+
+      img {
+        width: 24px;
+      }
     }
     .option {
       display: inline-block;

@@ -38,6 +38,10 @@ const SlideNavigationIcon = styled.div`
   display: grid;
   align-items: center;
   justify-content: center;
+
+  img {
+    width: 32px;
+  }
 `;
 
 export default MainPageIconNavigation;

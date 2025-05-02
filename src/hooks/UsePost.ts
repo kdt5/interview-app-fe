@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { CommunityPost, PostCategory } from "../models/CommunityPost.model";
-import { createPost, editPost, fetchPostCategories, fetchPostComments, fetchPostDetail, fetchPosts, fetchTrendingPosts } from "../api/Post.api";
+import { createPost, editPost, fetchMyPosts, fetchPostCategories, fetchPostComments, fetchPostDetail, fetchPosts, fetchTrendingPosts } from "../api/Post.api";
 import { Comment } from "../models/Comment.model";
 
 export function useTrendingPosts(categoryId?: number, limit?: number) {
@@ -33,6 +33,22 @@ export function useCommunityPosts(categoryId?: number) {
   }, [categoryId]);
 
   return { communityPosts };
+}
+
+export function useMyPosts(categoryId?: number) {
+  const [myPosts, setMyPosts] = useState<CommunityPost[]>([]);
+
+  useEffect(() => {
+    try {
+      fetchMyPosts(categoryId).then((posts) => {
+        setMyPosts(posts);
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }, [categoryId]);
+
+  return { myPosts };
 }
 
 export function useCommunityPostDetail(postId: number) {

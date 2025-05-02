@@ -3,10 +3,22 @@ import { BACKEND_URLS } from "../constants/Urls";
 import { replaceUrlParams } from "../utils/Url";
 import { Question } from "../models/Question.model";
 import axios from "axios";
+import { CommunityPost } from "../models/CommunityPost.model";
 
 export async function fetchFavoriteQuestions() {
   const response = await backendHttpClient
-    .get<Question[]>(BACKEND_URLS.FAVORITES.MINE)
+    .get<Question[]>(`${BACKEND_URLS.FAVORITES.MINE}/question`)
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+
+  return response;
+}
+
+export async function fetchFavoritePosts() {
+  const response = await backendHttpClient
+    .get<CommunityPost[]>(`${BACKEND_URLS.FAVORITES.MINE}/post`)
     .then((response) => response.data)
     .catch((error) => {
       throw error;

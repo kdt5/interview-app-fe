@@ -20,11 +20,13 @@ function MyPageSection() {
           iconSource={MenuIcon01}
           menu="위클리 내 답변"
           to={FRONTEND_URLS.MY_PAGE.ANSWERS}
+          tabType="위클리"
         />
         <MyPageSectionList
           iconSource={MenuIcon02}
           menu="필수 질문 내 답변"
           to={FRONTEND_URLS.MY_PAGE.ANSWERS}
+          tabType="필수 질문"
         />
         <MyPageSectionList
           iconSource={MenuIcon03}
@@ -38,20 +40,32 @@ function MyPageSection() {
         <MyPageSectionList
           iconSource={MenuIcon04}
           menu="내가 쓴 게시글"
-          to=""
+          to={FRONTEND_URLS.MY_PAGE.POSTS}
         />
         <MyPageSectionList
           iconSource={MenuIcon05}
           menu="좋아요한 게시글"
-          to=""
+          to={FRONTEND_URLS.MY_PAGE.FAVORITES.POSTS}
         />
       </MyPageSectionMenu>
 
       <MyPageSectionMenu>
         <MyPageSectionMenuTitle>고객지원</MyPageSectionMenuTitle>
-        <MyPageSectionList iconSource={MenuIcon06} menu="고객센터" to="" />
-        <MyPageSectionList iconSource={MenuIcon07} menu="의견 남기기" to="" />
-        <MyPageSectionList iconSource={MenuIcon08} menu="약관 및 정책" to="" />
+        <MyPageSectionList
+          iconSource={MenuIcon06}
+          menu="고객센터"
+          to={FRONTEND_URLS.NOT_READY}
+        />
+        <MyPageSectionList
+          iconSource={MenuIcon07}
+          menu="의견 남기기"
+          to={FRONTEND_URLS.NOT_READY}
+        />
+        <MyPageSectionList
+          iconSource={MenuIcon08}
+          menu="약관 및 정책"
+          to={FRONTEND_URLS.NOT_READY}
+        />
       </MyPageSectionMenu>
     </>
   );

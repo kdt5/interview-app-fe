@@ -18,11 +18,11 @@ interface UseAuthReturn {
   setMe: (me: UserBasicInfo) => void;
   handleLogin: (email: string, password: string) => Promise<void>;
   handleLogout: () => Promise<void>;
-  handleChangeNickname: (nickname: string) => Promise<void>;
+  handleChangeNickname: (nickname: string) => Promise<boolean>;
   handleChangePassword: (
     oldPassword: string,
     newPassword: string
-  ) => Promise<void>;
+  ) => Promise<boolean>;
   handleChangeProfileImage: (file: File) => Promise<void>;
 }
 
@@ -115,30 +115,36 @@ export function useAuth(): UseAuthReturn {
   }, [navigate, updateAuthState, handleError]);
 
   const handleChangeNickname = useCallback(
-    async (nickname: string): Promise<void> => {
+    async (nickname: string): Promise<boolean> => {
       try {
         updateAuthState(isAuthenticated, me, true);
-        await changeNickname(nickname);
-        if (me) {
+        const success = await changeNickname(nickname);
+        if (success && me) {
           updateAuthState(isAuthenticated, { ...me, nickname }, false);
         }
+        return true;
       } catch (err: unknown) {
         handleError(err, "닉네임 변경에 실패했습니다.");
         updateAuthState(isAuthenticated, me, false);
+        return false;
       }
     },
     [isAuthenticated, me, updateAuthState, handleError]
   );
 
   const handleChangePassword = useCallback(
-    async (oldPassword: string, newPassword: string): Promise<void> => {
+    async (oldPassword: string, newPassword: string): Promise<boolean> => {
       try {
         updateAuthState(isAuthenticated, me, true);
-        await changePassword(oldPassword, newPassword);
-        updateAuthState(isAuthenticated, me, false);
+        const success = await changePassword(oldPassword, newPassword);
+        if (success && me) {
+          updateAuthState(isAuthenticated, me, false);
+        }
+        return true;
       } catch (err: unknown) {
         handleError(err, "비밀번호 변경에 실패했습니다.");
         updateAuthState(isAuthenticated, me, false);
+        return false;
       }
     },
     [isAuthenticated, me, updateAuthState, handleError]
