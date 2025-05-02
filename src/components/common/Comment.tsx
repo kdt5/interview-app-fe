@@ -159,6 +159,7 @@ export const CommentInfo = styled.p`
       display: inline-block;
       margin-right: 3px;
       vertical-align: middle;
+      width: 16px;
     }
   }
 `;

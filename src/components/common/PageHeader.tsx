@@ -36,7 +36,7 @@ function Header() {
           <span>
             <img src={logo} alt="interview it" />
           </span>
-          <span>
+          <span className="notice">
             <img src={hasNotice ? Notice : NoticeActive} alt="" />
           </span>
         </div>
@@ -120,6 +120,10 @@ const HeaderStyle = styled.header<{ $bgColor: string }>`
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    .notice img {
+      width: 32px;
+    }
   }
 `;
 

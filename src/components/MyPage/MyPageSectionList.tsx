@@ -51,6 +51,7 @@ const LeftSection = styled.div`
 
 const IconImage = styled.img`
   margin-right: 10px;
+  width: 16px;
 `;
 
 const MyPageSectionMenu = styled.span`
