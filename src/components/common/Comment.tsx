@@ -137,9 +137,6 @@ export const OptionButton = styled.button`
   background-repeat: no-repeat;
   padding: 0;
   border-radius: 0;
-  position: absolute;
-  top: 0;
-  right: 0;
 `;
 export const CommentInfo = styled.p`
   padding-left: 45px;
@@ -159,6 +156,7 @@ export const CommentInfo = styled.p`
       display: inline-block;
       margin-right: 3px;
       vertical-align: middle;
+      width: 16px;
     }
   }
 `;

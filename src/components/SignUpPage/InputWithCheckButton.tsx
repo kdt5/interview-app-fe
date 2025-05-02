@@ -15,6 +15,7 @@ interface InputWithCheckButtonProps {
   onChange: () => void;
   successMessage: string;
   maxLength?: number;
+  className?: string;
 }
 
 const InputWithCheckButton: React.FC<InputWithCheckButtonProps> = ({
@@ -27,9 +28,10 @@ const InputWithCheckButton: React.FC<InputWithCheckButtonProps> = ({
   error,
   onChange,
   successMessage,
+  className,
 }) => {
   return (
-    <InputWithCheckButtonStyle>
+    <InputWithCheckButtonStyle className={className}>
       <div className={`${name}-container`}>
         {label && <p className="title">{label}</p>}
         <div className={`${name}-input-button-wrap`}>
@@ -106,7 +108,7 @@ const InputWithCheckButtonStyle = styled.div`
   .nickname-check-button {
     height: 60px;
     font-size: 16px;
-    padding: 15px 20px;
+    padding: 15px 18px;
 
     &.checked {
       background: #6ea1ff;

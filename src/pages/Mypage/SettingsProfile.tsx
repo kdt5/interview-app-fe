@@ -272,7 +272,7 @@ function SettingProfile() {
           </ProfileInfo>
 
           <ProfileInfo>
-            <ProfileDefaultInfo>
+            <ProfileDefaultInfo className="nickname-title">
               <h2>닉네임</h2>
               <p>{currentNickname}</p>
             </ProfileDefaultInfo>
@@ -285,6 +285,7 @@ function SettingProfile() {
               error={errors.nickname}
               onChange={onChangeNickname}
               successMessage="사용 가능한 닉네임입니다."
+              className="nickname-input"
             />
             <NicknameChangeConfirmButton
               onClick={onSubmitNickname}
@@ -295,7 +296,7 @@ function SettingProfile() {
           </ProfileInfo>
 
           <PasswordChange>
-            <ProfileDefaultInfo>
+            <ProfileDefaultInfo className="password-title">
               <h2>비밀번호</h2>
             </ProfileDefaultInfo>
             <InputField
@@ -374,6 +375,10 @@ const EditProfileStyle = styled.div`
   min-height: 100dvh;
   height: fit-content;
   padding: 30px;
+
+  .nickname-input {
+    margin-bottom: -10px;
+  }
 `;
 
 const ProfileWrap = styled(MyPageSectionStyle)``;
@@ -403,16 +408,16 @@ const ProfileImageSetting = styled.div`
   margin: 0 auto 10px;
 
   img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
+    width: 75px;
+    height: 75px;
+    object-fit: contain;
     border-radius: 50%;
   }
 `;
 
 const ProfileImgAddBtn = styled.div`
   position: absolute;
-  top: 0;
+  top: -3px;
   right: 0;
   width: 2em;
   height: 2em;
@@ -454,13 +459,21 @@ const ProfileDefaultInfo = styled.div`
     font-weight: 400;
     color: #ccc;
   }
+
+  &.nickname-title {
+    margin-bottom: 15px;
+  }
+
+  &.password-title {
+    margin-bottom: 10px;
+  }
 `;
 
 const PasswordChange = styled.div`
   padding: 25px 0;
 
   .password-input {
-    margin: 15px 0;
+    margin: 5px 0;
   }
 `;
 
@@ -473,7 +486,6 @@ const NicknameChangeConfirmButton = styled.button`
   font-size: 16px;
   color: #d4dcea;
   border-radius: 5px;
-  margin-top: 10px;
 
   &:not(:disabled) {
     border: none;
