@@ -173,6 +173,10 @@ const NavStyle = styled.nav`
         font-size: 14px;
         margin-top: 3px;
 
+        img {
+          width: 24px;
+        }
+
         svg {
           font-size: 20px;
           margin-bottom: 5px;
