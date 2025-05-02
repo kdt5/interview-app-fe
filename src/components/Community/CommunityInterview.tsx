@@ -12,6 +12,7 @@ import { useState } from "react";
 import { FRONTEND_URLS } from "../../constants/Urls";
 import { useFetchQuestions } from "../../hooks/UseFetchQuestions";
 import { getAnsweredQuestionUrl } from "../../utils/Question";
+import { replaceUrlParams } from "../../utils/Url";
 
 function InterviewTab() {
   const navigate = useNavigate();
@@ -73,13 +74,7 @@ function InterviewTab() {
           <div
             key={item.id}
             onClick={() =>
-              navigate(
-                "/" +
-                  FRONTEND_URLS.COMMUNITY.ANSWERS.replace(
-                    ":questionId",
-                    item.id.toString()
-                  )
-              )
+              navigate(replaceUrlParams(FRONTEND_URLS.COMMUNITY.ANSWERS, {questionId: String(item.id)}))
             }
           >
             <QuestionListItem
