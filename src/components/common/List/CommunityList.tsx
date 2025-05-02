@@ -71,7 +71,7 @@ const Info = styled.div`
     img {
       display: inline-block;
       margin-right: 3px;
-      width: 15px;
+      width: 16px;
     }
   }
 `;

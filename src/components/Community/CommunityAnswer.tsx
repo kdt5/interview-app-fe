@@ -120,6 +120,10 @@ const AnswerInfo = styled.div`
     .like-icon {
       display: inline-block;
       margin-right: 12px;
+
+      img {
+        width: 24px;
+      }
     }
     .option {
       display: inline-block;

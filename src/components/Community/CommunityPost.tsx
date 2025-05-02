@@ -19,7 +19,7 @@ function PostTab() {
   );
   const { trendingPosts } = useTrendingPosts();
 
-  if(!communityPosts || !trendingPosts) return null;
+  if (!communityPosts || !trendingPosts) return null;
 
   return (
     <>
@@ -46,8 +46,15 @@ function PostTab() {
           </SwiperSlide>
           {trendingPosts.map((item, index) => (
             <SwiperSlide key={index} style={{ width: "100%" }}>
-              <Link key={index} to={`${FRONTEND_URLS.COMMUNITY.POST}/${item.id}`}>
-                <PopularPost title={item.title} content={item.content} favoriteCount={item.favoriteCount} />
+              <Link
+                key={index}
+                to={`${FRONTEND_URLS.COMMUNITY.POST}/${item.id}`}
+              >
+                <PopularPost
+                  title={item.title}
+                  content={item.content}
+                  favoriteCount={item.favoriteCount}
+                />
               </Link>
             </SwiperSlide>
           ))}
@@ -123,6 +130,7 @@ const PopularSlide = styled.div`
       color: #fff;
       font-weight: 400;
     }
+  }
 `;
 
 const MidLine = styled.div`
