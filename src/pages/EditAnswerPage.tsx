@@ -30,7 +30,6 @@ function EditAnswerPage() {
     parsedAnswerId
   );
   const [currentAnswer, setCurrentAnswer] = useState(previousAnswer);
-  // const [confirmMessage] = useState("답변을 수정하시겠습니까?");
   const [alertMessage, setAlertMessage] = useState("");
   const [isModalsVisible, setIsModalsVisible] = useState({
     confirm: false,
