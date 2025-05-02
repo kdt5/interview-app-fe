@@ -34,24 +34,27 @@ function QuestionBox({
 
     return (
       <CommonQuestionSection>
-        {mainWeeklyQuestion && !mainWeeklyQuestion.isAnswered && (
-          <WeeklyAnswerPageLinkStyle to={replaceUrlParams(FRONTEND_URLS.ANSWER, {questionId: String(mainWeeklyQuestion.id)})}>
+        {mainWeeklyQuestion && !mainWeeklyQuestion.isAnswered ? (
+          <WeeklyAnswerPageLinkStyle
+            to={replaceUrlParams(FRONTEND_URLS.ANSWER, {
+              questionId: String(mainWeeklyQuestion.id),
+            })}
+          >
             <h1>
               <span>이번 주 위클리 질문</span>에 답변하지 않았어요
             </h1>
             <SlArrowRight />
           </WeeklyAnswerPageLinkStyle>
+        ) : (
+          <WeeklyAnswerSpacer $isAnswered={!!mainWeeklyQuestion?.isAnswered} />
         )}
         {questions.length === 0
           ? null
-          : questions.map((item, index) => {
+          : questions.map((item) => {
               const url = getAnsweredQuestionUrl(item.id, item.answerId);
 
               return (
-                <WeeklyQuestionWrapper
-                  $isPushedDown={index === 0}
-                  key={item.id}
-                >
+                <WeeklyQuestionWrapper key={item.id}>
                   <div key={item.id} onClick={() => navigate(url)}>
                     <WeeklyQuestionListItem
                       questionId={item.id}
@@ -141,8 +144,11 @@ const WeeklyAnswerPageLinkStyle = styled(Link)`
   }
 `;
 
-const WeeklyQuestionWrapper = styled.div<{ $isPushedDown?: boolean }>`
-  margin-top: ${({ $isPushedDown }) => ($isPushedDown ? "60px" : "0px")};
+const WeeklyAnswerSpacer = styled.div<{ $isAnswered: boolean }>`
+  height: ${({ $isAnswered }) => ($isAnswered ? "30px" : "0px")};
+`;
+
+const WeeklyQuestionWrapper = styled.div`
   cursor: pointer;
 `;
 
