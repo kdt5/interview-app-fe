@@ -25,6 +25,7 @@ import ResetPasswordPage from "../pages/ResetPasswordPage";
 import AnswerDetailPage from "../pages/AnswerDetailPage";
 import PostHistoryPage from "../pages/Mypage/PostHistoryPage";
 import FavoritePostsPage from "../pages/Mypage/FavoritePostsPage";
+import NotReadyYetPage from "../pages/NotReadyYetPage";
 
 const requiredUrls = [
   FRONTEND_URLS.HOME,
@@ -151,6 +152,10 @@ export const routerObjects: RouteObject[] = [
   {
     path: FRONTEND_URLS.RANKINGS.MORE,
     element: <MoreRankingPage />,
+  },
+  {
+    path: FRONTEND_URLS.NOT_READY,
+    element: <NotReadyYetPage />,
   },
 ].map((routerObject) => {
   return {

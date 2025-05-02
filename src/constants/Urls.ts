@@ -39,6 +39,7 @@ export const FRONTEND_URLS = {
     ANSWERS: "community/questions/:questionId/answers",
     ANSWER_DETAIL: "/community/questions/:questionId/answers/:answerId",
   },
+  NOT_READY: "/not-ready",
 };
 
 export const BACKEND_URLS = {
@@ -102,5 +103,5 @@ export const BACKEND_URLS = {
   },
   TRENDING: {
     POSTS: "/api/trending/posts",
-  }
+  },
 };
