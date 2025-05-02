@@ -14,6 +14,7 @@ export interface Answer {
   updatedAt: string;
   viewCount: number;
   favoriteCount: number;
+  visibility: boolean;
 }
 
 export interface AnsweredQuestion extends Answer {

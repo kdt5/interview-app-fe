@@ -1,4 +1,4 @@
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useAnswer } from "../hooks/UseAnswer";
 import QuestionContainer from "../components/AnswerPage/QuestionContainer";
@@ -17,7 +17,6 @@ function AnswerDetailPage() {
     answerId: string;
   }>();
   const navigate = useNavigate();
-  const location = useLocation();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeAction, setActiveAction] = useState<"edit" | "delete" | null>(
@@ -27,11 +26,7 @@ function AnswerDetailPage() {
 
   const parsedQuestionId = parseInt(questionId as string);
   const parsedAnswerId = parseInt(answerId as string);
-  const { question, answer } = useAnswer(parsedQuestionId, parsedAnswerId);
-
-  const queryParams = new URLSearchParams(location.search);
-  const isPublicParam = queryParams.get("isPublic");
-  const isPublic = isPublicParam === "true";
+  const { question, answer, isPublic } = useAnswer(parsedQuestionId, parsedAnswerId);
 
   if (questionId === undefined) {
     console.error("questionId 가 유효하지 않습니다.");
@@ -67,7 +62,7 @@ function AnswerDetailPage() {
     <AnswerDetailPageStyle>
       <QuestionContainer
         title={question?.title || "질문이 없습니다."}
-        categoryId={question?.categories[0].category.id || 0}
+        categoryId={question?.categories?.[0].category?.id || 0}
       ></QuestionContainer>
       <VisibilityLabel>
         <p>
@@ -77,7 +72,7 @@ function AnswerDetailPage() {
       </VisibilityLabel>
       <AnswerContainer>
         <textarea readOnly className="answer-text" value={answer}></textarea>
-        <MoreAnswerLink to="/community">답변 더 보기+</MoreAnswerLink>
+        <MoreAnswerLink to={replaceUrlParams(FRONTEND_URLS.COMMUNITY.ANSWERS, {questionId: questionId})}>답변 더 보기+</MoreAnswerLink>
       </AnswerContainer>
       <OptionButton onClick={() => setIsModalOpen(true)} />
       {isModalOpen && (

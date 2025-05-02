@@ -8,6 +8,7 @@ interface Props {
 }
 
 function ConfirmModal({ onClose, onConfirm, message }: Props) {
+  
   return (
     <Modal width="300px" height="150px">
       <ConfirmModalStyle>
@@ -15,6 +16,7 @@ function ConfirmModal({ onClose, onConfirm, message }: Props) {
           className="confirm-modal"
           onSubmit={(e) => {
             e.preventDefault();
+            onConfirm();
           }}
         >
           <div className="confirm-title">

@@ -13,6 +13,7 @@ const answersData: Answer[] = Array.from({ length: 20 }).map((_, index) => ({
     level: 1,
     answerCount: 10,
   },
+  visibility: true,
   createdAt: faker.date.past().toString(),
   updatedAt: faker.date.recent().toString(),
   viewCount: faker.helpers.rangeToNumber({ min: 0, max: 1000 }),

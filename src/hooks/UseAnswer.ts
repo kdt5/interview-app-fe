@@ -7,8 +7,10 @@ interface UseAnswerReturn {
   question?: Question;
   answer: string;
   isFavorite: boolean;
+  isPublic: boolean;
   setAnswer: React.Dispatch<React.SetStateAction<string>>;
   setIsFavorite: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsPublic: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export function useAnswer(
@@ -18,6 +20,7 @@ export function useAnswer(
   const [question, setQuestion] = useState<Question>();
   const [answer, setAnswer] = useState<string>("");
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
+  const [isPublic, setIsPublic] = useState<boolean>(false);
 
   useEffect(() => {
     try {
@@ -37,6 +40,7 @@ export function useAnswer(
     try {
       fetchAnswer(answerId).then((answer) => {
         setAnswer(answer.content);
+        setIsPublic(answer.visibility);
       });
     } catch (error) {
       console.log(error);
@@ -47,6 +51,8 @@ export function useAnswer(
     question,
     answer,
     isFavorite,
+    isPublic,
+    setIsPublic,
     setAnswer,
     setIsFavorite,
   };

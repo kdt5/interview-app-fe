@@ -68,7 +68,7 @@ function RecordAnswerPage() {
         answer={answer}
         handleAnswerChange={handleAnswerChange}
         isOverLimit={isOverLimit}
-        isPublic={isPublic}
+        isPublic={isPublic ?? false}
         onSubmitSuccess={handleSubmitSuccess}
         buttonText="완료"
         isSubmitDisabled={isSubmitDisabled}
