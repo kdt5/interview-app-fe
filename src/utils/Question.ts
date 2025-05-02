@@ -6,9 +6,8 @@ export function getAnsweredQuestionUrl(
   answerId?: number
 ): string {
   return answerId !== undefined
-    ? replaceUrlParams(FRONTEND_URLS.ANSWER_DETAIL, {
+    ? replaceUrlParams(FRONTEND_URLS.COMMUNITY.ANSWERS, {
         questionId: questionId.toString(),
-        answerId: answerId.toString(),
       })
     : replaceUrlParams(FRONTEND_URLS.ANSWER, {
         questionId: questionId.toString(),

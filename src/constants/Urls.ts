@@ -36,7 +36,7 @@ export const FRONTEND_URLS = {
     POST_NEW: "/community/posts/new",
     POST_EDIT: "/community/posts/:postId/edit",
     WEEKLY: "/community/weekly",
-    ANSWERS: "community/questions/:questionId/answers",
+    ANSWERS: "/community/questions/:questionId/answers",
     ANSWER_DETAIL: "/community/questions/:questionId/answers/:answerId",
   },
   NOT_READY: "/not-ready",

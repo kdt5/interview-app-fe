@@ -44,7 +44,8 @@ export async function fetchWeeklyAnsweredQuestions(): Promise<
 
 export async function recordAnswer(
   answer: string,
-  questionId: number
+  questionId: number,
+  visibility: boolean,
 ): Promise<string> {
   const response = await backendHttpClient
     .post<RecordAnswerResponse>(
@@ -52,8 +53,8 @@ export async function recordAnswer(
         questionId: questionId.toString(),
       }),
       {
-        id: questionId,
         content: answer,
+        visibility,
       }
     )
     .then((response) => {

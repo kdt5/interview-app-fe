@@ -1,71 +1,23 @@
 import styled from "styled-components";
-import ConfirmModal from "../common/ConfirmModal";
-import AlertModal from "../common/AlertModal";
-import { useState } from "react";
-import { ModalType } from "../../pages/RecordAnswerPage";
-import { useAnswer } from "../../hooks/UseAnswer";
-import { useParams } from "react-router-dom";
-import { recordAnswer } from "../../api/Answer.api";
 import GrayButton from "../common/Button/GrayButton";
 
 interface Props {
   answer: string;
   handleAnswerChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   isOverLimit: boolean;
-  isPublic: boolean;
-  onSubmitSuccess: (answerId: string) => void;
+  onSubmitSuccess: () => void;
   buttonText: string;
   isSubmitDisabled: boolean;
 }
 
-function AnswerForm({
+function EditAnswerForm({
   answer,
   handleAnswerChange,
   isOverLimit,
   onSubmitSuccess,
   buttonText,
   isSubmitDisabled,
-  isPublic,
 }: Props) {
-  const [isModalsVisible, setIsModalsVisible] = useState({
-    confirm: false,
-    alert: false,
-  });
-  const [newAnswerId, setNewAnswerId] = useState<string | null>(null);
-
-  const { questionId } = useParams<{
-    questionId: string;
-  }>();
-
-  const parsedQuestionId = parseInt(questionId as string);
-  const { question } = useAnswer(parsedQuestionId);
-
-  const toggleModal = (type: ModalType, state: boolean) => {
-    setIsModalsVisible((prev) => ({
-      ...prev,
-      [type]: state,
-    }));
-  };
-
-  const handleSubmit = () => {
-    toggleModal("confirm", true);
-  };
-
-  const handleConfirmSubmit = async () => {
-    if (typeof question?.id === "undefined") {
-      console.error("question 가 유효하지 않습니다.");
-      return;
-    }
-
-    try {
-      const answerId = await recordAnswer(answer, question.id, isPublic);
-      setNewAnswerId(answerId);
-      toggleModal("confirm", false);
-      toggleModal("alert", true);
-    } catch (error) {
-      console.log("제출에 실패하였습니다.", error);
-    }
-  };
 
   return (
     <AnswerFormStyle $isSubmitDisabled={isSubmitDisabled}>
@@ -82,29 +34,11 @@ function AnswerForm({
         <GrayButton
           className="submit-button"
           type="button"
-          onClick={handleSubmit}
+          onClick={onSubmitSuccess}
           disabled={isSubmitDisabled}
         >
           {buttonText}
         </GrayButton>
-        {isModalsVisible.confirm && (
-          <ConfirmModal
-            onClose={() => toggleModal("confirm", false)}
-            onConfirm={handleConfirmSubmit}
-            message="답변을 제출하시겠습니까?"
-          />
-        )}
-        {isModalsVisible.alert && (
-          <AlertModal
-            onClose={() => {
-              toggleModal("alert", false);
-              if (newAnswerId) {
-                onSubmitSuccess(newAnswerId);
-              }
-            }}
-            message="제출되었습니다."
-          />
-        )}
       </div>
     </AnswerFormStyle>
   );
@@ -165,4 +99,4 @@ const AnswerFormStyle = styled.form<{ $isSubmitDisabled: boolean }>`
   }
 `;
 
-export default AnswerForm;
+export default EditAnswerForm;

@@ -7,9 +7,9 @@ import { editAnswer } from "../api/Answer.api";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAnswer } from "../hooks/UseAnswer";
 import QuestionContainer from "../components/AnswerPage/QuestionContainer";
-import AnswerForm from "../components/AnswerPage/AnswerForm";
 import { replaceUrlParams } from "../utils/Url";
 import { FRONTEND_URLS } from "../constants/Urls";
+import EditAnswerForm from "../components/AnswerPage/EditAnswerForm";
 
 function EditAnswerPage() {
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ function EditAnswerPage() {
     parsedAnswerId
   );
   const [currentAnswer, setCurrentAnswer] = useState(previousAnswer);
-  const [confirmMessage] = useState("");
+  // const [confirmMessage] = useState("답변을 수정하시겠습니까?");
   const [alertMessage, setAlertMessage] = useState("");
   const [isModalsVisible, setIsModalsVisible] = useState({
     confirm: false,
@@ -52,16 +52,15 @@ function EditAnswerPage() {
       console.error("question 가 유효하지 않습니다.");
       return;
     }
+    console.log("submit");
 
-    if (confirmMessage === "답변을 수정하시겠습니까?") {
-      try {
-        await editAnswer(parsedAnswerId, currentAnswer);
-        setAlertMessage("수정되었습니다.");
-        toggleModal("confirm", false);
-        toggleModal("alert", true);
-      } catch (error) {
-        console.log("수정에 실패하였습니다.", error);
-      }
+    try {
+      await editAnswer(parsedAnswerId, currentAnswer);
+      setAlertMessage("수정되었습니다.");
+      toggleModal("confirm", false);
+      toggleModal("alert", true);
+    } catch (error) {
+      console.log("수정에 실패하였습니다.", error);
     }
   };
 
@@ -92,11 +91,11 @@ function EditAnswerPage() {
   return (
     <EditAnswerPageStyle $isSubmitDisabled={isSubmitDisabled}>
       <QuestionContainer title={question?.title || "질문이 없습니다."} categoryId={question?.categories[0].category.id || 0}/>
-      <AnswerForm
+      <EditAnswerForm
         answer={currentAnswer}
         handleAnswerChange={handleAnswerChange}
         isOverLimit={isOverLimit}
-        onSubmitSuccess={handleSubmitSuccess}
+        onSubmitSuccess={() => toggleModal("confirm", true)}
         buttonText="수정"
         isSubmitDisabled={isSubmitDisabled}
       />
@@ -104,14 +103,14 @@ function EditAnswerPage() {
         <ConfirmModal
           onClose={() => toggleModal("confirm", false)}
           onConfirm={handleConfirmSubmit}
-          message={confirmMessage}
+          message="답변을 수정하시겠습니까?"
         />
       )}
       {isModalsVisible.alert && (
         <AlertModal
           onClose={() => {
             toggleModal("alert", false);
-            navigate(-1);
+            handleSubmitSuccess();
           }}
           message={alertMessage}
         />
