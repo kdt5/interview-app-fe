@@ -81,7 +81,7 @@ const getPageTitle = (pathname: string) => {
     [FRONTEND_URLS.SIGNUP]: "회원가입",
     [FRONTEND_URLS.LOGIN]: " ",
 
-    [FRONTEND_URLS.NOT_READY]: " ",
+    [FRONTEND_URLS.NOT_READY]: "준비중인 페이지",
   };
 
   const matchAnswer = matchPath(FRONTEND_URLS.ANSWER, pathname);
