@@ -7,6 +7,7 @@ import { MyPageSectionStyle } from "../components/MyPage/MyPageSectionStyle";
 import { FaChevronRight } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import PlaceholderUserImg from "../assets/user.png";
 
 function MyPage() {
   const navigate = useNavigate();
@@ -50,7 +51,7 @@ function MyPage() {
         <MyProfileStyle to={FRONTEND_URLS.MY_PAGE.EDIT.PROFILE}>
           <div className="profile-wrap">
             <div className="profile-icon">
-              <img src={me?.profileImageUrl} alt="profile" />
+              <img src={me?.profileImageUrl ?? PlaceholderUserImg} alt="profile" />
             </div>
             <div>
               <h2>{me?.nickname}</h2>

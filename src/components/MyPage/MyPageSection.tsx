@@ -40,12 +40,12 @@ function MyPageSection() {
         <MyPageSectionList
           iconSource={MenuIcon04}
           menu="내가 쓴 게시글"
-          to=""
+          to={FRONTEND_URLS.MY_PAGE.POSTS}
         />
         <MyPageSectionList
           iconSource={MenuIcon05}
           menu="좋아요한 게시글"
-          to=""
+          to={FRONTEND_URLS.MY_PAGE.FAVORITES.POSTS}
         />
       </MyPageSectionMenu>
 

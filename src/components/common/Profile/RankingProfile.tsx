@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { RankingItem } from "../../../models/Ranking.model";
+import PlaceHolderUserImg from "../../../assets/user.png";
 
 interface Props extends RankingItem {
   commonRanking?: number;
@@ -29,7 +30,7 @@ function RankingProfile({
           <span>RANK</span>
         </RankingNumber>
       )}
-      <RankingProfileimg src={profileImageUrl} alt={`${nickname}의 프로필`} />
+      <RankingProfileImg src={profileImageUrl ?? PlaceHolderUserImg} alt={`${nickname}의 프로필`} />
       <FlexWrap>
         <UserInfo>
           <Username>{nickname}</Username>
@@ -91,7 +92,7 @@ const RankingNumber = styled.div`
   }
 `;
 
-const RankingProfileimg = styled.img`
+const RankingProfileImg = styled.img`
   width: 35px;
   height: 35px;
   background-color: #ccc;

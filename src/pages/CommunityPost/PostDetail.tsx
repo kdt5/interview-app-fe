@@ -125,7 +125,7 @@ export const CommentStyle = styled.div`
   padding: 0 0 0 30px;
 `;
 const CommentSectionWrapper = styled.div`
-  padding: 0 30px 0 0;
+  padding: 0 30px 70px 0;
 `;
 
 export default PostDetail;

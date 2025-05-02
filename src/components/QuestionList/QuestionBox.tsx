@@ -9,6 +9,8 @@ import { SlArrowRight } from "react-icons/sl";
 import WeeklyQuestionListItem from "./WeeklyQuestionListItem";
 import { Position } from "../../constants/Question";
 import { getAnsweredQuestionUrl } from "../../utils/Question";
+import { FRONTEND_URLS } from "../../constants/Urls";
+import { replaceUrlParams } from "../../utils/Url";
 
 interface Props {
   questions: Question[];
@@ -21,7 +23,6 @@ interface Props {
 function QuestionBox({
   questions,
   isWeekly = true,
-  position,
   selectedCatId,
   setSelectedCatId,
 }: Props) {
@@ -34,7 +35,7 @@ function QuestionBox({
     return (
       <CommonQuestionSection>
         {mainWeeklyQuestion && !mainWeeklyQuestion.isAnswered && (
-          <WeeklyAnswerPageLinkStyle to="/">
+          <WeeklyAnswerPageLinkStyle to={replaceUrlParams(FRONTEND_URLS.ANSWER, {questionId: String(mainWeeklyQuestion.id)})}>
             <h1>
               <span>이번 주 위클리 질문</span>에 답변하지 않았어요
             </h1>
@@ -83,7 +84,6 @@ function QuestionBox({
         className="interview"
         selectedCatId={selectedCatId}
         setSelectedCatId={setSelectedCatId}
-        position={position}
       />
       {questions.length === 0
         ? null

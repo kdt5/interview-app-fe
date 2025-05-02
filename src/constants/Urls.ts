@@ -12,8 +12,10 @@ export const FRONTEND_URLS = {
   MY_PAGE: {
     HOME: "/my-page",
     ANSWERS: "/my-page/answers",
+    POSTS: "/my-page/posts",
     FAVORITES: {
       QUESTIONS: "/my-page/favorite-questions",
+      POSTS: "/my-page/favorite-posts",
     },
     EDIT: {
       PROFILE: "/my-page/edit-my-profile",
@@ -47,7 +49,6 @@ export const BACKEND_URLS = {
     SIGNUP: "/api/auth/signup",
     CHECK_EMAIL: "/api/auth/check-email",
     CHECK_NICKNAME: "/api/auth/check-nickname",
-    RECOVER_PASSWORD: "/api/auth/recover-password",
     RESET_PASSWORD: "/api/auth/reset-password",
   },
   USERS: {
@@ -56,6 +57,7 @@ export const BACKEND_URLS = {
     USER: "/api/users/:userId",
     CHANGE_PASSWORD: "/api/users/change-password",
     CHANGE_NICKNAME: "/api/users/change-nickname",
+    RECOVER_PASSWORD: "/api/users/recover-password",
     UPLOAD_PROFILE: "/api/uploads/profile",
   },
   QUESTIONS: {
@@ -79,6 +81,7 @@ export const BACKEND_URLS = {
     FAVORITE: "/api/favorites/:targetType/:targetId",
   },
   POSTS: {
+    MINE: "/api/posts/mine",
     ALL: "/api/posts",
     POST: "/api/posts/:postId",
     CATEGORIES: "/api/posts/categories",
