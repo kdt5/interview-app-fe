@@ -51,9 +51,21 @@ function MyPageSection() {
 
       <MyPageSectionMenu>
         <MyPageSectionMenuTitle>고객지원</MyPageSectionMenuTitle>
-        <MyPageSectionList iconSource={MenuIcon06} menu="고객센터" to="" />
-        <MyPageSectionList iconSource={MenuIcon07} menu="의견 남기기" to="" />
-        <MyPageSectionList iconSource={MenuIcon08} menu="약관 및 정책" to="" />
+        <MyPageSectionList
+          iconSource={MenuIcon06}
+          menu="고객센터"
+          to={FRONTEND_URLS.NOT_READY}
+        />
+        <MyPageSectionList
+          iconSource={MenuIcon07}
+          menu="의견 남기기"
+          to={FRONTEND_URLS.NOT_READY}
+        />
+        <MyPageSectionList
+          iconSource={MenuIcon08}
+          menu="약관 및 정책"
+          to={FRONTEND_URLS.NOT_READY}
+        />
       </MyPageSectionMenu>
     </>
   );
