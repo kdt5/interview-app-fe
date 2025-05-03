@@ -103,7 +103,7 @@ function MainPage() {
 
         <MainSlideBanner></MainSlideBanner>
         <div>
-          <SectionTitle to="/">실전 면접, 채용 공고</SectionTitle>
+          <SectionTitle to="/">인터뷰잇, 채용공고</SectionTitle>
           <RecruitmentNotice></RecruitmentNotice>
         </div>
         <RecruitmentNotice></RecruitmentNotice>
